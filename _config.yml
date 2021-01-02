@@ -1,6 +1,6 @@
 # Site settings
-title: Dy Blog
-SEOTitle: Dy的博客 | Dy Blog
+title: Disco Blog
+SEOTitle: Disco的博客 | Disco Blog
 header-img: img/home-bg.jpg
 email: 626588071@qq.com
 description: "学步者"
@@ -13,7 +13,7 @@ future: true
 
 # SNS settings
 RSS: false
-weibo_username:     段妖
+weibo_username:     /u/2077246515
 #zhihu_username:     huxpro
 github_username:    MyLoveES
 #twitter_username:   huxpro
