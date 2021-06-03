@@ -1,18 +1,26 @@
-sudo: false
 language: node_js
-node_js:
-  - 10 # use nodejs v10 LTS
-cache: npm
+node_js: 14
 branches:
   only:
-    - source # build master branch only
+  - source
+before_install:
+- npm install -g hexo-cli
+- npm install -g gitbook-cli
+cache:
+  directories:
+    - node_modules
+install:
+- npm install
 script:
-  - hexo generate # generate static files
-deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  keep-history: true
-  on:
-    branch: source
-  local-dir: public
+- git submodule init
+- git submodule update
+- hexo generate
+- ./ci/build-books.sh
+- export INDEX_CHARS=$(wc -c public/index.html | awk '{print $1}')
+- echo $INDEX_CHARS
+- "(( INDEX_CHARS > 0 ))"
+after_success:
+- git config --global user.name "MyLoveES"
+- git config --global user.email "626588071@qq.com"
+- sed -i'' "/^ *repo/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
+- hexo deploy --silent
