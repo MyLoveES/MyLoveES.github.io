@@ -62,7 +62,7 @@ time_format: HH:mm:ss
 per_page: 0
 pagination_dir: page
 archive_generator:
-  per_page: 0
+  per_page: 20
 
 # Extensions
 ## Plugins: http://hexo.io/plugins/
@@ -77,8 +77,6 @@ noise:
       Home: /
       Books: books
       About: about
-      Catogery: categories
-      Tag: tags
   social:
       email: 626588071@qq.com
       github: MyLoveES
