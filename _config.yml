@@ -3,16 +3,16 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 三点水
-subtitle: 不积小流，无以成江海
+title: gaea
+subtitle: wind rises
 description:
-author: Jinzhou Zhang
+author: Ruili
 language: cn
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://lotabout.me/
+url: https://blog.weasley.cn/
 root: /
 permalink: :year/:title/
 permalink_defaults:
@@ -78,18 +78,17 @@ noise:
       Books: books
       About: about
   social:
-      email: lotabout@gmail.com
-      github: lotabout
+      email: 626588071@qq.com
+      github: MyLoveES
       rss: /atom.xml
-  disqus: lotaboutlife
-  google_analytics: UA-39956831-2
+  disqus: dflyinglife
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/lotabout/lotabout.github.io
-  branch: master
+  repo: https://github.com/MyLoveES/MyLoveES.github.io
+  branch: main
 
 sitemap:
   path: sitemap.xml
