@@ -77,6 +77,8 @@ noise:
       Home: /
       Books: books
       About: about
+      Catogery: categories
+      Tag: tags
   social:
       email: 626588071@qq.com
       github: MyLoveES
