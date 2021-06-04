@@ -510,10 +510,3 @@ CacheProvider.setCache(new Cache() {
     }
 });
 ```
-
-
-
-
-
-
-[![Analytics](https://ga-beacon.appspot.com/UA-54945131-1/jsonpath/index)](https://github.com/igrigorik/ga-beacon)
