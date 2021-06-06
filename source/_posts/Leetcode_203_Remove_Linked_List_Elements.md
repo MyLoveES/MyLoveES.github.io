@@ -1,4 +1,4 @@
-title:背包问题：0-1
+title: 移除链表元素
 date: 2021-06-06 17:02:13
 tags: [List, Recursion]
 categories: Leetcode
