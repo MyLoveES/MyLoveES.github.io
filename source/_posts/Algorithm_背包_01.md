@@ -1,4 +1,4 @@
-title:背包问题：0-1 
+title: 背包问题 0-1 
 date: 2021-06-06 17:52:13
 tags: [Dynamic programming]
 categories: Algorithm
