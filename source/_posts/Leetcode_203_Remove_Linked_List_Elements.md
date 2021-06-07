@@ -32,7 +32,7 @@ toc: true
 0 <= k <= 50
 ```
 
-## 2. code
+### 2. code
 ```java
 /**
  * Definition for singly-linked list.
