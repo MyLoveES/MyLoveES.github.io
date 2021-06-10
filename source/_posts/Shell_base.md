@@ -5,6 +5,7 @@ subtitle:   " \"Hi, Linux shell\""
 date:       2021-02-20 12:00:00
 author:     "ruili"
 header-img: "img/post-bg-2015.jpg"
+categories: Linux
 catalog: true
 tags:
     - Linux
