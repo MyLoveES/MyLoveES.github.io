@@ -6,6 +6,7 @@ date:       2021-02-21 17:00:00
 author:     "ruili"
 header-img: "img/post-bg-2015.jpg"
 catalog: true
+categories: Linux
 tags:
     - Linux
 ---
