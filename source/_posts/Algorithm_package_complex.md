@@ -63,7 +63,7 @@ public int cal(int w[], int v[], int i, int j) {
 ```java
 public int solution(int w[], int v[], int c) {
   int[][] result = new int[][];
-  return cal();
+  return cal(w, v, result, w.length, c);
 }
 
 public int cal(int w[], int v[], int[][] result, int i, int j) {
@@ -116,6 +116,7 @@ public int solution(int w[], int v[], int c) {
 }
 ```
 
+---
 
 > 原文作者：[弗兰克的猫](https://home.cnblogs.com/u/mfrank/)  
   原文链接：https://www.cnblogs.com/mfrank/p/10533701.html
