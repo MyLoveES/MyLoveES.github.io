@@ -1,6 +1,6 @@
 title: Leetcode_981_Time_Based_Key_Value_Store.md
 date: 2021-07-10 17:30:10
-tags: [Mao]
+tags: [Map]
 categories: Leetcode
 toc: true
 ---
