@@ -1,0 +1,394 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&gt;Jayway JsonPath&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;A Java DSL for reading JSON documents.&lt;/strong&gt;"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>JSONPATH guide read | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Java/" rel="tag">Java</a><a class="post-tag-none-link" href="/tags/Json/" rel="tag">Json</a></div><div class="post-time">2021-06-04</div></div></div><div class="container post-header"><h1>JSONPATH guide read</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Jayway JsonPath</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#getting-started"><span class="toc-number">1.1.</span> <span class="toc-text">Getting Started</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#operators"><span class="toc-number">1.2.</span> <span class="toc-text">Operators</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#functions"><span class="toc-number">1.3.</span> <span class="toc-text">Functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#filter-operators"><span class="toc-number">1.4.</span> <span class="toc-text">Filter Operators</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#path-examples"><span class="toc-number">1.5.</span> <span class="toc-text">Path Examples</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reading-a-document"><span class="toc-number">1.6.</span> <span class="toc-text">Reading a Document</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#what-is-returned-when"><span class="toc-number">1.7.</span> <span class="toc-text">What is Returned When?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#predicates-%E5%88%A4%E6%96%AD"><span class="toc-number">1.8.</span> <span class="toc-text">Predicates # 判断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#inline-predicates"><span class="toc-number">1.8.1.</span> <span class="toc-text">Inline Predicates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filter-predicates"><span class="toc-number">1.8.2.</span> <span class="toc-text">Filter Predicates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#roll-your-own"><span class="toc-number">1.8.3.</span> <span class="toc-text">Roll Your Own</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#path-vs-value"><span class="toc-number">1.9.</span> <span class="toc-text">Path vs Value</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#set-a-value"><span class="toc-number">1.10.</span> <span class="toc-text">Set a value</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tweaking-configuration"><span class="toc-number">1.11.</span> <span class="toc-text">Tweaking Configuration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#options"><span class="toc-number">1.11.1.</span> <span class="toc-text">Options</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jsonprovider-spi"><span class="toc-number">1.11.2.</span> <span class="toc-text">JsonProvider SPI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cache-spi"><span class="toc-number">1.11.3.</span> <span class="toc-text">Cache SPI</span></a></li></ol></li></ol></li></ol></details></div><div class="container post-content"><h1>Jayway JsonPath</h1>
+<p><strong>A Java DSL for reading JSON documents.</strong></p>
+<h2 id="getting-started"><a class="header-anchor" href="#getting-started"></a>Getting Started</h2>
+<p>JsonPath is available at the Central Maven Repository. Maven users add this to your POM.</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.jayway.jsonpath<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>json-path<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.6.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>If you need help ask questions at <a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/tagged/jsonpath">Stack Overflow</a>. Tag the question ‘jsonpath’ and ‘java’.</p>
+<p>JsonPath expressions always refer to a JSON structure in the same way as XPath expression are used in combination with an XML document. The “root member object” in JsonPath is always referred to as <code>$</code> regardless if it is an object or array.</p>
+<p>JsonPath expressions can use the dot–notation</p>
+<p><code>$.store.book[0].title</code></p>
+<p>or the bracket–notation</p>
+<p><code>$['store']['book'][0]['title']</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[ dot-notation 点语法 ]</span><br><span class="line">[ bracket–notation 括号语法 ]</span><br></pre></td></tr></table></figure>
+<h2 id="operators"><a class="header-anchor" href="#operators"></a>Operators</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Operator</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>$</code></td>
+<td style="text-align:left">The root element to query. This starts all path expressions.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>@</code></td>
+<td style="text-align:left">The current node being processed by a filter predicate.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>*</code></td>
+<td style="text-align:left">Wildcard. Available anywhere a name or numeric are required.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>..</code></td>
+<td style="text-align:left">Deep scan. Available anywhere a name is required.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>.&lt;name&gt;</code></td>
+<td style="text-align:left">Dot-notated child</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>['&lt;name&gt;' (, '&lt;name&gt;')]</code></td>
+<td style="text-align:left">Bracket-notated child or children</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[&lt;number&gt; (, &lt;number&gt;)]</code></td>
+<td style="text-align:left">Array index or indexes</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[start:end]</code></td>
+<td style="text-align:left">Array slice operator</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>[?(&lt;expression&gt;)]</code></td>
+<td style="text-align:left">Filter expression. Expression must evaluate to a boolean value.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="functions"><a class="header-anchor" href="#functions"></a>Functions</h2>
+<p>Functions can be invoked at the tail end of a path - the input to a function is the output of the path expression.
+The function output is dictated by the function itself.</p>
+<p>函数可以在path的尾端调用，函数的输入是path表达式的输出，函数输出由函数本身决定。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Function</th>
+<th style="text-align:left">Description</th>
+<th style="text-align:left">Output type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">min()</td>
+<td style="text-align:left">Provides the min value of an array of numbers</td>
+<td style="text-align:left">Double</td>
+</tr>
+<tr>
+<td style="text-align:left">max()</td>
+<td style="text-align:left">Provides the max value of an array of numbers</td>
+<td style="text-align:left">Double</td>
+</tr>
+<tr>
+<td style="text-align:left">avg()</td>
+<td style="text-align:left">Provides the average value of an array of numbers</td>
+<td style="text-align:left">Double</td>
+</tr>
+<tr>
+<td style="text-align:left">stddev()</td>
+<td style="text-align:left">Provides the standard deviation value of an array of numbers （标准差）</td>
+<td style="text-align:left">Double</td>
+</tr>
+<tr>
+<td style="text-align:left">length()</td>
+<td style="text-align:left">Provides the length of an array</td>
+<td style="text-align:left">Integer</td>
+</tr>
+<tr>
+<td style="text-align:left">sum()</td>
+<td style="text-align:left">Provides the sum value of an array of numbers</td>
+<td style="text-align:left">Double</td>
+</tr>
+<tr>
+<td style="text-align:left">keys()</td>
+<td style="text-align:left">Provides the property keys (An alternative for terminal tilde <code>~</code>)</td>
+<td style="text-align:left"><code>Set&lt;E&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align:left">concat(X)</td>
+<td style="text-align:left">Provides a concatinated version of the path output with a new item</td>
+<td style="text-align:left">like input</td>
+</tr>
+<tr>
+<td style="text-align:left">append(X)</td>
+<td style="text-align:left">add an item to the json path output array</td>
+<td style="text-align:left">like input</td>
+</tr>
+</tbody>
+</table>
+<h2 id="filter-operators"><a class="header-anchor" href="#filter-operators"></a>Filter Operators</h2>
+<p>Filters are logical expressions used to filter arrays. A typical filter would be <code>[?(@.age &gt; 18)]</code> where <code>@</code> represents the current item being processed. More complex filters can be created with logical operators <code>&amp;&amp;</code> and <code>||</code>. String literals must be enclosed by single or double quotes (<code>[?(@.color == 'blue')]</code> or <code>[?(@.color == &quot;blue&quot;)]</code>).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Operator</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">==</td>
+<td style="text-align:left">left is equal to right (note that 1 is not equal to ‘1’)</td>
+</tr>
+<tr>
+<td style="text-align:left">!=</td>
+<td style="text-align:left">left is not equal to right</td>
+</tr>
+<tr>
+<td style="text-align:left">&lt;</td>
+<td style="text-align:left">left is less than right</td>
+</tr>
+<tr>
+<td style="text-align:left">&lt;=</td>
+<td style="text-align:left">left is less or equal to right</td>
+</tr>
+<tr>
+<td style="text-align:left">&gt;</td>
+<td style="text-align:left">left is greater than right</td>
+</tr>
+<tr>
+<td style="text-align:left">&gt;=</td>
+<td style="text-align:left">left is greater than or equal to right</td>
+</tr>
+<tr>
+<td style="text-align:left">=~</td>
+<td style="text-align:left">left matches regular expression  [?(@.name =~ /foo.*?/i)]</td>
+</tr>
+<tr>
+<td style="text-align:left">in</td>
+<td style="text-align:left">left exists in right [?(@.size in [‘S’, ‘M’])]</td>
+</tr>
+<tr>
+<td style="text-align:left">nin</td>
+<td style="text-align:left">left does not exists in right</td>
+</tr>
+<tr>
+<td style="text-align:left">subsetof</td>
+<td style="text-align:left">left is a subset of right [?(@.sizes subsetof [‘S’, ‘M’, ‘L’])]</td>
+</tr>
+<tr>
+<td style="text-align:left">anyof</td>
+<td style="text-align:left">left has an intersection with right [?(@.sizes anyof [‘M’, ‘L’])]</td>
+</tr>
+<tr>
+<td style="text-align:left">noneof</td>
+<td style="text-align:left">left has no intersection with right [?(@.sizes noneof [‘M’, ‘L’])]</td>
+</tr>
+<tr>
+<td style="text-align:left">size</td>
+<td style="text-align:left">size of left (array or string) should match right</td>
+</tr>
+<tr>
+<td style="text-align:left">empty</td>
+<td style="text-align:left">left (array or string) should be empty</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">A has an intersection with B; </span><br><span class="line">A 与 B 有交集</span><br></pre></td></tr></table></figure>
+<h2 id="path-examples"><a class="header-anchor" href="#path-examples"></a>Path Examples</h2>
+<p>Given the json</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;store&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;book&quot;</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;category&quot;</span>: <span class="string">&quot;reference&quot;</span>,</span><br><span class="line">                <span class="string">&quot;author&quot;</span>: <span class="string">&quot;Nigel Rees&quot;</span>,</span><br><span class="line">                <span class="string">&quot;title&quot;</span>: <span class="string">&quot;Sayings of the Century&quot;</span>,</span><br><span class="line">                <span class="string">&quot;price&quot;</span>: <span class="number">8.95</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;category&quot;</span>: <span class="string">&quot;fiction&quot;</span>,</span><br><span class="line">                <span class="string">&quot;author&quot;</span>: <span class="string">&quot;Evelyn Waugh&quot;</span>,</span><br><span class="line">                <span class="string">&quot;title&quot;</span>: <span class="string">&quot;Sword of Honour&quot;</span>,</span><br><span class="line">                <span class="string">&quot;price&quot;</span>: <span class="number">12.99</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;category&quot;</span>: <span class="string">&quot;fiction&quot;</span>,</span><br><span class="line">                <span class="string">&quot;author&quot;</span>: <span class="string">&quot;Herman Melville&quot;</span>,</span><br><span class="line">                <span class="string">&quot;title&quot;</span>: <span class="string">&quot;Moby Dick&quot;</span>,</span><br><span class="line">                <span class="string">&quot;isbn&quot;</span>: <span class="string">&quot;0-553-21311-3&quot;</span>,</span><br><span class="line">                <span class="string">&quot;price&quot;</span>: <span class="number">8.99</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;category&quot;</span>: <span class="string">&quot;fiction&quot;</span>,</span><br><span class="line">                <span class="string">&quot;author&quot;</span>: <span class="string">&quot;J. R. R. Tolkien&quot;</span>,</span><br><span class="line">                <span class="string">&quot;title&quot;</span>: <span class="string">&quot;The Lord of the Rings&quot;</span>,</span><br><span class="line">                <span class="string">&quot;isbn&quot;</span>: <span class="string">&quot;0-395-19395-8&quot;</span>,</span><br><span class="line">                <span class="string">&quot;price&quot;</span>: <span class="number">22.99</span></span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="string">&quot;bicycle&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;color&quot;</span>: <span class="string">&quot;red&quot;</span>,</span><br><span class="line">            <span class="string">&quot;price&quot;</span>: <span class="number">19.95</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;expensive&quot;</span>: <span class="number">10</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">JsonPath (click link to try)</th>
+<th style="text-align:left">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$.store.book[*].author" target="_blank">$.store.book[*].author</a></td>
+<td style="text-align:left">The authors of all books</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..author" target="_blank">$…author</a></td>
+<td style="text-align:left">All authors</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$.store.*" target="_blank">$.store.*</a></td>
+<td style="text-align:left">All things, both books and bicycles</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$.store..price" target="_blank">$.store…price</a></td>
+<td style="text-align:left">The price of everything</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[2]" target="_blank">$…book[2]</a></td>
+<td style="text-align:left">The third book</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[2]" target="_blank">$…book[-2]</a></td>
+<td style="text-align:left">The second to last book</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[0,1]" target="_blank">$…book[0,1]</a></td>
+<td style="text-align:left">The first two books</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[:2]" target="_blank">$…book[:2]</a></td>
+<td style="text-align:left">All books from index 0 (inclusive) until index 2 (exclusive)</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[1:2]" target="_blank">$…book[1:2]</a></td>
+<td style="text-align:left">All books from index 1 (inclusive) until index 2 (exclusive)</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[-2:]" target="_blank">$…book[-2:]</a></td>
+<td style="text-align:left">Last two books</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[2:]" target="_blank">$…book[2:]</a></td>
+<td style="text-align:left">Book number two from tail</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[?(@.isbn)]" target="_blank">$…book[?(@.isbn)]</a></td>
+<td style="text-align:left">All books with an ISBN number</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$.store.book[?(@.price < 10)]" target="_blank">$.store.book[?(@.price &lt; 10)]</a></td>
+<td style="text-align:left">All books in store cheaper than 10</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[?(@.price <= $['expensive'])]" target="_blank">$…book[?(@.price &lt;= $[‘expensive’])]</a></td>
+<td style="text-align:left">All books in store that are not “expensive”</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book[?(@.author =~ /.*REES/i)]" target="_blank">$…book[?(@.author =~ /.*REES/i)]</a></td>
+<td style="text-align:left">All books matching regex (ignore case)</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..*" target="_blank">$…*</a></td>
+<td style="text-align:left">Give me every thing</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="http://jsonpath.herokuapp.com/?path=$..book.length()" target="_blank">$…book.length()</a></td>
+<td style="text-align:left">The number of books</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reading-a-document"><a class="header-anchor" href="#reading-a-document"></a>Reading a Document</h2>
+<p>The simplest most straight forward way to use JsonPath is via the static read API.</p>
+<p>使用 JsonPath 最简单最直接的方法是通过静态读取 API。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String json = <span class="string">&quot;...&quot;</span>;</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; authors = JsonPath.read(json, <span class="string">&quot;$.store.book[*].author&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>If you only want to read once this is OK. In case you need to read an other path as well this is not the way
+to go since the document will be parsed every time you call JsonPath.read(…). To avoid the problem you can
+parse the json first.</p>
+<p>如果您只想阅读一次，这是可以的。如果您还需要读取其他路径，这不是可行的方法，因为每次调用 JsonPath.read(…) 时都会解析文档。为了避免这个问题，你可以先解析json。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String json = <span class="string">&quot;...&quot;</span>;</span><br><span class="line">Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);</span><br><span class="line"></span><br><span class="line">String author0 = JsonPath.read(document, <span class="string">&quot;$.store.book[0].author&quot;</span>);</span><br><span class="line">String author1 = JsonPath.read(document, <span class="string">&quot;$.store.book[1].author&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>JsonPath also provides a fluent API. This is also the most flexible one.</p>
+<p>JsonPath 还提供了流畅的 API。这也是最灵活的一种。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String json = <span class="string">&quot;...&quot;</span>;</span><br><span class="line"></span><br><span class="line">ReadContext ctx = JsonPath.parse(json);</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; authorsOfBooksWithISBN = ctx.read(<span class="string">&quot;$.store.book[?(@.isbn)].author&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">List&lt;Map&lt;String, Object&gt;&gt; expensiveBooks = JsonPath</span><br><span class="line">                            .using(configuration)</span><br><span class="line">                            .parse(json)</span><br><span class="line">                            .read(<span class="string">&quot;$.store.book[?(@.price &gt; 10)]&quot;</span>, List.class);</span><br></pre></td></tr></table></figure>
+<h2 id="what-is-returned-when"><a class="header-anchor" href="#what-is-returned-when"></a>What is Returned When?</h2>
+<p>When using JsonPath in java its important to know what type you expect in your result. JsonPath will automatically
+try to cast the result to the type expected by the invoker.</p>
+<p>在 java 中使用 JsonPath 时，重要的是要知道您在结果中期望什么类型。 JsonPath 将自动尝试将结果转换为调用者期望的类型。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Will throw an java.lang.ClassCastException    </span></span><br><span class="line">List&lt;String&gt; list = JsonPath.parse(json).read(<span class="string">&quot;$.store.book[0].author&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//Works fine</span></span><br><span class="line">String author = JsonPath.parse(json).read(<span class="string">&quot;$.store.book[0].author&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>When evaluating a path you need to understand the concept of when a path is <code>definite</code>. A path is <code>indefinite</code> if it contains:</p>
+<p>你需要理解何为绝对，何为相对</p>
+<ul>
+<li><code>..</code> - a deep scan operator</li>
+<li><code>?(&lt;expression&gt;)</code> - an expression</li>
+<li><code>[&lt;number&gt;, &lt;number&gt; (, &lt;number&gt;)]</code> - multiple array indexes</li>
+</ul>
+<p><code>Indefinite</code> paths always returns a list (as represented by current JsonProvider).</p>
+<p>相对path常常返回list</p>
+<p>By default a simple object mapper is provided by the MappingProvider SPI. This allows you to specify the return type you want and the MappingProvider will
+try to perform the mapping. In the example below mapping between <code>Long</code> and <code>Date</code> is demonstrated.</p>
+<p>你可以指定期望的返回类型，mapper会尝试进行映射</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String json = <span class="string">&quot;&#123;\&quot;date_as_long\&quot; : 1411455611975&#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line">Date date = JsonPath.parse(json).read(<span class="string">&quot;$[&#x27;date_as_long&#x27;]&quot;</span>, Date.class);</span><br></pre></td></tr></table></figure>
+<p>If you configure JsonPath to use <code>JacksonMappingProvider</code> or <code>GsonMappingProvider</code> you can even map your JsonPath output directly into POJO’s.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Book book = JsonPath.parse(json).read(<span class="string">&quot;$.store.book[0]&quot;</span>, Book.class);</span><br></pre></td></tr></table></figure>
+<p>To obtain full generics type information, use TypeRef.</p>
+<p>要获取完整的泛型类型信息，请使用 TypeRef。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">TypeRef&lt;List&lt;String&gt;&gt; typeRef = <span class="keyword">new</span> TypeRef&lt;List&lt;String&gt;&gt;() &#123;&#125;;</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; titles = JsonPath.parse(JSON_DOCUMENT).read(<span class="string">&quot;$.store.book[*].title&quot;</span>, typeRef);</span><br></pre></td></tr></table></figure>
+<h2 id="predicates-判断"><a class="header-anchor" href="#predicates-判断"></a>Predicates # 判断</h2>
+<p>There are three different ways to create filter predicates in JsonPath.</p>
+<h3 id="inline-predicates"><a class="header-anchor" href="#inline-predicates"></a>Inline Predicates</h3>
+<p>Inline predicates are the ones defined in the path.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Map&lt;String, Object&gt;&gt; books =  JsonPath.parse(json)</span><br><span class="line">                                     .read(<span class="string">&quot;$.store.book[?(@.price &lt; 10)]&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>You can use <code>&amp;&amp;</code> and <code>||</code> to combine multiple predicates <code>[?(@.price &lt; 10 &amp;&amp; @.category == 'fiction')]</code> ,
+<code>[?(@.category == 'reference' || @.price &gt; 10)]</code>.</p>
+<p>You can use <code>!</code> to negate a predicate <code>[?(!(@.price &lt; 10 &amp;&amp; @.category == 'fiction'))]</code>.</p>
+<h3 id="filter-predicates"><a class="header-anchor" href="#filter-predicates"></a>Filter Predicates</h3>
+<p>Predicates can be built using the Filter API as shown below:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.jsonpath.JsonPath.parse;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.jsonpath.Criteria.where;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> com.jayway.jsonpath.Filter.filter;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Filter cheapFictionFilter = filter(</span><br><span class="line">   where(<span class="string">&quot;category&quot;</span>).is(<span class="string">&quot;fiction&quot;</span>).and(<span class="string">&quot;price&quot;</span>).lte(<span class="number">10D</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">List&lt;Map&lt;String, Object&gt;&gt; books =  </span><br><span class="line">   parse(json).read(<span class="string">&quot;$.store.book[?]&quot;</span>, cheapFictionFilter);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Notice the placeholder <code>?</code> for the filter in the path. When multiple filters are provided they are applied in order where the number of placeholders must match
+the number of provided filters. You can specify multiple predicate placeholders in one filter operation <code>[?, ?]</code>, both predicates must match.</p>
+<p>'?'的数目 必须与过滤器的数目相匹配</p>
+<p>Filters can also be combined with ‘OR’ and ‘AND’</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Filter fooOrBar = filter(</span><br><span class="line">   where(<span class="string">&quot;foo&quot;</span>).exists(<span class="keyword">true</span>)).or(where(<span class="string">&quot;bar&quot;</span>).exists(<span class="keyword">true</span>)</span><br><span class="line">);</span><br><span class="line">   </span><br><span class="line">Filter fooAndBar = filter(</span><br><span class="line">   where(<span class="string">&quot;foo&quot;</span>).exists(<span class="keyword">true</span>)).and(where(<span class="string">&quot;bar&quot;</span>).exists(<span class="keyword">true</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h3 id="roll-your-own"><a class="header-anchor" href="#roll-your-own"></a>Roll Your Own</h3>
+<p>Third option is to implement your own predicates</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Predicate booksWithISBN = <span class="keyword">new</span> Predicate() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">apply</span><span class="params">(PredicateContext ctx)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ctx.item(Map.class).containsKey(<span class="string">&quot;isbn&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">List&lt;Map&lt;String, Object&gt;&gt; books = </span><br><span class="line">   reader.read(<span class="string">&quot;$.store.book[?].isbn&quot;</span>, List.class, booksWithISBN);</span><br></pre></td></tr></table></figure>
+<h2 id="path-vs-value"><a class="header-anchor" href="#path-vs-value"></a>Path vs Value</h2>
+<p>In the Goessner implementation a JsonPath can return either <code>Path</code> or <code>Value</code>. <code>Value</code> is the default and what all the examples above are returning. If you rather have the path of the elements our query is hitting this can be achieved with an option.</p>
+<p>可以指定option来返回path（默认返回value）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Configuration conf = Configuration.builder()</span><br><span class="line">   .options(Option.AS_PATH_LIST).build();</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; pathList = using(conf).parse(json).read(<span class="string">&quot;$..author&quot;</span>);</span><br><span class="line"></span><br><span class="line">assertThat(pathList).containsExactly(</span><br><span class="line">    <span class="string">&quot;$[&#x27;store&#x27;][&#x27;book&#x27;][0][&#x27;author&#x27;]&quot;</span>,</span><br><span class="line">    <span class="string">&quot;$[&#x27;store&#x27;][&#x27;book&#x27;][1][&#x27;author&#x27;]&quot;</span>,</span><br><span class="line">    <span class="string">&quot;$[&#x27;store&#x27;][&#x27;book&#x27;][2][&#x27;author&#x27;]&quot;</span>,</span><br><span class="line">    <span class="string">&quot;$[&#x27;store&#x27;][&#x27;book&#x27;][3][&#x27;author&#x27;]&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="set-a-value"><a class="header-anchor" href="#set-a-value"></a>Set a value</h2>
+<p>The library offers the possibility to set a value.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String newJson = JsonPath.parse(json).set(<span class="string">&quot;$[&#x27;store&#x27;][&#x27;book&#x27;][0][&#x27;author&#x27;]&quot;</span>, <span class="string">&quot;Paul&quot;</span>).jsonString();</span><br></pre></td></tr></table></figure>
+<h2 id="tweaking-configuration"><a class="header-anchor" href="#tweaking-configuration"></a>Tweaking Configuration</h2>
+<h3 id="options"><a class="header-anchor" href="#options"></a>Options</h3>
+<p>When creating your Configuration there are a few option flags that can alter the default behaviour.</p>
+<p><strong>DEFAULT_PATH_LEAF_TO_NULL</strong>
+<br>
+This option makes JsonPath return null for missing leafs. Consider the following json</p>
+<p>不存在的key返回NULL</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="string">&quot;name&quot;</span> : <span class="string">&quot;john&quot;</span>,</span><br><span class="line">      <span class="string">&quot;gender&quot;</span> : <span class="string">&quot;male&quot;</span></span><br><span class="line">   &#125;,</span><br><span class="line">   &#123;</span><br><span class="line">      <span class="string">&quot;name&quot;</span> : <span class="string">&quot;ben&quot;</span></span><br><span class="line">   &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Configuration conf = Configuration.defaultConfiguration();</span><br><span class="line"></span><br><span class="line"><span class="comment">//Works fine</span></span><br><span class="line">String gender0 = JsonPath.using(conf).parse(json).read(<span class="string">&quot;$[0][&#x27;gender&#x27;]&quot;</span>);</span><br><span class="line"><span class="comment">//PathNotFoundException thrown</span></span><br><span class="line">String gender1 = JsonPath.using(conf).parse(json).read(<span class="string">&quot;$[1][&#x27;gender&#x27;]&quot;</span>);</span><br><span class="line"></span><br><span class="line">Configuration conf2 = conf.addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Works fine</span></span><br><span class="line">String gender0 = JsonPath.using(conf2).parse(json).read(<span class="string">&quot;$[0][&#x27;gender&#x27;]&quot;</span>);</span><br><span class="line"><span class="comment">//Works fine (null is returned)</span></span><br><span class="line">String gender1 = JsonPath.using(conf2).parse(json).read(<span class="string">&quot;$[1][&#x27;gender&#x27;]&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>ALWAYS_RETURN_LIST</strong>
+<br>
+This option configures JsonPath to return a list even when the path is <code>definite</code>.</p>
+<p>永远返回List</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Configuration conf = Configuration.defaultConfiguration();</span><br><span class="line"></span><br><span class="line"><span class="comment">//ClassCastException thrown</span></span><br><span class="line">List&lt;String&gt; genders0 = JsonPath.using(conf).parse(json).read(<span class="string">&quot;$[0][&#x27;gender&#x27;]&quot;</span>);</span><br><span class="line"></span><br><span class="line">Configuration conf2 = conf.addOptions(Option.ALWAYS_RETURN_LIST);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Works fine</span></span><br><span class="line">List&lt;String&gt; genders0 = JsonPath.using(conf2).parse(json).read(<span class="string">&quot;$[0][&#x27;gender&#x27;]&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>SUPPRESS_EXCEPTIONS</strong>
+<br>
+This option makes sure no exceptions are propagated from path evaluation. It follows these simple rules:</p>
+<p>路径计算不返回异常</p>
+<ul>
+<li>If option <code>ALWAYS_RETURN_LIST</code> is present an empty list will be returned</li>
+<li>If option <code>ALWAYS_RETURN_LIST</code> is <strong>NOT</strong> present null returned</li>
+</ul>
+<p><strong>REQUIRE_PROPERTIES</strong>
+
+This option configures JsonPath to require properties defined in path when an <code>indefinite</code> path is evaluated.</p>
+<p>必须绝对路径</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Configuration conf = Configuration.defaultConfiguration();</span><br><span class="line"></span><br><span class="line"><span class="comment">//Works fine</span></span><br><span class="line">List&lt;String&gt; genders = JsonPath.using(conf).parse(json).read(<span class="string">&quot;$[*][&#x27;gender&#x27;]&quot;</span>);</span><br><span class="line"></span><br><span class="line">Configuration conf2 = conf.addOptions(Option.REQUIRE_PROPERTIES);</span><br><span class="line"></span><br><span class="line"><span class="comment">//PathNotFoundException thrown</span></span><br><span class="line">List&lt;String&gt; genders = JsonPath.using(conf2).parse(json).read(<span class="string">&quot;$[*][&#x27;gender&#x27;]&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="jsonprovider-spi"><a class="header-anchor" href="#jsonprovider-spi"></a>JsonProvider SPI</h3>
+<p>JsonPath is shipped with five different JsonProviders:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://code.google.com/p/json-smart/">JsonSmartJsonProvider</a> (default)</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FasterXML/jackson">JacksonJsonProvider</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FasterXML/jackson">JacksonJsonNodeJsonProvider</a></li>
+<li><a target="_blank" rel="noopener" href="https://code.google.com/p/google-gson/">GsonJsonProvider</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.json.org/java/index.html">JsonOrgJsonProvider</a></li>
+</ul>
+<p>Changing the configuration defaults as demonstrated should only be done when your application is being initialized. Changes during runtime is strongly discouraged, especially in multi threaded applications.</p>
+<p>仅在初始化应用程序时才应按照演示更改配置默认值。强烈建议不要在运行时进行更改，尤其是在多线程应用程序中。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Configuration.setDefaults(<span class="keyword">new</span> Configuration.Defaults() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> JsonProvider jsonProvider = <span class="keyword">new</span> JacksonJsonProvider();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> MappingProvider mappingProvider = <span class="keyword">new</span> JacksonMappingProvider();</span><br><span class="line">      </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> JsonProvider <span class="title">jsonProvider</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> jsonProvider;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MappingProvider <span class="title">mappingProvider</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mappingProvider;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;Option&gt; <span class="title">options</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> EnumSet.noneOf(Option.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>Note that the JacksonJsonProvider requires <code>com.fasterxml.jackson.core:jackson-databind:2.4.5</code> and the GsonJsonProvider requires <code>com.google.code.gson:gson:2.3.1</code> on your classpath.</p>
+<h3 id="cache-spi"><a class="header-anchor" href="#cache-spi"></a>Cache SPI</h3>
+<p>In JsonPath 2.1.0 a new Cache SPI was introduced. This allows API consumers to configure path caching in a way that suits their needs. The cache must be configured before it is accesses for the first time or a JsonPathException is thrown. JsonPath ships with two cache implementations</p>
+<ul>
+<li><code>com.jayway.jsonpath.spi.cache.LRUCache</code> (default, thread safe)</li>
+<li><code>com.jayway.jsonpath.spi.cache.NOOPCache</code> (no cache)</li>
+</ul>
+<p>If you want to implement your own cache the API is simple.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">CacheProvider.setCache(<span class="keyword">new</span> Cache() &#123;</span><br><span class="line">    <span class="comment">//Not thread safe simple cache</span></span><br><span class="line">    <span class="keyword">private</span> Map&lt;String, JsonPath&gt; map = <span class="keyword">new</span> HashMap&lt;String, JsonPath&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> JsonPath <span class="title">get</span><span class="params">(String key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> map.get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(String key, JsonPath jsonPath)</span> </span>&#123;</span><br><span class="line">        map.put(key, jsonPath);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'dflyinglife';
+var disqus_identifier = '2021/JSONPATH_guide/';
+var disqus_title = 'JSONPATH guide read';
+var disqus_url = 'https://blog.weasley.cn/2021/JSONPATH_guide/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

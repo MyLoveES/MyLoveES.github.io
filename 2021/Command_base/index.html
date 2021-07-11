@@ -1,0 +1,117 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=" id=&quot;常用-shell-命令&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#常用-shell-命令&quot;&gt;&lt;/a&gt;常用 Shell 命令&lt;/h2&gt;
+&lt;h4 id=&quot;1-文本检索-wc&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#1-文本检索-wc&quot;&gt;&lt;/a&gt;1. 文本检索 wc&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;wc&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-c&lt;/td&gt;
+&lt;td&gt;the byte counts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-m&lt;/td&gt;
+&lt;td&gt;the character counts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-l&lt;/td&gt;
+&lt;td&gt;the newline counts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-L&lt;/td&gt;
+&lt;td&gt;the maximum display width&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-w&lt;/td&gt;
+&lt;td&gt;the word counts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&quot;2-重定向&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#2-重定向&quot;&gt;&lt;/a&gt;2. 重定向&lt;/h4&gt;
+&lt;p&gt;在shell脚本中，默认情况下，总是有三个文件处于打开状态：&lt;br&gt;
+标准输入(键盘输入)、标准输出（输出到屏幕）、标准错误（也是输出到屏幕），它们分别对应的文件描述符是0，1，2"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Hi, Linux commands | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><meta name="generator" content="Hexo 5.4.0"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Linux/" rel="tag">Linux</a></div><div class="post-time">2021-02-21</div></div></div><div class="container post-header"><h1>Hi, Linux commands</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8-shell-%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">常用 Shell 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%96%87%E6%9C%AC%E6%A3%80%E7%B4%A2-wc"><span class="toc-number">1.0.1.</span> <span class="toc-text">1. 文本检索 wc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">1.0.2.</span> <span class="toc-text">2. 重定向</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.0.3.</span> <span class="toc-text">3. 运算符</span></a></li></ol></li></ol></details></div><div class="container post-content"><h2 id="常用-shell-命令"><a class="header-anchor" href="#常用-shell-命令"></a>常用 Shell 命令</h2>
+<h4 id="1-文本检索-wc"><a class="header-anchor" href="#1-文本检索-wc"></a>1. 文本检索 wc</h4>
+<table>
+<thead>
+<tr>
+<th>wc</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-c</td>
+<td>the byte counts</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>the character counts</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>the newline counts</td>
+</tr>
+<tr>
+<td>-L</td>
+<td>the maximum display width</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>the word counts</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-重定向"><a class="header-anchor" href="#2-重定向"></a>2. 重定向</h4>
+<p>在shell脚本中，默认情况下，总是有三个文件处于打开状态：<br>
+标准输入(键盘输入)、标准输出（输出到屏幕）、标准错误（也是输出到屏幕），它们分别对应的文件描述符是0，1，2</p>
+<p>&gt; 默认为标准输出重定向，与 1&gt; 相同<br>
+2&gt;&amp;1  意思是把 标准错误输出 重定向到 标准输出.<br>
+&amp;&gt;file  意思是把标准输出 和 标准错误输出 都重定向到文件file中</p>
+<p>/dev/null是一个文件，这个文件比较特殊，所有传给它的东西它都丢弃掉</p>
+<h4 id="3-运算符"><a class="header-anchor" href="#3-运算符"></a>3. 运算符</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>=~</td>
+<td>其中 ~ 其实是对后面的正则表达式表示匹配的意思，如果匹配就输出1，不匹配就输出0.</td>
+</tr>
+<tr>
+<td>==</td>
+<td>是否相等</td>
+</tr>
+</tbody>
+</table>
+<p>例子：
+[[ $test =~ <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>+ ]] &amp;&amp; echo 1 || echo 0</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>0-9 <a href="#fnref1" class="footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'dflyinglife';
+var disqus_identifier = '2021/Command_base/';
+var disqus_title = 'Hi, Linux commands';
+var disqus_url = 'https://blog.weasley.cn/2021/Command_base/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>
