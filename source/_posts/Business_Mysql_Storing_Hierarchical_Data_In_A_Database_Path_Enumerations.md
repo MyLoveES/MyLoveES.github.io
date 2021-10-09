@@ -121,7 +121,6 @@ where path like CONCAT($old_path, '%')
 ```
 
 ### 组织层级关系
-> 代价：-> ∞
 ```java
 object:
 {
