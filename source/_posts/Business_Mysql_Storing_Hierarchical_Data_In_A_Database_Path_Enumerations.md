@@ -121,7 +121,28 @@ where path like CONCAT($old_path, '%')
 ```
 
 ### 组织层级关系
+> 代价：-> ∞
+```java
+object:
+{
+    path, 
+    sub_objects
+}
+data: 
+List<object> list;
 
+do:
+
+list
+.groupToMap(key -> {
+    int index = path.lastIndexOf('/');
+    index = index == -1 ? path.length() : index;
+    return path.substring(0, index);
+}, value -> o)
+.foreach(map -> {
+    list.get(map.key).setSubObjects(map.value);
+});
+```
 
 ## 总结
 **优点** : 查询、修改方便
