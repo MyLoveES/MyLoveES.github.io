@@ -122,16 +122,16 @@ update table set parent_id = $new_parent_id where id = $id;
 object:
 {
     id, 
-    sub_ids
+    sub_objects
 }
 data: 
 List<object> list;
 
 do:
 list
-.groupToMap(key -> o.id)
+.groupToMap(key -> o.id, value -> o)
 .foreach(map -> {
-    list.get(map.key).setSubIds(map.value);
+    list.get(map.key).setSubObjects(map.value);
 });
 ```
 
