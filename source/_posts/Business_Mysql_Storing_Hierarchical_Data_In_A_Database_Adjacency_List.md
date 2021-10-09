@@ -36,16 +36,15 @@ toc: true
 |8     |file_o|2        |
 |9     |file_p|2        |
 |10    |DIR_E |3        |
-|11    |file_j|3        |
-|12    |file_k|3        |
+|11    |file_m|3        |
+|12    |file_n|3        |
 |13    |file_l|7        |
-|14    |file_m|10       |
-|15    |file_n|10       |
+|14    |file_j|10       |
+|15    |file_k|10       |
 
 ## 各种情况的处理代价
 
 ### 增
-> 代价：O(1)  
 > 输入：name, parent_id  
 > 执行：
 ```sql
@@ -54,8 +53,8 @@ insert into table(name, parent_id) values($name, $parent_id);
 |id     |name    |parent_id|
 |-------|--------|---------|
 |13     |file_l  |7        |
-|14     |file_m  |10       |
-|15     |file_n  |10       |
+|14     |file_j  |10       |
+|15     |file_k  |10       |
 |16(add)|file_ADD|1        |
 
 ### 删
@@ -72,7 +71,6 @@ while (ids is not empty) {
 }
 ```
 #### 无子集
-> 代价：O(1)  
 > 输入：id  
 > 执行：  
 ```sql
@@ -80,7 +78,6 @@ delete from table where id = $id
 ```
 
 ### 改
-> 代价：O(1)  
 > 输入：id, other info  
 > 执行：  
 ```sql
@@ -89,14 +86,12 @@ update table set info where id = $id
 
 ### 查
 #### 查自己
-> 代价：O(1)  
 > 输入：id  
 > 执行：
 ```sql
 select * from table where id = $id
 ```
-#### 查下一级
-> 代价：O(1)  
+#### 查下一级 
 > 输入：id  
 > 执行：
 ```sql
@@ -115,7 +110,6 @@ while (sub_ids is not empty) {
 }
 ```
 ### 移动
-> 代价：O(1)
 > 输入：id, new_parent_id  
 > 执行：
 ```sql
