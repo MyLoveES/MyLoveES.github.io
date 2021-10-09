@@ -1,4 +1,4 @@
-title: 【Mysql】Storing Hierarchical data by 【Adjacency List】
+title: Storing Hierarchical data by 【Adjacency List】
 date: 2021-08-07 23:38:00
 tags: [Data structure, Mysql]
 categories: [Data structure, Mysql]
@@ -140,3 +140,8 @@ list
     list.get(map.key).setSubIds(map.value);
 });
 ```
+
+## 总结
+**优点** : 进行增加、修改、移动时非常方便，代价很低  
+**缺点（致命）** : 如若需要使用层级结构，代价趋近∞，该方法不可用
+
