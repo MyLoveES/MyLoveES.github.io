@@ -45,6 +45,7 @@ toc: true
 ## 各种情况的处理代价
 
 ### 增
+> 代价：-> O(1)  
 > 输入：name, parent_id  
 > 执行：
 ```sql
@@ -71,6 +72,7 @@ while (ids is not empty) {
 }
 ```
 #### 无子集
+> 代价：-> O(1)  
 > 输入：id  
 > 执行：  
 ```sql
@@ -78,6 +80,7 @@ delete from table where id = $id
 ```
 
 ### 改
+> 代价：-> O(1)  
 > 输入：id, other info  
 > 执行：  
 ```sql
@@ -86,12 +89,14 @@ update table set info where id = $id
 
 ### 查
 #### 查自己
+> 代价：-> O(1)  
 > 输入：id  
 > 执行：
 ```sql
 select * from table where id = $id
 ```
 #### 查下一级 
+> 代价：-> O(1)  
 > 输入：id  
 > 执行：
 ```sql
@@ -110,6 +115,7 @@ while (sub_ids is not empty) {
 }
 ```
 ### 移动
+> 代价：-> O(1)  
 > 输入：id, new_parent_id  
 > 执行：
 ```sql
@@ -137,5 +143,5 @@ list
 
 ## 总结
 **优点** : 进行增加、修改、移动时非常方便，代价很低  
-**缺点（致命）** : 如若需要使用层级结构，代价趋近∞，该方法不可用
+**缺点** : 如若需要使用层级结构，代价趋近∞（致命）
 
