@@ -46,6 +46,7 @@ toc: true
 ## 各种情况的处理代价
 
 ### 增
+> 代价：-> O(1)  
 > 输入：name, path  
 > 执行：
 ```sql
@@ -59,6 +60,7 @@ insert into table(name, path) values($name, $path);
 |16(add)|file_ADD|/DIR_A/DIR_C/DIR_E/file_ADD|
 
 ### 删
+> 代价：-> O(n)  
 > 输入：path  
 > 执行：  
 ```sql
@@ -67,19 +69,21 @@ delete from table where path like CONCAT($path, '%') ;
 
 ### 改
 #### 无子集
+> 代价：-> O(1)  
 > 输入：path, other info
 > 执行：  
 ```sql
 update table set info where path = $path
 ```
 #### 有子集
+> 代价：-> O(n)  
 > 输入：path, other info
 > 执行：  
 ```sql
 pre: 
 需要分割、拼接拿到old_path和new_path
 mysql 5.7:
-update table set info where path = $old_path
+update table set info where path = $path
 update table set path = REPLACE(
     CONCAT('^', $old_path), 
     CONCAT('^', $new_path), 
@@ -89,24 +93,28 @@ where path like CONCAT($old_path, '%')
 
 ### 查
 #### 查自己
+> 代价：-> O(1)  
 > 输入：path  
 > 执行：
 ```sql
 select * from table where path = $path
 ```
 #### 查下一级
+> 代价：-> O(n)  
 > 输入：id  
 > 执行：
 ```sql
 select * from table where path regexp CONCAT('^', $path, '/.+', '((?!/).)')
 ```
 #### 查所有子集
+> 代价：-> O(n)  
 > 输入：path  
 > 执行：
 ```sql
 select * from table where path like CONCAT($path, '/%')
 ```
 ### 移动
+> 代价：-> O(n)  
 > 输入：path, new_path  
 > 执行：
 ```sql
@@ -134,9 +142,9 @@ do:
 
 list
 .groupToMap(key -> {
-    int index = path.lastIndexOf('/');
-    index = index == -1 ? path.length() : index;
-    return path.substring(0, index);
+    int index = o.path.lastIndexOf('/');
+    index = index == -1 ? o.path.length() : index;
+    return o.path.substring(0, index);
 }, value -> o)
 .foreach(map -> {
     list.get(map.key).setSubObjects(map.value);
@@ -144,6 +152,7 @@ list
 ```
 
 ## 总结
+**可以和邻接表同时使用**
 **优点** : 查询、修改方便
-**缺点** : 需要大量用到模糊匹配；需要控制层级深度
+**缺点** : 需要大量用到模糊匹配；需要控制层级深度(致命)
 
