@@ -60,6 +60,7 @@ insert into table(name, path) values($name, $path);
 |16(add)|file_ADD|/DIR_A/DIR_C/DIR_E/file_ADD|
 
 ### 删
+{% asset_img DEL.jpg DEL %}
 > 代价：-> O(n)  
 > 输入：path  
 > 执行：  
@@ -68,16 +69,9 @@ delete from table where path like CONCAT($path, '%') ;
 ```
 
 ### 改
-#### 无子集
-> 代价：-> O(1)  
-> 输入：path, other info
-> 执行：  
-```sql
-update table set info where path = $path
-```
-#### 有子集
+{% asset_img UPDATE.jpg UPDATE %}
 > 代价：-> O(n)  
-> 输入：path, other info
+> 输入：path, other info  
 > 执行：  
 ```sql
 pre: 
@@ -85,8 +79,8 @@ pre:
 mysql 5.7:
 update table set info where path = $path
 update table set path = REPLACE(
+    CONCAT('^', path), 
     CONCAT('^', $old_path), 
-    CONCAT('^', $new_path), 
     $new_path) 
 where path like CONCAT($old_path, '%')
 ```
@@ -100,6 +94,7 @@ where path like CONCAT($old_path, '%')
 select * from table where path = $path
 ```
 #### 查下一级
+{% asset_img SEARCH_NEXT.jpg SEARCH_NEXT %}
 > 代价：-> O(n)  
 > 输入：id  
 > 执行：
@@ -107,6 +102,7 @@ select * from table where path = $path
 select * from table where path regexp CONCAT('^', $path, '/.+', '((?!/).)')
 ```
 #### 查所有子集
+{% asset_img SEARCH_ALL.jpg SEARCH_ALL %}
 > 代价：-> O(n)  
 > 输入：path  
 > 执行：
@@ -114,18 +110,14 @@ select * from table where path regexp CONCAT('^', $path, '/.+', '((?!/).)')
 select * from table where path like CONCAT($path, '/%')
 ```
 ### 移动
+{% asset_img MOVE.jpg MOVE %}
 > 代价：-> O(n)  
 > 输入：path, new_path  
 > 执行：
 ```sql
 pre: 
 old_path和new_path
-mysql 5.7: (同有子集改)
-update table set path = REPLACE(
-    CONCAT('^', $old_path), 
-    CONCAT('^', $new_path), 
-    $new_path) 
-where path like CONCAT($old_path, '%')
+UPDATE # 执行上面的改操作
 ```
 
 ### 组织层级关系
@@ -153,6 +145,7 @@ list
 
 ## 总结
 **可以和邻接表同时使用**
-**优点** : 查询、修改方便  
-**缺点** : 需要大量用到模糊匹配；需要控制层级深度(致命)
+**优点** : 增加、查询、修改方便  
+**缺点** : 需要大量用到正则、模糊匹配；需要控制层级深度(致命)
+**适用** : 对层级深度有一定限制，并且需求对所有子集进行操作的场景
 
