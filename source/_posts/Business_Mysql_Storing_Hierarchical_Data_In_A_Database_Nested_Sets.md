@@ -65,6 +65,7 @@ Closure_Table: 空间消耗大，层级删改 -> ∞
 ## 各种情况的处理代价
 
 ### 增
+{% asset_img ADD.jpg ADD %}
 > 代价：-> O(n)，更新会影响到其他子树  
 > 输入：name. parent_id
 > 执行：
@@ -73,19 +74,23 @@ parent = $(select * from table where id = $id);
 
 insert into table(name, left, right) values($name, $parent.right, $parent.right + 1);
 
-update table set left = left + 2, right = right + 2 where left >= $parent.right;
+update table set left = left + 2 where left >= $parent.right;
+update table set right = right + 2 where right >= $parent.right;
 ```
 
 ### 删
+{% asset_img DEL.jpg DEL %}
 > 代价：-> O(n)，先删除节点以及子树，并对其他子树进行修改  
 > 输入：id  
 > 执行：  
 ```sql
 current = $(select * from table where id = $id);
 
-delete from table where id >= $current.left and right <= $current.right;
+delete from table where left >= $current.left and right <= $current.right;
 
-update table set left = left - 2, right = right - 2 where left > $parent.right;
+d = (current.right - current.right + 1) / 2;
+update table set left = left - $d where left > $current.right;
+update table set right = right - $d where right > $current.right;
 ```
 
 ### 改
@@ -105,6 +110,7 @@ update table set info where id = $id;
 select * from table where id = $id
 ```
 #### 查下一级
+{% asset_img SEARCH_NEXT.jpg SEARCH_NEXT %}
 > 代价：-> O(n)  
 > 输入：id    
 > 执行：
@@ -150,7 +156,11 @@ order by left asc;
 > 代价：-> O(n)  
 > 输入：id, new_parent_id
 > 执行：
+
 ```sql
+
+# 先执行 DEL，再执行 ADD
+
 current = $(
     select * 
     from table 
@@ -199,5 +209,5 @@ where right > current.right;
 ## 总结
 **可以和邻接表同时使用**  
 **优点** : 消除递归操作,实现无限分组，而且查询条件是基于整形数字的比较，效率很高。  
-**缺点** : 增 删 改代价大，让人头大 
-
+**缺点** : 增 删 改代价大，让人头大  
+**适用** : 强要求无限层级深度  
