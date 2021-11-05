@@ -90,20 +90,14 @@ for (ancestor_id : ids) {
 
 ### 删
 {% asset_img DEL.jpg DEL %}
-> 代价：-> ∞  
+> 代价：-> O(n)  
 > 输入：id  
 > 执行：  
 ```sql
 ids[] = {$id}
-while (ids is not empty) {
-    # 与他关联的所有子节点，下一批删除
-    next_ids[] = select id from relation where ancestor_id in $ids;
-
-    # 删除 Node, Relation
-    delete from node where id in $ids;
-    delete from relation where current_id in $ids or ancestor_id in $ids;
-    ids = next_ids;
-}
+ids += $(select id from relation where ancestor_id = ${id})
+delete from relation where ancestor_id in ${ids} or current_id in ${ids}
+delete from node where id in ${ids}
 ```
 
 ### 改
@@ -144,12 +138,13 @@ where relation.ancestor_id = $id
 ```
 ### 移动
 {% asset_img MOVE.jpg MOVE %}
-> 代价：-> ∞
+> 代价：-> O(n)
 > 输入：id, new_parent_id
 > 执行：
 ```sql
 old_parent_id = select ancestor_id from relation where current_id = $id and distance = 1;
 DEL # 执行上面的删除操作
+
 objects = ${object(id)}
 objects += $(select current_id, distance from relation where ancestor = $id)
 for (object : $objects) {
