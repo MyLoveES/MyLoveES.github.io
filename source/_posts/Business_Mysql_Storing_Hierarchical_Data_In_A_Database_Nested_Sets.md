@@ -26,19 +26,20 @@ toc: true
 之前提到的几种方案（Adjacency_List, Path_Enumerations, Closure_Table）都能够一定程度地满足需求，但是各自具有不可避免的弊端。  
 Adjacency_List: 层级查询 -> ∞  
 Path_Enumerations: 深度限制  
-Closure_Table: 空间消耗大，层级删改 -> ∞  
+Closure_Table: 空间消耗大，层级删改 -> ∞    
 
-总而言之，这些方式无法直接在层次结构上进行所有期望操作。或切换到图数据库，或通过一些关系型数据库的解决方案来实现：  
+<!-- 总而言之，这些方式无法直接在层次结构上进行所有期望操作。或切换到图数据库，或通过一些关系型数据库的解决方案来实现：  
 - SQL hierarchical query facility
 - 层级操作扩展关系型语言，比如 nested relational algebra
 - 使用transitive closure扩展关系型语言，比如SQL的CONNECT语句；这可以在parent-child relation 使用但是执行起来比较低效。
 - 层级结构查询可以在支持循环且包裹关系的操作的语言中实现。比如 PL/SQL, T-SQL or a general-purpose programming language
 
-但是如果这些方案并没有在关系型数据库中提供，就得采用其他方式：  
+但是如果这些方案并没有在关系型数据库中提供，就得采用其他方式：   -->
 
 ## Nested Sets  
 
-根据树的深度遍历对节点编号，记录首、末次访问到该节点的数字。通过比较数字或的层级结构关系。进行更新操作很复杂，但是可以通过不使用整数而是用有理数来改进更新速度。
+根据树的深度遍历对节点编号，记录首、末次访问到该节点的数字。通过比较数字或的层级结构关系。  
+<!-- 进行更新操作很复杂，但是可以通过不使用整数而是用有理数来改进更新速度。 -->
 
 {% asset_img Nested_Sets_1.png Nested_Sets_1 %}
 
@@ -88,7 +89,7 @@ current = $(select * from table where id = $id);
 
 delete from table where left >= $current.left and right <= $current.right;
 
-d = (current.right - current.right + 1) / 2;
+d = current.right - current.right + 1;
 update table set left = left - $d where left > $current.right;
 update table set right = right - $d where right > $current.right;
 ```
@@ -114,7 +115,8 @@ select * from table where id = $id
 > 代价：-> O(n)  
 > 输入：id    
 > 执行：
-```sql
+
+<!-- ```sql
 
 parent = $(select * from table where id = $id);
 
@@ -132,16 +134,19 @@ and not exists(
 and parent.left = $parent.left  
 
 或
+``` -->
 
+```sql
 select distinct Child.Node, Child.Left, Child.Right
 from table as child, table as parent
 where parent.left < child.left and parent.right > child.right  -- associate Child Nodes with ancestors
 group by child.node, child.left, child.right
 having max(parent.left) = $parent.left  -- Subset for those with the given Parent Node as the nearest ancestor
 
-当然，这类查询可以通过增加一列来简化。例如，增加depth列记录当前节点深度，或者parent_id列记录父节点（和Adjacency List混用）,但增加了维护成本
+这类查询可以通过增加一列来简化。例如，增加depth列记录当前节点深度，或者parent_id列记录父节点（和Adjacency List混用）,但增加了维护成本
 ```
 #### 查所有子集
+{% asset_img SEARCH_ALL.jpg SEARCH_ALL %}
 > 代价：-> O(n)  
 > 输入：path  
 > 执行：
@@ -153,6 +158,8 @@ and right < $parent.right
 order by left asc;
 ```
 ### 移动
+{% asset_img MOVE1.jpg MOVE1 %}
+{% asset_img MOVE2.jpg MOVE2 %}
 > 代价：-> O(n)  
 > 输入：id, new_parent_id
 > 执行：
@@ -166,7 +173,9 @@ current = $(
     from table 
     where id = $id
 );
-new_parent = $(
+
+# 查询父节点
+old_parent = $(
     select * from table 
     where left < $current.left 
     and right > $current.right
@@ -191,23 +200,34 @@ update table
 set right = right - node_count*2
 where right > $current.right;
 
+# 更新子节点
 update table 
 set left = left + ($new_parent.right - $current.left), 
     right = right + ($new_parent.right - $current.left)
 where left >= $current.left 
 and right <= $current.right
 
+$current.left = $new_parent.right;
+$current.right = $new_parent.right + 1;
 update table 
 set left = left + node_count*2,
-where left > current.right;
+where left > $current.right;
 
 update table 
 set right = right + node_count*2
-where right > current.right;
+where right > $current.right;
 ```
 
 ## 总结
 **可以和邻接表同时使用**  
-**优点** : 消除递归操作,实现无限分组，而且查询条件是基于整形数字的比较，效率很高。  
-**缺点** : 增 删 改代价大，让人头大  
+**优点** : 消除递归操作,实现无限分组
+**缺点** : 增 删 改影响范围大
 **适用** : 强要求无限层级深度  
+
+## 比较
+|T    |增    |删    |改    |查自己  |查下一级 |查所有子集|移动   |适用   |
+|-----|------|------|-----|-------|--------|--------|------|-------|
+|Adjacency List|O(1)|∞|O(1)|O(1)|O(n)|O(n)|O(1)|不涉及“所有子集”操作，严格按照层级一层层地查询|
+|Closure Table|O(n)|∞|O(1)|O(1)|O(n)|O(n)|∞|有固定的层级深度，并且层级不多|
+|Path|O(1)|O(n)|O(n)|O(1)|O(n)|O(n)|O(n)|对层级深度有一定限制，并且需求对所有子集进行操作|
+|Netsted Sets|O(n)|O(n)|O(1)|O(1)|O(n)|O(n)|O(n)|强要求无限层级深度|
