@@ -120,7 +120,7 @@ old_path和new_path
 UPDATE # 执行上面的改操作
 ```
 
-### 组织层级关系
+<!-- ### 组织层级关系
 ```java
 object:
 {
@@ -141,7 +141,7 @@ list
 .foreach(map -> {
     list.get(map.key).setSubObjects(map.value);
 });
-```
+``` -->
 
 ## 总结
 **可以和邻接表同时使用**

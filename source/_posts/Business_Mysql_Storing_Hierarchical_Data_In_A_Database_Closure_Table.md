@@ -153,7 +153,7 @@ for (object : $objects) {
 }
 ```
 
-### 组织层级关系
+<!-- ### 组织层级关系
 > 代价：-> ∞  
 ```java
 ids[] = {$id}
@@ -166,7 +166,7 @@ for(cur_id : ids) {
 
     ids add $(select current_id from relation where ancestor_id = $cur_id)
 }
-```
+``` -->
 
 ## 总结
 **优点** : 修改、查询简便，效率高；   
