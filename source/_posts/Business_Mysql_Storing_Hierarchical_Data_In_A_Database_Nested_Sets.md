@@ -116,26 +116,6 @@ select * from table where id = $id
 > 输入：id    
 > 执行：
 
-<!-- ```sql
-
-parent = $(select * from table where id = $id);
-
-select child.*
-from table as parent, table as child
-where 
-child.left between parent.left and parent.right
-and not exists(
-    select *
-    from table as mid
-    where mid.left between parent.left and parent.right
-        and child.left between mid.left and mid.right
-        and mid.id not in (parent.id, child.id)
-)
-and parent.left = $parent.left  
-
-或
-``` -->
-
 ```sql
 select distinct Child.Node, Child.Left, Child.Right
 from table as child, table as parent
