@@ -96,9 +96,13 @@ for (ancestor_id : ids) {
 ```sql
 ids[] = {$id}
 while (ids is not empty) {
+    # 与他关联的所有子节点，下一批删除
+    next_ids[] = select id from relation where ancestor_id in $ids;
+
+    # 删除 Node, Relation
     delete from node where id in $ids;
     delete from relation where current_id in $ids or ancestor_id in $ids;
-    ids = select id from relation where ancestor_id in $ids;
+    ids = next_ids;
 }
 ```
 
