@@ -128,7 +128,7 @@ while (sub_ids is not empty) {
 update table set parent_id = $new_parent_id where id = $id;
 ```
 
-### 组织层级关系
+<!-- ### 组织层级关系
 > 代价：-> ∞
 ```java
 object:
@@ -145,7 +145,7 @@ list
 .foreach(map -> {
     list.get(map.key).setSubObjects(map.value);
 });
-```
+``` -->
 
 ## 总结
 **优点** : 进行增加、修改、移动时代价很低; 查询自己、直接下级非常方便   
