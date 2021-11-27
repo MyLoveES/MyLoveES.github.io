@@ -6,6 +6,8 @@ branches:
 before_install:
 - npm install -g hexo-cli
 - npm install hexo-math --save
+- npm uninstall hexo-renderer-marked --save
+- npm install hexo-renderer-kramed --save
 - npm install -g gitbook-cli
 cache:
   directories:
