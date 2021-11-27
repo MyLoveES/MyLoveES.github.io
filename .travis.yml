@@ -5,6 +5,7 @@ branches:
   - source
 before_install:
 - npm install -g hexo-cli
+- npm install hexo-math --save
 - npm install -g gitbook-cli
 cache:
   directories:

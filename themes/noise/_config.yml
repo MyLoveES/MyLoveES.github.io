@@ -29,3 +29,6 @@ less:
     - source/css
   compress:
     true
+
+mathjax:
+  enable: true
