@@ -116,3 +116,20 @@ markdown:
     permalink: true
     permalinkClass: header-anchor
     permalinkSymbol: ''
+
+math:
+  engine: 'mathjax' # or 'katex'
+  mathjax:
+    src: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+    config: {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+        processEscapes: true
+      },
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      }
+    }
