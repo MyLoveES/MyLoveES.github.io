@@ -1,4 +1,4 @@
-title: MQ: Consume messages with Priority
+title: MQ - Consume messages with Priority
 date: 2021-11-20 18:38:00
 tags: [MQ]
 categories: [MQ]
