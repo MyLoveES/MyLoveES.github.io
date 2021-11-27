@@ -118,18 +118,14 @@ markdown:
     permalinkSymbol: ''
 
 math:
-  engine: 'mathjax' # or 'katex'
+  katex:
+    css: 'https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css'
+    options:
+      throwOnError: false
   mathjax:
-    src: https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-    config: {
-      tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-        processEscapes: true
-      },
-      TeX: {
-        equationNumbers: {
-          autoNumber: "AMS"
-        }
-      }
-    }
+    css: 'https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css'
+    options:
+      conversion:
+        display: false
+      tex:
+      svg:
