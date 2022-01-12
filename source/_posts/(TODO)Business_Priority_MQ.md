@@ -14,6 +14,7 @@ toc: true
 
 ### 带有优先级的MQ：以 RabbitMQ 为例
 #### 1. 为什么 Kafka/Pulsar 不带有优先级概念
+
 #### 2. 两者的差别
 
 ### Topic 优先级顺序消费
