@@ -30,7 +30,7 @@ less:
   compress:
     true
 
-mathjax:
-  enable: true
-  perpage: false
-  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+# mathjax:
+#   enable: true
+#   perpage: false
+#   cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
