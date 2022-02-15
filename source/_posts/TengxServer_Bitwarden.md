@@ -270,17 +270,13 @@ Once you've completed all previous steps, start your Bitwarden instance:
 ./bitwarden.sh start
 ```
 
-{% callout info %}
 The first time you start Bitwarden it may take some time as it downloads all of the images from Docker Hub.
-{% endcallout %}
 
 Verify that all containers are running correctly:
 
 ```
 docker ps
 ```
-
-{% image hosting/docker-healthy.png %}
 
 Congratulations! Bitwarden is now up and running at `https://your.domain.com`. Visit the web vault in your web browser to confirm that it's working.
 
