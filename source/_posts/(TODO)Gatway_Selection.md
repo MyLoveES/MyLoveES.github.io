@@ -10,7 +10,7 @@ toc: true
 - Common in microservice architectures
 - Client insulation from services
 - Security, surgical routing, Load Shedding, etc...
-{% apigateway apigateway.jpeg %}
+{% asset_img apigateway.jpeg %}
 {% asset_img backendforfrontend.png %}
 
 ## SOME GATEWAYS
