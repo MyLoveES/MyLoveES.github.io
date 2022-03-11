@@ -1,17 +1,14 @@
-title: (业务)网关选型
+title: （业务）网关选型
 date: 2022-03-10
 tags: [Business, Gateway]
 categories: Business
 toc: true
 ---
 
-{% asset_img gateway.png %}
-
 ## What & Why
 - Single entry point for all clients (面向客户端的单一入口)  
 - Common in microservice architectures （微服务需要业务聚合）  
 - Client insulation from services （客户端和服务隔离）  
-- protocol （协议转换）
 - Security（安全）  
 - surgical routing（路由）  
 - Load Shedding （负载均衡）  
@@ -23,9 +20,7 @@ toc: true
 - Log（日志收集）  
 - Monitor（监控）  
 - Tracing Analysis（链路追踪）
-
 {% asset_img apigateway.jpeg %}   
-
 {% asset_img backendforfrontend.png %}   
 
 ## Aspects to be considered
@@ -35,9 +30,10 @@ toc: true
 - Stability
 - Update 
 
-## SOME GATEWAY(By programming language)
+## SOME GATEWAYS
+
 - Nginx+Lua：Open Resty、Kong、Orange、Abtesting Gateway等；  
-- Java：Zuul/Zuul 2、Spring Cloud Gateway、Kaazing KWG、gravitee、Dromara soul等；  
+- Java：Zuul/Zuul 2、Spring Cloud Gateway、Kaazing KWG、gravitee、Dromara soul等；  、
 - Go：Janus、fagongzi、Grpc-Gateway；  
 - .NET：Ocelot；  
 - Node.js：Express Gateway、MicroGateway。  
@@ -45,21 +41,11 @@ toc: true
 使用范围、成熟度、活跃度等，主流有：Kong、Zuul/Zuul 2、Spring Cloud Gateway、apisix
 
 ### Nginx 
-Nginx 更偏向于作为流量网关。成熟，性能好，稳定。
-但致命弱点是，不便于自定义开发（有一部分是开发语言的原因），需要 +Lua (例如下面的 OpenResty / Kong / Apisix)。
-
-{% asset_img nginx.png %}
-
-```
-Nginx 在启动后，会有一个 Master 进程和多个 Worker 进程，Master 进程和 Worker 进程之间是通过进程间通信进行交互的，如图所示。Worker 工作进程的阻塞点是在像 select()、epoll_wait() 等这样的 I/O 多路复用函数调用处，以等待发生数据可读 / 写事件。Nginx 采用了异步非阻塞的方式来处理请求，也就是说，Nginx 是可以同时处理成千上万个请求的。
-```
+Nginx 更偏向于作为流量网关（第一级网关）。成熟，性能好，稳定，使用广，也便于维护，运维配置方便。
+但致命弱点是，不便于定制开发（有一部分是开发语言的原因），需要 +Lua 
 
 ### OpenResty（Nginx + Lua）
 OpenResty nginx + Lua动态扩展。目前已经有基于Open Resty产生的gateway，例如 Kong，APISIX等。
-
-```
-还可以将 Lua 嵌入到 Nginx 中，从而可以使用 Lua 来编写脚本，这样就可以使用 Lua 编写应用脚本，部署到 Nginx 中运行，即 Nginx 变成了一个 Web 容器；这样开发人员就可以使用 Lua 语言开发高性能Web应用了。在开发的时候使用 OpenResty 来搭建开发环境，OpenResty 将 Nginx 核心、LuaJIT、许多有用的 Lua 库和 Nginx 第三方模块打包在一起；这样只需要安装 OpenResty，不需要了解 Nginx 核心和写复杂的 C/C++ 模块就可以，只需要使用 Lua 语言进行 Web 应用开发了。
-```
 
 ### APISIX（Nginx + etcd）
 - Develepment（Programming Language）: N
@@ -68,11 +54,9 @@ OpenResty nginx + Lua动态扩展。目前已经有基于Open Resty产生的gate
 - Stability: ？
 - Update: Y
 
-{% asset_img apisix.webp %}
+从评价来看，APISIX的性能更好，功能也更加丰富。
+但APISIX诞生两年多，很年轻，或许需要更多的“检验”，开发语言的差别也会增加问题排查、处理的代价。
 
-APISIX的性能更好，功能也更加丰富。
-但APISIX很年轻，或许需要更多的“检验”，开发语言的差别也会增加问题排查、处理的代价。  
-(可以尝试)  
 
 ### Kong（Nginx + postgres）
 - Develepment（Programming Language）: Y
@@ -81,11 +65,7 @@ APISIX的性能更好，功能也更加丰富。
 - Stability: Y
 - Update: Y
 
-Kong和APISIX相比较而言，从性能、功能丰富度方面 都处于下风（毕竟APISIX更新）。而且开发语言的劣势同样具有。
-
-{% asset_img Kong.png %}
-
-{% asset_img Kong2.png %}
+Kong和APISIX比较像，但是相比较而言，劣势也很明显。从性能、功能丰富度方面 都处于下风（毕竟APISIX更新）。而且开发语言的劣势同样具有。
 
 ### Zuul (Java)
 Zuul-动态路由、监控、弹性和安全。基于Servlet，属于上一代产品，同步I/O、多线程。性能不好，针对于Zuul的替代方案已经有 Zuul2 以及 Spring Gateway 两类。因此Zuul不予考虑。
@@ -127,8 +107,7 @@ Zuul-动态路由、监控、弹性和安全。基于Servlet，属于上一代�
 - Update: Y
 
 Java 8、Spring 5.0、Spring Boot 2.0、Reactor -> Spring family
-#### Spring Cloud紧密配合  
-目前使用了nacos作为配置中心，可以和 gateway 搭配。
+#### Spring Cloud紧密配合? 
 
 > Java 8/Spring 5/Boot 2
 > WebFlux/Reactor
@@ -205,7 +184,3 @@ Async, by contrast, is callback based and driven by an event loop. The event loo
 > ref: [API 网关性能比较：NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd](https://www.infoq.cn/article/comparing-api-gateway-performances/)
 > ref: [API 网关选型及包含 BFF 的架构设计](https://juejin.cn/post/6882952033712734216)
 > ref: [5、微服务网关](https://www.jianshu.com/p/a2f292221b5c)
-> ref: [如何评价 spring cloud gateway? 对比 zuul2.0 主要的优势是什么?](https://www.zhihu.com/question/280850489)
-> ref: [如何选择和设计微服务网关](https://www.jianshu.com/p/ebe4636a13aa)
-> ref: [有了 NGINX 和 Kong，为什么还需要 Apache APISIX](https://www.apiseven.com/zh/blog/why-we-need-Apache-APISIX)
-> ref: [浅谈 k8s ingress controller 选型](https://zhuanlan.zhihu.com/p/109458069)
