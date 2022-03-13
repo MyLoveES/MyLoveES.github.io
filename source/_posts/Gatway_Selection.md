@@ -24,9 +24,10 @@ toc: true
 - Monitor（监控）  
 - Tracing Analysis（链路追踪）
 
-{% asset_img apigateway.jpeg %}   
+{% asset_img apigateway.jpeg %}     
+    
 
-{% asset_img backendforfrontend.png %}   
+{% asset_img backendforfrontend.png %}     
 
 ## Aspects to be considered
 - Develepment（Programming Language）  
@@ -83,9 +84,10 @@ APISIX的性能更好，功能也更加丰富。
 
 Kong和APISIX相比较而言，从性能、功能丰富度方面 都处于下风（毕竟APISIX更新）。而且开发语言的劣势同样具有。
 
-{% asset_img Kong.png %}
+{% asset_img Kong.png %}  
 
-{% asset_img Kong2.png %}
+  
+{% asset_img Kong2.png %}   
 
 ### Zuul (Java)
 Zuul-动态路由、监控、弹性和安全。基于Servlet，属于上一代产品，同步I/O、多线程。性能不好，针对于Zuul的替代方案已经有 Zuul2 以及 Spring Gateway 两类。因此Zuul不予考虑。
