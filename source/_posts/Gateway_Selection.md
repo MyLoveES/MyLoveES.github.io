@@ -1,4 +1,4 @@
-title: (业务)网关选型
+title:网关选型
 date: 2022-03-10
 tags: [Business, Gateway]
 categories: Business
@@ -188,26 +188,42 @@ Async, by contrast, is callback based and driven by an event loop. The event loo
 |Kong|根据时间、用户限流。可在源码基础上开发http://coding.idealworld.group/2021/05/26/reflections-of-middle-platform-api-gateway-selection/|普通鉴权、OAuth2.0、Key Auth、HMAC|上报datadog，记录请求数量、数据量、应答数据量、接收发送时间间隔、状态码数量、Kong内耗时|简单易用，API转发通过管理接口配置。需要Lua开发|维护需要Lua|成熟|
 
 ## Finally
+### Kong
+1. nginx + lua，开发不友好
+2. 仅支持PostgreSQL，增加运维成本，单点数据库  
+3. 在不修改源码的情况下，无法自定义Nginx配置文件，重启后重新初始化所有变更的Nginx配置文件  
 
-最终，由于服务本身技术栈（Spring 全家桶 & Ali 全家桶（nacos 等），选用Spring Cloud Gateway。
+### Apisix
+1. nginx + lua，开发不友好
+2. 待检验
 
+### Zuul
+1. 性能差，已有替代品
+
+### Zuul2
+1. 性能好，但 Sprintg Cloud 没有兼容计划，与目前使用的技术栈结合的不是很好
+2. 还不太稳定
+### Spring Cloud Gateway
+1. 性能比较好（not best）
+## 结论
+综合比较下来，Spring Cloud Gateway 性能好，也比较成熟稳定，并且是Spring全家桶成员，和当前项目是用的技术栈更匹配。)
 ## Ref
 > ref: [The author of spring cloud gateway's PPT](https://spencergibb.netlify.app/preso/detroit-cf-api-gateway-2017-03/#/)   
 > ref: [What is api gateway](https://microservices.io/patterns/apigateway.html)   
 > ref: [Netflix blog: Zuul2](https://netflixtechblog.com/zuul-2-the-netflix-journey-to-asynchronous-non-blocking-systems-45947377fb5c)  
 > ref: [Netflix blog: Optimizing the Netflix API](https://netflixtechblog.com/optimizing-the-netflix-api-5c9ac715cf19)  
-> ref: [Microservice Architecture](https://microservices.io/patterns/microservices.html) 
-> ref: [百亿流量微服务网关的设计与实现](http://blog.itpub.net/31562044/viewspace-2651041/) 
-> ref: [中台反思：云原生下API网关的选择](http://coding.idealworld.group/2021/05/26/reflections-of-middle-platform-api-gateway-selection/)
-> ref: [API 网关 Apache APISIX 和 Kong 的选型对比](https://www.yihuo.tech/news/api-gateways-apache-apisix-and-kong-selection-comparison/)
-> ref: [API网关架构与技术选型](https://blog.csdn.net/star1210644725/article/details/113399714)
-> ref: [API网关介绍及选型(kong)](https://www.daimajiaoliu.com/daima/47973c73d100400)
-> ref: [API网关选型调研](https://wakzz.cn/2021/03/06/%E6%9E%B6%E6%9E%84/API%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E8%B0%83%E7%A0%94/)
-> ref: [微服务下的网关如何选择(提到了soul)](https://www.cnblogs.com/wtzbk/p/14009219.html)
-> ref: [API 网关性能比较：NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd](https://www.infoq.cn/article/comparing-api-gateway-performances/)
-> ref: [API 网关选型及包含 BFF 的架构设计](https://juejin.cn/post/6882952033712734216)
-> ref: [5、微服务网关](https://www.jianshu.com/p/a2f292221b5c)
-> ref: [如何评价 spring cloud gateway? 对比 zuul2.0 主要的优势是什么?](https://www.zhihu.com/question/280850489)
-> ref: [如何选择和设计微服务网关](https://www.jianshu.com/p/ebe4636a13aa)
-> ref: [有了 NGINX 和 Kong，为什么还需要 Apache APISIX](https://www.apiseven.com/zh/blog/why-we-need-Apache-APISIX)
-> ref: [浅谈 k8s ingress controller 选型](https://zhuanlan.zhihu.com/p/109458069)
+> ref: [Microservice Architecture](https://microservices.io/patterns/microservices.html)   
+> ref: [百亿流量微服务网关的设计与实现](http://blog.itpub.net/31562044/viewspace-2651041/)   
+> ref: [中台反思：云原生下API网关的选择](http://coding.idealworld.group/2021/05/26/reflections-of-middle-platform-api-gateway-selection/)  
+> ref: [API 网关 Apache APISIX 和 Kong 的选型对比](https://www.yihuo.tech/news/api-gateways-apache-apisix-and-kong-selection-comparison/)  
+> ref: [API网关架构与技术选型](https://blog.csdn.net/star1210644725/article/details/113399714)  
+> ref: [API网关介绍及选型(kong)](https://www.daimajiaoliu.com/daima/47973c73d100400)  
+> ref: [API网关选型调研](https://wakzz.cn/2021/03/06/%E6%9E%B6%E6%9E%84/API%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E8%B0%83%E7%A0%94/)  
+> ref: [微服务下的网关如何选择(提到了soul)](https://www.cnblogs.com/wtzbk/p/14009219.html)  
+> ref: [API 网关性能比较：NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd](https://www.infoq.cn/article/comparing-api-gateway-performances/)  
+> ref: [API 网关选型及包含 BFF 的架构设计](https://juejin.cn/post/6882952033712734216)  
+> ref: [5、微服务网关](https://www.jianshu.com/p/a2f292221b5c)  
+> ref: [如何评价 spring cloud gateway? 对比 zuul2.0 主要的优势是什么?](https://www.zhihu.com/question/280850489)  
+> ref: [如何选择和设计微服务网关](https://www.jianshu.com/p/ebe4636a13aa)  
+> ref: [有了 NGINX 和 Kong，为什么还需要 Apache APISIX](https://www.apiseven.com/zh/blog/why-we-need-Apache-APISIX)  
+> ref: [浅谈 k8s ingress controller 选型](https://zhuanlan.zhihu.com/p/109458069)  
