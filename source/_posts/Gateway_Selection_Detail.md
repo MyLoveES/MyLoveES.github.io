@@ -1,4 +1,4 @@
-title:网关选型细节
+title: 网关选型细节
 date: 2022-03-14
 tags: [Business, Gateway]
 categories: Business
@@ -30,13 +30,9 @@ toc: true
 13. 性能：Apisix > Zuul2 ≈ Spring Cloud Gateway
 
 ## 3. 结论
-首先从成熟度来看，Zuul2的资料较少，很多还是停留在Zuul1阶段。在Zuul2和Spring Cloud Gateway同属Java开发的情况下，更倾向于Spring。因此之后的比较主要发生在Spring Cloud Gateway和APISIX之间。
-
-{% asset_img GATEWAY_TABLE.png %}
-
-比较来看，apisix优势是性能更好，功能更丰富。劣势是开发语言不匹配，之后开发维护学习成本比较高。而且对于nacos目前也只是实验性，并不完全成熟稳定。除此之外，需要etcd支持。
-
-Spring Cloud Gateway虽性能稍劣，但技术栈匹配，后期开发难度较小。并且与当前使用的基础设施更契合，能够省却维护新的基础设施组件的成本。因此最终选择Spring Cloud Gateway作为API网关。
+首先从成熟度来看，Zuul2的资料较少，很多还是停留在Zuul1阶段。在Zuul2和Spring Cloud Gateway同属Java开发的情况下，更倾向于Spring。因此之后的比较主要发生在Spring Cloud Gateway和APISIX之间。  
+比较来看，apisix优势是性能更好，功能更丰富。劣势是开发语言不匹配，之后开发维护学习成本比较高。而且对于nacos目前也只是实验性，并不完全成熟稳定。除此之外，需要etcd支持。  
+Spring Cloud Gateway虽性能稍劣，但技术栈匹配，后期开发难度较小。并且与当前使用的基础设施更契合，能够省却维护新的基础设施组件的成本。因此最终选择Spring Cloud Gateway作为API网关。  
 
 ### Spring Cloud Gateway(Java)
 https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/
