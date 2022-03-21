@@ -233,3 +233,6 @@ https://www.cnblogs.com/zlt2000/p/13201326.html
 - 1. 通过web层来转换http → rpc
 - 2. 通过dubbo rest承接http
 
+### 自定义auth（插件开发）
+> apisix: https://apisix.apache.org/zh/blog/2021/09/07/how-to-use-apisix-auth/
+> spring cloud gateway: preFilter
