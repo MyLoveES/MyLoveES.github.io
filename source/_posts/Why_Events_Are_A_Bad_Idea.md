@@ -4,9 +4,6 @@ tags: [Business]
 categories: Business
 toc: true
 ---
-
-## Who is better
-
 ### Why Events Are A Bad Idea
 - 论点：线程可以实现事件的所有优点，包括支持高并发性、低开销和简单的并发模型。此外，线程允许更简单和更自然的编程风格。
 > Specifically, we believe that threads can achieve all of the strengths of events, including support for high concurrency, low overhead, and a simple concurrency model. Moreover, we argue that threads allow a simpler and more natural programming style.

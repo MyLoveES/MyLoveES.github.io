@@ -249,3 +249,5 @@ END
 二元性变换使构成系统的程序主体不受影响。因此，所有的算法将以相同的速度计算，并且在每个数据结构中存储相同数量的信息。在每个系统中执行的代码数量相同。将执行相同数量的加法、乘法、比较和字符串操作。因此，如果基本的处理器特性没有改变，那么这些特性将需要相同数量的计算能力，并且系统性能的这个组件将保持不变。同样，对于系统调用开销和队列阻塞等待，两者会付出同样的代价。
 
 > ref: (On the Duality of Operating System Structures)[https://courses.cs.vt.edu/~cs5204/fall07-gback/papers/p3-lauer.pdf]
+
+## Who is better ?
