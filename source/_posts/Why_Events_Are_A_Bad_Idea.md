@@ -1,5 +1,5 @@
-title: Why events are bad idea
-date: 2022-03-22
+title: Why events are a bad idea
+date: 2022-03-23
 tags: [Business]
 categories: Business
 toc: true
@@ -13,7 +13,8 @@ toc: true
 > Specifically, we believe that threads can achieve all of the strengths of events, including support for high concurrency, low overhead, and a simple concurrency model. Moreover, we argue that threads allow a simpler and more natural programming style.
 </details>
 
-过去的一段时间（论文发表前），人们认为Event-oriented是高并发程序中实现高性能的最佳方法。主要原因有：
+过去的一段时间（论文发表前），人们认为Event-oriented是高并发程序中实现高性能的最佳方法。
+主要原因有：
 1. 由于协作多任务处理，同步的成本很低;
 2. 管理状态的开销更低(没有栈);
 3. 基于应用级的信息，更好的调度和局部性;
@@ -86,17 +87,19 @@ We believe that (1) threads provide a more natural abstraction for high-concurre
 
 ### Exception Handling and State Lifetime
 在线程系统中，在异常和正常终止后清理任务状态更简单，因为线程堆栈自然会跟踪该任务的活动状态。  
-在事件系统中，任务状态通常是堆分配的。在正确的时间释放这个状态是非常困难的，因为应用程序控制流中的分支(特别是在错误条件下)可能会导致错过释放步骤。
+在事件系统中，任务状态通常是堆分配的。在正确的时间释放这个状态是非常困难的，因为应用程序控制流中的分支(特别是在错误条件下)可能会导致错过释放步骤。 // ?
 
-## Compiler Support for Threads
-编译器和系统紧密结合, 实现更好的安全性和性能!
+## Compiler Support for Threads  
+编译器和系统紧密结合, 实现更好的安全性和性能!  
 
-### 动态堆栈增长
+### 动态堆栈增长   
 运行时调整堆栈大小，避免固定大小堆带来的溢出风险和内存浪费。通过编译器分析来得到所需堆栈空间的上限及增长点。
-### 实时状态管理
+
+### 实时状态管理    
 清除不必要的状态(state)，检测阻塞调用中持有大量实例的情况等等。
-### 同步
+
+### 同步    
 编译器警告数据竞争处来减少错误的发生。
 
-## Conclusion
+## Conclusion  
 线程模型能够达到和事件驱动几乎一样的性能效果，并且模型更简单，更易于编译器分析，因此 Threads 是一个更好的编程模型。
