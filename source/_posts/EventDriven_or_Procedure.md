@@ -240,7 +240,7 @@ END
 |--------|--------|
 |event handlers|monitors|
 |events accepted by a handler|functions exported by a module|
-|SendMessage / AwaitReply|procedure call, or fork/join|
+|SendMessage、AwaitReply|procedure call, or fork/join|
 |SendReply|return from procedure|
 |waiting for messages|waiting on condition variables|
 
