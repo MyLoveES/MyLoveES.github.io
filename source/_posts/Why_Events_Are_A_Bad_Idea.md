@@ -103,3 +103,5 @@ We believe that (1) threads provide a more natural abstraction for high-concurre
 
 ## Conclusion  
 线程模型能够达到和事件驱动几乎一样的性能效果，并且模型更简单，更易于编译器分析，因此 Threads 是一个更好的编程模型。
+
+> ref: [Why events are a bad idea](http://capriccio.cs.berkeley.edu/pubs/threads-hotos-2003.pdf)
