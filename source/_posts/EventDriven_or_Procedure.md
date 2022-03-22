@@ -1,4 +1,4 @@
-title: 事件驱动 or 
+title: 事件驱动 or 面向过程
 date: 2022-03-21
 tags: [Business]
 categories: Business
@@ -7,7 +7,8 @@ toc: true
 
 # EventDriven-oriented or Procedure-oriented
 
-有两类常见的系统设计：面向发布订阅模式、面向过程。本文意图解释两类系统设计之间的关系，孰优孰劣？
+两类常见的系统设计：事件驱动、面向过程。  
+本文意图解释两类系统设计之间的关系，孰优孰劣？
 
 ## Who are they
 
@@ -100,10 +101,10 @@ Note that if a whole system is built according to this style, then the sole mean
 </details>  
 
 #### 一些概念的定义：  
-> messages: 数据结构，用于进程之间传递信息。  
-> message identifiers: 消息 id  
-> message channels: 消息目的地  
-> message ports: 接收端口  
+> Messages: 数据结构，用于进程之间传递信息。  
+> Message identifiers: 消息 id  
+> Message channels: 消息目的地  
+> Message ports: 接收端口  
 
 > SendMessage [messageChannel, messageBody] returns [messageId]  
 > AwaitReply [messageId] returns [messageBody]
@@ -168,17 +169,17 @@ If a whole system is built in this style, then the sole means of interaction amo
 </details>  
 
 #### 一些概念的定义
-> Procedure
-> Procedure call facilities, synchronous and asynchronous
-  (asynchronous): 
-    processld <- FORK procedureName[parameterList]
-    [resultList] <- JOIN processld
-> Modules: consists of a collection of procedures and data
-> Monitors: 监控锁防止多进程在其中执行
-> Module instantiation: 实例化
-> Condition variables: 
-    WAIT condition Variable
-    SIGNAL condition Variable
+> Procedure  
+> Procedure call facilities, synchronous and asynchronous   
+  -- (asynchronous):   
+  ---- processld <- FORK procedureName[parameterList]  
+  ---- [resultList] <- JOIN processld  
+> Modules: consists of a collection of procedures and data  
+> Monitors: 监控锁防止多进程在其中执行  
+> Module instantiation: 实例化  
+> Condition variables:   
+  -- WAIT condition Variable  
+  -- SIGNAL condition Variable  
   
 
 #### 运行公式
@@ -247,7 +248,21 @@ END
 3. 队列等待时间（反映的是阻塞、资源竞争、调度策略）
 
 二元性变换使构成系统的程序主体不受影响。因此，所有的算法将以相同的速度计算，并且在每个数据结构中存储相同数量的信息。在每个系统中执行的代码数量相同。将执行相同数量的加法、乘法、比较和字符串操作。因此，如果基本的处理器特性没有改变，那么这些特性将需要相同数量的计算能力，并且系统性能的这个组件将保持不变。同样，对于系统调用开销和队列阻塞等待，两者会付出同样的代价。
+<details>
+    <summary>原文</summary>
+
+```
+The duality transformation leaves the main bodies of the programs comprising the system untouched. Thus the algorithms will all compute at the same speed, and the same amount of information will be stored in each data structure. The same amount of client code will be executed in each of the dual systems. The same number of additions, multiplications, comparisons, -and string operations will be performed. Therefore if basic processor characteristics are unchanged, then these will take precisely the same amount of computing power, and this component of the system performance will remain unchanged.
+The other component affecting the speed of execution of a single program is the time it takes to execute each of the primitive system operations it calls. We assert without proof that the facilities of each of our two canonical models can be made to execute as efficiently as the corresponding facilities of the other model. I.e.,
+Sending a message, with its inherent need to allocate a message block and manipulate a queue and its possibility of forcing a context (process) switch, is a computation of the same complexity as that of calling or FOR King to an ENTRY procedure, which involves the same need to allocate, queue, and force a context switch.
+Leaving a monitor, with the possibility of having to unqueue a waiting process and re-enter it, is an operation of the same complexity as that of waiting for new messages.
+Process switching can be made equally fast in either system, and for similar machine architectures this means saving the same amount of state information. The same is true for the scheduling and dispatching of processes at the 'microscopic' level.
+14
+ON THE DUALITY OF OPERATING SYSTEM STRUCTURES
+Virtual memory and paging or swapping can even be used with equal effectiveness in either model.
+```
+</details>
+
+## But, who is better ?
 
 > ref: (On the Duality of Operating System Structures)[https://courses.cs.vt.edu/~cs5204/fall07-gback/papers/p3-lauer.pdf]
-
-## Who is better ?
