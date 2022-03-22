@@ -4,12 +4,18 @@ tags: [Business]
 categories: Business
 toc: true
 ---
+# 背景
 
+业务中碰到一个场景，服务需要处理一个Job，分为几个阶段：Pre Do After。实现业务逻辑有两种比较常见的模式:
+
+线程池
+{% asset_img Procedure.png %}
+
+事件驱动
+{% asset_img EventDrivenBack.png %}
+
+那这两种模式孰优孰劣？看看前人的见解：
 # EventDriven-oriented or Procedure-oriented
-
-两类常见的系统设计：事件驱动、面向过程。  
-本文意图解释两类系统设计之间的关系，孰优孰劣？
-
 ## Who are they
 
 ### Event Driven
