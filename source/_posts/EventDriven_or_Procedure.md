@@ -4,6 +4,9 @@ tags: [Business]
 categories: Business
 toc: true
 ---
+
+{% asset_img funny_compare.png %}
+
 # 背景
 
 业务中碰到一个场景，服务需要处理一个Job，分为几个阶段：Pre Do After。实现业务逻辑有两种比较常见的模式:
@@ -270,5 +273,9 @@ Virtual memory and paging or swapping can even be used with equal effectiveness 
 </details>
 
 ## But, who is better ?
+> ref: [Why Threads Are a Bad Idea](https://www.cc.gatech.edu/classes/AY2010/cs4210_fall/papers/ousterhout-threads.pdf)
+> ref: [Why events are a bad idea](http://capriccio.cs.berkeley.edu/pubs/threads-hotos-2003.pdf)
 
-> ref: (On the Duality of Operating System Structures)[https://courses.cs.vt.edu/~cs5204/fall07-gback/papers/p3-lauer.pdf]
+
+# Ref
+> ref: [On the Duality of Operating System Structures](https://courses.cs.vt.edu/~cs5204/fall07-gback/papers/p3-lauer.pdf)

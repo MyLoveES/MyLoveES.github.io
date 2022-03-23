@@ -94,4 +94,5 @@ Events
 - 使用事件作为主要的开发工具(gui和分布式系统)
 - 只对性能关键的内核使用线程
 
+# Ref 
 > ref: [Why Threads Are a Bad Idea](https://www.cc.gatech.edu/classes/AY2010/cs4210_fall/papers/ousterhout-threads.pdf)
