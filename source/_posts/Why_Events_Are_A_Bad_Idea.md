@@ -1,5 +1,5 @@
 title: Why events are a bad idea
-date: 2022-03-23
+date: 2022-03-23 18:00:00
 tags: [Business]
 categories: Business
 toc: true
