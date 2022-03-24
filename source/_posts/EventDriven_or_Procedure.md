@@ -234,7 +234,7 @@ END
 
 {% asset_img DualityMappingServers.png %}
 {% asset_img DualityMappingClients.png %}
-{% asset_img DualityMappingCodes.png% }
+{% asset_img DualityMappingCodes.png %}
 
 
 #### 番外
