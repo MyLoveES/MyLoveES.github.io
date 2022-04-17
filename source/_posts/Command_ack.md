@@ -149,7 +149,7 @@ Ack通过指定的起始目录的目录树递归。如果没有指定目录，�
 ### -f
 打印将要搜索的文件，而不实际进行任何搜索。不得指定 PATTERN，否则将被视为搜索路径。
 ```
---ackrc
+       --ackrc
            Specifies an ackrc file to load after all others; see "ACKRC LOCATION SEMANTICS".
 
        -A NUM, --after-context=NUM
