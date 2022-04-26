@@ -58,6 +58,8 @@ toc: true
 |搜索|<leader><leader>s|搜索|
 
 # replace with register
+|操作|快捷键|效果|
+|----|------|----|
 |粘贴|gr{motion}|abcdef -> abcabc|
 
 # NERDTree
