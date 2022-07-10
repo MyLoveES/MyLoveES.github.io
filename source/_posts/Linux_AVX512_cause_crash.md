@@ -5,7 +5,7 @@ categories: Linux
 toc: true
 ---
 
-## 背景
+## 背景  
 服务运行不起来，ps aux查看state始终处在 Dl+ 状态  
 查看dmesg或者cat /var/log/messages，发现 **trap invalid opcode** 和 **segfault at**.  查过后，可能是指令集问题。  
 
