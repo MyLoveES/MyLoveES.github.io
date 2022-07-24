@@ -5,6 +5,8 @@ categories: Linux
 toc: true
 ---
 
+(没有查到根本原因)  
+
 # 背景  
 
 服务运行中，发现服务器频繁不定时重启。发现是kernel crash造成的。  
