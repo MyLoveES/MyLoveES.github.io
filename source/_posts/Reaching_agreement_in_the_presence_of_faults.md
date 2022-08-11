@@ -48,8 +48,22 @@ STEP2:
 在两轮信息交换完成后，每个节点都会持有“一组”向量值元素。节点可以选取“多数”作为认可的元素值，形成最终的向量。
 {% asset_img ReachAggrement-finger5.png finger5 %}
 
-# n >= 3m + 1
+# 多节点错误  
   
+仅仅两轮信息交换不足以达成共识：  
+  
+STEP1:  
+{% asset_img ReachAggrement-finger6.png finger6 %}
+  
+STEP2:  
+{% asset_img ReachAggrement-finger7.png finger7 %}
+
+Finally:  
+{% asset_img ReachAggrement-finger8.png finger8 %}
+   
+  
+继续下一轮交换信息！
+
 回想一下，上一节给出的过程需要两轮信息交换，第一轮“我的私有值是”，第二轮“节点x告诉我他的私有值是....”。在m个节点故障的一般情况下，需要m + 1轮通信。为了描述该算法，可以以更通用的方式描述这种消息交换。
   
 P: 节点集合  
