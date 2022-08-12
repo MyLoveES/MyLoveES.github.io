@@ -73,7 +73,7 @@ m+1 轮后：
   
 定义：  
 1）w=p1p2p3....pr, σ(w) 意为 pr -\> p(r-1) -\> p(r-2) -> ··· -\> p2 -\> p1，Vpr最终流转到p1的结果。  
-2）对于一个单节点，σ(p) = Vp
+2）对于一个单节点，σ(p) = Vp   
 3）如果一个节点q是正常的，那么他一定满足：对于任意的集合组成的字串w和任意节点p，  
 <center>σ(pqw) = σ(qw)</center>  
 同理如果一个集合全部是正常节点，那么集合所组成的字串 w=p1p2p3...pr，和一个任意节点p', 一定能够满足  
@@ -85,10 +85,10 @@ m+1 轮后：
 <center>σp'(pw) = σp(pwq)</center>  
 如果在这向量n-1个元素里有至少(n+m)/2个元素值相同，p记录下该值，否则记录NIL值。  
   
-step1：一定能够找到一个全部是正常节点的集合Q(size <= m)，使得正常的源节点q的值，经过Q处理后，依然不变。
+step1：（目的是确定源节点q正确与否）一定能够找到一个全部是正常节点的集合Q(size <= m)，使得正常的源节点q的值，经过Q处理后，依然不变。
 {% asset_img ReachAggrement-finger9.png finger9 %}
   
-step2：如果源节点q没能满足step1，说明q在乱发值，q是一个问题节点。  
+step2：（目的是对错误节点的值达成共识）如果源节点q没能满足step1，说明q在乱发值，q是一个问题节点。  
   
 q向d发送X：
 {% asset_img ReachAggrement-finger10.png finger10 %}  
@@ -127,13 +127,25 @@ p 问q'（中间也经过了step1的处理），你眼里q是多少？如果获�
 
 {% asset_img ReachAggrement-finger16.png finger16 %}
 
-# ------------------------------------------------------------------------------------------
+---  
+---  
+---  
 
+拜占庭国王放下手中的 Reaching_agreement_in_the_presence_of_faults.pdf，陷入沉思。
+  
 {% asset_img ReachAggrement-finger17.png finger17 %}
   
-{% asset_img ReachAggrement-finger18.png finger18 %}
+最近他的军队正在攻打敌方同样强大的城池，需要将领们协同一致才可制胜。而他也知道，将军们中间有叛徒，正因此进攻才耽搁许久。忽然他眉头一皱，计上心来！
 
-# ------------------------------------------------------------------------------------------ BAK
+{% asset_img ReachAggrement-finger18.png finger18 %} 
+  
+国王究竟想到了什么办法呢？请看下回：
+  
+{% asset_img ReachAggrement-finger19.png finger19 %}
+
+---  
+---  
+---  
 
 ```
 回想一下，上一节给出的过程需要两轮信息交换，第一轮“我的私有值是”，第二轮“节点x告诉我他的私有值是....”。在m个节点故障的一般情况下，需要m + 1轮通信。为了描述该算法，可以以更通用的方式描述这种消息交换。
