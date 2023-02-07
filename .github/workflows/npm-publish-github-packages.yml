@@ -45,6 +45,6 @@ jobs:
       - run: export INDEX_CHARS=$(wc -c public/index.html | awk '{print $1}')
       - run: echo $INDEX_CHARS
       - run: npm ci
-      - run: hexo deploy --silent
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
