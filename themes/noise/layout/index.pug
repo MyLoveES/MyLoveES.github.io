@@ -68,6 +68,8 @@ block main
 
       .footer-content
         - var year = date(new Date(), 'YYYY');
+        = '备案号' + ' '
+        a(target='_blank', href='https://beian.miit.gov.cn/')  京ICP备2022003936号
         = '© ' + year + ' '
         a(href='/', rel='nofollow')= config.title
         = '. Powered by '
