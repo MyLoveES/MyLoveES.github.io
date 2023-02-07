@@ -49,4 +49,4 @@ jobs:
       - run: git config --global user.name "MyLoveES"
       - run: git config --global user.email "626588071@qq.com"
       - run: sed -i'' "/^ *repo/s~github\.com~${{secrets.DEPLOY_TOKEN}}@github.com~" _config.yml
-      - run: npm run deploy
+      - run: hexo deploy --silent
