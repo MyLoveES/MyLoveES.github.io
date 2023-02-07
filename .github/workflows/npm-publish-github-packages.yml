@@ -45,6 +45,7 @@ jobs:
       - run: export INDEX_CHARS=$(wc -c public/index.html | awk '{print $1}')
       - run: echo $INDEX_CHARS
       - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: git config --global user.name "MyLoveES"
+      - run: git config --global user.email "626588071@qq.com"
+      - run: sed -i'' "/^ *repo/s~github\.com~${{secrets.GITHUB_TOKEN}}@github.com~" _config.yml
+      - run: hexo deploy --silent
