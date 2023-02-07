@@ -19,8 +19,17 @@ jobs:
       - run: npm install hexo-math --save
       - run: npm install -g gitbook-cli
       - run: npm install
+      - run: git submodule init
+      - run: git submodule update
+      - run: hexo generate
+      - run: ./ci/build-books.sh
+      - run: export INDEX_CHARS=$(wc -c public/index.html | awk '{print $1}')
+      - run: echo $INDEX_CHARS
       - run: npm ci
       - run: npm test
+      - uses: actions/upload-pages-artifact@v1.0.7
+        with:
+          path: public
       
   publish-gpr:
     permissions:
@@ -39,18 +48,9 @@ jobs:
         with:
           node-version: 14
           registry-url: https://npm.pkg.github.com/
-      - run: npm install -g hexo-cli
-      - run: npm install hexo-math --save
-      - run: npm install -g gitbook-cli
-      - run: npm install
-      - run: git submodule init
-      - run: git submodule update
-      - run: hexo generate
-      - run: ./ci/build-books.sh
-      - run: export INDEX_CHARS=$(wc -c public/index.html | awk '{print $1}')
-      - run: echo $INDEX_CHARS
       - run: npm ci
       - run: git config --global user.name "MyLoveES"
       - run: git config --global user.email "626588071@qq.com"
       - run: sed -i'' "/^ *repo/s~github\.com~${{secrets.DEPLOY_TOKEN}}@github.com~" _config.yml
       - run: hexo deploy --silent
+      - uses: actions/deploy-pages@v1
