@@ -54,4 +54,3 @@ jobs:
       - run: git config --global user.email "626588071@qq.com"
       - run: sed -i'' "/^ *repo/s~github\.com~${{secrets.DEPLOY_TOKEN}}@github.com~" _config.yml
       - run: hexo deploy --silent
-      - uses: actions/deploy-pages@v1
