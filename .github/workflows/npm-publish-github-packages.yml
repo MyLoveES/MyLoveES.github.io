@@ -6,7 +6,7 @@ name: Node.js Package
 on:
   push:
     branches: ["source"]
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      
       packages: write
     steps:
       - uses: actions/checkout@v3
@@ -45,4 +46,7 @@ jobs:
       - run: export INDEX_CHARS=$(wc -c public/index.html | awk '{print $1}')
       - run: echo $INDEX_CHARS
       - run: npm ci
+      - run: git config --global user.name "MyLoveES"
+      - run: git config --global user.email "626588071@qq.com"
+      - run: sed -i'' "/^ *repo/s~github\.com~${{secrets.DEPLOY_TOKEN}}@github.com~" _config.yml
       - run: npm run deploy
