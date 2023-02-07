@@ -66,10 +66,13 @@ block main
         +social_icon('googleplus', 'https://plus.google.com/', 'fa-google-plus')
         +social_icon('rss', "", "fa-rss")
 
-      .footer-content
-        - var year = date(new Date(), 'YYYY');
+      .record-number
         = '备案号' + ' '
         a(target='_blank', href='https://beian.miit.gov.cn/')  京ICP备2022003936号
+
+
+      .footer-content
+        - var year = date(new Date(), 'YYYY');
         = '© ' + year + ' '
         a(href='/', rel='nofollow')= config.title
         = '. Powered by '
