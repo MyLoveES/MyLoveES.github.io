@@ -51,13 +51,15 @@ toc: true
 ```
 
 ## 2. module
+根目录 setting.gradle
 ```
-    1) mkdir file-center-domain
-    2) setting.gradle: 
-            include 'file-center-domain'
+    include 'file-center-common'
+    include 'file-center-domain'
+    include 'file-center-application'
+    include 'file-center-interface'
 ```
 
-build.gradle
+根目录 build.gradle
 ```
 buildscript {
 	repositories {
@@ -136,3 +138,33 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 ```
+
+### 1) file-center-common
+```
+    1) mkdir file-center-common
+    2) mkdir -p src/main/java/com/weasley/common
+    3) mkdir -p src/main/resources 
+```
+
+
+### 2) file-center-domain
+```
+    1) mkdir file-center-domain
+    2) mkdir -p src/main/java/com/weasley/domain
+    3) mkdir -p src/main/resources 
+```
+
+### 3) file-center-application
+```
+    1) mkdir file-center-application
+    2) mkdir -p src/main/java/com/weasley/application
+    3) mkdir -p src/main/resources 
+```
+
+### 4) file-center-interface
+```
+    1) mkdir file-center-interface
+    2) mkdir -p src/main/java/com/weasley/interface
+    3) mkdir -p src/main/resources 
+```
+
