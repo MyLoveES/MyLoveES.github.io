@@ -42,3 +42,97 @@ toc: true
 2. 客户端提交
 
 {% asset_img self-file-2.png %}
+
+# 新建项目
+
+## 1. init
+```
+    spring init --groupId=com.weasley --artifactId=file-center --name=file-center --description="file-center" file-center
+```
+
+## 2. module
+```
+    1) mkdir file-center-domain
+    2) setting.gradle: 
+            include 'file-center-domain'
+```
+
+build.gradle
+```
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath('org.springframework.boot:spring-boot-gradle-plugin:3.0.4')
+	}
+}
+
+plugins {
+	id 'java'
+	id 'groovy'
+	id 'java-library'
+	id 'org.springframework.boot' version '3.0.4'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+allprojects{
+	group = 'com.weasley'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '17'
+
+	repositories {
+		mavenCentral()
+	}
+}
+
+subprojects {
+
+	apply plugin: 'java'
+	apply plugin: 'java-library'
+	apply plugin: 'groovy'
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test:3.0.4'
+
+		// devtools
+		compileOnly 'org.springframework.boot:spring-boot-devtools:3.0.4'
+
+		// lombok
+		compileOnly 'org.projectlombok:lombok:1.18.26'
+		annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+		// spring-boot-configuration-processor
+		annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:3.0.4"
+
+		// mapstruct
+		implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+		annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+		// knife4j
+		implementation group: 'com.github.xiaoymin', name: 'knife4j-openapi3-jakarta-spring-boot-starter', version: '4.0.0'
+
+		// mybatis plus
+		implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.5.2'
+		implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.5.2'
+
+		// spock
+		testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.3-groovy-4.0'
+		testImplementation group: 'org.spockframework', name: 'spock-spring', version: '2.3-groovy-4.0'
+
+		// h2
+		testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
+
+		// embedded-redis
+		testImplementation (group: 'it.ozimov', name: 'embedded-redis', version: '0.7.3' ) {
+			exclude group: 'org.slf4j', module: 'slf4j-simple'
+		}
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+```
