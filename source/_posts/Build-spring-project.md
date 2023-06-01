@@ -50,40 +50,121 @@ Go to the settings --> Build, Execution, Deployment --> Build Tools --> Gradle. 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 ```
 
-## 4. mapstruct
+## 4. validation
+```
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.4'
+```
+
+## 5. mapstruct
 ```
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 ```
 
-## 5. knife4j
+## 6. knife4j
 ```
     implementation group: 'com.github.xiaoymin', name: 'knife4j-openapi3-jakarta-spring-boot-starter', version: '4.0.0'
 ```
 
-## 6. mybatis plus
+## 7. mybatis plus
 ```
-    implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.5.2'
-	implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.5.2'
+    implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.5.3.1'
+    implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.5.3.1'
+    implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.31'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
 ```
 
-## 6. spock
+## 8. spock
 ```
     testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.3-groovy-4.0'
 	testImplementation group: 'org.spockframework', name: 'spock-spring', version: '2.3-groovy-4.0'
 ```
 
-## 7. h2
+## 9. h2
 ```
     testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
 ```
 
-## 8. embedded-redis 
+## 10. embedded-redis 
 ```
     testImplementation (group: 'it.ozimov', name: 'embedded-redis', version: '0.7.3') {
 		exclude group: 'org.slf4j', module: 'slf4j-simple'
 	}
 ```
 
-# 添加数据库表
+## 11. actuator
+```
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.0.5'
+```
 
+## 12. redission
+```
+    implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.20.0'
+```
+
+## 13. caffeine
+```
+    implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.5'
+```
+
+## 14. hutool-core
+```
+    implementation group: 'cn.hutool', name: 'hutool-core', version: '5.8.15'
+    implementation group: 'cn.hutool', name: 'hutool-extra', version: '5.8.16'
+```
+
+## 15. minio
+```
+    implementation group: 'io.minio', name:'minio', version: '8.4.3'
+```
+
+## 16. vavr
+```
+    implementation group: 'io.vavr', name: 'vavr', version: '0.10.4'
+```
+
+## 17. apm
+```
+    implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x', version: '8.15.0'
+```
+
+## 18. json-path
+```
+    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.8.0'
+```
+
+
+# 添加数据库表
+```
+import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+
+public class CodeGenerator {
+
+    @Test
+    public void generator() {
+        FastAutoGenerator.create("jdbc:mysql://localhost:3306/file_center?serverTimezone=Asia/Shanghai", "", "")
+                .globalConfig(builder -> {
+                    builder.author("baomidou") // 设置作者
+                            .enableSwagger() // 开启 swagger 模式
+                            .fileOverride() // 覆盖已生成文件
+                            .outputDir("/Users/disco/Downloads/outputFileCenter"); // 指定输出目录
+                })
+                .packageConfig(builder -> {
+                    builder.parent("com.baomidou.mybatisplus.samples.generator") // 设置父包名
+                            .moduleName("system") // 设置父包模块名
+                            .pathInfo(Collections.singletonMap(OutputFile.xml, "/Users/disco/Downloads/outputFileCenter")); // 设置mapperXml生成路径
+                })
+                .strategyConfig(builder -> {
+                    builder.addInclude(Collections.emptyList()); // 设置需要生成的表名
+//                            .addTablePrefix("t_", "c_"); // 设置过滤表前缀
+                })
+                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+                .execute();
+    }
+}
+```
