@@ -5,10 +5,12 @@ categories: self-build-roject
 toc: true
 ---
 
-# 一、背景
+# 一、背景  
+
 手机原生通话应用，实现流式语音翻译。
 
-# 二、差异
+# 二、差异   
+
 和以往客户接入不同，需要我们自行监听RTP流(通过SDP描述文件)，并且终端输入的音频流并非我们可接受的WAV/PCM格式，而是AMR-WB，需要我们监听RTP流获取音频数据。终端通信设备是现网设备，编码方式无法变更，需要我们来实现音频数据的解码。
 
 ## 初版实现
@@ -57,7 +59,8 @@ payload:
 那么对于bandwidth-efficient，payload一致的前提下，我们只需要重写解析逻辑，按位读取，并在适当的位置填充0bit，即可转化成octet-aligned模式的数据，继续后面的解码：
 {% asset_img ffmpeg-amr-decode-bandwidth-efficient.png %}
 
-## 2. 静音期间，解码器不工作
+## 2. 静音期间，解码器不工作   
+
 当碰到SID的时候，AMR-decoder不会对音频数据进行解码，而是选择“忽略”。造成在静音的一段时间内，服务无法收到解码后的数据，也就无法向ASR发送音频数据。而ASR无法收到足够的音频，也无法进行识别，从终端体验来看，像是一句话的最后几个字“被吞了”，直到开始说下一句话才继续识别：
 {% asset_img amr-SID-block.png %}
 
