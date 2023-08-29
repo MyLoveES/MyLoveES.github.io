@@ -68,5 +68,7 @@ payload:
 ### 方案3: NIO异步从socket读取数据，加设超时时间。在静音时段内，将无法收到bytes，一旦触发超时，客户端主动断开websocket，触发ASR断句，然后再重新建立新的链接
 {% asset_img asr-end.png %}
 
-# 四、总结
+# 四、最终实现
+
+{% asset_img hw-final-pipeline.png %}
 
