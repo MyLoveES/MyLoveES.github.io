@@ -23,20 +23,9 @@ toc: true
 
 ## 1. AMR-WB编码音频，FFmpeg不能完全支持解码
 
-AMR-WB编码分为两种，Bandwidth-efficient 和 Octet-aligned。终端所采用的AMR-WB并非常见的Octet-aligned，而是Bandwidth-efficient。    
-不幸，FFmpeg并不支持这种模式的编码：[rtpdec_amr.c](https://github.com/FFmpeg/FFmpeg/blob/master/libavformat/rtpdec_amr.c#L175)
-{% asset_img ffmpeg_not_support_bw.png %}
+AMR-WB编码分为两种，Bandwidth-efficient 和 Octet-aligned。    
 
-### 方案1: python(RTP解码+重编码) -> ffmpeg转格式 -> ASR
-运维帮忙找到了一个脚本，可以实现AMR-WB Bandwidth-efficient音频的解码，并提取出其中有效的payload，输出到文件中。最终生成的文件可以通过ffmpeg进一步转格式，得到可接受的WAV。基于这个脚本，运维开发了一个简单的解码器，针对于这种格式，监听RTP流并转码。    
-{% asset_img amr-script.png %}
-但是，这种方式会带来新的问题：    
-1. 如果终端的数据不是AMR格式，不适用于这条路，还需要走老流程，所以对于音频处理会分成两条路：
-{% asset_img ffmpeg-with-python.png %}
-如果在通信过程中发生音频编码的变化（SDP信息更新），Java服务需要在两条路之间来回切换，增加了稳定性风险和复杂度。所以在有了保底方案之后，继续尝试另一种方式。
-
-### 方案2: 修改ffmpeg，支持AMR Bandwidth-efficient编码
-1. 阅读[RFC 4867协议](https://datatracker.ietf.org/doc/html/rfc4867#page-17)后，发现bandwidth-efficient和octet-aligned之间的差距并不大，内容不变，只是排除了中间的填充字节，更紧凑了些：
+阅读[RFC 4867协议](https://datatracker.ietf.org/doc/html/rfc4867#page-17)后，发现bandwidth-efficient和octet-aligned之间的差距并不大，内容不变，只是排除了中间的填充字节，更紧凑了些：
 #### bandwidth efficient
 header:
 {% asset_img amr-bandwidth-efficient-header.png %}
@@ -52,7 +41,19 @@ table:
 payload:
 {% asset_img amr-octet-aligned.png %}
 
-2.简单分析一下FFmpeg对amr的解码部分，对于octet-aligned模式，实际上就是按照字节读取，逐帧剥离数据，送到后面的decoder：
+终端所采用的AMR-WB并非常见的Octet-aligned，而是Bandwidth-efficient。不幸，FFmpeg并不支持这种模式的编码：[rtpdec_amr.c](https://github.com/FFmpeg/FFmpeg/blob/master/libavformat/rtpdec_amr.c#L175)    
+{% asset_img ffmpeg_not_support_bw.png %}
+
+### 方案1: python(RTP解码+重编码) -> ffmpeg转格式 -> ASR
+运维帮忙找到了一个脚本，可以实现AMR-WB Bandwidth-efficient音频的解码，并提取出其中有效的payload，输出到文件中。最终生成的文件可以通过ffmpeg进一步转格式，得到可接受的WAV。基于这个脚本，运维开发了一个简单的解码器，针对于这种格式，监听RTP流并转码。    
+{% asset_img amr-script.png %}
+但是，这种方式会带来新的问题：    
+1. 如果终端的数据不是AMR格式，不适用于这条路，还需要走老流程，所以对于音频处理会分成两条路：
+{% asset_img ffmpeg-with-python.png %}
+如果在通信过程中发生音频编码的变化（SDP信息更新），Java服务需要在两条路之间来回切换，增加了稳定性风险和复杂度。所以在有了保底方案之后，继续尝试另一种方式。
+
+### 方案2: 修改ffmpeg，支持AMR Bandwidth-efficient编码
+1.简单分析一下FFmpeg对amr的解码部分，对于octet-aligned模式，实际上就是按照字节读取，逐帧剥离数据，送到后面的decoder：
 {% asset_img amr-octet-aligned-decode.png %}
 最终送去转码的audio-data结构：
 {% asset_img ffmpeg-amr-decoded-audio-data.png %}
