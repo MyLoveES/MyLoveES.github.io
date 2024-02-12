@@ -36,7 +36,7 @@ jobs:
       - run: echo $INDEX_CHARS
       - run: npm ci
       - run: npm test
-      - uses: actions/upload-pages-artifact@v1.0.7
+      - uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: public
       - run: git config --global user.name "MyLoveES"
