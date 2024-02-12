@@ -65,7 +65,7 @@ x <- c(2, 4, 6, 8) # create a vector x using combine function c()
 ```
 {% asset_img R-create-vector.png %}
 
-#### 2.3 下标（index）
+#### 2.3 下标（index）   
 既然是列表，那么其中的每个元素自然是要有序号的，但是和常见的其他编程语言不同，<font color="#dd0000">**元素序号是从1开始的！**</font><br />
 ```
 > x <- c(2, 4, 6, 8) # create a vector x using combine function c()
@@ -83,7 +83,7 @@ x <- c(2, 4, NA, NA)
 ```
 
 ## 3. 列表（list）
-#### 3.1 和向量有什么不同？
+#### 3.1 和向量有什么不同？   
 向量：一组<font color="#dd0000">**一维**</font>的<font color="#dd0000">**相同类型**</font>的元素的列表，比如都是数字，或者都是字符串  
 数组：一组元素，可以包含<font color="#dd0000">**不同类型**</font>的元素，比如数字、字符串以及矩阵的混合。除了一维外，也可以是<font color="#dd0000">**多维**</font>的数组    
 [感觉不如向量用得广泛]
@@ -108,7 +108,7 @@ List of 2
  $ : num [1:2, 1:2] 1 2 3 4
  $ : num [1:3] 5 6 7
 ```
-#### 3.2 数组的命名
+#### 3.2 数组的命名   
 ```
 # 1.1 直接创建一个列表
 xList <- list(xNum, xChar) # method 1: create, then name 
@@ -137,7 +137,7 @@ xList <- list(itemnum=xNum, itemchar=xChar)
 [1] 1.00000 3.14159 5.00000 7.00000
 ```
 
-## 4. 数据框 （Data frame）
+## 4. 数据框 （Data frame）   
 - 也有叫数据帧、数据表格的，感觉框表达的更形象
 {% asset_img R-data-frame.png %}
 - 实际上可以理解为excel里存储的表格结构
@@ -168,7 +168,7 @@ print(df) # 查看 table 数据
    1000    1500    2000    2000    2500    3000
 ```
 
-## 5. 依赖库（package）
+## 5. 依赖库（package）  
 一些函数操作，是可以直接使用，不需要引入外部依赖库的，比如mean/min/max等基本计算。而另一些比较复杂的操作，需要引入外部package，使用package中对应的方法实现：
 ```
 # 安装readxl库
@@ -181,7 +181,7 @@ library("readxl")
 deospray.data <- read_excel(path = "deospray sales.xls", sheet = "deospray")
 ```
 
-## 6. 函数（function）
+## 6. 函数（function）   
 可以自定义一些func便于重复使用
 ```
 se <- function(x){
@@ -194,7 +194,7 @@ tmp.se <- tmp.sd / sqrt(tmp.N) #std error of the mean return(tmp.se)
 se(store.df$store.visits)
 ```
 
-# 二、数据读取
+# 二、数据读取 From excel/csv
 
 ## excel
 ```
@@ -205,5 +205,9 @@ deospray.data <- read_excel(path = "deospray sales.xls", sheet = "deospray")
 ## csv
 ```
 read.csv("Data_Descriptive.csv")
-store.df <- read.csv("Data_descriptive.csv") store.df$storeNum <- factor(store.df$storeNum)
+store.df <- read.csv("Data_descriptive.csv") 
+# 将storeNum构建为R因子
+store.df$storeNum <- factor(store.df$storeNum)
 ```
+
+# 三、数据处理的汪洋大海～
