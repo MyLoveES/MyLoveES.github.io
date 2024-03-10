@@ -5,6 +5,10 @@ categories: Business
 toc: true
 ---
 
+> 使用的版本：  
+> R: 4.3.2 (2023-10-31)
+> R studio: 2023.12.1+402 (2023.12.1+402)
+
 # 一、建一个R script
 
 ### 1. 切换右下角的files tab
