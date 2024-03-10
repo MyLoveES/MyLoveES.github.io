@@ -1,4 +1,4 @@
-title: R Getting Start
+title: R language introduce
 date: 2024-03-11
 tags: [R-Language]
 categories: R-Language
