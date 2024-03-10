@@ -1,0 +1,35 @@
+title: R studio - Basic usage
+date: 2024-03-10
+tags: [Business]
+categories: Business
+toc: true
+---
+
+# 一、建一个R script
+
+### 1. 切换右下角的files tab
+{% asset_img Rstudio-1.png %}
+
+### 2. 新建R script
+{% asset_img Rstudio-2.png %}
+{% asset_img Rstudio-3.png %}
+
+# 二、编写&运行代码
+
+### 1. 编写与运行
+{% asset_img Rstudio-4.png %}
+
+### 2. 导入与写出到文件
+> 如果使用相对路径，应该需要把文件放到work dir
+{% asset_img Rstudio-5.png %}
+
+# 三、技巧
+### 1. 在脚本中，将work dir设置为文件所在目录 
+```
+# 获取当前已加载文件的目录
+file_dir <- dirname(parent.frame(2)$ofile)
+print(file_dir)
+# 将工作目录设置为当前已加载文件的目录
+setwd(file_dir)
+```
+{% asset_img Rstudio-6.png %}
