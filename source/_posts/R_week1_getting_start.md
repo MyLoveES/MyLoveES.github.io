@@ -8,8 +8,6 @@ toc: true
 > R: 4.3.2 (2023-10-31)  
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
-后面根据PDF顺序操作一遍
-
 # 一、Basic objects
 
 ## 1. vectors
