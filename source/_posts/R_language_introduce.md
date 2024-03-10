@@ -1,7 +1,7 @@
 title: R Getting Start
 date: 2024-03-11
-tags: [Business]
-categories: Business
+tags: [R-Language]
+categories: R-Language
 toc: true
 ---
 

@@ -1,7 +1,7 @@
 title: R studio - Basic usage
 date: 2024-03-10
-tags: [Business]
-categories: Business
+tags: [R-Language]
+categories: R-Language
 toc: true
 ---
 
