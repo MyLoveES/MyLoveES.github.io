@@ -1,7 +1,7 @@
 title: R[week1] Getting start 
 date: 2024-03-12
-tags: [Business]
-categories: Business
+tags: [R-Language]
+categories: R-Language
 toc: true
 ---
 
