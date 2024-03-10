@@ -1,5 +1,5 @@
 title: R Getting Start
-date: 2024-02-12
+date: 2024-03-11
 tags: [Business]
 categories: Business
 toc: true
@@ -185,10 +185,10 @@ deospray.data <- read_excel(path = "deospray sales.xls", sheet = "deospray")
 可以自定义一些func便于重复使用
 ```
 se <- function(x){
-# computes standard error of the mean
-tmp.sd <- sd(x) # standard deviation
-tmp.N <- length(x) # sample size
-tmp.se <- tmp.sd / sqrt(tmp.N) #std error of the mean return(tmp.se)
+    # computes standard error of the mean
+    tmp.sd <- sd(x) # standard deviation
+    tmp.N <- length(x) # sample size
+    tmp.se <- tmp.sd / sqrt(tmp.N) #std error of the mean return(tmp.se)
 }
 
 se(store.df$store.visits)
