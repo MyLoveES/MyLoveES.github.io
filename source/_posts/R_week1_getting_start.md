@@ -330,7 +330,7 @@ $itemchar
            Max.   :678.0   Max.   :78                      
 ```
 
-< div style="background-color:#f0f0f0; padding:10px;" >
+<div style="background-color:#f0f0f0; padding:10px;">
 > cor()函数      
 > 用于计算相关系数的函数之一。相关系数是衡量两个变量之间线性关系强度和方向的统计量，通常用于探索变量之间的相关性。    
 ```
