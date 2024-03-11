@@ -153,14 +153,14 @@ Male       4   1
 > 比如一个班级中学生的人数、一个箱子中的球的个数等都是离散变量，因为它们只能取整数值，而不能取连续的任意数值。
 
 对于连续变量，根据其分布来总结数据更有帮助。最常见的方法是使用数学函数来描述数据的范围、中心、集中或分散的程度，以及可能感兴趣的具体点(如第90百分位):
-|Describe                       |Function                   |Value                                      |
-|-------------------------------|---------------------------|-------------------------------------------|
-|Extremes[极值]                 |min(x)                     |Min                                        |
-|                               |max(x)                     |Max                                        |
-|Central trendency[中心趋势]    |mean(x)                    |Arithmetic mean                            |
-|                               |median(x)                  |Mid                                        |
-|Dispersion[离散度]             |var(x)                     |Variance around the mean                   |
-|                               |sd(x)                      |Standard deviaion(sqrt(var(x)))            |
-|                               |IQR(x)                     |Interquartile range, 75th-25th percentile  |
-|                               |mad(x)                     |Median absolute deviation                  |
-|Points[观察值/数据点]          |quantile(x, probs=c(...))  |Percentiles                                |
+|Describe                       |Function                   |Meaning|Value                                      |
+|-------------------------------|---------------------------|-------|-------------------------------------------|
+|Extremes[极值]                 |min(x)                     ||Min                                        |
+|                               |max(x)                     ||Max                                        |
+|Central trendency[中心趋势]    |mean(x)                    ||Arithmetic mean                            |
+|                               |median(x)                  ||Mid                                        |
+|Dispersion[离散度]             |var(x)                     |方差。|Variance around the mean                   |
+|                               |sd(x)                      ||Standard deviaion(sqrt(var(x)))            |
+|                               |IQR(x)                     ||Interquartile range, 75th-25th percentile  |
+|                               |mad(x)                     ||Median absolute deviation                  |
+|Points[观察值/数据点]          |quantile(x, probs=c(...))  ||Percentiles                                |
