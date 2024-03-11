@@ -159,8 +159,131 @@ Male       4   1
 |                               |max(x)                     ||Max                                        |
 |Central trendency[中心趋势]    |mean(x)                    ||Arithmetic mean                            |
 |                               |median(x)                  ||Mid                                        |
-|Dispersion[离散度]             |var(x)                     |方差。|Variance around the mean                   |
-|                               |sd(x)                      ||Standard deviaion(sqrt(var(x)))            |
+|Dispersion[离散度]             |var(x)                     |方差，描述数据分布离散程度的一种统计量。它衡量了数据集中每个数据点与数据集平均值之间的差异程度|Variance around the mean                   |
+|                               |sd(x)                      |标准差，方差的平方根|Standard deviaion(sqrt(var(x)))            |
 |                               |IQR(x)                     ||Interquartile range, 75th-25th percentile  |
 |                               |mad(x)                     ||Median absolute deviation                  |
 |Points[观察值/数据点]          |quantile(x, probs=c(...))  ||Percentiles                                |
+
+> 方差 var(x)     
+> 描述数据分布离散程度的一种统计量。它衡量了数据集中每个数据点与数据集平均值之间的差异程度   
+
+> 标准差 sd(x)    
+> 方差的平方根   
+
+> IQR(x)   
+> 是统计学中用于度量数据分布的差异性的一种方法。它是第三四分位数（Q3）与第一四分位数（Q1）之间的距离，通常用来描述数据的离散程度。与方差和标准差不同，IQR不受极端值（离群值）的影响，因此在某些情况下，IQR更适合用来度量数据的离散程度。     
+> IQR的优势在于它提供了一个对数据集的中间50%数据的度量，而不受极端值的影响。这使得它在处理偏斜或包含极端值的数据集时更为稳健。在描述偏态分布或存在离群值的数据时，IQR通常比标准差更具有代表性。    
+> 在统计学和数据分析中，通常会将IQR与箱线图结合使用。箱线图显示了数据的四分位数范围以及任何离群值的存在，这使得可以直观地了解数据的分布情况，并且可以通过比较不同组的箱线图来识别任何差异。      
+
+> mad(x)    
+> 同IQR，简单比较一下这两者：  
+<div style="background-color:#f0f0f0; padding:10px;">
+### IQR（Interquartile Range）：
+
+> **定义**：IQR是数据集中第三四分位数（Q3）和第一四分位数（Q1）之间的距离。            
+> **计算方法**：IQR = Q3 - Q1，其中Q3是数据集中75th百分位数，Q1是数据集中25th百分位数。   
+> **用途**：IQR通常用于识别数据中的离群值，因为它提供了数据中间50%的范围，并且对于偏斜分布的数据比标准差更鲁棒。   
+
+### MAD（Median Absolute Deviation）：
+
+> **定义**：MAD是数据点与数据集中位数的绝对偏差的中位数。    
+> **计算方法**：首先计算每个数据点与数据集中位数的绝对偏差，然后取这些绝对偏差的中位数。   
+> **用途**：MAD也用于度量数据的离散程度，并且在处理离群值时更具有鲁棒性，因为它不受极端值的影响，类似于IQR。    
+
+### IQR 和 MAD 相比：
+
+1. **计算方法**：IQR是基于四分位数计算的，而MAD是基于中位数计算的。
+2. **鲁棒性**：IQR和MAD都是鲁棒的统计量，对异常值的影响较小，但在某些情况下，MAD可能更为鲁棒，特别是当数据集包含大量离群值时。
+3. **解释**：IQR更容易解释，因为它代表了数据集中间50%的范围，而MAD则表示数据点与中位数的典型偏差。
+4. **常见用途**：IQR和MAD在异常值检测和数据分析中都很常见，但在不同的背景下可能有不同的应用场景。
+</div>
+
+> quantile(x, probs=c(...))     
+> 通常用于计算数据集 x 的分位数。其中 probs 参数是一个包含所需分位数的百分比的向量。   
+
+> x：包含数据的向量或数据框。   
+> probs：一个包含所需分位数的百分比的向量，例如，probs = c(0.25, 0.5, 0.75) 表示计算第一四分位数（25th百分位数）、中位数（50th百分位数）、第三四分位数（75th百分位数）。    
+
+> 返回值：返回一个包含计算得到的分位数的向量，其顺序与 probs 中指定的顺序相对应。    
+```
+# 创建一个示例数据集
+> data <- c(10, 15, 20, 25, 30, 35, 40, 45, 50)
+
+# 计算第一四分位数、中位数、第三四分位数
+> quantiles <- quantile(data, probs = c(0.25, 0.5, 0.75))
+
+# 打印结果
+> print(quantiles)
+25% 50% 75% 
+ 20  30  40
+```
+题外话结束。
+```
+> min(store.df$p1sales)
+[1] 73
+
+> max(store.df$p1sales)
+[1] 263
+
+> mean(store.df$p1prom)
+[1] 0.1
+
+> median(store.df$p2sales)
+[1] 96
+
+> var(store.df$p1sales)
+[1] 805.0044
+
+> sd(store.df$p1sales)
+[1] 28.3726
+
+> IQR(store.df$p1sales)
+[1] 37
+
+> mad(store.df$p1sales)
+[1] 26.6868
+
+> quantile(store.df$p1sales, probs = c(0.25, 0.5, 0.75))
+25% 50% 75% 
+113 129 150 
+```
+
+> For skewed and asymmetric distributions that are common in marketing, such as unit sales or household income, the arithmetic mean() and standard deviation sd() may be misleading; in those cases, the median() and the interquartile range IQR() (the range of the middle 50% of data) are often used to summarize a distribution.    
+> 对于市场营销中常见的倾斜和不对称分布，例如单位销售或家庭收入，算术平均值()和标准差sd()可能会产生误导;在这些情况下，中位数()和四分位数间距IQR()(中间50%数据的范围)通常用于总结分布。    
+
+> 因为在偏斜和不对称分布的情况下，数据中可能存在极端值（离群值），这些值对于算术平均值和标准差的影响较大，导致这两个统计量可能不太准确地反映整体数据的特征。   
+
+> 1. 算术平均值的问题： 偏斜分布中的极端值会对平均值产生较大的影响，使其偏离数据集的中心趋势。这导致平均值可能不再是数据的典型中心度量。   
+
+> 2. 标准差的问题： 标准差对极端值非常敏感，因为它是基于平方差的，这会放大离群值的影响。这样，标准差可能高估了数据的真实分散程度。   
+
+> 相比之下，中位数是数据集中的中间值，不受极端值的影响，因此更能反映数据的中心趋势。四分位数间距（IQR）是数据中间50%的范围，它也对离群值具有一定的鲁棒性，因此更适合在偏斜分布中度量数据的分散程度。   
+
+> 综合起来，为了更准确地摘要和理解偏斜分布的数据特征，使用中位数和四分位数间距通常是更合适的选择。这样的度量方法更具有鲁棒性，能够提供更稳健、不受极端值干扰的数据摘要。   
+```
+> quantile(store.df$p1sales, probs = c(0.05, 0.95)) # central 90% data
+ 5% 95% 
+ 93 184 
+
+> quantile(store.df$p1sales, probs = 0:10/10)
+   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
+ 73.0 100.0 109.0 117.0 122.6 129.0 136.0 145.0 156.0 171.0 263.0o
+
+> quantile(store.df$p1sales, probs = seq(from=0, to=1, by=0.1))
+   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
+ 73.0 100.0 109.0 117.0 122.6 129.0 136.0 145.0 156.0 171.0 263.0
+```
+
+> Suppose we wanted a summary of the sales for product 1 and product 2 based on their median and interquartile range. We might assemble these summary statistics into a data frame that is easier to read than the one-line- at-a-time output above. We create a data frame to hold our summary statistics. We name the columns and rows and fill in the cells with function values:    
+> 假设我们想根据产品1和产品2的中位数和四分位数范围汇总它们的销售额。我们可以将这些汇总统计信息组合成一个数据帧，这样比上面的一行一行的输出更容易阅读。我们创建一个数据框架来保存汇总统计数据。我们为列和行命名，并用函数值填充单元格:   
+```
+mysummary.df <- data.frame(matrix(NA, nrow=2, ncol=2)) # 2 by 2 empty matrix 
+names(mysummary.df) <- c("Median Sales", "IQR") # name columns 
+rownames(mysummary.df) <- c("Product 1", "Product 2") # name rows 
+mysummary.df["Product 1", "Median Sales"] <- median(store.df$p1sales) 
+mysummary.df["Product 2", "Median Sales"] <- median(store.df$p2sales) 
+mysummary.df["Product 1", "IQR"] <- IQR(store.df$p1sales) 
+mysummary.df["Product 2", "IQR"] <- IQR(store.df$p2sales)
+mysummary.df
+```
