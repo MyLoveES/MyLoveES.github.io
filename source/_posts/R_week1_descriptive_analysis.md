@@ -244,7 +244,10 @@ Male       4   1
 ```
 
 > For skewed and asymmetric distributions that are common in marketing, such as unit sales or household income, the arithmetic mean() and standard deviation sd() may be misleading; in those cases, the median() and the interquartile range IQR() (the range of the middle 50% of data) are often used to summarize a distribution.    
+
 > 对于市场营销中常见的倾斜和不对称分布，例如单位销售或家庭收入，算术平均值()和标准差sd()可能会产生误导;在这些情况下，中位数()和四分位数间距IQR()(中间50%数据的范围)通常用于总结分布。    
+
+<div style="background-color:#f0f0f0; padding:10px;">
 
 > 因为在偏斜和不对称分布的情况下，数据中可能存在极端值（离群值），这些值对于算术平均值和标准差的影响较大，导致这两个统计量可能不太准确地反映整体数据的特征。   
 
@@ -255,6 +258,9 @@ Male       4   1
 > 相比之下，中位数是数据集中的中间值，不受极端值的影响，因此更能反映数据的中心趋势。四分位数间距（IQR）是数据中间50%的范围，它也对离群值具有一定的鲁棒性，因此更适合在偏斜分布中度量数据的分散程度。   
 
 > 综合起来，为了更准确地摘要和理解偏斜分布的数据特征，使用中位数和四分位数间距通常是更合适的选择。这样的度量方法更具有鲁棒性，能够提供更稳健、不受极端值干扰的数据摘要。   
+
+</div> 
+
 ```
 > quantile(store.df$p1sales, probs = c(0.05, 0.95)) # central 90% data
  5% 95% 
@@ -270,6 +276,7 @@ Male       4   1
 ```
 
 > Suppose we wanted a summary of the sales for product 1 and product 2 based on their median and interquartile range. We might assemble these summary statistics into a data frame that is easier to read than the one-line- at-a-time output above. We create a data frame to hold our summary statistics. We name the columns and rows and fill in the cells with function values:    
+
 > 假设我们想根据产品1和产品2的中位数和四分位数范围汇总它们的销售额。我们可以将这些汇总统计信息组合成一个数据帧，这样比上面的一行一行的输出更容易阅读。我们创建一个数据框架来保存汇总统计数据。我们为列和行命名，并用函数值填充单元格:   
 ```
 mysummary.df <- data.frame(matrix(NA, nrow=2, ncol=2)) # 2 by 2 empty matrix 
@@ -281,3 +288,146 @@ mysummary.df["Product 1", "IQR"] <- IQR(store.df$p1sales)
 mysummary.df["Product 2", "IQR"] <- IQR(store.df$p2sales)
 mysummary.df
 ```
+
+## 3 Summarize data frames
+
+### 3.1 summary()
+
+有事没事，summary一下
+```
+> summary(store.df)
+    storeNum          Year          Week          p1sales       p2sales         p1price         p2price         p1prom        p2prom       country 
+ Min.   :101.0   Min.   :1.0   Min.   : 1.00   Min.   : 73   Min.   : 51.0   Min.   :2.190   Min.   :2.29   Min.   :0.0   Min.   :0.0000   AU:104  
+ 1st Qu.:105.8   1st Qu.:1.0   1st Qu.:13.75   1st Qu.:113   1st Qu.: 84.0   1st Qu.:2.290   1st Qu.:2.49   1st Qu.:0.0   1st Qu.:0.0000   BR:208  
+ Median :110.5   Median :1.5   Median :26.50   Median :129   Median : 96.0   Median :2.490   Median :2.59   Median :0.0   Median :0.0000   CN:208  
+ Mean   :110.5   Mean   :1.5   Mean   :26.50   Mean   :133   Mean   :100.2   Mean   :2.544   Mean   :2.70   Mean   :0.1   Mean   :0.1385   DE:520  
+ 3rd Qu.:115.2   3rd Qu.:2.0   3rd Qu.:39.25   3rd Qu.:150   3rd Qu.:113.0   3rd Qu.:2.790   3rd Qu.:2.99   3rd Qu.:0.0   3rd Qu.:0.0000   GB:312  
+ Max.   :120.0   Max.   :2.0   Max.   :52.00   Max.   :263   Max.   :225.0   Max.   :2.990   Max.   :3.19   Max.   :1.0   Max.   :1.0000   JP:416  
+                                                                                                                                           US:312  
+
+> summary(store.df$Year)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    1.0     1.0     1.5     1.5     2.0     2.0 
+
+> summary(store.df, digits = 2) # 保留小数点后两位
+    storeNum        Year          Week       p1sales       p2sales       p1price       p2price        p1prom        p2prom     country 
+ Min.   :101   Min.   :1.0   Min.   : 1   Min.   : 73   Min.   : 51   Min.   :2.2   Min.   :2.3   Min.   :0.0   Min.   :0.00   AU:104  
+ 1st Qu.:106   1st Qu.:1.0   1st Qu.:14   1st Qu.:113   1st Qu.: 84   1st Qu.:2.3   1st Qu.:2.5   1st Qu.:0.0   1st Qu.:0.00   BR:208  
+ Median :110   Median :1.5   Median :26   Median :129   Median : 96   Median :2.5   Median :2.6   Median :0.0   Median :0.00   CN:208  
+ Mean   :110   Mean   :1.5   Mean   :26   Mean   :133   Mean   :100   Mean   :2.5   Mean   :2.7   Mean   :0.1   Mean   :0.14   DE:520  
+ 3rd Qu.:115   3rd Qu.:2.0   3rd Qu.:39   3rd Qu.:150   3rd Qu.:113   3rd Qu.:2.8   3rd Qu.:3.0   3rd Qu.:0.0   3rd Qu.:0.00   GB:312  
+ Max.   :120   Max.   :2.0   Max.   :52   Max.   :263   Max.   :225   Max.   :3.0   Max.   :3.2   Max.   :1.0   Max.   :1.00   JP:416  
+                                                                                                                               US:312
+```
+
+<div style="background-color:#f0f0f0; padding:10px;">
+
+> 在统计学中，"1st Qu" 和 "3rd Qu" 分别代表第一四分位数和第三四分位数。四分位数是将数据集分为四等份的值，它们用于描述数据分布的位置和分散程度。
+
+### **第一四分位数（1st Qu）**
+> 是数据集中所有数值排序后第25%位置的值，也就是数据中的较小的四分之一。
+
+### **第三四分位数（3rd Qu）**
+> 是数据集中所有数值排序后第75%位置的值，也就是数据中的较大的四分之三。
+
+</div>
+
+## 3.2 describe()
+
+```
+> library(psych) # install if needed 
+
+> describe(store.df)
+         vars    n   mean    sd median trimmed   mad    min    max range  skew kurtosis   se
+storeNum    1 2080 110.50  5.77 110.50  110.50  7.41 101.00 120.00  19.0  0.00    -1.21 0.13
+Year        2 2080   1.50  0.50   1.50    1.50  0.74   1.00   2.00   1.0  0.00    -2.00 0.01
+Week        3 2080  26.50 15.01  26.50   26.50 19.27   1.00  52.00  51.0  0.00    -1.20 0.33
+p1sales     4 2080 133.05 28.37 129.00  131.08 26.69  73.00 263.00 190.0  0.74     0.66 0.62
+p2sales     5 2080 100.16 24.42  96.00   98.05 22.24  51.00 225.00 174.0  0.99     1.51 0.54
+p1price     6 2080   2.54  0.29   2.49    2.53  0.44   2.19   2.99   0.8  0.28    -1.44 0.01
+p2price     7 2080   2.70  0.33   2.59    2.69  0.44   2.29   3.19   0.9  0.32    -1.40 0.01
+p1prom      8 2080   0.10  0.30   0.00    0.00  0.00   0.00   1.00   1.0  2.66     5.10 0.01
+p2prom      9 2080   0.14  0.35   0.00    0.05  0.00   0.00   1.00   1.0  2.09     2.38 0.01
+country*   10 2080   4.55  1.72   4.50    4.62  2.22   1.00   7.00   6.0 -0.29    -0.81 0.04
+
+# vars: 方差
+# n: 观测数量（样本数量）
+# mean: 均值
+# sd: 标准差
+# median: 中位数
+# trimmed: 修剪均值（去除异常值后的均值）
+# mad: 中位数绝对偏差（Median Absolute Deviation）
+# min: 最小值
+# max: 最大值
+# range: 范围（最大值与最小值的差）
+# skew: 偏度（Skewness，衡量分布偏斜程度）
+# kurtosis: 峰度（Kurtosis，衡量分布的尖峰程度）
+# se: 标准误差（Standard Error，均值的估计标准差）
+```
+
+#### trimmed
+
+> trimmed 是指去除了数据中一定比例的极端值（通常是尾部的极端值）后计算得到的均值。修剪均值（trimmed mean）是一种对均值的修正，旨在减少极端值对均值的影响，从而更好地反映数据的中心趋势。    
+
+> 通常情况下，修剪均值的计算方式是将数据集中的一定比例的最小值和最大值去掉，然后计算剩余数据的算术平均值。这个比例可以根据实际情况而定，常见的修剪比例包括去掉5%、10%甚至更多的极端值。     
+
+> 修剪均值适用于数据集中存在明显的极端值或异常值的情况。与简单的算术平均值相比，修剪均值更加稳健，因为它对异常值的影响更小，更能够反映数据的典型中心位置。然而，需要注意的是，修剪均值可能会导致一定程度上的信息损失，尤其是当数据中的极端值具有特殊意义或重要性时。    
+
+#### mad
+
+> MAD（Median Absolute Deviation，中位数绝对偏差）是一种用于衡量数据集散布度的统计量，它衡量了数据点与数据集中位数之间的典型偏差。    
+
+> 具体而言，MAD是数据集中所有数据点与数据集中位数的绝对偏差的中位数。    
+
+> MAD相对于标准差的优势在于它对极端值（离群值）具有较强的鲁棒性。因为MAD是基于绝对偏差的中位数计算的，它不受极端值的影响，更能够准确地描述数据的离散程度，尤其是在存在离群值的情况下。   
+
+> MAD常用于金融领域和其他领域的数据分析中，特别是在需要考虑数据的异常值对结果的影响时。   
+
+#### Skewness（偏度）  
+
+> 是描述数据分布形态偏斜程度的统计量。它衡量了数据分布相对于其平均值的不对称性，即数据集在平均值两侧的分布是否对称。   
+
+> 正偏（Positive Skewness）：数据分布向右偏移，尾部向右延伸，即数据集右侧的尾部较长，平均值右侧的数据点较多，形成一个长尾。正偏分布意味着数据集中存在较多较大的值。   
+
+> 负偏（Negative Skewness）：数据分布向左偏移，尾部向左延伸，即数据集左侧的尾部较长，平均值左侧的数据点较多，形成一个长尾。负偏分布意味着数据集中存在较多较小的值。    
+
+> 偏度为0表示数据分布相对对称，大于0表示正偏，小于0表示负偏。偏度的绝对值越大，偏斜程度越明显。   
+
+> 偏度是了解数据分布形态的重要指标，特别是在做数据分析和模型建立时，它可以帮助我们判断数据集是否需要进行对称化处理，以满足建模的假设条件。   
+
+```
+对称化处理是指通过某种方法或技术使数据分布更加对称的过程。在统计学和数据分析中，对称化处理通常用于调整数据的分布形态，使其更接近对称分布，以满足统计方法或模型的假设条件。
+
+常见的对称化处理方法包括：
+
+1. 对数转换（Log Transformation）：对数转换是通过取数据的对数来减小数据的偏度。这种转换通常用于处理右偏分布的数据，将其转换为更接近对称分布的形式。
+
+2. 方根转换（Square Root Transformation）：方根转换是通过取数据的平方根来减小数据的偏度。类似于对数转换，它也可以用于调整右偏分布的数据。
+
+3. 幂转换（Power Transformation）：幂转换是通过取数据的某个幂次方来调整数据的分布形态。常见的幂次方包括0.5（平方根转换）、0.33、0.25等，具体选择取决于数据的分布特征。
+
+4. 标准化（Standardization）：标准化是将数据转换为均值为0，标准差为1的标准正态分布。虽然标准化不会改变数据的分布形态，但它可以将数据转换为具有固定均值和方差的形式，有助于在一些情况下比较不同尺度的变量。
+
+对称化处理的目的是使数据更符合统计模型的假设，例如线性模型对数据的正态性假设。通过对数据进行对称化处理，可以提高统计分析的准确性和稳健性，并提高模型的拟合效果。
+```
+
+#### Kurtosis（峰度）
+
+> 是描述数据分布峰态（尖峰程度）的统计量。它衡量了数据分布中数据点在均值附近聚集的程度，即数据集的尖峰度。    
+
+> 正峰（Positive Kurtosis）：数据分布的峰态较高且尖锐，尾部较长。正峰分布表明数据集中的数据点在均值附近聚集得更为密集，同时存在更多的极端值，尾部更长。    
+
+> 负峰（Negative Kurtosis）：数据分布的峰态较低且平缓，尾部较短。负峰分布表明数据集中的数据点分布更为扁平，相对更加分散。   
+
+> 正常的峰度为3。大于3的峰度表示分布尖峭（尖峰），而小于3的峰度表示分布平缓（扁平）。与偏度一样，峰度也是了解数据分布形态的重要指标，特别是在建模时需要考虑数据集的峰态特征。    
+
+
+#### se
+
+> se 代表的是标准误差（Standard Error）。标准误差是对样本统计量的抽样分布的离散程度进行估计的一种度量，用于衡量样本统计量与总体参数之间的差异。    
+
+> 在统计学中，标准误差通常用于估计样本统计量的抽样分布的离散程度，例如样本均值的标准误差用于估计样本均值的抽样分布的离散程度。标准误差越小，表示样本统计量更接近于总体参数的真值；标准误差越大，表示样本统计量与总体参数之间的差异越大。      
+
+> 标准误差的应用非常广泛，特别是在统计推断和假设检验中，它常用于计算置信区间、假设检验的统计量（如 t 统计量、z 统计量）  
+
+
