@@ -77,26 +77,16 @@ Female     3   2
 Male       4   1
 ```
 > 除table()外，还有其他类似的函数以及功能：   
-> prop.table()：   
-> prop.table() 函数用于计算表格中每个单元格的比例。它接受一个表格作为参数，并可以指定计算比例的维度。   
 
-> xtabs()：   
-> xtabs() 函数也可以用来创建频数表，类似于 table() 函数。它可以处理复杂的多维数据，并且支持使用公式语法。   
-
-> addmargins()：  
-> addmargins() 函数用于向表格中添加边际总计。它可以接受一个表格作为参数，并可以指定添加总计的维度。    
-
-> ftable()：    
-> ftable() 函数用于创建“扁平”（flattened）的表格，其中行和列都展开成一维，更容易查看和理解。    
-
-> summary()：    
-> summary() 函数通常用于摘要统计，对于因子变量，它会显示每个水平的数量。对于数值型变量，它会显示最小值、最大值、中位数等摘要统计量。    
-
-> dplyr::count()：    
-> dplyr 包中的 count() 函数用于计算数据框中每个类别的频数，并返回一个包含频数的数据框。    
-
-> psych::describe()：     
-> psych 包中的 describe() 函数可以生成一个包含多个统计指标的摘要统计信息，包括均值、标准差、最小值、最大值等。    
+| 函数                 | 描述                               |
+|----------------------|------------------------------------|
+| prop.table()         | 计算表格中每个单元格的比例。     |
+| xtabs()              | 创建频数表，支持多维数据和公式语法。 |
+| addmargins()         | 向表格中添加边际总计。           |
+| ftable()             | 创建扁平的表格，更容易查看和理解。 |
+| summary()            | 通常用于摘要统计，显示每个因子变量的数量，以及数值型变量的摘要统计量。 |
+| dplyr::count()       | 计算数据框中每个类别的频数，并返回包含频数的数据框。 |
+| psych::describe()    | 生成包含多个统计指标的摘要统计信息，如均值、标准差、最小值、最大值等。 |
 
 
 题外话结束，继续前面的数据分析
@@ -121,6 +111,7 @@ Male       4   1
 {% asset_image plot1.png %}
 
 > 注⚠️：plot()函数    
+
 > 用于创建各种类型的图形的基本函数之一。它可以用于绘制散点图、线图、柱状图、箱线图等等。后面会有更多的用法，就不在此处列举了。    
 > plot()会自适应地采用一种图表来展示数据，但我们同样可以根据需要调整。
 ```
@@ -153,17 +144,17 @@ Male       4   1
 > 比如一个班级中学生的人数、一个箱子中的球的个数等都是离散变量，因为它们只能取整数值，而不能取连续的任意数值。
 
 对于连续变量，根据其分布来总结数据更有帮助。最常见的方法是使用数学函数来描述数据的范围、中心、集中或分散的程度，以及可能感兴趣的具体点(如第90百分位):
-|Describe                       |Function                   |Meaning|Value                                      |
-|-------------------------------|---------------------------|-------|-------------------------------------------|
-|Extremes[极值]                 |min(x)                     ||Min                                        |
-|                               |max(x)                     ||Max                                        |
-|Central trendency[中心趋势]    |mean(x)                    ||Arithmetic mean                            |
-|                               |median(x)                  ||Mid                                        |
-|Dispersion[离散度]             |var(x)                     |方差，描述数据分布离散程度的一种统计量。它衡量了数据集中每个数据点与数据集平均值之间的差异程度|Variance around the mean                   |
-|                               |sd(x)                      |标准差，方差的平方根|Standard deviaion(sqrt(var(x)))            |
-|                               |IQR(x)                     ||Interquartile range, 75th-25th percentile  |
-|                               |mad(x)                     ||Median absolute deviation                  |
-|Points[观察值/数据点]          |quantile(x, probs=c(...))  ||Percentiles                                |
+|Describe                       |Function                   |Value                                      |
+|-------------------------------|---------------------------|-------------------------------------------|
+|Extremes[极值]                 |min(x)                     |Min                                        |
+|                               |max(x)                     |Max                                        |
+|Central trendency[中心趋势]    |mean(x)                    |Arithmetic mean                            |
+|                               |median(x)                  |Mid                                        |
+|Dispersion[离散度]             |var(x)                     |Variance around the mean                   |
+|                               |sd(x)                      |Standard deviaion(sqrt(var(x)))            |
+|                               |IQR(x)                     |Interquartile range, 75th-25th percentile  |
+|                               |mad(x)                     |Median absolute deviation                  |
+|Points[观察值/数据点]          |quantile(x, probs=c(...))  |Percentiles                                |
 
 > 方差 var(x)     
 > 描述数据分布离散程度的一种统计量。它衡量了数据集中每个数据点与数据集平均值之间的差异程度   
@@ -178,7 +169,9 @@ Male       4   1
 
 > mad(x)    
 > 同IQR，简单比较一下这两者：  
+
 <div style="background-color:#f0f0f0; padding:10px;">
+
 ### IQR（Interquartile Range）：
 
 > **定义**：IQR是数据集中第三四分位数（Q3）和第一四分位数（Q1）之间的距离。            
@@ -193,10 +186,11 @@ Male       4   1
 
 ### IQR 和 MAD 相比：
 
-1. **计算方法**：IQR是基于四分位数计算的，而MAD是基于中位数计算的。
-2. **鲁棒性**：IQR和MAD都是鲁棒的统计量，对异常值的影响较小，但在某些情况下，MAD可能更为鲁棒，特别是当数据集包含大量离群值时。
-3. **解释**：IQR更容易解释，因为它代表了数据集中间50%的范围，而MAD则表示数据点与中位数的典型偏差。
-4. **常见用途**：IQR和MAD在异常值检测和数据分析中都很常见，但在不同的背景下可能有不同的应用场景。
+> **计算方法**：IQR是基于四分位数计算的，而MAD是基于中位数计算的。
+> **鲁棒性**：IQR和MAD都是鲁棒的统计量，对异常值的影响较小，但在某些情况下，MAD可能更为鲁棒，特别是当数据集包含大量离群值时。
+> **解释**：IQR更容易解释，因为它代表了数据集中间50%的范围，而MAD则表示数据点与中位数的典型偏差。
+> **常见用途**：IQR和MAD在异常值检测和数据分析中都很常见，但在不同的背景下可能有不同的应用场景。
+
 </div>
 
 > quantile(x, probs=c(...))     
