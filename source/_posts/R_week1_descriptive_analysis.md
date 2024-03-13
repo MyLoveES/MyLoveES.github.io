@@ -587,4 +587,43 @@ describe(trimmed_data)$skew
 因此，通过计算修剪均值和观察数据集的偏度，我们可以更好地理解极端值对数据分布的影响，以及修剪均值对于改善数据分布的偏斜性的作用。   
 
 
+## 3.3 apply()
 
+```
+apply(x = DATA, MARGIN = MARGIN, FUN = FUNCTION)
+
+apply(store.df[2:9], MARGIN = 1, FUN = mean)
+apply(store.df[2:9], MARGIN = 2, FUN = mean)
+apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)
+```
+在 `apply()` 函数中，`MARGIN` 参数指定了函数应该沿着哪个维度（行或列）应用。`MARGIN` 参数可以取以下值：
+
+- `MARGIN = 1`：对每一行应用函数。
+- `MARGIN = 2`：对每一列应用函数。
+- `MARGIN = c(1, 2)`：同时对每一行和每一列应用函数。
+
+在给定的例子中，我们使用了 `apply()` 函数来对数据集 `store.df` 中的子集进行函数的应用，子集包含列索引为2到9的数据。具体解释如下：    
+
+1. `apply(store.df[2:9], MARGIN = 1, FUN = mean)`：
+   这句代码意味着对数据集 `store.df` 中的每一行（沿着行的方向）的列索引为2到9的数据应用 `mean()` 函数，计算每一行的平均值。
+
+2. `apply(store.df[2:9], MARGIN = 2, FUN = mean)`：
+   这句代码意味着对数据集 `store.df` 中的每一列（沿着列的方向）的行索引为2到9的数据应用 `mean()` 函数，计算每一列的平均值。
+
+3. `apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)`：
+   这句代码意味着同时对数据集 `store.df` 中的每一行和每一列的行列交叉点（即所有的单元格）的数据应用 `mean()` 函数，计算所有行和列的平均值。
+
+
+```
+> apply(store.df[ 2:9], MARGIN = 2, FUN = mean)
+       Year        Week     p1sales     p2sales     p1price     p2price      p1prom      p2prom 
+  1.5000000  26.5000000 133.0485577 100.1567308   2.5443750   2.6995192   0.1000000   0.1384615 
+
+> apply(store.df[ , 2:9], 2, sum)
+    Year     Week  p1sales  p2sales  p1price  p2price   p1prom   p2prom 
+  3120.0  55120.0 276741.0 208326.0   5292.3   5615.0    208.0    288.0 
+
+> apply(store.df[ , 2:9], 2, sd)
+      Year       Week    p1sales    p2sales    p1price    p2price     p1prom     p2prom 
+ 0.5001202 15.0119401 28.3725990 24.4241905  0.2948819  0.3292181  0.3000721  0.3454668
+```
