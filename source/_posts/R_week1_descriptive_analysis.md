@@ -758,3 +758,155 @@ lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing
 - `lwd=2`：这个参数指定了绘制的折线的线宽。`lwd=2` 表示线宽为 2 像素。
 
 {% asset_image hist6.png %}
+
+> type
+
+type 参数用于指定绘图的类型，除了 "l"（折线图）之外，常用的取值还有：
+
+- "p"：绘制散点图，即仅绘制数据点而不连接它们。
+- "b"：绘制数据点并将它们连接成线段，从而形成折线图。与 "l" 类似，但是在每个数据点处绘制一个大点。
+- "o"：与 "b" 类似，但在每个数据点处绘制一个小圆圈，而不是大点。
+- "h"：绘制直方图，即垂直的线条用于表示频率。
+- "s"：绘制阶梯图，即通过垂直和水平线段连接每个数据点，从而形成阶梯状的图形。 
+
+```
+lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing
+      type="o", col = "darkred", lwd=2) # lwd=line width
+```
+{% asset_image hist7.png %}
+
+# 二、week1 code
+```
+# install.packages ("readxl")
+# install.packages ("psych")
+# install.packages ("car")
+# install.packages ("gpairs")
+# install.packages ("grid")
+# install.packages ("lattice")
+# install.packages ("corrplot")
+# install.packages ("gplots")
+
+library("readxl")
+library("psych")
+library("car")
+library("gpairs")
+library("grid")
+library("lattice")
+library("corrplot")
+library("gplots")
+
+# 获取当前已加载文件的目录
+file_dir <- dirname(parent.frame(2)$ofile)
+print(file_dir)
+# 将工作目录设置为当前已加载文件的目录
+setwd(file_dir)
+
+store.df <- read.csv("Data_Descriptive.csv", stringsAsFactors=TRUE)
+str(store.df)
+
+table(store.df$p1price)
+
+p1.table <- table(store.df$p1price) 
+p1.table
+
+str(p1.table)
+
+plot(p1.table)
+
+table(store.df$p1price, store.df$p1prom)
+
+p1.table2 <- table(store.df$p1price, store.df$p1prom) 
+p1.table2[ ,2] / (p1.table2[ ,1] + p1.table2[ ,2])
+
+plot(p1.table2)
+
+min(store.df$p1sales)
+max(store.df$p1sales)
+mean(store.df$p1prom)
+median(store.df$p2sales)
+var(store.df$p1sales)
+sd(store.df$p1sales)
+IQR(store.df$p1sales)
+mad(store.df$p1sales)
+
+quantile(store.df$p1sales, probs = c(0.25, 0.5, 0.75))
+quantile(store.df$p1sales, probs = c(0.05, 0.95)) # central 90% data
+quantile(store.df$p1sales, probs = 0:10/10)
+quantile(store.df$p1sales, probs = seq(from=0, to=1, by=0.1))
+
+mysummary.df <- data.frame(matrix(NA, nrow=2, ncol=2)) # 2 by 2 empty matrix 
+names(mysummary.df) <- c("Median Sales", "IQR") # name columns 
+rownames(mysummary.df) <- c("Product 1", "Product 2") # name rows 
+mysummary.df["Product 1", "Median Sales"] <- median(store.df$p1sales) 
+mysummary.df["Product 2", "Median Sales"] <- median(store.df$p2sales) 
+mysummary.df["Product 1", "IQR"] <- IQR(store.df$p1sales) 
+mysummary.df["Product 2", "IQR"] <- IQR(store.df$p2sales)
+mysummary.df
+
+summary(store.df)
+
+summary(store.df$Year)
+
+summary(store.df, digits = 2) # 保留小数点后两位
+
+library(psych) # install if needed 
+describe(store.df)
+
+describe(store.df[,c(2, 4:9)])
+dim(store.df)
+head(store.df)
+tail(store.df)
+some(store.df)
+str(store.df)
+summary(store.df)
+describe(store.df)
+
+apply(store.df[ 2:9], MARGIN = 2, FUN = mean)
+apply(store.df[ , 2:9], 2, sum)
+apply(store.df[ , 2:9], 2, sd)
+
+hist(store.df$p1sales)
+
+# 添加标题、x轴y轴说明
+hist(store.df$p1sales,
+     main = "Product 1 Weekly Sales Frequencies, All Stores", 
+     xlab = "Product 1 Sales (Units)",
+     ylab = "Count")
+
+colors()
+
+hist(store.df$p1sales,
+     main = "Product 1 Weekly Sales Frequencies, All Stores", xlab = "Product 1 Sales (Units)",
+     ylab = "Count",
+     breaks = 30, # more columns
+     col = "lightblue" # colore the bars
+)
+
+hist(store.df$p1sales,
+     main = "Product 1 Weekly Sales Frequencies, All Stores", xlab = "Product 1 Sales (Units)",
+     ylab = "Count",
+     breaks = 30,
+     col = "lightblue",
+     freq = FALSE, # means plot density, not counts
+     xaxt="n" # means x-axis tick mark is set to "none"
+)
+
+hist(store.df$p1sales,
+     main = "Product 1 Weekly Sales Frequencies, All Stores", xlab = "Product 1 Sales (Units)",
+     ylab = "Count",
+     breaks = 30,
+     col = "lightblue",
+     freq = FALSE, # means plot density, not counts
+     xaxt="n" # means x-axis tick mark is set to "none"
+)
+
+# side=1 x轴; side=2 y轴; at=sqp() 修改间隔
+axis(side = 1, at=seq(60, 300, by=20)) # add "60", "80", ...
+
+lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing
+      type="l", col = "darkred", lwd=2) # lwd=line width
+
+lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing
+      type="o", col = "darkred", lwd=2) # lwd=line width
+
+```
