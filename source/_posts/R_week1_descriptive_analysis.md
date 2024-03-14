@@ -633,3 +633,128 @@ apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)
       Year       Week    p1sales    p2sales    p1price    p2price     p1prom     p2prom 
  0.5001202 15.0119401 28.3725990 24.4241905  0.2948819  0.3292181  0.3000721  0.3454668
 ```
+
+## 4. Single variable visualisation
+
+### 4.1 Histograms 柱状图
+
+> hist()
+
+```
+hist(store.df$p1sales)
+```
+
+{% asset_image hist1.png %}
+
+```
+# 添加标题、x轴y轴说明
+hist(store.df$p1sales,
+     main = "Product 1 Weekly Sales Frequencies, All Stores", 
+     xlab = "Product 1 Sales (Units)",
+     ylab = "Count")
+```
+
+{% asset_image hist2.png %}
+
+```
+hist(store.df$p1sales,
+     main = "Product 1 Weekly Sales Frequencies, All Stores", xlab = "Product 1 Sales (Units)",
+     ylab = "Count",
+     breaks = 30, # more columns
+     col = "lightblue" # colore the bars
+)
+```
+
+{% asset_image hist3.png %}
+
+```
+hist(store.df$p1sales,
+     main = "Product 1 Weekly Sales Frequencies, All Stores", xlab = "Product 1 Sales (Units)",
+     ylab = "Count",
+     breaks = 30,
+     col = "lightblue",
+     freq = FALSE, # means plot density, not counts
+     xaxt="n" # means x-axis tick mark is set to "none"
+)
+```
+
+{% asset_image hist4.png %}
+
+> freq 
+
+freq 参数用于控制直方图的纵轴显示的是频数（counts）还是密度（density）。当 freq 设置为 TRUE 时，默认值，纵轴显示的是频数，即每个分箱内数据的数量；当 freq 设置为 FALSE 时，纵轴显示的是密度，即每个分箱内数据的概率密度。  
+
+概率密度是概率论中用于描述连续随机变量的概率分布的概念。它在数学上是一个非负实值函数，通常用于描述某个随机变量落在某个区间内的概率。   
+
+对于一个连续随机变量，它可能取无穷多个可能的取值，因此我们不能像离散随机变量那样直接计算某个特定值的概率。相反，我们通常关注某个区间内的概率，这个区间越小，计算的概率越准确。概率密度函数（Probability Density Function，PDF）就是用来描述随机变量在某个区间内的概率密度的函数。   
+
+在数学上，对于一个连续随机变量 X，其概率密度函数 f(x) 满足以下两个性质：   
+
+1. 非负性：对于所有的 x，有 f(x) ≥ 0。   
+2. 总面积为1：整个定义域内的概率密度函数的积分等于1，即 ∫f(x)dx = 1。    
+因此，概率密度函数描述了随机变量落在某个区间内的概率密度，而不是具体的概率值。要计算某个区间内的概率，我们需要对概率密度函数在该区间上进行积分。   
+
+```plain
+概率密度和频数之间的关系涉及到连续随机变量和离散随机变量的概率分布。下面分别讨论它们的关系：
+
+1. 连续随机变量的概率密度和频数的关系：
+
+对于连续随机变量，概率密度函数（PDF）描述了随机变量落在某个区间内的概率密度，而不是具体的概率值。概率密度函数在某个区间上的值越大，表示该区间内的数据更加密集，概率密度更高。
+直方图是用于表示连续随机变量的分布的一种常用方法。在直方图中，将数据分成多个等宽的分箱，并统计每个分箱内数据的频数，然后通过归一化处理，得到每个分箱内的频率（即频数除以样本总数），从而得到一个近似的概率密度分布。
+
+2. 离散随机变量的概率密度和频数的关系：
+
+对于离散随机变量，概率质量函数（PMF）描述了随机变量取某个特定值的概率。每个可能的取值都有一个概率。
+直方图同样可以用于表示离散随机变量的分布。在直方图中，每个柱子代表了随机变量取某个特定值的频数，频数表示了该值在样本中出现的次数。由于离散随机变量的取值是有限的，因此直方图中的柱子通常对应于每个可能的取值，每个柱子的高度表示了该值的频率。
+
+总的来说，概率密度和频数都是用于描述随机变量的分布情况的概念，但在连续随机变量和离散随机变量的情境下有所不同。在连续情况下，我们使用概率密度函数描述概率分布，而在离散情况下，我们使用概率质量函数或频数来描述分布。
+```
+
+> 归一化
+
+归一化是一种数学或统计方法，用于将数据转换为统一的尺度或范围，以便进行比较、分析或处理。在不同的领域中，归一化可能具有不同的含义和方法，但其基本目标是将数据转换为标准形式，消除尺度差异或使数据具有特定的性质。   
+
+在统计学和机器学习中，归一化通常指的是将数据按照一定规则进行缩放，使其落入特定的范围或分布。这有助于提高模型的稳定性和收敛速度，以及降低不同特征之间的影响。   
+
+常见的归一化方法包括：   
+
+1. **最小-最大缩放（Min-Max Scaling）**：将数据线性缩放到指定的范围（通常是 [0, 1]），公式为：   
+$$
+    x_{\text{norm}} = \frac{x - \text{min}(x)}{\text{max}(x) - \text{min}(x)} 
+$$
+
+2. **Z-Score 标准化（Z-Score Normalization）**：也称为标准化，将数据转换为均值为 0、标准差为 1 的正态分布，公式为：
+$$
+    x_{\text{norm}} = \frac{x - \mu}{\sigma} 
+$$
+3. **小数定标标准化（Decimal Scaling）**：将数据除以一个适当的基数（例如 10 的幂），使得数据的绝对值最大不超过 1。
+
+归一化可以确保数据在不同特征之间具有可比性，并且有助于提高模型的性能和稳定性。
+
+> axis()
+
+```
+# side=1 x轴; side=2 y轴; at=sqp() 修改间隔
+axis(side = 1, at=seq(60, 300, by=20)) # add "60", "80", ...
+```
+
+{% asset_image hist5.png %}
+
+> lines()
+
+```
+lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing
+      type="l", col = "darkred", lwd=2) # lwd=line width
+```
+
+这是对 `density` 函数的调用，用于创建概率密度估计图（Kernel Density Estimation，KDE）。以下是其中的各个参数的解释：
+
+- `density(store.df$p1sales, bw=10)`：这部分调用了 `density` 函数，对 `store.df$p1sales` 列进行概率密度估计。`bw=10` 指定了带宽参数，控制了估计的平滑程度。带宽越大，估计的曲线越平滑，带宽越小，曲线越精细。这里的 `bw=10` 表示带宽为 10。
+
+- `type="l"`：这个参数指定了要绘制的图形类型。`"l"` 表示绘制一条折线图。折线图将估计的密度曲线作为折线绘制。
+
+- `col="darkred"`：这个参数指定了绘制的折线的颜色。`"darkred"` 表示深红色。
+
+- `lwd=2`：这个参数指定了绘制的折线的线宽。`lwd=2` 表示线宽为 2 像素。
+
+{% asset_image hist6.png %}
