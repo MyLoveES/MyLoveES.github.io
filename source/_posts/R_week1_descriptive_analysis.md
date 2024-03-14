@@ -3,6 +3,8 @@ date: 2024-03-13
 tags: [R-Language]
 categories: R-Language
 toc: true
+math: true
+
 ---
 
 > R: 4.3.2 (2023-10-31)  
