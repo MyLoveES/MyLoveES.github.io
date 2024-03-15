@@ -57,4 +57,12 @@ $$
 \text{Euclidean distance} = \sqrt{\sum_{i=1}^{n}(x_i - y_i)^2}
 $$
 
+{% asset_image week2_euclidean_distance.png %}
+
+> 标准化 standardization
+
+$$
+z = \frac{{x - \mu}}{{\sigma}} 
+$$
+
 
