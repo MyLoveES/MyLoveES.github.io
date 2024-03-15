@@ -62,7 +62,7 @@ $$
 > 标准化 standardization
 
 $$
-z = \frac{{x - \mu}}{{\sigma}} 
+z = \frac{x - \mu}{\sigma} 
 $$
 
 
