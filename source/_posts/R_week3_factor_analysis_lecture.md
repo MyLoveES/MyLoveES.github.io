@@ -32,15 +32,7 @@ toc: true
 Pearson相关系数（Pearson Correlation Coefficient）是用来衡量两个变量之间线性相关程度的统计指标。其计算公式如下：
 
 $$
-r = \frac{\sum{(X_i - \bar{X})(Y_i - \bar{Y})}}{\sqrt{\sum{(X_i - \bar{X})^2}\sum{(Y_i - \bar{Y})^2}}}
-
-其中：
-- \( r \) 是Pearson相关系数。
-- \( X_i \) 是第 \( i \) 个数据点的 \( X \) 变量值。
-- \( Y_i \) 是第 \( i \) 个数据点的 \( Y \) 变量值。
-- \( \bar{X} \) 是 \( X \) 变量的平均值。
-- \( \bar{Y} \) 是 \( Y \) 变量的平均值。
-- \( N \) 是数据点的总数。
+r = \frac{\sum((x_i - \bar{x}) \cdot (y_i - \bar{y}))}{\sqrt{\sum(x_i - \bar{x})^2} \cdot \sqrt{\sum(y_i - \bar{y})^2}}
 $$
 
 相关系数的值范围从 -1 到 1，其中 -1 表示完全负相关，1 表示完全正相关，0 表示没有线性相关性。
