@@ -124,7 +124,9 @@ corrplot(
   cl.lim = c(-1, 1),  # 相关系数的颜色范围
   cl.pos = "n",       # 相关系数的颜色条位置
   addCoef.col = "black", # 系数的颜色
-  addCoefasPercent = TRUE, # 是否以百分比形式显示系数
+总结一下，当您希望跨多个维度比较几个品牌时，将注意力集中在解释数据变异的前两个或三个主成分上可能会有所帮助。您可以使用屏幕图选择要关注的主成分数量，该图显示了每个主成分解释数据中的多少变化。感知地图将品牌绘制在前两个主成分上，揭示了观察结果与潜在维度（即成分）的关系。
+
+PCA可以使用品牌调查评分（如我们在此处所做的）进行，也可以使用价格和物理测量等客观数据，或者二者的组合进行。无论在哪种情况下，当您面对品牌或产品的多维数据时，PCA可视化都是了解市场差异的有用工具。  addCoefasPercent = TRUE, # 是否以百分比形式显示系数
   outline = TRUE,     # 是否显示相关系数的外框
   number.cex = 0.8,  # 数字标签的大小
   ...)
@@ -343,7 +345,7 @@ e 1.174513 0.3910396 -0.9372789 -0.9337707 0.5732131 -0.2502787 0.07921355 -0.46
 
 factanal()函数执行最大似然因子分析。
 
-<div style="background-color:#f0f0f0; padding:10px;">o
+<div style="background-color:#f0f0f0; padding:10px;">
 
 > factanal()
 
@@ -492,3 +494,70 @@ brand.fs <- brand.fa$scores
 总结一下，当希望跨多个维度比较几个品牌时，将注意力集中在解释数据变异的前两个或三个主成分上可能会有所帮助。您可以使用屏幕图选择要关注的主成分数量，该图显示了每个主成分解释数据中的多少变化。感知地图将品牌绘制在前两个主成分上，揭示了观察结果与潜在维度（即成分）的关系。  
 
 PCA可以使用品牌调查评分（如我们在此处所做的）进行，也可以使用价格和物理测量等客观数据，或者二者的组合进行。无论在哪种情况下，当您面对品牌或产品的多维数据时，PCA可视化都是了解市场差异的有用工具。
+
+# Code
+
+```
+library("corrplot")
+library("gplots")
+library("nFactors")
+
+brand.ratings <- read.csv("Data_Factor_Analysis.csv", stringsAsFactors = TRUE) 
+head(brand.ratings)
+
+summary(brand.ratings)
+
+str(brand.ratings)
+
+brand.sc <- brand.ratings
+brand.sc[,1:9] <- scale (brand.ratings[,1:9])
+#we select all rows and the first 9 columns as the 10th column is a factor variable. 
+summary(brand.sc)
+
+cor(brand.sc[,1:9])
+
+corrplot(cor(brand.sc[,1:9]))
+
+corrplot(cor(brand.sc[,1:9]), order = "hclust")
+
+brand.mean <- aggregate(. ~ brand, data=brand.sc, mean) 
+
+brand.mean
+
+rownames(brand.mean) <- brand.mean[, 1]
+# Use brand for the row name
+brand.mean <- brand.mean [, -1]
+# Remove the brand name column by not selecting the first column # Negative index is used to exclude the variable
+brand.mean
+
+heatmap.2(as.matrix(brand.mean),main = "Brand attributes", trace = "none", key = FALSE, dend = "none") #turn off some options
+
+brand.pc<- princomp(brand.mean, cor = TRUE)
+#We added "cor =TRUE" to use correlation-based one. 
+summary(brand.pc)
+
+plot(brand.pc,type="l") # scree plot
+
+loadings(brand.pc) # pc loadings
+
+biplot(brand.pc, main = "Brand positioning")
+
+brand.mean["c",] - brand.mean["e",]
+
+colMeans(brand.mean[c("b","c","f","g"),]) - brand.mean["e",]
+
+nScree(brand.mean)
+
+eigen(cor(brand.mean))
+
+brand.fa <- factanal(brand.mean, factors = 2, rotation = "varimax", scores = "regression")
+
+brand.fl<- brand.fa$loadings[, 1:2]
+
+plot(brand.fl,type="n") # set up plot 
+
+text(brand.fl,labels=names(brand.mean),cex=.7)
+
+plot(brand.fl,type="n") # set up plot 
+text(brand.fl,labels=rownames(brand.mean),cex=.7)
+```
