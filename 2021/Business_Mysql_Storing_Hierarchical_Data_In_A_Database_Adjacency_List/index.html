@@ -1,0 +1,245 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&gt;如何在数据库中存储层次结构&lt;/h1&gt;
+&lt;h2 id=&quot;常见场景&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#常见场景&quot;&gt;&lt;/a&gt;常见场景&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;公司：公司 - 部门 - 子部门&lt;/li&gt;
+&lt;li&gt;人员：领导 - 员工&lt;/li&gt;
+&lt;li&gt;文件：根目录 - 文件夹 - 文件&lt;/li&gt;
+&lt;li&gt;关系：group - child&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;实例&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#实例&quot;&gt;&lt;/a&gt;实例&lt;/h2&gt;
+&lt;img src=&quot;/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/CASE.png&quot; class=&quot;&quot; title=&quot;CASE&quot;&gt;
+&lt;h2 id=&quot;转成树型&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#转成树型&quot;&gt;&lt;/a&gt;转成树型&lt;/h2&gt;
+&lt;img src=&quot;/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/CASE_TREE.png&quot; class=&quot;&quot; title=&quot;CASE_TREE&quot;&gt;
+&lt;h2 id=&quot;adjacency-list-邻接表&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#adjacency-list-邻接表&quot;&gt;&lt;/a&gt;Adjacency List 邻接表&lt;/h2&gt;
+&lt;p&gt;存储当前节点的父节点信息（parent_id），通过 parent_id 相关联"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Storing Hierarchical data by 【Adjacency List】 | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Data-structure/" rel="tag">Data structure</a><a class="post-tag-none-link" href="/tags/Mysql/" rel="tag">Mysql</a></div><div class="post-time">2021-08-07</div></div></div><div class="container post-header"><h1>Storing Hierarchical data by 【Adjacency List】</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">如何在数据库中存储层次结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%9C%BA%E6%99%AF"><span class="toc-number">1.1.</span> <span class="toc-text">常见场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.2.</span> <span class="toc-text">实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E6%88%90%E6%A0%91%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">转成树型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#adjacency-list-%E9%82%BB%E6%8E%A5%E8%A1%A8"><span class="toc-number">1.4.</span> <span class="toc-text">Adjacency List 邻接表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%A7%8D%E6%83%85%E5%86%B5%E7%9A%84%E5%A4%84%E7%90%86%E4%BB%A3%E4%BB%B7"><span class="toc-number">1.5.</span> <span class="toc-text">各种情况的处理代价</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%9E"><span class="toc-number">1.5.1.</span> <span class="toc-text">增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0"><span class="toc-number">1.5.2.</span> <span class="toc-text">删</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9"><span class="toc-number">1.5.3.</span> <span class="toc-text">改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5"><span class="toc-number">1.5.4.</span> <span class="toc-text">查</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%87%AA%E5%B7%B1"><span class="toc-number">1.5.4.1.</span> <span class="toc-text">查自己</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E4%B8%8B%E4%B8%80%E7%BA%A7"><span class="toc-number">1.5.4.2.</span> <span class="toc-text">查下一级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E6%89%80%E6%9C%89%E5%AD%90%E9%9B%86"><span class="toc-number">1.5.4.3.</span> <span class="toc-text">查所有子集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8"><span class="toc-number">1.5.5.</span> <span class="toc-text">移动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></details></div><div class="container post-content"><h1>如何在数据库中存储层次结构</h1>
+<h2 id="常见场景"><a class="header-anchor" href="#常见场景"></a>常见场景</h2>
+<ol>
+<li>公司：公司 - 部门 - 子部门</li>
+<li>人员：领导 - 员工</li>
+<li>文件：根目录 - 文件夹 - 文件</li>
+<li>关系：group - child</li>
+</ol>
+<h2 id="实例"><a class="header-anchor" href="#实例"></a>实例</h2>
+<img src="/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/CASE.png" class="" title="CASE">
+<h2 id="转成树型"><a class="header-anchor" href="#转成树型"></a>转成树型</h2>
+<img src="/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/CASE_TREE.png" class="" title="CASE_TREE">
+<h2 id="adjacency-list-邻接表"><a class="header-anchor" href="#adjacency-list-邻接表"></a>Adjacency List 邻接表</h2>
+<p>存储当前节点的父节点信息（parent_id），通过 parent_id 相关联</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>parent_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>DIR_A</td>
+<td>root</td>
+</tr>
+<tr>
+<td>2</td>
+<td>DIR_B</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>DIR_C</td>
+<td>1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>file_x</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>file_y</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>file_z</td>
+<td>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>DIR_E</td>
+<td>2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>file_o</td>
+<td>2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>file_p</td>
+<td>2</td>
+</tr>
+<tr>
+<td>10</td>
+<td>DIR_D</td>
+<td>3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>file_m</td>
+<td>3</td>
+</tr>
+<tr>
+<td>12</td>
+<td>file_n</td>
+<td>3</td>
+</tr>
+<tr>
+<td>13</td>
+<td>file_l</td>
+<td>7</td>
+</tr>
+<tr>
+<td>14</td>
+<td>file_j</td>
+<td>10</td>
+</tr>
+<tr>
+<td>15</td>
+<td>file_k</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<h2 id="各种情况的处理代价"><a class="header-anchor" href="#各种情况的处理代价"></a>各种情况的处理代价</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O(1)：有限的操作次数，有限的影响范围</span><br><span class="line">O(n)：有限的操作次数，无限的影响范围</span><br><span class="line">∞：无限的操作次数</span><br></pre></td></tr></table></figure>
+<h3 id="增"><a class="header-anchor" href="#增"></a>增</h3>
+<img src="/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/ADD.jpg" class="" title="ADD">
+<blockquote>
+<p>代价：-&gt; O(1)<br>
+输入：name, parent_id<br>
+执行：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span>(name, parent_id) <span class="keyword">values</span>($name, $parent_id);</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>parent_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13</td>
+<td>file_l</td>
+<td>7</td>
+</tr>
+<tr>
+<td>14</td>
+<td>file_j</td>
+<td>10</td>
+</tr>
+<tr>
+<td>15</td>
+<td>file_k</td>
+<td>10</td>
+</tr>
+<tr>
+<td>16(add)</td>
+<td>file_ADD</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="删"><a class="header-anchor" href="#删"></a>删</h3>
+<img src="/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/DEL.jpg" class="" title="DEL">
+<p><strong>需要递归删除</strong></p>
+<blockquote>
+<p>代价：-&gt; ∞<br>
+输入：id<br>
+递归执行：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ids[] <span class="operator">=</span> $id</span><br><span class="line">while (ids <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">empty</span>) &#123;</span><br><span class="line">    <span class="keyword">delete</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> id <span class="keyword">in</span> $ids;</span><br><span class="line">    ids <span class="operator">=</span> $(<span class="keyword">select</span> id <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> parent_id <span class="keyword">in</span> $ids);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然也可以只删除直接下级，但会留下“悬浮节点”</p>
+<h3 id="改"><a class="header-anchor" href="#改"></a>改</h3>
+<blockquote>
+<p>代价：-&gt; O(1)<br>
+输入：id, other info<br>
+执行：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> info <span class="keyword">where</span> id <span class="operator">=</span> $id</span><br></pre></td></tr></table></figure>
+<h3 id="查"><a class="header-anchor" href="#查"></a>查</h3>
+<h4 id="查自己"><a class="header-anchor" href="#查自己"></a>查自己</h4>
+<blockquote>
+<p>代价：-&gt; O(1)<br>
+输入：id<br>
+执行：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> id <span class="operator">=</span> $id</span><br></pre></td></tr></table></figure>
+<h4 id="查下一级"><a class="header-anchor" href="#查下一级"></a>查下一级</h4>
+<img src="/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/SEARCH_NEXT.jpg" class="" title="SEARCH_NEXT">
+<blockquote>
+<p>代价：-&gt; O(n)<br>
+输入：id<br>
+执行：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> parent_id <span class="operator">=</span> $id</span><br></pre></td></tr></table></figure>
+<h4 id="查所有子集"><a class="header-anchor" href="#查所有子集"></a>查所有子集</h4>
+<img src="/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/SEARCH_ALL.jpg" class="" title="SEARCH_ALL">
+<blockquote>
+<p>代价：-&gt; ∞<br>
+输入：id<br>
+执行：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">ids[] <span class="operator">=</span> $id</span><br><span class="line">sub_ids[] <span class="operator">=</span> $id</span><br><span class="line">while (sub_ids <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">empty</span>) &#123;</span><br><span class="line">    sub_ids <span class="operator">=</span> $(<span class="keyword">select</span> id <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> id <span class="keyword">in</span> sub_ids);</span><br><span class="line">    ids <span class="operator">+</span><span class="operator">=</span> sub_ids;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="移动"><a class="header-anchor" href="#移动"></a>移动</h3>
+<img src="/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/MOVE.jpg" class="" title="MOVE">
+<blockquote>
+<p>代价：-&gt; O(1)<br>
+输入：id, new_parent_id<br>
+执行：</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> parent_id <span class="operator">=</span> $new_parent_id <span class="keyword">where</span> id <span class="operator">=</span> $id;</span><br></pre></td></tr></table></figure>
+<!-- ### 组织层级关系
+> 代价：-> ∞
+```java
+object:
+{
+    id, 
+    sub_objects // 下一级
+}
+data: 
+List<object> list;
+
+do:
+list
+.groupToMap(key -> o.id, value -> o)
+.foreach(map -> {
+    list.get(map.key).setSubObjects(map.value);
+});
+``` -->
+<h2 id="总结"><a class="header-anchor" href="#总结"></a>总结</h2>
+<p><strong>优点</strong> : 进行增加、修改、移动时代价很低; 查询自己、直接下级非常方便<br>
+<strong>缺点</strong> : 如若需要使用层级结构，例如获取所有子目录，所有下级，代价趋近∞（致命）<br>
+<strong>适用</strong> : 不涉及“所有子集”，严格按照层级一层层地查询</p>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/';
+var disqus_title = 'Storing Hierarchical data by 【Adjacency List】';
+var disqus_url = 'https://blog.weasley.cn/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

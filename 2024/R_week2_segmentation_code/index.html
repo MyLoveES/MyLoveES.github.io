@@ -1,0 +1,161 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="ockquote&gt;
+&lt;p&gt;R: 4.3.2 (2023-10-31)&lt;br&gt;
+R studio: 2023.12.1+402 (2023.12.1+402)"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>R[week2] Segmentation Code | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/R-Language/" rel="tag">R-Language</a></div><div class="post-time">2024-03-15</div></div></div><div class="container post-header"><h1>R[week2] Segmentation Code</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">1. Segmentation data</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-recode-factor-into-numeric-data"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 Recode factor into numeric data</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-rescaling-the-data"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 Rescaling the data</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">2. Hierarchical clustering: hclust()</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-distance"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 Distance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-clustering"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 Clustering</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-getting-groups"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 Getting groups</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">2.4 Describing clusters</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">3. Mean-based clustering: kmeans()</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-clustering"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 Clustering</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-describing-clusters"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 Describing clusters</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">4. Model-based clustering: Mclust()</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-clustering"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 Clustering</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-comparing-models"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 Comparing models</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-describing-clusters"><span class="toc-number">5.3.</span> <span class="toc-text">4.3 Describing clusters</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">Week2 Code</span></a></li></ol></details></div><div class="container post-content"><blockquote>
+<p>R: 4.3.2 (2023-10-31)<br>
+R studio: 2023.12.1+402 (2023.12.1+402)</p>
+</blockquote>
+<h1>1. Segmentation data</h1>
+<p>• 年龄（age）<br>
+• 性别（gender）<br>
+• 收入（income）<br>
+• 孩子数量（kids）<br>
+• 是否拥有或租赁住房（ownHome）<br>
+• 当前是否订阅所提供的会员服务（subscribe）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; seg.df &lt;- read.csv(&quot;Data_Segmentation.csv&quot;, stringsAsFactors = TRUE)</span><br><span class="line"></span><br><span class="line">&gt; head(seg.df, n=8)</span><br><span class="line"></span><br><span class="line">&gt; head(seg.df, n=8)</span><br><span class="line">       age gender   income kids ownHome subscribe</span><br><span class="line">1 47.31613   Male 49482.81    2   ownNo     subNo</span><br><span class="line">2 31.38684   Male 35546.29    1  ownYes     subNo</span><br><span class="line">3 43.20034   Male 44169.19    0  ownYes     subNo</span><br><span class="line">4 37.31700 Female 81041.99    1   ownNo     subNo</span><br><span class="line">5 40.95439 Female 79353.01    3  ownYes     subNo</span><br><span class="line">6 43.03387   Male 58143.36    4  ownYes     subNo</span><br><span class="line">7 37.55696   Male 19282.23    3   ownNo     subNo</span><br><span class="line">8 28.45129   Male 47245.24    0   ownNo     subNo</span><br></pre></td></tr></table></figure>
+<h2 id="1-1-recode-factor-into-numeric-data"><a class="header-anchor" href="#1-1-recode-factor-into-numeric-data"></a>1.1 Recode factor into numeric data</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; seg.df$gender &lt;- ifelse(seg.df$gender==&quot;Male&quot;,0,1) </span><br><span class="line">&gt; seg.df$ownHome &lt;- ifelse(seg.df$ownHome == &quot;ownNo&quot;, 0,1) </span><br><span class="line">&gt; seg.df$subscribe &lt;- ifelse(seg.df$subscribe == &quot;subNo&quot;, 0,1)</span><br><span class="line">&gt; head(seg.df)</span><br><span class="line"></span><br><span class="line">       age gender   income kids ownHome subscribe</span><br><span class="line">1 47.31613      0 49482.81    2       0         0</span><br><span class="line">2 31.38684      0 35546.29    1       1         0</span><br><span class="line">3 43.20034      0 44169.19    0       1         0</span><br><span class="line">4 37.31700      1 81041.99    1       0         0</span><br><span class="line">5 40.95439      1 79353.01    3       1         0</span><br><span class="line">6 43.03387      0 58143.36    4       1         0</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-rescaling-the-data"><a class="header-anchor" href="#1-2-rescaling-the-data"></a>1.2 Rescaling the data</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; seg.df.sc &lt;- seg.df</span><br><span class="line"></span><br><span class="line">&gt; seg.df.sc[, c(1,3,4)] &lt;- scale(seg.df[, c(1,3,4)])</span><br><span class="line"></span><br><span class="line"># We only need to standardize continuous variables.</span><br><span class="line">&gt; head(seg.df.sc)</span><br><span class="line">          age gender     income       kids ownHome subscribe</span><br><span class="line">1  0.48133138      0 -0.0721898  0.5183027       0         0</span><br><span class="line">2 -0.77221071      0 -0.7642562 -0.1917010       1         0</span><br><span class="line">3  0.15744276      0 -0.3360563 -0.9017048       1         0</span><br><span class="line">4 -0.30554218      1  1.4949908 -0.1917010       0         0</span><br><span class="line">5 -0.01930052      1  1.4111190  1.2283065       1         0</span><br><span class="line">6  0.14434200      0  0.3578800  1.9383103       1         0</span><br><span class="line"></span><br><span class="line">&gt; summary(seg.df.sc, digits = 2)</span><br><span class="line">      age            gender         income            kids          ownHome       subscribe   </span><br><span class="line"> Min.   :-1.73   Min.   :0.00   Min.   :-2.787   Min.   :-0.90   Min.   :0.00   Min.   :0.00  </span><br><span class="line"> 1st Qu.:-0.64   1st Qu.:0.00   1st Qu.:-0.560   1st Qu.:-0.90   1st Qu.:0.00   1st Qu.:0.00  </span><br><span class="line"> Median :-0.13   Median :1.00   Median : 0.054   Median :-0.19   Median :0.00   Median :0.00  </span><br><span class="line"> Mean   : 0.00   Mean   :0.52   Mean   : 0.000   Mean   : 0.00   Mean   :0.47   Mean   :0.13  </span><br><span class="line"> 3rd Qu.: 0.53   3rd Qu.:1.00   3rd Qu.: 0.520   3rd Qu.: 0.52   3rd Qu.:1.00   3rd Qu.:0.00  </span><br><span class="line"> Max.   : 3.09   Max.   :1.00   Max.   : 3.145   Max.   : 4.07   Max.   :1.00   Max.   :1.00</span><br></pre></td></tr></table></figure>
+<h1>2. Hierarchical clustering: hclust()</h1>
+<h2 id="2-1-distance"><a class="header-anchor" href="#2-1-distance"></a>2.1 Distance</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; seg.dist &lt;- dist(seg.df.sc) </span><br><span class="line"></span><br><span class="line">&gt; as.matrix(seg.dist)[1:5, 1:5]</span><br><span class="line">         1        2        3        4        5</span><br><span class="line">1 0.000000 1.885319 1.786323 2.139937 2.225970</span><br><span class="line">2 1.885319 0.000000 1.245679 2.705915 2.883670</span><br><span class="line">3 1.786323 1.245679 0.000000 2.463979 2.936121</span><br><span class="line">4 2.139937 2.705915 2.463979 0.000000 1.762212</span><br><span class="line">5 2.225970 2.883670 2.936121 1.762212 0.000000</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-clustering"><a class="header-anchor" href="#2-2-clustering"></a>2.2 Clustering</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; seg.hc &lt;- hclust(seg.dist, method=&quot;complete&quot;) </span><br><span class="line">&gt; plot(seg.hc)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week2_segmentation_code/R_week2_cluster_plot.png" class="">
+<blockquote>
+<p>hclust(d, method = “complete”)</p>
+</blockquote>
+<ol>
+<li>
+<p>d：数据的距离矩阵或相似度矩阵。距离矩阵是一个对称矩阵，其中每个元素表示两个观测点之间的距离。相似度矩阵也是一个对称矩阵，其中每个元素表示两个观测点之间的相似度。通常可以使用 dist() 函数计算距离矩阵或相似度矩阵。</p>
+</li>
+<li>
+<p>method：指定用于计算簇间距离的方法。常用的方法包括：</p>
+</li>
+</ol>
+<ul>
+<li>“single”：最短距离法（single linkage）。</li>
+<li>“complete”：最远距离法（complete linkage）。</li>
+<li>“average”：平均距离法（average linkage）。</li>
+<li>“ward.D”：Ward’s 方法，通过最小化簇内方差来合并簇。</li>
+</ul>
+<p>hclust() 函数返回一个树形结构对象（dendrogram），可以使用 plot() 函数对其进行可视化。通过调整 method 参数，可以控制聚类的方式以及簇间的相似性度量。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; plot(cut(as.dendrogram(seg.hc), h = 4)$lower[[1]])</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week2_segmentation_code/R_week2_cluster_plot_2.png" class="">
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; seg.df[c(156, 152),] #similar</span><br><span class="line">         age gender   income kids ownHome subscribe</span><br><span class="line">156 66.89691      0 54060.59    0       1         0</span><br><span class="line">152 64.45890      0 61052.08    0       1         0</span><br><span class="line"></span><br><span class="line">&gt; seg.df[c(156, 183),] #less similar</span><br><span class="line">         age gender    income kids ownHome subscribe</span><br><span class="line">156 66.89691      0  54060.59    0       1         0</span><br><span class="line">183 57.79006      1 105537.82    0       1         0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>as.dendrogram()</p>
+</blockquote>
+<p>将不同的对象转换为树形结构对象。它可以接受多种不同的输入对象，包括：</p>
+<ul>
+<li>hclust 对象：从 hclust() 函数返回的聚类结果对象。</li>
+<li>agnes 对象：从 agnes() 函数返回的聚类结果对象。</li>
+<li>phylo 对象：从 ape 包中的函数返回的系统发育树对象。</li>
+<li>dist 对象：距离矩阵对象，表示观测点之间的距离或相似度。</li>
+</ul>
+<p>使用 as.dendrogram() 函数可以将以上这些对象转换为 dendrogram 对象，然后可以使用 dendrogram 对象进行可视化、分析或其他操作。</p>
+<h2 id="2-3-getting-groups"><a class="header-anchor" href="#2-3-getting-groups"></a>2.3 Getting groups</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; plot(seg.hc)</span><br><span class="line"></span><br><span class="line">&gt; rect.hclust(seg.hc, k=4, border = &quot;red&quot;)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week2_segmentation_code/R_week2_getting_group_plot.png" class="">
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; seg.hc.segment &lt;- cutree(seg.hc, k=4) #membership vector for 4 groups </span><br><span class="line"></span><br><span class="line">&gt; table(seg.hc.segment) #counts</span><br><span class="line">seg.hc.segment</span><br><span class="line">  1   2   3   4 </span><br><span class="line">164  73  30  33</span><br></pre></td></tr></table></figure>
+<h1>2.4 Describing clusters</h1>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">library(cluster) </span><br><span class="line">clusplot(seg.df, seg.hc.segment,</span><br><span class="line">         color = TRUE, #color the </span><br><span class="line">         lines = 0, #omit distance lines between groups</span><br><span class="line">         main = &quot;Hierarchical cluster plot&quot;, # figure title</span><br><span class="line">         groupsshade = TRUE, #shade the ellipses for group membership </span><br><span class="line">         labels = 4, #label only the groups, not the individual points </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week2_segmentation_code/R_week2_describing_clusters_plot.png" class="">
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; aggregate(seg.df, list(seg.hc.segment), mean)</span><br><span class="line">  Group.1      age    gender   income     kids   ownHome  subscribe</span><br><span class="line">1       1 35.70250 0.5121951 45474.72 0.847561 0.3292683 0.15243902</span><br><span class="line">2       2 37.34969 0.5479452 54571.75 3.273973 0.4520548 0.08219178</span><br><span class="line">3       3 57.61221 0.6333333 40589.64 0.100000 0.9333333 0.16666667</span><br><span class="line">4       4 62.11487 0.4242424 79444.84 0.000000 0.7878788 0.12121212</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">boxplot(seg.df$income ~ seg.hc.segment, ylab = &quot;Income&quot;, xlab = &quot;Cluster&quot;)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week2_segmentation_code/R_week2_describing_clusters_plot_2.png" class="">
+<blockquote>
+<p>boxplot()</p>
+</blockquote>
+<p>绘制箱线图，是一种常用的统计图形，用于显示一组数据的分布情况，包括中位数、四分位数、极值等。</p>
+<blockquote>
+<p>箱线图</p>
+</blockquote>
+<p>箱线图（Boxplot）是一种常用的统计图形，用于显示一组数据的分布情况。它提供了关于数据分布、中心位置、离散程度和异常值等方面的直观信息。箱线图通常包括以下几个部分：</p>
+<ul>
+<li>
+<p>箱子（Box）：箱子由两条水平线段组成，分别表示数据的上四分位数（Q3）和下四分位数（Q1）。箱子的中间线表示数据的中位数（Q2）。</p>
+</li>
+<li>
+<p>须（Whiskers）：须延伸出箱子的两端，通常由直线或线段表示。须的长度通常是箱子高度的1.5倍的四分位距（IQR = Q3 - Q1）。须的端点通常是最大非异常值和最小非异常值，但具体的定义可能因数据分布而异。</p>
+</li>
+<li>
+<p>异常值（Outliers）：在箱子的须之外的数据点被视为异常值，并单独绘制出来，通常以圆圈或星号表示。</p>
+</li>
+</ul>
+<p>箱线图的绘制过程通常涉及以下步骤：</p>
+<ol>
+<li>计算数据的描述性统计量，包括最小值、最大值、中位数、四分位数等。</li>
+<li>根据计算的描述性统计量绘制箱子和须。</li>
+<li>根据数据中的异常值绘制异常值。</li>
+<li>添加额外的注释和标签，使得图形更加清晰易懂。</li>
+</ol>
+<p>箱线图可以用于比较不同组之间的数据分布情况，检测异常值，以及观察数据的离散程度。它是一种简洁而有效的可视化工具，适用于各种类型的数据分析和探索。</p>
+<h1>3. Mean-based clustering: kmeans()</h1>
+<h2 id="3-1-clustering"><a class="header-anchor" href="#3-1-clustering"></a>3.1 Clustering</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; set.seed(96743)</span><br><span class="line">&gt; seg.k &lt;- kmeans(seg.df.sc, centers = 4) #use standardized variables</span><br></pre></td></tr></table></figure>
+<h2 id="3-2-describing-clusters"><a class="header-anchor" href="#3-2-describing-clusters"></a>3.2 Describing clusters</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; aggregate(seg.df, list(seg.k$cluster), mean)</span><br><span class="line">  Group.1      age    gender   income       kids   ownHome  subscribe</span><br><span class="line">1       1 26.12680 0.3728814 21850.99 1.16949153 0.2542373 0.16949153</span><br><span class="line">2       2 59.86977 0.5522388 66319.07 0.02985075 0.7611940 0.08955224</span><br><span class="line">3       3 38.10768 0.6136364 56864.13 2.96590909 0.4772727 0.11363636</span><br><span class="line">4       4 40.15887 0.5116279 52841.06 0.56976744 0.3837209 0.16279070</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">boxplot(seg.df$income ~ seg.k$cluster, ylab = &quot;Income&quot;, xlab = &quot;Cluster&quot;)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week2_segmentation_code/R_week2_means_describing_clusters_plot.png" class=""> 
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">clusplot(seg.df, seg.k$cluster,</span><br><span class="line">         color = TRUE,</span><br><span class="line">         shade = TRUE,</span><br><span class="line">         labels = 4,</span><br><span class="line">         lines = 0,</span><br><span class="line">         main = &quot;K_means cluster plot&quot;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week2_segmentation_code/R_week2_means_describing_clusters_plot_2.png" class=""> 
+<p>这可能暗示了一种商业策略。在当前情况下，例如，我们看到第二组在一定程度上有所区别，并且拥有最高的平均收入。这可能使其成为潜在宣传活动的良好目标。还有许多其他策略可供选择；关键点在于分析提供了值得考虑的有趣选项。</p>
+<p>k-means分析的一个局限性是需要指定聚类的数量，并且很难确定一个解决方案是否比另一个更好。如果我们要对当前的问题使用k-means，我们将重复分析k=3、4、5等，并确定哪个解决方案对我们的业务目标最有用。</p>
+<h1>4. Model-based clustering: Mclust()</h1>
+<p>关键思想是观察结果来自具有不同统计分布（例如不同的均值和方差）的群体。算法试图找到最佳的一组这样的潜在分布，以解释观察到的数据。</p>
+<h2 id="4-1-clustering"><a class="header-anchor" href="#4-1-clustering"></a>4.1 Clustering</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; library(mclust) #install if needed</span><br><span class="line"></span><br><span class="line">&gt; seg.mc &lt;- Mclust(seg.df.sc) </span><br><span class="line"></span><br><span class="line">&gt; summary(seg.mc)</span><br><span class="line">---------------------------------------------------- </span><br><span class="line">Gaussian finite mixture model fitted by EM algorithm </span><br><span class="line">---------------------------------------------------- </span><br><span class="line"></span><br><span class="line">Mclust VEV (ellipsoidal, equal shape) model with 3 components: </span><br><span class="line"></span><br><span class="line"> log-likelihood   n df       BIC       ICL</span><br><span class="line">      -1291.139 300 73 -2998.655 -2998.655</span><br><span class="line"></span><br><span class="line">Clustering table:</span><br><span class="line">  1   2   3 </span><br><span class="line">163  71  66</span><br></pre></td></tr></table></figure>
+<p>结果显示，数据被估计为具有三个大小不同的聚类，如表所示。<br>
+我们还看到对数似然信息，我们可以用它来比较模型。例如，我们尝试一个四个聚类的解决方案。</p>
+<div style="background-color:#f0f0f0; padding:10px">
+<p>对数似然（log-likelihood）是统计学中用于评估模型拟合优良度的一种常用指标。它通常用于描述一个模型对观测数据的拟合程度有多好。对数似然值越高，表示模型对观测数据的拟合越好。</p>
+<p>具体来说，对数似然值是在给定模型参数的条件下，观测数据出现的概率的对数。对于给定的观测数据集，我们可以将观测数据视为从一个概率分布中独立地抽取得到的样本。然后，对数似然值表示了在给定模型参数的条件下，观测数据出现的可能性大小。对数似然值越高，表示观测数据出现的可能性越大，即模型拟合效果越好。</p>
+<p>在实际应用中，对数似然值通常用于比较不同模型的拟合效果。我们可以对同一组观测数据使用不同的模型进行拟合，并计算每个模型的对数似然值。然后，通过比较对数似然值的大小，我们可以确定哪个模型对观测数据的拟合效果更好。</p>
+<p>需要注意的是，对数似然值通常是负数。这是因为对数似然值是一个概率的对数，而概率的取值范围是0到1之间。因此，对数似然值越大，表示概率越接近于1，而对数似然值越小（即绝对值越大），表示概率越接近于0。</p>
+</div>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; seg.mc4 &lt;- Mclust(seg.df.sc, G =4) #specifying the number of clusters </span><br><span class="line">&gt; summary(seg.mc4)</span><br><span class="line"></span><br><span class="line">---------------------------------------------------- </span><br><span class="line">Gaussian finite mixture model fitted by EM algorithm </span><br><span class="line">---------------------------------------------------- </span><br><span class="line"></span><br><span class="line">Mclust VII (spherical, varying volume) model with 4 components: </span><br><span class="line"></span><br><span class="line"> log-likelihood   n df       BIC       ICL</span><br><span class="line">      -1690.304 300 31 -3557.425 -3597.143</span><br><span class="line"></span><br><span class="line">Clustering table:</span><br><span class="line">  1   2   3   4 </span><br><span class="line"> 51  74 119  56 </span><br></pre></td></tr></table></figure>
+<p>看起来分为3组时，对数似然估计更高。</p>
+<h2 id="4-2-comparing-models"><a class="header-anchor" href="#4-2-comparing-models"></a>4.2 Comparing models</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; BIC(seg.mc, seg.mc4)</span><br><span class="line">        df      BIC</span><br><span class="line">seg.mc  73 2998.655</span><br><span class="line">seg.mc4 31 3557.425</span><br></pre></td></tr></table></figure>
+<p>3-cluster better.</p>
+<h2 id="4-3-describing-clusters"><a class="header-anchor" href="#4-3-describing-clusters"></a>4.3 Describing clusters</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; aggregate(seg.df, list(seg.mc$classification), mean)</span><br><span class="line">  Group.1      age    gender   income     kids   ownHome subscribe</span><br><span class="line">1       1 44.68018 0.5276074 52980.52 1.171779 0.8650307 0.2453988</span><br><span class="line">2       2 38.02229 1.0000000 51550.98 1.422535 0.0000000 0.0000000</span><br><span class="line">3       3 36.02187 0.0000000 45227.51 1.348485 0.0000000 0.0000000</span><br><span class="line"></span><br><span class="line">&gt; library(cluster)</span><br><span class="line"></span><br><span class="line">&gt; clusplot(seg.df, seg.mc$classification, color = TRUE, shade = TRUE,</span><br><span class="line">+          labels = 4, lines = 0, main = &quot;Model-based cluster plot&quot;)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week2_segmentation_code/R_week2_model_based_describing_clusters_plot.png" class="">
+<h1>Week2 Code</h1>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># install.packages (&quot;readxl&quot;)</span><br><span class="line"># install.packages (&quot;psych&quot;)</span><br><span class="line"># install.packages (&quot;car&quot;)</span><br><span class="line"># install.packages (&quot;gpairs&quot;)</span><br><span class="line"># install.packages (&quot;grid&quot;)</span><br><span class="line"># install.packages (&quot;lattice&quot;)</span><br><span class="line"># install.packages (&quot;corrplot&quot;)</span><br><span class="line"># install.packages (&quot;gplots&quot;)</span><br><span class="line"># install.packages (&quot;mclust&quot;)</span><br><span class="line"># install.packages (&quot;cluster&quot;)</span><br><span class="line"></span><br><span class="line">library(&quot;readxl&quot;)</span><br><span class="line">library(&quot;psych&quot;)</span><br><span class="line">library(&quot;car&quot;)</span><br><span class="line">library(&quot;gpairs&quot;)</span><br><span class="line">library(&quot;grid&quot;)</span><br><span class="line">library(&quot;lattice&quot;)</span><br><span class="line">library(&quot;corrplot&quot;)</span><br><span class="line">library(&quot;gplots&quot;)</span><br><span class="line">library(&quot;mclust&quot;)</span><br><span class="line">library(&quot;cluster&quot;)</span><br><span class="line"></span><br><span class="line"># 获取当前已加载文件的目录</span><br><span class="line">file_dir &lt;- dirname(parent.frame(2)$ofile)</span><br><span class="line">print(file_dir)</span><br><span class="line"># 将工作目录设置为当前已加载文件的目录</span><br><span class="line">setwd(file_dir)</span><br><span class="line"></span><br><span class="line">seg.df &lt;- read.csv(&quot;Data_Segmentation.csv&quot;, stringsAsFactors = TRUE)</span><br><span class="line"></span><br><span class="line">head(seg.df, n=8)</span><br><span class="line"></span><br><span class="line">seg.df$gender &lt;- ifelse(seg.df$gender==&quot;Male&quot;,0,1)</span><br><span class="line">seg.df$ownHome &lt;- ifelse(seg.df$ownHome == &quot;ownNo&quot;, 0,1)</span><br><span class="line">seg.df$subscribe &lt;- ifelse(seg.df$subscribe == &quot;subNo&quot;, 0,1)</span><br><span class="line">head(seg.df)</span><br><span class="line"></span><br><span class="line">seg.df.sc &lt;- seg.df</span><br><span class="line">seg.df.sc[, c(1,3,4)] &lt;- scale(seg.df[, c(1,3,4)])</span><br><span class="line"># We only need to standardize continuous variables.</span><br><span class="line">head(seg.df.sc)</span><br><span class="line"></span><br><span class="line">summary(seg.df.sc, digits = 2)</span><br><span class="line"></span><br><span class="line">seg.dist &lt;- dist(seg.df.sc) </span><br><span class="line">as.matrix(seg.dist)[1:5, 1:5]</span><br><span class="line"></span><br><span class="line">seg.hc &lt;- hclust(seg.dist, method=&quot;complete&quot;) </span><br><span class="line">seg.hc</span><br><span class="line"></span><br><span class="line">plot(seg.hc)</span><br><span class="line"></span><br><span class="line">plot(cut(as.dendrogram(seg.hc), h = 4)$lower[[1]])</span><br><span class="line"></span><br><span class="line">seg.df[c(156, 152),] #similar</span><br><span class="line">seg.df[c(156, 183),] #less similar</span><br><span class="line"></span><br><span class="line">plot(seg.hc)</span><br><span class="line">rect.hclust(seg.hc, k=4, border = &quot;red&quot;)</span><br><span class="line"></span><br><span class="line">seg.hc.segment &lt;- cutree(seg.hc, k=4) #membership vector for 4 groups </span><br><span class="line">table(seg.hc.segment) #counts</span><br><span class="line"></span><br><span class="line">library(cluster) </span><br><span class="line">clusplot(seg.df, seg.hc.segment,</span><br><span class="line">         color = TRUE, #color the groups</span><br><span class="line">         shade = TRUE, #shade the ellipses for group membership</span><br><span class="line">         labels = 4, #label only the groups, not the individual points </span><br><span class="line">         lines = 0, #omit distance lines between groups</span><br><span class="line">         main = &quot;Hierarchical cluster plot&quot; # figure title</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">aggregate(seg.df, list(seg.hc.segment), mean)</span><br><span class="line"></span><br><span class="line">boxplot(seg.df$income ~ seg.hc.segment, ylab = &quot;Income&quot;, xlab = &quot;Cluster&quot;)</span><br><span class="line"></span><br><span class="line">set.seed(96743)</span><br><span class="line">seg.k &lt;- kmeans(seg.df.sc, centers = 4) #use standardized variables</span><br><span class="line"></span><br><span class="line">aggregate(seg.df, list(seg.k$cluster), mean)</span><br><span class="line"></span><br><span class="line">boxplot(seg.df$income ~ seg.k$cluster, ylab = &quot;Income&quot;, xlab = &quot;Cluster&quot;)</span><br><span class="line"></span><br><span class="line">clusplot(seg.df, seg.k$cluster,</span><br><span class="line">         color = TRUE,</span><br><span class="line">         shade = TRUE,</span><br><span class="line">         labels = 4,</span><br><span class="line">         lines = 0,</span><br><span class="line">         main = &quot;K_means cluster plot&quot;,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">library(mclust) #install if needed</span><br><span class="line">seg.mc &lt;- Mclust(seg.df.sc) </span><br><span class="line">summary(seg.mc)</span><br><span class="line"></span><br><span class="line">seg.mc4 &lt;- Mclust(seg.df.sc, G =4) #specifying the number of clusters </span><br><span class="line">summary(seg.mc4)</span><br><span class="line"></span><br><span class="line">BIC(seg.mc, seg.mc4)</span><br><span class="line"></span><br><span class="line">aggregate(seg.df, list(seg.mc$classification), mean)</span><br><span class="line">library(cluster)</span><br><span class="line">clusplot(seg.df, seg.mc$classification, color = TRUE, shade = TRUE,</span><br><span class="line">         labels = 4, lines = 0, main = &quot;Model-based cluster plot&quot;)</span><br></pre></td></tr></table></figure>
+</div></div><script type="text/x-mathjax-config">
+   MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    }); 
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2024/R_week2_segmentation_code/';
+var disqus_title = 'R[week2] Segmentation Code';
+var disqus_url = 'https://blog.weasley.cn/2024/R_week2_segmentation_code/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>
