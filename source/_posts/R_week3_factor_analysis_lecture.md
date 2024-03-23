@@ -29,13 +29,19 @@ toc: true
 2. 计算因子得分：为每个品牌计算每个因子的得分，这些得分将用于在感知图上定位品牌。
 3. 绘制感知图：在一个二维平面上，以选定的因子为坐标轴，绘制每个品牌的点。
 
-Pearson相关系数（Pearson Correlation Coefficient）是用来衡量两个变量之间线性相关程度的统计指标。其计算公式如下：
+<div style="background-color:#f0f0f0; padding:10px;">
+
+> Pearson相关系数（Pearson Correlation Coefficient）
+
+是用来衡量两个变量之间线性相关程度的统计指标。其计算公式如下：
 
 $$
 r = \frac{\sum((x_i - \bar{x}) \cdot (y_i - \bar{y}))}{\sqrt{\sum(x_i - \bar{x})^2} \cdot \sqrt{\sum(y_i - \bar{y})^2}}
 $$
 
 相关系数的值范围从 -1 到 1，其中 -1 表示完全负相关，1 表示完全正相关，0 表示没有线性相关性。
+
+</div>
 
 # Explain
 
