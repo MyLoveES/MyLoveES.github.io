@@ -146,7 +146,7 @@ princomp() 函数返回一个主成分分析结果的对象，该对象包含了
 - cl.lim：相关系数的颜色范围。
 - addCoefasPercent：是否以百分比形式显示系数。
 
-<div/>
+</div>
 
 ```
 # use the optional argument (order = “hclust”) to order variables for better visualization
@@ -237,7 +237,7 @@ princomp() 函数是R语言中用于进行主成分分析（PCA）的函数之�
 
 princomp() 函数返回一个主成分分析结果的对象，该对象包含了主成分分析的各种信息，包括主成分分数、主成分载荷、方差解释比例等。可以使用summary()函数对主成分分析结果进行摘要统计，或者直接访问返回的对象的成分来获取相关信息。  
 
-<div/>
+</div>
 
 ```
 plot(brand.pc,type="l") # scree plot
@@ -282,7 +282,7 @@ loadings(object)
 
 loadings()函数会返回一个矩阵，其中的行表示原始变量，列表示主成分。矩阵中的元素是主成分载荷，表示每个主成分与对应原始变量之间的相关系数。  
 
-<div/>
+</div>
 
 ## 2.2 Visualising PCA (perceptual map)
 
@@ -312,7 +312,7 @@ What does the map tell us? First, we interpret the adjective clusters and relati
 
 再次强调，这取决于战略目标。如果您希望增加差异化，一种可能性是采取行动将您的品牌朝地图上的某个方向移动。  
 
-<div/>
+</div>
 
 - 假设您希望朝品牌c的方向移动
 
@@ -376,7 +376,7 @@ factanal()函数返回一个包含因子分析结果的对象，其中包括提�
 
 最大似然因子分析是一种常用的因子分析方法，它通常用于探索多个变量之间的潜在结构，并识别出能够解释观察数据变异的重要因子。   
 
-<div/>
+</div>
 
 ## 3.1 Determine the factor number
 
@@ -443,7 +443,7 @@ eigen()函数返回一个列表，其中包含了两个元素：
 
 这些特征值和特征向量可以用于进行主成分分析（PCA）或因子分析（FA），以及其他需要计算矩阵特征值和特征向量的分析方法。
 
-<div/>
+</div>
 
 最终模型的选择取决于它是否有用。最佳实践是检查几个因子解决方案，包括scree和eigenvalues结果建议的解决方案。
 
