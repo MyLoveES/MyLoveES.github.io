@@ -22,17 +22,12 @@ All of these kinds of outcomes are binary because they have only two possible ov
 The core feature of a logistic model is that it relates the probability of an outcome to an exponential function of a predictor variable.  
 By modelling the probability of an outcome, a logistic model accomplishes two things:  
 • First, it more directly models what we are interested in, which is a probability or proportion, such as the likelihood of a given customer to purchase a product or the expected proportion of a segment who will respond to a promotion.  
-• Second, it limits the model to the appropriate range for a proportion, which is [0, 1]. A basic linear model, as generated with lm(), does not have such a limit. The equation for the logistic function is:  
+• Second, it limits the model to the appropriate range for a proportion, which is [0, 1]. A basic linear model, as generated with lm(), does not have such a limit. The equation for the logistic function is:     
 
-$$
+$$ p(y) = \frac{e^{v_x}}{e^{v_x} + 1} $$
 
-p(y) = \frac{e^{v_x}}{e^{v_x} + 1}
-
-$$
-
-
-Logistic模型的核心特征是它将结果的概率与预测变量的指数函数相关联。  
-通过对结果的概率建模，logistic模型实现了两个目标。  
+Logistic模型的核心特征是它将结果的概率与预测变量的指数函数相关联。   
+通过对结果的概率建模，logistic模型实现了两个目标。   
 • 首先，它更直接地对我们感兴趣的内容进行建模，即概率或比例，例如给定客户购买产品的可能性或将对促销活动做出回应的细分预期比例。  
 • 其次，它将模型限制在比例的适当范围内，即[0,1]。基本的线性模型，如lm()生成的模型，没有这样的限制。  
 
@@ -59,6 +54,32 @@ The formula gives a value between [0, 1]. The likelihood of y is less than 50% w
 > plogis(-0.2) # weak likelihood
 [1] 0.450166
 ```
+
+<div style="background-color:#f0f0f0; padding:10px;">
+
+> plogis():
+
+`plogis()` 函数是 R 语言中用于计算逻辑函数（logistic function）的函数。  
+
+逻辑函数的定义如下所示：  
+
+$$
+\text{logistic}(x) = \frac{1}{1 + e^{-x}}
+$$
+
+其中，\(x\) 是逻辑函数的输入值。`plogis()` 函数接受一个参数 \(x\)，表示逻辑函数的输入值，然后返回逻辑函数的值。这个函数通常用于逻辑回归模型中，将线性预测值转换为0到1之间的概率值。  
+
+在 R 中，你可以使用 `plogis()` 函数来计算逻辑函数的值。例如：  
+
+```
+# 计算逻辑函数值
+x <- 2
+probability <- plogis(x)
+print(probability)
+```
+
+</div>
+
 Such a model is known as a logit model, which determines the value of vx from the logarithm of the relative probability of occurence of y:  
 
 $$
@@ -73,6 +94,33 @@ $$
 [1] 1.99243
 ```
 
+<div style="background-color:#f0f0f0; padding:10px;">
+
+> qlogis()
+
+`qlogis()` 函数是 R 语言中用于计算逻辑函数的反函数的函数。  
+
+逻辑函数的反函数通常称为逆逻辑函数，其定义如下所示：  
+
+$$
+\text{logit}(p) = \log\left(\frac{p}{1 - p}\right)
+$$
+
+其中，\( p \) 是逻辑函数的输出值，即概率值。  
+
+`qlogis()` 函数接受一个参数 \( p \)，表示逻辑函数的输出值（即概率值），然后返回逆逻辑函数的值。这个函数通常用于从逻辑函数的概率值中反推出线性预测值。  
+
+在 R 中，你可以使用 `qlogis()` 函数来计算逆逻辑函数的值。例如：  
+
+```R
+# 计算逆逻辑函数值
+p <- 0.7
+linear_pred <- qlogis(p)
+print(linear_pred)
+```
+
+</div>
+
 # 2. Generalised linear model (GLM)
 
 A logistic regression model in R is fitted as a generalised linear model (GLM) using a process similar to linear regression with lm(), but with the difference that a GLM can handle dependent variables that are not normally distributed. Thus, GLM can be used to model data counts (such as the number of purchases), time intervals (such as time spent on a website), or binary variables (e.g., did/didn’t purchase). The common feature of all GLM models is that they relate normally distributed predictors to a non-normal outcome using a function known as a link. This means that they are able to fit models for many different distributions using a single, consistent framework.  
@@ -80,25 +128,26 @@ A logistic regression model in R is fitted as a generalised linear model (GLM) u
 在R中，逻辑回归模型是作为广义线性模型（GLM）进行拟合的，使用的过程类似于使用lm()进行线性回归，但不同之处在于GLM可以处理不符合正态分布的因变量。因此，GLM可用于对数据计数（例如购买次数）、时间间隔（例如在网站上的停留时间）或二元变量（例如是否购买）建模。所有GLM模型的共同特点是它们将正态分布的预测变量与一个非正态的结果相关联，使用的函数称为链接函数。这意味着它们能够使用单一、一致的框架拟合许多不同分布的模型。  
 
 <div style="background-color:#f0f0f0; padding:10px;">
+
 广义线性模型（Generalized Linear Model，GLM）是一种广泛应用于统计分析中的模型，它将线性模型扩展到了更广泛的数据类型和分布。GLM可以处理不同类型的响应变量，包括二项分布、泊松分布、正态分布等，并且可以处理不同的链接函数，如恒等函数、对数函数、逻辑斯蒂函数等。  
 
 GLM的基本形式如下：  
 
-1. 线性部分：
+1. 线性部分：   
 
 $$
-
 \eta = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p 
-
 $$
 
    这部分与多元线性回归模型相似，其中 \eta 是线性预测值，\beta_0, \beta_1, \ldots, \beta_p 是系数，x_1, x_2, \ldots, x_p 是预测变量。
 
-2. 链接函数：g(\mu) = \eta 
+2. 链接函数：  
+
+$$ g(\mu) = \eta $$
 
    这里的 g(\cdot) 是链接函数，它定义了预测变量 \eta 与响应变量 \mu 之间的关系。链接函数通常根据响应变量的类型选择，如对数链接函数用于处理泊松分布的响应变量，逻辑斯蒂链接函数用于处理二项分布的响应变量等。
 
-3. 分布族：
+3. 分布族：  
 
 $$ Y \sim \text{Dist}(\mu) $$
 
