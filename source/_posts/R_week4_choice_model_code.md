@@ -15,7 +15,7 @@ Marketers often observe yes/no outcomes:
 • Did a customer sign up for a credit card, renew her subscription, or respond to a promotion?  
 All of these kinds of outcomes are binary because they have only two possible overserved states: yes or no. A logistic model is used to fit such outcomes.  
 
-** 这些类型的结果都是二元的，因为它们只有两种可能的观察状态：是或否。 logistic模型被用来拟合这样的结果。**
+**这些类型的结果都是二元的，因为它们只有两种可能的观察状态：是或否。 logistic模型被用来拟合这样的结果。**
 
 # 1. Basics of logistic regression
 
@@ -23,9 +23,11 @@ The core feature of a logistic model is that it relates the probability of an ou
 By modelling the probability of an outcome, a logistic model accomplishes two things:  
 • First, it more directly models what we are interested in, which is a probability or proportion, such as the likelihood of a given customer to purchase a product or the expected proportion of a segment who will respond to a promotion.  
 • Second, it limits the model to the appropriate range for a proportion, which is [0, 1]. A basic linear model, as generated with lm(), does not have such a limit. The equation for the logistic function is:     
-
-$$ p(y) = \frac{e^{v_x}}{e^{v_x} + 1} $$
-
+  
+$$
+p(y) = \frac{e^{v_x}}{e^{v_x} + 1} 
+$$
+  
 Logistic模型的核心特征是它将结果的概率与预测变量的指数函数相关联。   
 通过对结果的概率建模，logistic模型实现了两个目标。   
 • 首先，它更直接地对我们感兴趣的内容进行建模，即概率或比例，例如给定客户购买产品的可能性或将对促销活动做出回应的细分预期比例。  
@@ -178,11 +180,11 @@ $$
 
 这个公式是一个逻辑回归模型中用于计算购买概率的方程。在这个方程中：
 
-- P(Purchase_i) 表示第 i 个个体购买的概率。
-- \beta_0, \beta_1, \beta_2, \beta_3 是模型的参数，分别表示截距和与每个预测变量（Recency、Frequency、Monetary）相关的系数。
-- \text{Recency}_i, \text{Frequency}_i, \text{Monetary}_i 是第 i 个个体的预测变量值，分别表示最近一次购买距离、购买频率和购买金额。
+- $ P(Purchase_i) $ 表示第 i 个个体购买的概率。
+- $ \beta_0 $, $ \beta_1 $, $ \beta_2 $, $ \beta_3 $ 是模型的参数，分别表示截距和与每个预测变量（Recency、Frequency、Monetary）相关的系数。
+- $ \text{Recency}_i $, $ \text{Frequency}_i $, $ \text{Monetary}_i $ 是第 i 个个体的预测变量值，分别表示最近一次购买距离、购买频率和购买金额。
 
-公式的分子部分表示了一个线性组合（\beta_0 + \beta_1 \text{Recency}_i + \beta_2 \text{Frequency}_i + \beta_3 \text{Monetary}_i ）的指数形式，即指数函数 \text{exp}(\ldots) ，代表了购买的可能性。
+公式的分子部分表示了一个线性组合$ (\beta_0 + \beta_1 \text{Recency}_i + \beta_2 \text{Frequency}_i + \beta_3 \text{Monetary}_i) 的指数形式，即指数函数 $ \text{exp}(\ldots) $ ，代表了购买的可能性。
 
 分母部分是分子部分加上1，这是由于逻辑回归模型的形式，保证了概率值在0和1之间。整个方程实际上是逻辑回归模型的逻辑函数（logistic function），它将线性预测值转换为0到1之间的概率值，这表示个体购买的概率。
 
@@ -269,9 +271,9 @@ Table: Likelihood ratio test
 
 ## 3.2 Predicting probabilities
 
-Now we calculate P(Purchasei) for each individual in the data set.  
+Now we calculate $ P(Purchase_i) $ for each individual in the data set.  
 
-现在我们计算数据集中每个个体的购买概率P(Purchasei)。  
+现在我们计算数据集中每个个体的购买概率$ P(Purchase_i) $。  
 
 ```
 > # calculate logit probabilities
@@ -341,7 +343,7 @@ Confusion Matrix and Statistics
     P-Value [Acc > NIR] : <2e-16         
                                          
                   Kappa : 0.8793         
-                                         
+                                         Now we calculate
  Mcnemar's Test P-Value : 0.6831         
                                          
             Sensitivity : 0.9556         
@@ -429,18 +431,18 @@ $$ \text{Lift} = \frac{p_{\text{new}} - p_{\text{old}}}{p_{\text{old}}} $$
 
 # 4. Recap
 
-• Logistic regression is a powerful method and a particularly good fit for many marketing problems with binary outcomes. We will cover the choice model later for modelling product choice among sets of alternatives.
-• Logistic regression relates a binary outcome such as purchase to predictors that may include continuous and factor variable by modelling the variable’s association with the probability of the outcome.
-> Although we performed logistic regression here with categorical predictors (factor variables) due to the structure of the amusement park sales data, we could also use continuous predictors in glm(). Just add those to the right-hand side of the model formula as we did with lm()
-• A logistic regression model, also known as a logit model, is a member of the generalized linear model family and is fit using glm( , family = binomial).
-• Coefficient in a logit model can be interpreted in terms of odds ratios, the degree to which they are associated with the increased or decreased likelihood of an outcome. This is done simply by exponentiating the coefficients with exp().
-• A statistically significant result does not always mean that the model is appropriate. It is important to explore data thoroughly and construct models on the basis of careful consideration.
-> We saw that the estimated effect of promotion was positive when we estimated one model yet negative when we estimated another. This shows that it is crucial to explore data thoroughly before modelling or interpreting a model. For most marketing data, no model is ever definitive. However, through careful data exploration and consideration of multiple models, we may increase our confidence in our models and the inferences drawn from them.
+• Logistic regression is a powerful method and a particularly good fit for many marketing problems with binary outcomes. We will cover the choice model later for modelling product choice among sets of alternatives.  
+• Logistic regression relates a binary outcome such as purchase to predictors that may include continuous and factor variable by modelling the variable’s association with the probability of the outcome.  
+> Although we performed logistic regression here with categorical predictors (factor variables) due to the structure of the amusement park sales data, we could also use continuous predictors in glm(). Just add those to the right-hand side of the model formula as we did with lm()  
+• A logistic regression model, also known as a logit model, is a member of the generalized linear model family and is fit using glm( , family = binomial).  
+• Coefficient in a logit model can be interpreted in terms of odds ratios, the degree to which they are associated with the increased or decreased likelihood of an outcome. This is done simply by exponentiating the coefficients with exp().  
+• A statistically significant result does not always mean that the model is appropriate. It is important to explore data thoroughly and construct models on the basis of careful consideration.  
+> We saw that the estimated effect of promotion was positive when we estimated one model yet negative when we estimated another. This shows that it is crucial to explore data thoroughly before modelling or interpreting a model. For most marketing data, no model is ever definitive. However, through careful data exploration and consideration of multiple models, we may increase our confidence in our models and the inferences drawn from them.  
 
-• 逻辑回归是一种强大的方法，特别适用于许多具有二元结果的营销问题。我们稍后将介绍选择模型，用于对一组替代品中的产品选择进行建模。
-• 逻辑回归将二元结果（如购买）与可能包括连续和因子变量的预测变量关联起来，方法是通过模拟变量与结果的概率之间的关联。
-> 尽管我们在这里使用了因子变量（分类变量）执行逻辑回归，因为娱乐园销售数据的结构如此，但我们也可以在glm()中使用连续预测变量。只需像我们在lm()中那样将它们添加到模型公式的右侧即可。
-• 逻辑回归模型，也称为logit模型，是广义线性模型家族的一员，使用glm()拟合，家族设置为binomial。
-• 在logit模型中，系数可以通过将其指数化为exp()来解释为几率比，即它们与结果的增加或减少可能性的相关程度。
-• 统计显著结果并不总意味着模型是适当的。在建模或解释模型之前，彻底探索数据并基于深思熟虑构建模型是非常重要的。
-> 我们看到，当我们估计一个模型时，促销的估计效果是正向的，但当我们估计另一个模型时，效果是负向的。这表明，在建模或解释模型之前，彻底探索数据是至关重要的。对于大多数营销数据，没有一个模型是绝对的。然而，通过对数据进行深入探索并考虑多个模型，我们可能会增加对模型及其推断的信心。
+• 逻辑回归是一种强大的方法，特别适用于许多具有二元结果的营销问题。我们稍后将介绍选择模型，用于对一组替代品中的产品选择进行建模。  
+• 逻辑回归将二元结果（如购买）与可能包括连续和因子变量的预测变量关联起来，方法是通过模拟变量与结果的概率之间的关联。  
+> 尽管我们在这里使用了因子变量（分类变量）执行逻辑回归，因为娱乐园销售数据的结构如此，但我们也可以在glm()中使用连续预测变量。只需像我们在lm()中那样将它们添加到模型公式的右侧即可。  
+• 逻辑回归模型，也称为logit模型，是广义线性模型家族的一员，使用glm()拟合，家族设置为binomial。  
+• 在logit模型中，系数可以通过将其指数化为exp()来解释为几率比，即它们与结果的增加或减少可能性的相关程度。  
+• 统计显著结果并不总意味着模型是适当的。在建模或解释模型之前，彻底探索数据并基于深思熟虑构建模型是非常重要的。  
+> 我们看到，当我们估计一个模型时，促销的估计效果是正向的，但当我们估计另一个模型时，效果是负向的。这表明，在建模或解释模型之前，彻底探索数据是至关重要的。对于大多数营销数据，没有一个模型是绝对的。然而，通过对数据进行深入探索并考虑多个模型，我们可能会增加对模型及其推断的信心。  
