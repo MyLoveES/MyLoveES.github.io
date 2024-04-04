@@ -9,13 +9,17 @@ toc: true
 > R: 4.3.2 (2023-10-31)
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
+Choice modeling 是一种市场研究方法，用于理解消费者在购买决策中做出选择的过程。这种方法使用数学模型来分析消费者如何根据不同的产品或服务特征做出选择，并量化这些选择的概率。通常，研究者会设计实验或调查来收集关于消费者对不同产品或服务的偏好和选择的数据，然后使用选择模型来解释这些数据。  
+
+选择模型可以是基于参数的，比如概率模型（如逻辑回归）、偏好模型（如偏好函数）或效用模型（如福利函数）等；也可以是非参数的，比如决策树、随机森林等机器学习方法。这些模型能够帮助企业了解消费者对产品或服务的偏好，从而指导产品定价、市场定位、广告策略等决策。  
+
 Marketers often observe yes/no outcomes:  
 • Did a customer purchase a product?  
 • Did a customer take a test drive?  
 • Did a customer sign up for a credit card, renew her subscription, or respond to a promotion?  
 All of these kinds of outcomes are binary because they have only two possible overserved states: yes or no. A logistic model is used to fit such outcomes.  
 
-**这些类型的结果都是二元的，因为它们只有两种可能的观察状态：是或否。 logistic模型被用来拟合这样的结果。**
+**这些类型的结果都是二元的，它们只有两种可能的状态：是或否。 logistic模型被用来拟合这样的结果。**
 
 # 1. Basics of logistic regression
 
