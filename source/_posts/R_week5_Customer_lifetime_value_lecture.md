@@ -69,7 +69,7 @@ $$
 在这种情况下，CLV公式可以简化为：
 
 $$
-CLV = \sum_{t=0}^{\infty} \frac{m \cdot r^t}{{(1 + i)}^t} - AC = m \cdot \left( \frac{r}{{1 + i} - r} \right) - AC
+CLV = \sum_{t=0}^{\infty} \frac{m \cdot r^t}{(1 + i)^t} - AC = m \cdot \left( \frac{r}{{1 + i} - r} \right) - AC
 $$
 
 - 每年贡献边际 $m$ 保持不变
