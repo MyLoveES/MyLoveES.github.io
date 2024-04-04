@@ -48,7 +48,7 @@ CLV（Customer Lifetime Value）指的是客户生命周期价值，是指客户
 # 3. CLV 公式
 
 $$
-CLV = \sum_{t=0}^{T} \frac{{(p_t - c_t) r_t}}{{(1 + i)^t}} - AC
+CLV = \sum_{t=0}^{T} \frac{(p_t - c_t) r_t}{(1 + i)^t} - AC
 $$
 
 其中：
