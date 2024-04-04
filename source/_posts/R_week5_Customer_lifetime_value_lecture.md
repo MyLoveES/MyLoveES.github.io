@@ -1,4 +1,4 @@
-title: R[week4] Choice model
+title: R[week5] Customer lifetime value
 date: 2024-03-24
 tags: [R-Language]
 categories: R-Language
