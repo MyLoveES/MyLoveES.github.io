@@ -43,7 +43,7 @@ The formula gives a value between [0, 1]. The likelihood of y is less than 50% w
 
 ```
 > exp(0) / exp(0)+1 # computing logistic by hand, or using plogis()
-[1] 2
+•[1] 2
 
 # plogis参数其实就是p(y)
 
@@ -141,19 +141,19 @@ $$
 \eta = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p 
 $$
 
-   这部分与多元线性回归模型相似，其中 \eta 是线性预测值，\beta_0, \beta_1, \ldots, \beta_p 是系数，x_1, x_2, \ldots, x_p 是预测变量。
+   这部分与多元线性回归模型相似，其中 $ \eta $ 是线性预测值，$ \beta_0 $ , $ \beta_1 $ , $ \ldots $, $ \beta_p $ 是系数，$ x_1 $ , $ x_2 $ , $ \ldots $, $ x_p $ 是预测变量。
 
 2. 链接函数：  
 
 $$ g(\mu) = \eta $$
 
-   这里的 g(\cdot) 是链接函数，它定义了预测变量 \eta 与响应变量 \mu 之间的关系。链接函数通常根据响应变量的类型选择，如对数链接函数用于处理泊松分布的响应变量，逻辑斯蒂链接函数用于处理二项分布的响应变量等。
+   这里的 $ g(\cdot) $ 是链接函数，它定义了预测变量 $ \eta $ 与响应变量 $ \mu $ 之间的关系。链接函数通常根据响应变量的类型选择，如对数链接函数用于处理泊松分布的响应变量，逻辑斯蒂链接函数用于处理二项分布的响应变量等。
 
 3. 分布族：  
 
 $$ Y \sim \text{Dist}(\mu) $$
 
-   这里的 \text{Dist}(\mu) 表示响应变量 Y 的分布族，\mu 是响应变量的均值。
+   这里的 $ \text{Dist}(\mu) $ 表示响应变量 Y 的分布族，$ \mu $ 是响应变量的均值。
 
 GLM的优势在于它的灵活性和适用性，可以适应不同类型和分布的数据，同时保持了对参数的解释性。它在许多领域都得到了广泛应用，包括生物统计学、医学、社会科学等。
 
@@ -184,7 +184,7 @@ $$
 - $ \beta_0 $, $ \beta_1 $, $ \beta_2 $, $ \beta_3 $ 是模型的参数，分别表示截距和与每个预测变量（Recency、Frequency、Monetary）相关的系数。
 - $ \text{Recency}_i $, $ \text{Frequency}_i $, $ \text{Monetary}_i $ 是第 i 个个体的预测变量值，分别表示最近一次购买距离、购买频率和购买金额。
 
-公式的分子部分表示了一个线性组合$ (\beta_0 + \beta_1 \text{Recency}_i + \beta_2 \text{Frequency}_i + \beta_3 \text{Monetary}_i) 的指数形式，即指数函数 $ \text{exp}(\ldots) $ ，代表了购买的可能性。
+公式的分子部分表示了一个线性组合$ (\beta_0 + \beta_1 \text{Recency}_i + \beta_2 \text{Frequency}_i + \beta_3 \text{Monetary}_i) $ 的指数形式，即指数函数 $ \text{exp}(\ldots) $ ，代表了购买的可能性。
 
 分母部分是分子部分加上1，这是由于逻辑回归模型的形式，保证了概率值在0和1之间。整个方程实际上是逻辑回归模型的逻辑函数（logistic function），它将线性预测值转换为0到1之间的概率值，这表示个体购买的概率。
 
@@ -242,6 +242,21 @@ Table: Logistic regression estimates
 |Monetary    |   0.1677054| 0.0465645|  3.601572|          0.0003163|  1.182588|
 ```
 
+> glm()
+<div style="background-color:#f0f0f0; padding:10px;">
+glm() 函数是 R 语言中的一个重要函数，用于拟合广义线性模型（Generalized Linear Models）。广义线性模型是线性模型的扩展，允许因变量服从不同的分布，而不仅仅是正态分布。这使得广义线性模型适用于更广泛的数据类型，包括二项分布（二元逻辑回归）、泊松分布（计数数据）、多项分布（多类别分类）等。
+</div>
+
+> cbind()
+<div style="background-color:#f0f0f0; padding:10px;">
+cbind() 函数是 R 语言中的一个基础函数，用于按列合并多个对象（通常是向量、矩阵或数据框）。cbind 是 "column bind" 的缩写，表示按列合并。
+</div>
+
+> kable()
+<div style="background-color:#f0f0f0; padding:10px;">
+kable() 函数是 R 语言中 knitr 和 rmarkdown 包中的一个函数，用于生成美观的表格输出。它能够将 R 中的数据框、矩阵或表格转换为 Markdown 或 LaTeX 格式的表格，从而方便地将其插入到 R Markdown 文档或 HTML 页面中。
+</div>
+
 We also run the likelihood ratio test with H0 : β1 = β2 = β3 = 0 – to make sure our full logit model offers a significantly better fit than the model with just an intercept. We find that χ2 = 107.14 and P(> |Chi|) ≈ 0, so we reject H0.  
 
 我们还进行了似然比检验，假设 H0：β1 = β2 = β3 = 0，以确保我们的完整 logit 模型提供了显着更好的拟合效果，而不仅仅是一个截距模型。我们发现 χ2 = 107.14，P(> |Chi|) ≈ 0，因此我们拒绝 H0。  
@@ -290,6 +305,11 @@ Now we calculate $ P(Purchase_i) $ for each individual in the data set.
 |4  |     270|        17|    37.13|        1|        0.9999999|
 |5  |      60|         5|    88.92|        0|        0.0032378|
 ```
+
+> predict()
+<div style="background-color:#f0f0f0; padding:10px;">
+predict() 函数是 R 语言中的一个常用函数，用于对已拟合的模型进行预测。它可以对新的观测数据应用已经拟合好的模型，从而生成预测值。
+</div>
 
 ## 3.3 Predicting behaviour
 
@@ -358,6 +378,23 @@ Confusion Matrix and Statistics
        'Positive' Class : 1   
 ```
 
+> confusionMatrix()
+<div style="background-color:#f0f0f0; padding:10px;">
+confusionMatrix() 函数是 caret 包中的一个函数，用于计算分类模型的混淆矩阵以及各种分类指标，如准确率、灵敏度、特异性等。混淆矩阵是一种用于评估分类模型性能的表格，其中行表示真实类别，列表示预测类别。  
+  
+在市场营销场景中，confusionMatrix() 函数可以用于评估分类模型在预测客户行为方面的性能。以下是一些实际应用场景：  
+  
+• 客户流失预测：假设你正在开展客户流失预测项目。你可以使用历史数据训练一个流失预测模型，并使用 confusionMatrix() 函数来评估该模型的性能。通过混淆矩阵，你可以了解模型正确预测流失客户和未流失客户的情况，并计算出准确率、灵敏度等指标。
+  
+• 营销活动反馈：如果你进行了一项市场营销活动，例如发送电子邮件或短信营销活动，你可以使用 confusionMatrix() 函数来评估活动的效果。你可以将实际活动的结果与预期结果进行比较，以了解活动的成功率以及是否有必要调整你的营销策略。
+  
+• 客户分群：在客户分群项目中，你可能使用聚类算法将客户分成不同的群体。你可以使用 confusionMatrix() 函数来评估模型的性能，例如比较聚类结果与真实的客户特征之间的匹配程度。这可以帮助你确定是否需要重新调整分群方法或者改进数据质量。
+  
+• 产品推荐系统：如果你正在开发一个产品推荐系统，你可以使用 confusionMatrix() 函数来评估系统的准确性。你可以比较系统推荐的产品与用户实际购买的产品之间的匹配情况，并计算出准确率、召回率等指标，以了解系统的性能和用户的满意度。
+</div>
+
+
+
 We can also plot the receiver operating characteristic (ROC) curve, which illustrates the diagnostic ability of a binary logit model. It is created by plotting the true positive rate (TPR) against the false positive rate (FPR) – at various decision threshold values for prediction.  
 ROC curve can be quickly evaluated using the area under the curve (AUC) metric, which captures the overall quality of the classifier. The greater the AUC, the better. AUC of 1.0 represents a perfect classifier, AUC of 0.5 (diagonal line) represents a worthless classifier. As we see, the binary logit classifier does a good job of predicting purchases on the training data.    
 
@@ -373,6 +410,11 @@ Setting direction: controls < cases
 > {plot(rocobj,legacy.axes=TRUE)
   text(0.5, 0.8, labels = sprintf("AUC = %.5f",rocobj$auc))}
 ```
+
+> roc()
+<div style="background-color:#f0f0f0; padding:10px;">
+roc() 函数是 pROC 包中的一个函数，用于计算接收者操作特征（Receiver Operating Characteristic，ROC）曲线以及计算曲线下面积（Area Under the Curve，AUC）。ROC 曲线是一种用于评估二元分类器性能的图形工具，它显示了在不同分类阈值下真正例率（True Positive Rate，TPR，又称为灵敏度）与假正例率（False Positive Rate，FPR）之间的关系。
+</div>
 
 {% asset_image week4_plot.png %}
 
