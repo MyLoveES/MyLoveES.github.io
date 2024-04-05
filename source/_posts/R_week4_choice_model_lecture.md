@@ -160,16 +160,19 @@ p = \frac{\exp(V_b)}{\exp(V_b) + 1}
 $$
 
 $$
-\text{Utility from not buying:} & \quad V_n = 0 \\  
+Utility from not buying: V_n = 0 
 $$
+
 $$
-\text{Odds of buying:} & \quad \text{odds_buying} = \exp(2) = e^2 = 7.39 \\
+Odds of buying: \exp(2) = e^2 = 7.39
 $$
+
 $$
-\text{Odds of not buying:} & \quad \text{odds_not_buying} = \exp(0) = 1 \\
+Odds of not buying: \exp(0) = 1
 $$
+
 $$
-\text{Probability of buying:} & \quad p = \frac{\exp(2)}{\exp(2) + 1} = \frac{7.39}{7.39 + 1} = \frac{7.39}{8.39} \approx 0.88
+Probability of buying: p = \frac{\exp(2)}{\exp(2) + 1} = \frac{7.39}{7.39 + 1} = \frac{7.39}{8.39} = 0.88
 $$
 
 - 模型表明，消费者对购买和不购买（保留钱）都有一定的效用：
