@@ -1,4 +1,4 @@
-title: R[week4] Choice model
+title: R[week4] Choice model code
 date: 2024-03-24
 tags: [R-Language]
 categories: R-Language
