@@ -1,5 +1,5 @@
 title: R[week5] Customer Lifetime Value Lecture
-date: 2024-03-24
+date: 2024-03-26
 tags: [R-Language]
 categories: R-Language
 math: true
