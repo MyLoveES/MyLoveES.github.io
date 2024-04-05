@@ -23,7 +23,15 @@ toc: true
 
 解决业务问题的技术是理解客户的价值。我们有很多方法来了解客户的价值。其中最相关的之一是客户生命周期价值（CLV）。  
 
-CLV 是企业与客户整个关系中获得的所有价值的预测。所有客户生成的价值称为客户权益，用于评估公司。  
+
+创建一个仅包含固定酸度大于或等于8的葡萄酒的数据框。
+创建一个仅包含品质为7的葡萄酒的数据框。
+创建一个仅包含2列（pH和品质）的数据框。
+创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照pH的升序排序。
+创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照品质的降序排序。
+创建一个仅包含没有柠檬酸的葡萄酒的数据框，并按照品质的降序排序。
+创建一个红葡萄酒数据集的版本，其中包含一个额外的列，该列包含酒精含量乘以密度。
+创建一个总结红葡萄酒数据集中每个变量的数据框。CLV 是企业与客户整个关系中获得的所有价值的预测。所有客户生成的价值称为客户权益，用于评估公司。  
 
 主要概念。影响客户价值的因素很多，在 CLV 计算中必须考虑其中的一些：
 - 现金流：客户与组织的关系期间对组织产生的收入的净现值。
@@ -160,18 +168,18 @@ ARPU方法的好处是计算简单，但它没有考虑到客户行为的变化�
 客户演变。我们可以创建一条折线图来了解客户数量的变化情况。 ggplot() 用于构建初始绘图对象，并几乎总是紧跟着 + 添加组件到图中。    
 
 > Active Customer Evolution
-§§§
+```
 ggplot(CLV.df, aes(x = t, y = active)) +
   geom_line() + ylab("Customer") +
   xlab("Period") + ggtitle("Active Customer Evolution")
-§§§
+```
 {% asset_image week5_code_1.png %}
 
 > Retention Ratio Evolution
-§§§
+```
 ggplot(CLV.df, aes(x = t, y = r)) + geom_line() + ylab("Customer") + xlab("Period") +
   ggtitle("Retention Ratio Evolution")
-§§§
+```
 
 {% asset_image week5_code_2.png %}
 
@@ -179,7 +187,7 @@ ggplot(CLV.df, aes(x = t, y = r)) + geom_line() + ylab("Customer") + xlab("Perio
 ### 1.5.2 Calculate CLV
 
 现在，我们可以计算（历史）CLV。首先，我们创建一个新的列，其中包含每个时期的CLV：
-§§§
+```
 > CLV.df$CLV <- (CLV.df$p-CLV.df$c)*CLV.df$r^CLV.df$t/(1+CLV.df$i)^CLV.df$t 
 
 > CLV.df
@@ -193,13 +201,13 @@ ggplot(CLV.df, aes(x = t, y = r)) + geom_line() + ylab("Customer") + xlab("Perio
 5     5    178   375    20  0.01 0.89  189. 
 6     6    150   375    20  0.01 0.75   59.5
 7     7    135   375    20  0.01 0.675  21.1
-§§§
+```
 
 CLV演变。现在我们创建一个图表来看看CLV的变化：
 
-§§§
+```
 ggplot(CLV.df, aes(x = t, y = CLV)) + geom_line() + ggtitle("CLV evolution") + ylab("CLV") + xlab("Period")
-§§§
+```
 
 > CLV evolution
 
@@ -207,13 +215,13 @@ ggplot(CLV.df, aes(x = t, y = CLV)) + geom_line() + ggtitle("CLV evolution") + y
 
 问题：我们观察到了什么？由于一些变量是恒定的，CLV只取决于客户数量。图表与之前的类似。
 
-§§§
+```
 > CLV <- apply(CLV.df, 2, sum) 
 
 > CLV[7]
      CLV 
 1175.932
-§§§
+```
 
 问题：这个值代表什么意思？CLV值代表了客户的生命周期价值，即客户在其与公司的整个关系中为公司带来的预期收益总和。这个值可以帮助公司评估客户的重要性，并为营销策略和资源分配提供指导。
 
@@ -225,20 +233,20 @@ ggplot(CLV.df, aes(x = t, y = CLV)) + geom_line() + ggtitle("CLV evolution") + y
 
 首先，我们可以添加一个新的列：
 
-§§§
+```
 CLV.df$CLV2 <- (CLV.df$p - CLV.df$c) * 0.8 / (1 + CLV.df$i)^(CLV.df$t - 1)
-§§§
+```
 
 然后，我们可以创建一个新的图表：
 
-§§§
+```
 ggplot(CLV.df, aes(x = t, y = CLV2)) + geom_line() + ylab("CLV2") + xlab("Period") + labs(title = "CLV 2 Evolution")
-§§§
+```
 
 {% asset_image week5_code_4.png %}
 
 最后，我们可以计算CLV值：
-§§§
+```
 > CLV <- apply(CLV.df, 2, sum) 
 
 > CLV[7]
@@ -248,7 +256,7 @@ ggplot(CLV.df, aes(x = t, y = CLV2)) + geom_line() + ylab("CLV2") + xlab("Period
 > CLV[8]
     CLV2 
 1929.915 
-§§§
+```
 
 CLV[7] 代表了我们在分析中所考虑的时间段内的 CLV 值，通常表示了一个时间段的结束。例如，如果我们在分析中考虑的是过去一年的数据，则 CLV[7] 就表示了过去一年的客户生命周期价值。  
 
@@ -274,7 +282,7 @@ tidyverse是一组设计用于数据科学的R包。所有的包都共享一个�
 
 [mtcars](https://rstudio-pubs-static.s3.amazonaws.com/61800_faea93548c6b49cc91cd0c5ef5059894.html)
 
-§§§
+```
 > head(mtcars) 
                    mpg cyl disp  hp drat    wt  qsec vs am gear
 Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4
@@ -304,12 +312,12 @@ Valiant              1
  $ am  : num  1 1 1 0 0 0 0 0 0 0 ...
  $ gear: num  4 4 4 3 3 3 3 4 4 4 ...
  $ carb: num  4 4 1 1 2 1 4 2 2 4 ...
-§§§
+```
 
 ## 2.1 Manipulate cases
 
 - filter() 函数根据其值选择案例。
-§§§
+```
 > filter(mtcars, gear == 4) # 过滤器可与所有标准逻辑运算符一起使用
                 mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
@@ -369,10 +377,10 @@ Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
 Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
 Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
 Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
-§§§
+```
 
 - arrange() 函数按照选定列的值对数据框的行进行排序。
-§§§
+```
 > arrange(mtcars, gear)
                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
@@ -477,13 +485,13 @@ Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
 Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
 Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
 Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-§§§
+```
 
 ## 2.2 Manipulate variables
 
 - select() 函数根据变量名选择变量。
 
-§§§
+```
 > select(mtcars, gear, mpg, hp)
                     gear  mpg  hp
 Mazda RX4              4 21.0 110
@@ -553,20 +561,20 @@ Ford Pantera L      15.8   8 351.0 264 3.170 14.50  0  1    5    4
 Ferrari Dino        19.7   6 145.0 175 2.770 15.50  0  1    5    6
 Maserati Bora       15.0   8 301.0 335 3.570 14.60  0  1    5    8
 Volvo 142E          21.4   4 121.0 109 2.780 18.60  1  1    4    2
-§§§
+```
 
 - slice() 函数根据行号选择特定的行。
 
-§§§
+```
 > slice(mtcars, 1:3)
                mpg cyl disp  hp drat    wt  qsec vs am gear carb
 Mazda RX4     21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
 Datsun 710    22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-§§§
+```
 
 - sample_n() 和 sample_frac() 函数选择随机行：
-§§§
+```
 > sample_n(mtcars, 5) # 选择的行数
                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
@@ -580,10 +588,10 @@ Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
 Merc 230       22.8   4 140.8 95 3.92 3.150 22.9  1  0    4    2
 Merc 240D      24.4   4 146.7 62 3.69 3.190 20.0  1  0    4    2
 Toyota Corolla 33.9   4  71.1 65 4.22 1.835 19.9  1  1    4    1
-§§§
+```
 
 - mutate() 函数添加新变量，这些变量是现有变量的函数。
-§§§
+```
 > mutate(mtcars, wt_mpg = wt * mpg)
                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb  wt_mpg
 Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4 55.0200
@@ -688,13 +696,13 @@ Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4     -4.2
 Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6     -0.390625
 Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8     -5.090625
 Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2      1.309375
-§§§
+```
 
 ## 2.3 Summarise cases
 
 summarise() 函数创建一个新的数据框。它将有一行总结所有观察结果，并包含每个您指定的摘要统计量的一个列。如果有分组变量，它将为每个分组变量的组合创建一行。
 
-§§§
+```
 > summarise(mtcars, sd(disp))
   sd(disp)
 1 123.9387
@@ -702,13 +710,13 @@ summarise() 函数创建一个新的数据框。它将有一行总结所有观�
 > summarise(mtcars, median(mpg), mean(mpg), max(mpg), min(mpg))
   median(mpg) mean(mpg) max(mpg) min(mpg)
 1        19.2  20.09062     33.9     10.4
-§§§
+```
 
 ## 2.4 Group cases
 
 使用 group_by() 函数创建表的一个“分组”副本。dplyr函数将分别处理每个“组”，然后将结果组合起来。
 
-§§§
+```
 > group_by(mtcars, cyl)
 # A tibble: 32 × 11
 # Groups:   cyl [3]
@@ -726,7 +734,7 @@ summarise() 函数创建一个新的数据框。它将有一行总结所有观�
 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 # ℹ 22 more rows
 # ℹ Use `print(n = ...)` to see more rows
-§§§
+```
 
 管道操作符 %>% 允许您将一个函数的输出直接发送到下一个函数的输入。使用管道操作符时，请记住以下几点：
 
@@ -734,7 +742,7 @@ summarise() 函数创建一个新的数据框。它将有一行总结所有观�
 2. 后续参数指定对数据框要执行的操作。
 3. 参数的顺序将返回一个新的数据框（除非您通过分配操作（如使用“<-”）对第一个参数中的数据框进行了更改）。
 
-§§§
+```
 > mtcars %>% # take dataframe, then
 +   group_by(gear) %>% # group it by gear, then
 +   summarise(mean(mpg)) # summarise the mean mpg for each level o .... [TRUNCATED] 
@@ -760,11 +768,11 @@ Fiat X1-9         4 27.3  66
 Volvo 142E        4 21.4 109
 Porsche 914-2     5 26.0  91
 Lotus Europa      5 30.4 113
-§§§
+```
 
 如果您想要使用这个较小版本的数据创建一个新的对象，可以通过为它指定一个新名称来实现：
 
-§§§
+```
 > mtcars_mpg <- mtcars %>% filter(mpg > 21) %>% select(gear, mpg, hp) %>% arrange(gear)
 
 > mtcars_mpg
@@ -781,11 +789,11 @@ Fiat X1-9         4 27.3  66
 Volvo 142E        4 21.4 109
 Porsche 914-2     5 26.0  91
 Lotus Europa      5 30.4 113
-§§§
+```
 
 ## 2.6 Excercise
 
-§§§
+```
 > redwine <- read.csv("Data_redwine.csv", header=TRUE) 
 
 > head(redwine)
@@ -796,7 +804,7 @@ Lotus Europa      5 30.4 113
 4          11.2             0.28        0.56            1.9     0.075                  17                   60  0.9980 3.16      0.58     9.8       6
 5           7.4             0.70        0.00            1.9     0.076                  11                   34  0.9978 3.51      0.56     9.4       5
 6           7.4             0.66        0.00            1.8     0.075                  13                   40  0.9978 3.51      0.56     9.4       5
-§§§
+```
 
 1. 创建一个仅包含固定酸度大于或等于8的葡萄酒的数据框。
 2. 创建一个仅包含品质为7的葡萄酒的数据框。
