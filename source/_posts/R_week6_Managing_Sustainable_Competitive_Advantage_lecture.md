@@ -1,4 +1,4 @@
-title: R[week6] Managing Sustainable Competitive Advantage
+title: R[week6] Managing Sustainable Competitive Advantage lecture
 date: 2024-03-28
 tags: [R-Language]
 categories: R-Language
@@ -35,13 +35,13 @@ toc: true
 ## 1.2 Stage-Gate Design Review Process for Effective Product Development 
 阶段门设计审查流程用于有效的产品开发  
 
-1. Concept and Definition 
+1. Concept and Definition   
 概念与定义阶段包括对所有潜在想法进行初步筛选、概念评估、项目定义和可行性评估。
-2. Design and Development 
+2. Design and Development   
 设计与开发阶段包括产品和流程的设计与开发。还包括财务可行性考虑，包括价格点和客户接受度的测试。
-3. Validation and Production 
+3. Validation and Production   
 验证与生产阶段包括持续的市场推出规划、产品制造和流程验证。也可能包括测试营销和启动计划的评估。
-4. Final Audit
+4. Final Audit  
 审计阶段包括最终产品和产品评估。通常还包括对一些反思
 
 ## 1.3 Research Approaches for Designing and Launching New Offerings 
