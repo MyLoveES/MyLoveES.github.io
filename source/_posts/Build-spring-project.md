@@ -21,7 +21,7 @@ toc: true
 1. 首先，你需要安装 Spring Boot CLI。你可以参考 Spring Boot 官方文档中的安装指南：https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.installing.cli    
 2. 打开命令行终端，输入以下命令，创建一个基于 Maven 的 Spring Boot 项目：     
 ```
-spring init --groupId=com.weasley --artifactId=file-center --name=file-center --description="file-center" file-center   
+spring init --build maven --groupId=com.weasley --artifactId=file-center --name=file-center --description="file-center" file-center   
 ```
 
 ### 意外情况
