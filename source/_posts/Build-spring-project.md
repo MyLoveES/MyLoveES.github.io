@@ -32,7 +32,115 @@ https://stackoverflow.com/questions/74931848/spring-boot-3-x-upgrade-could-not-r
 Go to the settings --> Build, Execution, Deployment --> Build Tools --> Gradle. Click on your gradle project under 'Gradle Projects'. Choose your Gradle JVM for the project
 ```
 
-# 二、增加通用依赖
+# 二、子模块
+
+### 1) submodule-common
+```
+    1) mkdir submodule-common
+    2) mkdir -p src/main/java/com/weasley/common
+    3) mkdir -p src/main/resources
+```
+
+
+### 2) submodule-domain
+```
+    1) mkdir submodule-domain
+    2) mkdir -p src/main/java/com/weasley/domain
+    3) mkdir -p src/main/resources
+```
+
+### 3) submodule-application
+```
+    1) mkdir submodule-application
+    2) mkdir -p src/main/java/com/weasley/application
+    3) mkdir -p src/main/resources
+```
+
+### 4) submodule-interface
+```
+    1) mkdir submodule-interface
+    2) mkdir -p src/main/java/com/weasley/interface
+    3) mkdir -p src/main/resources
+```
+
+### 5) submodule-infrastructure
+```
+    1) mkdir submodule-infrastructure
+    2) mkdir -p src/main/java/com/weasley/infrastructure
+    3) mkdir -p src/main/resources
+```
+
+## 2.1 gradle 
+根目录 setting.gradle
+```
+    include 'submodule-common'
+    include 'submodule-domain'
+    include 'submodule-application'
+    include 'submodule-interface'
+    include 'submodule-infrastructure'
+```
+
+根目录 build.gradle
+```
+// 定义项目构建所需的仓库和依赖项
+// 定义项目构建所需的仓库和依赖项
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:3.0.4')
+    }
+}
+
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'java-library'
+    id 'org.springframework.boot' version '3.0.4'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+
+allprojects{
+    group = 'com.weasley'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '17'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom 'org.springframework.boot:spring-boot-dependencies:3.0.4'
+        }
+    }
+}
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'groovy'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencies {}
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+```
+
+## 2.2 maven
+
+
+
+# 三、增加通用依赖
 
 ## 1. spring-boot-devtools
 ```
