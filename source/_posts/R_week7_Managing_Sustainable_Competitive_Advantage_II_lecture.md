@@ -1,5 +1,5 @@
 title: R[week7] Managing Sustainable Competitive Advantage lecture II
-date: 2024-03-29
+date: 2024-03-30
 tags: [R-Language]
 categories: R-Language
 math: true
