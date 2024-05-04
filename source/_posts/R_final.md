@@ -260,5 +260,17 @@ seg.mc4  39 8521.980
 
 {% asset_image 1_hierarchical_segmetation_mclust_clusplot.png %}
 
+```
+boxplot(seg.df$Education ~ seg.mc$classification, ylab = "Education", xlab = "Cluster")
+```
+
+{% asset_image 1_hierarchical_segmetation_mclust_boxplot_education.png %}
+
+```
+boxplot(seg.df$Employment ~ seg.mc$classification, ylab = "Employment", xlab = "Cluster")
+```
+
+{% asset_image 1_hierarchical_segmetation_mclust_boxplot_employment.png %}
+
 - Too many segmentations, `Education` and `Employment` maybe well-differentiated.
 
