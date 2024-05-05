@@ -13,7 +13,9 @@ toc: true
 
 ## 1.1 segmentation
 
+According to the demographics data provided, 'Emplyment' data was excluded because it was related to salary. The data with 'salary=7' was removed because it was invalid. 'Regions' are simplified to 3. Finally the continuous vectors are normalized and the ordinal variables are factored.
 
+Considering data contains ordinal varibles and continous variables, we segment customers into four groups based on hierarchical clustering, which differentiation between groups was more appropriate than three or five groups.
 
 ### 1.1.1 import and check data
 ```
