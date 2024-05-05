@@ -578,7 +578,17 @@ Zak's                         2.5174379 -1.426444229 -1.78790183 -1.117084841 -0
 
 > If the brand wants to enhance its differentiation from other brands, brand can focus on balancing the organic and rating aspects. This is more in line with the sustainable development mentioned earlier, and there are fewer brands in this position.
 
-### 1.2.5 Factor analysis using factanal() *
+And then, we can use brand.mean or colMeans to calculate the difference distance to target brand. 
+
+### 1.2.5 move forward
+Suppose we already have the basis for organic, such as brand Casttronovo. If we want to move forward rating, such as brand Fresco, we should increasing its emphasis on salt, counts_of_ingredients and cocoa_butter. And decrease organic and sweetener.
+```
+> colMeans(brand.mean[c("Fresco", "Burnt Fork Bend", "Pura Delizia"), ]) - brand.mean["Castronovo",]
+           cocoa_percent     rating counts_of_ingredients cocoa_butter    vanilla   organic     salt      sugar  sweetener
+Castronovo    -0.2628256 0.01758907             0.6254172    0.3872584 -0.5108785 -1.100088 0.833882 -0.2060768 -0.7544261
+```
+
+### 1.2.6 Factor analysis using factanal() *
 
 ```
 > nScree(brand.mean)
