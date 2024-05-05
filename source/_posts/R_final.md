@@ -3,7 +3,7 @@ date: 2024-04-05
 tags: [R-Language]
 categories: R-Language
 math: true
-toc: true
+toc: false
 ---
 
 > R: 4.3.2 (2023-10-31)  
