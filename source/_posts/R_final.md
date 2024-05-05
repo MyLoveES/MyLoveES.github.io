@@ -227,4 +227,4 @@ seg.hc.segment
 | 4      | 3.685714  | 1.885714 | 2.22857 | 3.542857  | 1.057143           | 2.657143          | 0.6839269            |
 
 
-Graph split to 4 groups(Only explained 50.93% of the data), we see that group3 is modestly well-differentiated. 88 customers with higher salary, means more potential to pay at a higher price. Second target is group1, high consumption of choco, means greater potential market demand.
+Graph split to 4 groups(Only explained 50.93% of the data), we see that group3 is modestly well-differentiated. 88 customers with higher salary, means more potential to pay at a higher price. Second target is group4, higher educated rate and more sensitive to sustainability, companies can move towards sustainability and attract potential highly educated customers.
