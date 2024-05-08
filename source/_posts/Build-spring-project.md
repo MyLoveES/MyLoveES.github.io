@@ -138,7 +138,9 @@ subprojects {
 
 ## 2.2 maven
 
-
+```
+mvn archetype:generate -DgroupId=com.weasley -DartifactId=sdk-common -Dversion=1.0.0 -DinteractiveMode=false
+```
 
 # 三、增加通用依赖
 
