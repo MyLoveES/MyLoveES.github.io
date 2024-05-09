@@ -700,38 +700,37 @@ $vectors
  $ Choco_Consumption   : int  2 2 2 2 2 2 2 2 2 2 ...
  $ Sustainability_Score: num  -0.664 -0.664 -0.664 -0.664 -0.664 ...
 
-> cbc.df <- subset(cbc.df, select = -c(Block,Origin,Manufacture,Age_Group,Gender,Salary, Education, Employment, Location_by_region, Choco_Consumption, .... [TRUNCATED] 
-
+> cbc.df <- subset(cbc.df, select = -c(Block,Age_Group,Gender,Salary, Education, Employment, Location_by_region, Choco_Consumption, Sustainability_Score))
 > head(cbc.df, n = 5)
-  Consumer_id Choice_id Alternative Choice Energy           Nuts     Tokens Organic Premium Fairtrade Sugar Price
-1           1         1           1      1    Low      Nuts only         No      No     Yes       Yes  High     3
-2           1         1           2      0    Low      Nuts only Keep & Use      No      No       Yes   Low     5
-3           1         1           3      0   High             No     Donate     Yes      No        No  High     7
-4           1         2           1      0    Low Nuts and Fruit     Donate     Yes      No        No  High     3
-5           1         2           2      0    Low             No         No      No     Yes       Yes   Low     3
-
+  Consumer_id Choice_id Alternative Choice    Origin    Manufacture Energy           Nuts     Tokens Organic Premium Fairtrade Sugar Price
+1           1         1           1      1 Venezuela      Developed    Low      Nuts only         No      No     Yes       Yes  High     3
+2           1         1           2      0 Venezuela UnderDeveloped    Low      Nuts only Keep & Use      No      No       Yes   Low     5
+3           1         1           3      0      Peru     Developing   High             No     Donate     Yes      No        No  High     7
+4           1         2           1      0   Ecuador UnderDeveloped    Low Nuts and Fruit     Donate     Yes      No        No  High     3
+5           1         2           2      0 Venezuela      Developed    Low             No         No      No     Yes       Yes   Low     3
 > summary(cbc.df, digits = 2)
-  Consumer_id    Choice_id     Alternative     Choice      Energy                 Nuts             Tokens     Organic    Premium    Fairtrade 
- Min.   :  1   Min.   :   1   Min.   :1    Min.   :0.00   High:2356   No            :2317   Donate    :1418   No :2664   No :2652   No :2646  
- 1st Qu.: 95   1st Qu.: 473   1st Qu.:1    1st Qu.:0.00   Low :3314   Nuts and Fruit:1420   Keep & Use:1945   Yes:3006   Yes:3018   Yes:3024  
- Median :190   Median : 946   Median :2    Median :0.00               Nuts only     :1933   No        :2307                                   
- Mean   :190   Mean   : 946   Mean   :2    Mean   :0.33                                                                                       
- 3rd Qu.:284   3rd Qu.:1418   3rd Qu.:3    3rd Qu.:1.00                                                                                       
- Max.   :378   Max.   :1890   Max.   :3    Max.   :1.00                                                                                       
-  Sugar          Price    
- High:2670   Min.   :2.0  
- Low :3000   1st Qu.:3.0  
-             Median :4.0  
-             Mean   :4.5  
-             3rd Qu.:5.0  
-             Max.   :7.0  
-
+  Consumer_id    Choice_id     Alternative     Choice           Origin             Manufacture    Energy                 Nuts             Tokens     Organic   
+ Min.   :  1   Min.   :   1   Min.   :1    Min.   :0.00   Ecuador  :1902   Developed     :1418   High:2356   No            :2317   Donate    :1418   No :2664  
+ 1st Qu.: 95   1st Qu.: 473   1st Qu.:1    1st Qu.:0.00   Peru     :1506   Developing    :2311   Low :3314   Nuts and Fruit:1420   Keep & Use:1945   Yes:3006  
+ Median :190   Median : 946   Median :2    Median :0.00   Venezuela:2262   UnderDeveloped:1941               Nuts only     :1933   No        :2307             
+ Mean   :190   Mean   : 946   Mean   :2    Mean   :0.33                                                                                                        
+ 3rd Qu.:284   3rd Qu.:1418   3rd Qu.:3    3rd Qu.:1.00                                                                                                        
+ Max.   :378   Max.   :1890   Max.   :3    Max.   :1.00                                                                                                        
+ Premium    Fairtrade   Sugar          Price    
+ No :2652   No :2646   High:2670   Min.   :2.0  
+ Yes:3018   Yes:3024   Low :3000   1st Qu.:3.0  
+                                   Median :4.0  
+                                   Mean   :4.5  
+                                   3rd Qu.:5.0  
+                                   Max.   :7.0  
 > str(cbc.df)
-'data.frame':	5670 obs. of  12 variables:
+'data.frame':	5670 obs. of  14 variables:
  $ Consumer_id: int  1 1 1 1 1 1 1 1 1 1 ...
  $ Choice_id  : int  1 1 1 2 2 2 3 3 3 4 ...
  $ Alternative: int  1 2 3 1 2 3 1 2 3 1 ...
  $ Choice     : int  1 0 0 0 0 1 0 0 1 0 ...
+ $ Origin     : Factor w/ 3 levels "Ecuador","Peru",..: 3 3 2 1 3 3 1 2 3 1 ...
+ $ Manufacture: Factor w/ 3 levels "Developed","Developing",..: 1 3 2 3 1 2 1 2 3 2 ...
  $ Energy     : Factor w/ 2 levels "High","Low": 2 2 1 2 2 1 2 1 2 1 ...
  $ Nuts       : Factor w/ 3 levels "No","Nuts and Fruit",..: 3 3 1 2 1 2 3 1 2 3 ...
  $ Tokens     : Factor w/ 3 levels "Donate","Keep & Use",..: 3 2 1 1 3 2 3 2 2 1 ...
@@ -740,7 +739,24 @@ $vectors
  $ Fairtrade  : Factor w/ 2 levels "No","Yes": 2 2 1 1 2 2 2 1 2 2 ...
  $ Sugar      : Factor w/ 2 levels "High","Low": 1 2 1 1 2 1 1 2 2 2 ...
  $ Price      : num  3 5 7 3 3 7 7 4 3 5 ...
+```
+```
+> xtabs(Choice~Origin, data=cbc.df)
+Origin
+  Ecuador      Peru Venezuela 
+      709       495       686 
+```
+> Ecuador(38%) > Venezuela(36%) > Peru(26%)
 
+```
+> xtabs(Choice~Manufacture, data=cbc.df)
+Manufacture
+     Developed     Developing UnderDeveloped 
+           436            893            561
+```
+> Developing > UnderDeveloped > Developed
+
+```
 > xtabs(Choice~Energy, data=cbc.df)
 Energy
 High  Low 
@@ -799,6 +815,8 @@ High  Low
 ### 2.1.2 prepare the data
 
 ```
+cbc.df$Origin <- relevel(cbc.df$Origin, ref = "Venezuela")
+cbc.df$Manufacture <- relevel(cbc.df$Manufacture, ref = "UnderDeveloped")
 cbc.df$Energy <- relevel(cbc.df$Energy, ref = "Low")
 cbc.df$Nuts <- relevel(cbc.df$Nuts, ref = "No")
 cbc.df$Tokens <- relevel(cbc.df$Tokens, ref = "No")
@@ -813,38 +831,42 @@ cbc.df$Sugar <- relevel(cbc.df$Sugar, ref = "Low")
 ```
 > cbc.mlogit <- dfidx(cbc.df, choice="Choice",
 +                     idx=list(c("Choice_id", "Consumer_id"), "Alternative"))
-> 
-> model<-mlogit(Choice ~ 0+Energy+Nuts+Tokens+Organic+Premium+Fairtrade+Sugar+Price, data=cbc.mlogit) 
+> model<-mlogit(Choice ~ 0+Origin+Manufacture+Energy+Nuts+Tokens+Organic+Premium+Fairtrade+Sugar+Price, data=cbc.mlogit) 
 > kable(summary(model)$CoefTable)
 
-|                   |   Estimate| Std. Error|   z-value| Pr(>&#124;z&#124;)|
-|:------------------|----------:|----------:|---------:|------------------:|
-|EnergyHigh         |  0.2145652|  0.0612998|  3.500258|          0.0004648|
-|NutsNuts and Fruit |  0.2672542|  0.0774302|  3.451549|          0.0005574|
-|NutsNuts only      |  0.2733121|  0.0696149|  3.926061|          0.0000863|
-|TokensDonate       |  0.4703555|  0.0797564|  5.897400|          0.0000000|
-|TokensKeep & Use   |  0.0880996|  0.0702870|  1.253426|          0.2100506|
-|OrganicYes         |  0.4107600|  0.0596503|  6.886132|          0.0000000|
-|PremiumYes         |  1.4009101|  0.0661497| 21.177869|          0.0000000|
-|FairtradeYes       |  0.4943088|  0.0611617|  8.082004|          0.0000000|
-|SugarHigh          |  0.6337399|  0.0606658| 10.446418|          0.0000000|
-|Price              | -0.0890062|  0.0201835| -4.409840|          0.0000103|
+|                      |   Estimate| Std. Error|    z-value| Pr(>&#124;z&#124;)|
+|:---------------------|----------:|----------:|----------:|------------------:|
+|OriginEcuador         |  0.2265894|  0.0836676|  2.7082082|          0.0067648|
+|OriginPeru            |  0.2194174|  0.0753628|  2.9114832|          0.0035972|
+|ManufactureDeveloped  |  0.0396353|  0.0812293|  0.4879435|          0.6255898|
+|ManufactureDeveloping | -0.2157812|  0.1743582| -1.2375742|          0.2158740|
+|EnergyHigh            |  0.4153950|  0.1814621|  2.2891551|          0.0220703|
+|NutsNuts and Fruit    |  0.3435879|  0.0820605|  4.1870067|          0.0000283|
+|NutsNuts only         |  0.2629300|  0.0751140|  3.5004111|          0.0004645|
+|TokensDonate          |  0.5203778|  0.0821382|  6.3353922|          0.0000000|
+|TokensKeep & Use      |  0.1345164|  0.0721562|  1.8642397|          0.0622881|
+|OrganicYes            |  0.3947520|  0.0614207|  6.4270217|          0.0000000|
+|PremiumYes            |  1.3982032|  0.0666952| 20.9640710|          0.0000000|
+|FairtradeYes          |  0.4648390|  0.0613058|  7.5822972|          0.0000000|
+|SugarHigh             |  0.6121655|  0.0632706|  9.6753519|          0.0000000|
+|Price                 | -0.0824375|  0.0207685| -3.9693491|          0.0000721|
 ```
 > Demonstrated that positive value of utility means prefer than reference value, meanwhile negative value indicates that they prefer reference level.  
-In case of the Tokens attribute, customers prefer TokensDonate over TokensKeep & Use, etc.
+In case of the Nuts attribute, customers prefer more nuts, etc.
 
 ### 2.1.4 Model fit
 
 ```
+> model.constraint <-mlogit(Choice ~ 0+Nuts, data = cbc.mlogit)
 > lrtest(model, model.constraint)
 Likelihood ratio test
 
-Model 1: Choice ~ 0 + Energy + Nuts + Tokens + Organic + Premium + Fairtrade + 
-    Sugar
+Model 1: Choice ~ 0 + Origin + Manufacture + Energy + Nuts + Tokens + 
+    Organic + Premium + Fairtrade + Sugar + Price
 Model 2: Choice ~ 0 + Nuts
-  #Df  LogLik Df  Chisq Pr(>Chisq)    
-1   9 -1583.4                         
-2   2 -2021.2 -7 875.66  < 2.2e-16 ***
+  #Df  LogLik  Df  Chisq Pr(>Chisq)    
+1  14 -1566.0                          
+2   2 -2021.2 -12 910.45  < 2.2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 ```
@@ -863,6 +885,8 @@ According to mlogit() results, customers prefer:
 6. Faire trade certified
 7. Higher sugar
 8. Lower price
+9. Origin Ecuador or Peru
+10. Developed Manufacture
 
 We test the prediction for the first six choice sets in the data.
 ```
@@ -871,22 +895,20 @@ We test the prediction for the first six choice sets in the data.
 
 |         1|         2|         3|
 |---------:|---------:|---------:|
-| 0.7358008| 0.0879173| 0.1762819|
-| 0.2112649| 0.2365648| 0.5521703|
-| 0.6051281| 0.0649003| 0.3299716|
-| 0.3606865| 0.3545623| 0.2847512|
-| 0.2360595| 0.6803499| 0.0835906|
-| 0.6233509| 0.2487488| 0.1279003|
+| 0.6954121| 0.0868465| 0.2177414|
+| 0.2571232| 0.2116132| 0.5312636|
+| 0.6276737| 0.0693051| 0.3030212|
+| 0.3751338| 0.3188902| 0.3059760|
+| 0.2320737| 0.6858870| 0.0820393|
+| 0.6530199| 0.2196068| 0.1273733|
 ```
-We can see that, in group5, choice 2 is more prefered, which means in a similar price level, customers perfer higher organic and higher  sugar.    
+We can see that, in group 2, choice 3 is more prefered, which means customers may pay more for higher energy and higher nuts and fruit.    
 
 
 And then, Measure the accuracy of prediction across all data:
 ```
 > predicted_alternative <- apply(predict(model,cbc.mlogit),1,which.max) 
-
 > selected_alternative <- cbc.mlogit$Alternative[cbc.mlogit$Choice>0] 
-
 > confusionMatrix(table(predicted_alternative,selected_alternative),positive = "1")
 Confusion Matrix and Statistics
 
@@ -922,6 +944,31 @@ Balanced Accuracy      0.7044   0.7669   0.6805
 If the predictions were random, the accuracy would be 33.3% (for three alternatives). Our simple model is doing much better than that – although it is not perfect.
 
 ## 2.2 Willingness to pay
+
+### 2.2.1 What is the Nuts' value
+
+```
+> (coef(model)["NutsNuts and Fruit"]-coef(model)["NutsNuts only"]) / (-coef(model)["Price"])
+NutsNuts and Fruit 
+         0.9784127 
+```
+The dollar value of an upgrade from Nuts only to Nuts and Fruit.
+
+### 2.2.2 Willingness to Pay for an Attribute Upgrade
+
+```
+> coef(model)["NutsNuts and Fruit"] / (-coef(model)["Price"])
+NutsNuts and Fruit 
+          4.167859
+```
+The dollar value of an upgrade from No Nuts to Nuts and Fruit (No Nuts is reference level. Hence its coeff is 0)
+
+```
+> coef(model)["EnergyHigh"] / (-coef(model)["Price"])
+EnergyHigh 
+  5.038907
+```
+The dollar value of an upgrade from Energy Low to Energy High (Energy Low is reference level. Hence its coeff is 0)
 
 
 
