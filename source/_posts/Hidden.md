@@ -970,6 +970,318 @@ EnergyHigh
 ```
 The dollar value of an upgrade from Energy Low to Energy High (Energy Low is reference level. Hence its coeff is 0)
 
-
-
 ## 2.3 Market Basket
+
+### 2.3.1 Retail Transaction Data: Groceries
+
+```
+> retail.raw <- readLines("6_groceries.dat")
+
+> head(retail.raw)
+[1] "fruit, semi-finished bread, margarine, ready soups"         "crisps and nuts, yogurt, coffee"                           
+[3] "whole milk"                                                 "pip fruit, yogurt, cream cheese, meat spreads"             
+[5] "milk chocolate, whole milk, condensed milk, dark chocolate" "whole milk, butter, yogurt, rice, abrasive cleaner"        
+
+> tail(retail.raw)
+[1] "crisps and nuts, milk chocolate, domestic eggs, zwieback, ketchup, soda, dishes"                                                                                                                             
+[2] "sausage, chicken, sweet, hamburger meat, fruit, grapes, biscuits and crackers, whole milk, butter, whipped/sour cream, flour, coffee, red/blush wine, salty snack, milk chocolate, hygiene articles, napkins"
+[3] "cooking milk chocolate"                                                                                                                                                                                      
+[4] "chicken, fruit, milk chocolate, butter, yogurt, frozen dessert, domestic eggs, bread, rum, cling film/bags"                                                                                                  
+[5] "semi-finished bread, bottled water, soda, bottled beer"                                                                                                                                                      
+[6] "chicken, crisps and nuts, milk chocolate, vinegar, shopping bags"                                                                                                                                            
+
+> summary(retail.raw)
+   Length     Class      Mode 
+     9835 character character 
+
+> retail.list <- strsplit(retail.raw, ",")
+> names(retail.list) <- paste("Trans", 1:length(retail.list))
+> str(retail.list)
+List of 9835
+ $ Trans 1   : chr [1:4] "fruit" " semi-finished bread" " margarine" " ready soups"
+ $ Trans 2   : chr [1:3] "crisps and nuts" " yogurt" " coffee"
+ $ Trans 3   : chr "whole milk"
+ $ Trans 4   : chr [1:4] "pip fruit" " yogurt" " cream cheese" " meat spreads"
+ $ Trans 5   : chr [1:4] "milk chocolate" " whole milk" " condensed milk" " dark chocolate"
+ $ Trans 6   : chr [1:5] "whole milk" " butter" " yogurt" " rice" ...
+ $ Trans 7   : chr "bread"
+ $ Trans 8   : chr [1:5] "milk chocolate" " UHT-milk" " bread" " bottled beer" ...
+ $ Trans 9   : chr "potted plants"
+ $ Trans 10  : chr [1:2] "whole milk" " cereals"
+ $ Trans 11  : chr [1:5] "crisps and nuts" " milk chocolate" " white bread" " bottled water" ...
+ $ Trans 12  : chr [1:9] "fruit" " crisps and nuts" " whole milk" " butter" ...
+ $ Trans 13  : chr "sweet"
+ $ Trans 14  : chr [1:3] "frankfurter" " bread" " soda"
+ $ Trans 15  : chr [1:2] "chicken" " crisps and nuts"
+ $ Trans 16  : chr [1:4] "butter" " sugar" " fruit/vegetable juice" " newspapers"
+ $ Trans 17  : chr "fruit/vegetable juice"
+ $ Trans 18  : chr "packaged fruit/vegetables"
+ $ Trans 19  : chr "milk chocolate"
+ $ Trans 20  : chr "specialty bar"
+ $ Trans 21  : chr "milk chocolate"
+ $ Trans 22  : chr [1:2] "butter milk" " pastry"
+ $ Trans 23  : chr "whole milk"
+ $ Trans 24  : chr [1:5] "crisps and nuts" " cream cheese" " processed cheese" " detergent" ...
+ $ Trans 25  : chr [1:11] "crisps and nuts" " biscuits and crackers" " milk chocolate" " frozen dessert" ...
+ $ Trans 26  : chr [1:2] "bottled water" " canned beer"
+ $ Trans 27  : chr "yogurt"
+ $ Trans 28  : chr [1:4] "sausage" " bread" " soda" " milk chocolate"
+ $ Trans 29  : chr "milk chocolate"
+ $ Trans 30  : chr [1:6] "brown bread" " soda" " fruit/vegetable juice" " canned beer" ...
+ $ Trans 31  : chr [1:4] "yogurt" " beverages" " bottled water" " specialty bar"
+ $ Trans 32  : chr [1:7] "hamburger meat" " milk chocolate" " bread" " spices" ...
+ $ Trans 33  : chr [1:5] "biscuits and crackers" " milk chocolate" " whole milk" " beverages" ...
+ $ Trans 34  : chr [1:8] "beef" " berries" " milk chocolate" " whole milk" ...
+ $ Trans 35  : chr [1:3] "sweet" " grapes" " detergent"
+ $ Trans 36  : chr [1:2] "pastry" " soda"
+ $ Trans 37  : chr "fruit/vegetable juice"
+ $ Trans 38  : chr "canned beer"
+ $ Trans 39  : chr [1:4] "biscuits and crackers" " milk chocolate" " whole milk" " dessert"
+ $ Trans 40  : chr [1:3] "fruit" " zwieback" " newspapers"
+ $ Trans 41  : chr [1:6] "sausage" " bread" " soda" " canned beer" ...
+ $ Trans 42  : chr [1:13] "crisps and nuts" " biscuits and crackers" " whole milk" " yogurt" ...
+ $ Trans 43  : chr [1:2] "berries" " yogurt"
+ $ Trans 44  : chr "canned beer"
+ $ Trans 45  : chr [1:8] "butter milk" " yogurt" " cream cheese" " spread cheese" ...
+ $ Trans 46  : chr "coffee"
+ $ Trans 47  : chr [1:2] "pastry" " bottled water"
+ $ Trans 48  : chr "bread"
+ $ Trans 49  : chr "misc. beverages"
+ $ Trans 50  : chr [1:10] "biscuits and crackers" " milk chocolate" " butter" " curd" ...
+ $ Trans 51  : chr [1:4] "sausage" " bread" " cat food" " newspapers"
+ $ Trans 52  : chr "canned beer"
+ $ Trans 53  : chr [1:4] "ham" " grapes" " milk chocolate" " whole milk"
+ $ Trans 54  : chr [1:10] "turkey" " crisps and nuts" " milk chocolate" " curd" ...
+ $ Trans 55  : chr [1:5] "whole milk" " yogurt" " processed cheese" " pickled vegetables" ...
+ $ Trans 56  : chr [1:4] "whole milk" " curd" " yogurt" " pastry"
+ $ Trans 57  : chr [1:3] "packaged fruit/vegetables" " brown bread" " canned beer"
+ $ Trans 58  : chr [1:7] "bread" " oil" " bottled water" " chewing gum" ...
+ $ Trans 59  : chr [1:6] "ham" " sweet" " whipped/sour cream" " ice cream" ...
+ $ Trans 60  : chr [1:3] "bread" " pastry" " sugar"
+ $ Trans 61  : chr [1:7] "milk chocolate" " whole milk" " frozen vegetables" " canned fish" ...
+ $ Trans 62  : chr [1:2] "sausage" " pastry"
+ $ Trans 63  : chr [1:3] "sausage" " sweet" " whole milk"
+ $ Trans 64  : chr [1:5] "frankfurter" " crisps and nuts" " bread" " brown bread" ...
+ $ Trans 65  : chr [1:3] "bread" " pastry" " soda"
+ $ Trans 66  : chr "whole milk"
+ $ Trans 67  : chr [1:2] "curd cheese" " coffee"
+ $ Trans 68  : chr [1:2] "red/blush wine" " newspapers"
+ $ Trans 69  : chr [1:3] "sausage" " whole milk" " curd"
+ $ Trans 70  : chr [1:8] "crisps and nuts" " pip fruit" " berries" " whole milk" ...
+ $ Trans 71  : chr "red/blush wine"
+ $ Trans 72  : chr [1:7] "whole milk" " butter" " margarine" " specialty fat" ...
+ $ Trans 73  : chr [1:8] "frankfurter" " fruit" " whole milk" " domestic eggs" ...
+ $ Trans 74  : chr [1:3] "whole milk" " meat spreads" " soda"
+ $ Trans 75  : chr "frozen potato products"
+ $ Trans 76  : chr [1:4] "milk chocolate" " whole milk" " bread" " sugar"
+ $ Trans 77  : chr [1:5] "fruit" " whole milk" " curd" " butter milk" ...
+ $ Trans 78  : chr [1:5] "flour" " salt" " bottled water" " fruit/vegetable juice" ...
+ $ Trans 79  : chr [1:4] "sugar" " bottled water" " soda" " bottled beer"
+ $ Trans 80  : chr [1:2] "frozen meals" " coffee"
+ $ Trans 81  : chr "milk chocolate"
+ $ Trans 82  : chr [1:10] "biscuits and crackers" " whole milk" " frozen vegetables" " domestic eggs" ...
+ $ Trans 83  : chr [1:4] "biscuits and crackers" " onions" " hard cheese" " frozen vegetables"
+ $ Trans 84  : chr [1:7] "herbs" " condensed milk" " frozen vegetables" " salt" ...
+ $ Trans 85  : chr "bottled water"
+ $ Trans 86  : chr [1:7] "sausage" " biscuits and crackers" " onions" " yogurt" ...
+ $ Trans 87  : chr [1:2] "coffee" " newspapers"
+ $ Trans 88  : chr [1:3] "beef" " milk chocolate" " whipped/sour cream"
+ $ Trans 89  : chr [1:2] "berries" " yogurt"
+ $ Trans 90  : chr "soda"
+ $ Trans 91  : chr "berries"
+ $ Trans 92  : chr [1:3] "fruit/vegetable juice" " salty snack" " candles"
+ $ Trans 93  : chr [1:4] "fruit" " butter milk" " yogurt" " cream cheese"
+ $ Trans 94  : chr [1:9] "beef" " hamburger meat" " fruit" " berries" ...
+ $ Trans 95  : chr "detergent"
+ $ Trans 96  : chr [1:2] "grapes" " photo/film"
+ $ Trans 97  : chr [1:9] "sausage" " sliced cheese" " bread" " brown bread" ...
+ $ Trans 98  : chr [1:10] "chicken" " hamburger meat" " fruit" " crisps and nuts" ...
+ $ Trans 99  : chr [1:3] "whole milk" " yogurt" " brown bread"
+  [list output truncated]
+> 
+> some(retail.list) #note: random sample; your results may vary
+$`Trans 918`
+[1] "beef"            " fruit"          " UHT-milk"       " brown bread"    " soda"           " bottled beer"  
+[7] " canned beer"    " dark chocolate"
+
+$`Trans 1371`
+[1] "bottled beer"
+
+$`Trans 1563`
+[1] "bread"
+
+$`Trans 2440`
+[1] "shopping bags"
+
+$`Trans 3235`
+[1] "bottled water" " bottled beer"
+
+$`Trans 3260`
+[1] "frankfurter"             " milk chocolate"         " whole milk"             " spread cheese"         
+[5] " sugar"                  " soda"                   " bottled beer"           " house keeping products"
+
+$`Trans 8306`
+[1] "beef"                       " sweet"                     " grapes"                    " berries"                  
+[5] " biscuits and crackers"     " milk chocolate"            " packaged fruit/vegetables" " yogurt"                   
+[9] " newspapers"               
+
+$`Trans 9069`
+[1] "berries"                " biscuits and crackers" " whipped/sour cream"    " soda"                 
+
+$`Trans 9315`
+[1] "whole milk"
+
+$`Trans 9404`
+[1] "sausage"           " bottled water"    " canned beer"      " hygiene articles" " shopping bags"   
+
+> retail.trans <- as(retail.list, "transactions") #takes a few seconds 
+Warning message:
+In asMethod(object) : removing duplicated items in transactions
+> summary(retail.trans)
+transactions as itemMatrix in sparse format with
+ 9835 rows (elements/itemsets/transactions) and
+ 324 columns (items) and a density of 0.01357711 
+
+most frequent items:
+     whole milk  milk chocolate           bread            soda          yogurt         (Other) 
+           1796            1782            1473            1421            1147           35645 
+
+element (itemset/transaction) length distribution:
+sizes
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25 
+2159 1643 1301 1007  854  649  553  433  346  250  178  116   80   73   56   46   27   13   16   10    9    4    4    1    1 
+  27   28   29   32 
+   1    3    1    1 
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  1.000   2.000   3.000   4.399   6.000  32.000 
+
+includes extended item information - examples:
+             labels
+1  abrasive cleaner
+2  artif. sweetener
+3    baby cosmetics
+
+includes extended transaction information - examples:
+  transactionID
+1       Trans 1
+2       Trans 2
+3       Trans 3
+```
+
+Looking at the summary() of the resulting object, we see that the transaction-by-item matrix is 9,835 rows by 324 columns. Of those 3.1 million intersections, only 1% have positive data (density) because most items are not purchased in most transactions. Item whole milk appears the most frequently and occurs in 1,796 baskets of all transactions. 2,159 of the transactions contain only a single item (“sizes” = 1) and the median basket size is 3 items.
+
+### 2.3.2 Retail Transaction Data: Groceries
+
+We now use apriori(data, parameters = ...) to find association rules with the apriori algorithm. At a conceptual level, the apriori algorithm searches through the item sets that frequently occur in a list of transactions. For each item set, it evaluates the various possible rules that express associations among the items at or above a particular level of support, and then retains the rules that show confidence above some threshold value.
+To control the extent that apriori() searches, we use the parameter=list() control to instruct the algorithm to search rules that have a minimum support of 0.01 (1% transactions) and extract the ones that further demonstrate a minimum confidence of 0.3. The resulting rules set is assigned to the groc.rules object:
+
+```
+> inspect(head(retail.trans,3))
+    items                                                   transactionID
+[1] { margarine,  ready soups,  semi-finished bread, fruit} Trans 1      
+[2] { coffee,  yogurt, crisps and nuts}                     Trans 2      
+[3] {whole milk}                                            Trans 3      
+> # Finding rules
+> groc.rules <- apriori(retail.trans, parameter = list(supp=0.01, conf=0.3, target="rules"))
+Apriori
+
+Parameter specification:
+ confidence minval smax arem  aval originalSupport maxtime support minlen maxlen target  ext
+        0.3    0.1    1 none FALSE            TRUE       5    0.01      1     10  rules TRUE
+
+Algorithmic control:
+ filter tree heap memopt load sort verbose
+    0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+
+Absolute minimum support count: 98 
+
+set item appearances ...[0 item(s)] done [0.00s].
+set transactions ...[324 item(s), 9835 transaction(s)] done [0.01s].
+sorting and recoding items ... [97 item(s)] done [0.00s].
+creating transaction tree ... done [0.01s].
+checking subsets of size 1 2 3 4 done [0.00s].
+writing ... [118 rule(s)] done [0.00s].
+creating S4 object  ... done [0.00s].
+```
+
+- "sorting and recoding items ... [97 item(s)] done [0.00s].": tells us that the rules found are using 97 of the total number of items. If this number is too small (only a tiny set of your items) or too large (almost all of them), then you might wish to adjust the support and confidence levels.
+
+- "writing ... [118 rule(s)] done [0.00s].": Next, check the number of rules found, as indicated on the “writing ...” line. In this case, the algorithm found 118 rules. If this number is too low, it suggests the need to lower the support or confidence levels; if it is too high (such as many more rules than items), you might increase the support or confidence levels.
+
+Once we have a rule set from apriori(), we use inspect(rules) to examine the association rules. The complete list of 118 from above is too long to examine here, so we select a subset of them with high lift, lift > 3. We find that five of the rules in our set have lift greater than 3.0:
+```
+> inspect(subset(groc.rules, lift > 3))
+     lhs                                    rhs                      support    confidence coverage   lift      count
+[1]  { sausage}                          => {frankfurter}            0.01006609 1.0000000  0.01006609 16.956897  99  
+[2]  {sweet}                             => { biscuits and crackers} 0.01006609 0.3256579  0.03091002  4.085262  99  
+[3]  { onions}                           => { milk chocolate}        0.01301474 0.5446809  0.02389426  3.006137 128  
+[4]  { fruit}                            => { biscuits and crackers} 0.01128622 0.3074792  0.03670564  3.857217 111  
+[5]  { butter,  milk chocolate}          => { whole milk}            0.01260803 0.5876777  0.02145399  3.218157 124  
+[6]  { pip fruit,  whole milk}           => { milk chocolate}        0.01189629 0.5652174  0.02104728  3.119480 117  
+[7]  { domestic eggs,  milk chocolate}   => { whole milk}            0.01230300 0.5654206  0.02175902  3.096276 121  
+[8]  { crisps and nuts,  yogurt}         => { whole milk}            0.01047280 0.5953757  0.01759024  3.260312 103  
+[9]  { crisps and nuts,  whole milk}     => { yogurt}                0.01047280 0.4186992  0.02501271  3.590154 103  
+[10] { crisps and nuts,  yogurt}         => { milk chocolate}        0.01006609 0.5722543  0.01759024  3.158317  99  
+[11] { crisps and nuts,  milk chocolate} => { yogurt}                0.01006609 0.3750000  0.02684291  3.215453  99  
+[12] { crisps and nuts,  whole milk}     => { milk chocolate}        0.01372649 0.5487805  0.02501271  3.028763 135  
+[13] { biscuits and crackers,  yogurt}   => { whole milk}            0.01230300 0.5960591  0.02064057  3.264054 121  
+[14] { biscuits and crackers,  yogurt}   => { milk chocolate}        0.01148958 0.5566502  0.02064057  3.072197 113 
+```
+
+The first rule tells us that if a transaction contains {sausage} then it is also relatively more likely to contain {frankfurter}. The support shows that the combination appears in 1% of baskets, and the lift shows that the combination is 17× more likely to occur together than one would expect from the individual rates of incidence alone.    
+
+A store might form several insights on the basis of such information. For instance, the store might create a display for frankfurter near the sausage to encourage shoppers who are examining sausage to purchase those frankfurter with them. It might also suggest putting coupons for frankfurter in the sausage area or featuring recipe cards somewhere in the store.
+
+```
+plot(groc.rules)
+```
+
+{% asset_image final_15.png %}
+
+In that chart, we see that most rules involve item combinations that infrequently occur (that is, they have low support) while confidence is relatively smoothly distributed.     
+
+Simply showing points is not very useful, and a key feature with arulesViz is interactive plotting. In the above figure, there are some rules on the upper left with a high lift. We can use interactive plotting to inspect those rules. To do this, add interactive=TRUE to the plot() command:
+
+```
+plot(groc.rules, engine = "plotly", interactive=TRUE)
+```
+
+{% asset_image final_16.png %}
+
+One rule tells us that the combination {crisps and nuts, yogurt} occurs in about 1.0 % of baskets (support=0.0105), and when it occurs, it highly likely includes {whole milk} (confidence= 0.595). The combination occurs 3 times more often than we would expect from the individual incidence rates of {crisps and nuts, yogurt} and {whole milk} considered separately (lift=3.26).
+    
+A common goal in market basket analysis is to find rules with high lift. We can find such rules easily by sorting the larger set of rules by lift. We extract the 15 rules with the highest lift using sort() to order the rules by lift and to take 50 from the head():
+
+```
+> # Finding and Plotting Subsets of Rules
+> groc.hi <- head(sort(groc.rules, by="lift"), 15) 
+> inspect(groc.hi)
+     lhs                                    rhs                      support    confidence coverage   lift      count
+[1]  { sausage}                          => {frankfurter}            0.01006609 1.0000000  0.01006609 16.956897  99  
+[2]  {sweet}                             => { biscuits and crackers} 0.01006609 0.3256579  0.03091002  4.085262  99  
+[3]  { fruit}                            => { biscuits and crackers} 0.01128622 0.3074792  0.03670564  3.857217 111  
+[4]  { crisps and nuts,  whole milk}     => { yogurt}                0.01047280 0.4186992  0.02501271  3.590154 103  
+[5]  { biscuits and crackers,  yogurt}   => { whole milk}            0.01230300 0.5960591  0.02064057  3.264054 121  
+[6]  { crisps and nuts,  yogurt}         => { whole milk}            0.01047280 0.5953757  0.01759024  3.260312 103  
+[7]  { butter,  milk chocolate}          => { whole milk}            0.01260803 0.5876777  0.02145399  3.218157 124  
+[8]  { crisps and nuts,  milk chocolate} => { yogurt}                0.01006609 0.3750000  0.02684291  3.215453  99  
+[9]  { crisps and nuts,  yogurt}         => { milk chocolate}        0.01006609 0.5722543  0.01759024  3.158317  99  
+[10] { pip fruit,  whole milk}           => { milk chocolate}        0.01189629 0.5652174  0.02104728  3.119480 117  
+[11] { domestic eggs,  milk chocolate}   => { whole milk}            0.01230300 0.5654206  0.02175902  3.096276 121  
+[12] { biscuits and crackers,  yogurt}   => { milk chocolate}        0.01148958 0.5566502  0.02064057  3.072197 113  
+[13] { crisps and nuts,  whole milk}     => { milk chocolate}        0.01372649 0.5487805  0.02501271  3.028763 135  
+[14] { onions}                           => { milk chocolate}        0.01301474 0.5446809  0.02389426  3.006137 128  
+[15] { butter,  whole milk}              => { milk chocolate}        0.01260803 0.5414847  0.02328419  2.988497 124  
+```
+
+Support and lift are identical for an item set regardless of the items’ order within a rule (left-hand or right-
+hand side of the rule). However, confidence reflects direction because it computes the occurrence of the right-hand set conditional on the left-hand side set.    
+A graph display of rules may be useful to seek themes and patterns at a higher level. We chart the top 15 rules byliftwithplot(... ,method=“graph”):    
+
+{% asset_image final_17.png %}
+
+The positioning of items on the resulting graph may differ for your system, but the item clusters should be similar. Each circle represents a rule, with inbound arrows coming from items on the left-hand side of
+the rule and outbound arrows going to the right-hand side. The size (area) of the circle represents the rule’s support, and shade represents lift (darker indicates higher lift).
+
+# 3
