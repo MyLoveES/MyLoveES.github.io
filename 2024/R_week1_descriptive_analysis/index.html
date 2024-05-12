@@ -1,0 +1,513 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="本篇主要讲了利用R语言进行数据简单处理分析，和图表的绘制。"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>R[week1] Desciptive Analysis | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/R-Language/" rel="tag">R-Language</a></div><div class="post-time">2024-03-13</div></div></div><div class="container post-header"><h1>R[week1] Desciptive Analysis</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">一、Data</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-vectors"><span class="toc-number">1.1.</span> <span class="toc-text">1. vectors</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-summarize-a-single-variable"><span class="toc-number">1.2.</span> <span class="toc-text">2. Summarize a single variable</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-discrete-variables"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 Discrete variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-continuous-variables"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 Continuous variables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iqr-interquartile-range-%EF%BC%9A"><span class="toc-number">1.2.3.</span> <span class="toc-text">IQR（Interquartile Range）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mad-median-absolute-deviation-%EF%BC%9A"><span class="toc-number">1.2.4.</span> <span class="toc-text">MAD（Median Absolute Deviation）：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iqr-%E5%92%8C-mad-%E7%9B%B8%E6%AF%94%EF%BC%9A"><span class="toc-number">1.2.5.</span> <span class="toc-text">IQR 和 MAD 相比：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-summarize-data-frames"><span class="toc-number">1.3.</span> <span class="toc-text">3 Summarize data frames</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-summary"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 summary()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E5%9B%9B%E5%88%86%E4%BD%8D%E6%95%B0-1st-qu"><span class="toc-number">1.3.2.</span> <span class="toc-text">第一四分位数（1st Qu）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E5%9B%9B%E5%88%86%E4%BD%8D%E6%95%B0-3rd-qu"><span class="toc-number">1.3.3.</span> <span class="toc-text">第三四分位数（3rd Qu）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-describe"><span class="toc-number">1.4.</span> <span class="toc-text">3.2 describe()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#trimmed"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">trimmed</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mad"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">mad</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#skewness-%E5%81%8F%E5%BA%A6"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">Skewness（偏度）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kurtosis-%E5%B3%B0%E5%BA%A6"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">Kurtosis（峰度）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#se"><span class="toc-number">1.4.0.5.</span> <span class="toc-text">se</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E9%80%9A%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.</span> <span class="toc-text">检查数据集的通用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%95%AA%E5%A4%96-trimmmed-and-skewed"><span class="toc-number">1.5.0.1.</span> <span class="toc-text">番外 Trimmmed And Skewed</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-apply"><span class="toc-number">1.6.</span> <span class="toc-text">3.3 apply()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-single-variable-visualisation"><span class="toc-number">1.7.</span> <span class="toc-text">4. Single variable visualisation</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-histograms-%E6%9F%B1%E7%8A%B6%E5%9B%BE"><span class="toc-number">1.7.1.</span> <span class="toc-text">4.1 Histograms 柱状图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">二、week1 code</span></a></li></details></div><div class="container post-content"><p>本篇主要讲了利用R语言进行数据简单处理分析，和图表的绘制。</p>
+<blockquote>
+<p>R: 4.3.2 (2023-10-31)<br>
+R studio: 2023.12.1+402 (2023.12.1+402)</p>
+</blockquote>
+<blockquote>
+<p>install and import libraries</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># install.packages (&quot;readxl&quot;)</span><br><span class="line"># install.packages (&quot;psych&quot;)</span><br><span class="line"># install.packages (&quot;car&quot;)</span><br><span class="line"># install.packages (&quot;gpairs&quot;)</span><br><span class="line"># install.packages (&quot;grid&quot;)</span><br><span class="line"># install.packages (&quot;lattice&quot;)</span><br><span class="line"># install.packages (&quot;corrplot&quot;)</span><br><span class="line"># install.packages (&quot;gplots&quot;)</span><br><span class="line"></span><br><span class="line">library(&quot;readxl&quot;)</span><br><span class="line">library(&quot;psych&quot;)</span><br><span class="line">library(&quot;car&quot;)</span><br><span class="line">library(&quot;gpairs&quot;)</span><br><span class="line">library(&quot;grid&quot;)</span><br><span class="line">library(&quot;lattice&quot;)</span><br><span class="line">library(&quot;corrplot&quot;)</span><br><span class="line">library(&quot;gplots&quot;)</span><br></pre></td></tr></table></figure>
+<h1>一、Data</h1>
+<h2 id="1-vectors"><a class="header-anchor" href="#1-vectors"></a>1. vectors</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 导入数据</span><br><span class="line">&gt; store.df &lt;- read.csv(&quot;Data_Descriptive.csv&quot;, stringsAsFactors=TRUE) </span><br><span class="line">&gt; str(store.df)</span><br><span class="line">&#x27;data.frame&#x27;:	2080 obs. of  10 variables:</span><br><span class="line"> $ storeNum: int  101 101 101 101 101 101 101 101 101 101 ...</span><br><span class="line"> $ Year    : int  1 1 1 1 1 1 1 1 1 1 ...</span><br><span class="line"> $ Week    : int  1 2 3 4 5 6 7 8 9 10 ...</span><br><span class="line"> $ p1sales : int  127 137 156 117 138 115 116 106 116 145 ...</span><br><span class="line"> $ p2sales : int  106 105 97 106 100 127 90 126 94 91 ...</span><br><span class="line"> $ p1price : num  2.29 2.49 2.99 2.99 2.49 2.79 2.99 2.99 2.29 2.49 ...</span><br><span class="line"> $ p2price : num  2.29 2.49 2.99 3.19 2.59 2.49 3.19 2.29 2.29 2.99 ...</span><br><span class="line"> $ p1prom  : int  0 0 1 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ p2prom  : int  0 0 0 0 1 0 0 0 0 0 ...</span><br><span class="line"> $ country : Factor w/ 7 levels &quot;AU&quot;,&quot;BR&quot;,&quot;CN&quot;,..: 7 7 7 7 7 7 7 7 7 7 ...</span><br><span class="line"></span><br><span class="line"># 从上面结果可以看出，csv中一共有2080个观察值（行），10个变量（列）。</span><br><span class="line"># 其中country是factor类型的，一共有7个level。</span><br></pre></td></tr></table></figure>
+<h2 id="2-summarize-a-single-variable"><a class="header-anchor" href="#2-summarize-a-single-variable"></a>2. Summarize a single variable</h2>
+<h3 id="2-1-discrete-variables"><a class="header-anchor" href="#2-1-discrete-variables"></a>2.1 Discrete variables</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; table(store.df$p1price)</span><br><span class="line">2.19 2.29 2.49 2.79 2.99 </span><br><span class="line"> 395  444  423  443  375</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注⚠️：table() 函数<br>
+用来创建频数表（Frequency Table）的函数。它可以用于统计一组数据中各个值出现的次数，并将结果以表格的形式呈现。<br>
+它也可以提供多维的结果，比如：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; df &lt;- data.frame(</span><br><span class="line">+   gender = c(&quot;Male&quot;, &quot;Female&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Male&quot;, &quot;Female&quot;, &quot;Male&quot;, &quot;Female&quot;, &quot;Female&quot;, &quot;Male&quot;),</span><br><span class="line">+   age_group = c(&quot;Young&quot;, &quot;Young&quot;, &quot;Old&quot;, &quot;Young&quot;, &quot;Old&quot;, &quot;Young&quot;, &quot;Old&quot;, &quot;Old&quot;, &quot;Young&quot;, &quot;Young&quot;)</span><br><span class="line">+ )</span><br><span class="line"></span><br><span class="line"># 创建多维频数表</span><br><span class="line">&gt; table(df$gender, df$age_group)</span><br><span class="line"></span><br><span class="line">       Young Old</span><br><span class="line">Female     3   2</span><br><span class="line">Male       4   1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>除table()外，还有其他类似的函数以及功能：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prop.table()</td>
+<td>计算表格中每个单元格的比例。</td>
+</tr>
+<tr>
+<td>xtabs()</td>
+<td>创建频数表，支持多维数据和公式语法。</td>
+</tr>
+<tr>
+<td>addmargins()</td>
+<td>向表格中添加边际总计。</td>
+</tr>
+<tr>
+<td>ftable()</td>
+<td>创建扁平的表格，更容易查看和理解。</td>
+</tr>
+<tr>
+<td>summary()</td>
+<td>通常用于摘要统计，显示每个因子变量的数量，以及数值型变量的摘要统计量。</td>
+</tr>
+<tr>
+<td>dplyr::count()</td>
+<td>计算数据框中每个类别的频数，并返回包含频数的数据框。</td>
+</tr>
+<tr>
+<td>psych::describe()</td>
+<td>生成包含多个统计指标的摘要统计信息，如均值、标准差、最小值、最大值等。</td>
+</tr>
+</tbody>
+</table>
+<p>题外话结束，继续前面的数据分析</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; p1.table &lt;- table(store.df$p1price) </span><br><span class="line"></span><br><span class="line">&gt; p1.table</span><br><span class="line"></span><br><span class="line">2.19 2.29 2.49 2.79 2.99 </span><br><span class="line"> 395  444  423  443  375</span><br><span class="line"></span><br><span class="line"># talbe()返回的是一个table类型的结果</span><br><span class="line">&gt; str(p1.table)</span><br><span class="line"> &#x27;table&#x27; int [1:5(1d)] 395 444 423 443 375</span><br><span class="line"> - attr(*, &quot;dimnames&quot;)=List of 1</span><br><span class="line">  ..$ : chr [1:5] &quot;2.19&quot; &quot;2.29&quot; &quot;2.49&quot; &quot;2.79&quot; ...</span><br><span class="line"></span><br><span class="line"># 转为图</span><br><span class="line">&gt; plot(p1.table)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week1_descriptive_analysis/plot1.png" class="">
+<blockquote>
+<p>注⚠️：plot()函数</p>
+</blockquote>
+<blockquote>
+<p>用于创建各种类型的图形的基本函数之一。它可以用于绘制散点图、线图、柱状图、箱线图等等。后面会有更多的用法，就不在此处列举了。<br>
+plot()会自适应地采用一种图表来展示数据，但我们同样可以根据需要调整。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 二维table，获取每个价位上的促销频数</span><br><span class="line">&gt; table(store.df$p1price, store.df$p1prom)</span><br><span class="line">      </span><br><span class="line">         0   1</span><br><span class="line">  2.19 354  41</span><br><span class="line">  2.29 398  46</span><br><span class="line">  2.49 381  42</span><br><span class="line">  2.79 396  47</span><br><span class="line">  2.99 343  32</span><br><span class="line"></span><br><span class="line"># 计算product 1在每个price上的促销比例[prod1/(prod1+prod2)]</span><br><span class="line">&gt; p1.table2 &lt;- table(store.df$p1price, store.df$p1prom) </span><br><span class="line"></span><br><span class="line">&gt; p1.table2[ ,2] / (p1.table2[ ,1] + p1.table2[ ,2])</span><br><span class="line">      2.19       2.29       2.49       2.79       2.99 </span><br><span class="line">0.10379747 0.10360360 0.09929078 0.10609481 0.08533333</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-continuous-variables"><a class="header-anchor" href="#2-2-continuous-variables"></a>2.2 Continuous variables</h3>
+<blockquote>
+<p>注⚠️：Continuous variables VS Discrete variable</p>
+</blockquote>
+<blockquote>
+<p>连续变量，指的是可以在一个范围内取任意值的变量，而不是一组离散的值。这种变量可以在某个范围内连续地取值，可以是任何数值。<br>
+比如一个人的身高、体重、年龄等就是连续变量。因为身高、体重、年龄都可以在一个范围内取任何实数值，而不仅仅是某些特定的离散数值。另外，温度、时间等也是连续变量，因为它们可以在一个连续的范围内取任何值。</p>
+</blockquote>
+<blockquote>
+<p>离散变量，是指只能取有限个数值的变量。<br>
+比如一个班级中学生的人数、一个箱子中的球的个数等都是离散变量，因为它们只能取整数值，而不能取连续的任意数值。</p>
+</blockquote>
+<p>对于连续变量，根据其分布来总结数据更有帮助。最常见的方法是使用数学函数来描述数据的范围、中心、集中或分散的程度，以及可能感兴趣的具体点(如第90百分位):</p>
+<table>
+<thead>
+<tr>
+<th>Describe</th>
+<th>Function</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extremes[极值]</td>
+<td>min(x)</td>
+<td>Min</td>
+</tr>
+<tr>
+<td></td>
+<td>max(x)</td>
+<td>Max</td>
+</tr>
+<tr>
+<td>Central trendency[中心趋势]</td>
+<td>mean(x)</td>
+<td>Arithmetic mean</td>
+</tr>
+<tr>
+<td></td>
+<td>median(x)</td>
+<td>Mid</td>
+</tr>
+<tr>
+<td>Dispersion[离散度]</td>
+<td>var(x)</td>
+<td>Variance around the mean</td>
+</tr>
+<tr>
+<td></td>
+<td>sd(x)</td>
+<td>Standard deviaion(sqrt(var(x)))</td>
+</tr>
+<tr>
+<td></td>
+<td>IQR(x)</td>
+<td>Interquartile range, 75th-25th percentile</td>
+</tr>
+<tr>
+<td></td>
+<td>mad(x)</td>
+<td>Median absolute deviation</td>
+</tr>
+<tr>
+<td>Points[观察值/数据点]</td>
+<td>quantile(x, probs=c(…))</td>
+<td>Percentiles</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>方差 var(x)<br>
+描述数据分布离散程度的一种统计量。它衡量了数据集中每个数据点与数据集平均值之间的差异程度</p>
+</blockquote>
+<blockquote>
+<p>标准差 sd(x)<br>
+方差的平方根</p>
+</blockquote>
+<blockquote>
+<p>IQR(x)<br>
+是统计学中用于度量数据分布的差异性的一种方法。它是第三四分位数（Q3）与第一四分位数（Q1）之间的距离，通常用来描述数据的离散程度。与方差和标准差不同，IQR不受极端值（离群值）的影响，因此在某些情况下，IQR更适合用来度量数据的离散程度。<br>
+IQR的优势在于它提供了一个对数据集的中间50%数据的度量，而不受极端值的影响。这使得它在处理偏斜或包含极端值的数据集时更为稳健。在描述偏态分布或存在离群值的数据时，IQR通常比标准差更具有代表性。<br>
+在统计学和数据分析中，通常会将IQR与箱线图结合使用。箱线图显示了数据的四分位数范围以及任何离群值的存在，这使得可以直观地了解数据的分布情况，并且可以通过比较不同组的箱线图来识别任何差异。</p>
+</blockquote>
+<blockquote>
+<p>mad(x)<br>
+同IQR，简单比较一下这两者：</p>
+</blockquote>
+<div style="background-color:#f0f0f0; padding:10px">
+<h3 id="iqr-interquartile-range-："><a class="header-anchor" href="#iqr-interquartile-range-："></a>IQR（Interquartile Range）：</h3>
+<blockquote>
+<p><strong>定义</strong>：IQR是数据集中第三四分位数（Q3）和第一四分位数（Q1）之间的距离。<br>
+<strong>计算方法</strong>：IQR = Q3 - Q1，其中Q3是数据集中75th百分位数，Q1是数据集中25th百分位数。<br>
+<strong>用途</strong>：IQR通常用于识别数据中的离群值，因为它提供了数据中间50%的范围，并且对于偏斜分布的数据比标准差更鲁棒。</p>
+</blockquote>
+<h3 id="mad-median-absolute-deviation-："><a class="header-anchor" href="#mad-median-absolute-deviation-："></a>MAD（Median Absolute Deviation）：</h3>
+<blockquote>
+<p><strong>定义</strong>：MAD是数据点与数据集中位数的绝对偏差的中位数。<br>
+<strong>计算方法</strong>：首先计算每个数据点与数据集中位数的绝对偏差，然后取这些绝对偏差的中位数。<br>
+<strong>用途</strong>：MAD也用于度量数据的离散程度，并且在处理离群值时更具有鲁棒性，因为它不受极端值的影响，类似于IQR。</p>
+</blockquote>
+<h3 id="iqr-和-mad-相比："><a class="header-anchor" href="#iqr-和-mad-相比："></a>IQR 和 MAD 相比：</h3>
+<blockquote>
+<p><strong>计算方法</strong>：IQR是基于四分位数计算的，而MAD是基于中位数计算的。
+<strong>鲁棒性</strong>：IQR和MAD都是鲁棒的统计量，对异常值的影响较小，但在某些情况下，MAD可能更为鲁棒，特别是当数据集包含大量离群值时。
+<strong>解释</strong>：IQR更容易解释，因为它代表了数据集中间50%的范围，而MAD则表示数据点与中位数的典型偏差。
+<strong>常见用途</strong>：IQR和MAD在异常值检测和数据分析中都很常见，但在不同的背景下可能有不同的应用场景。</p>
+</blockquote>
+</div>
+<blockquote>
+<p>quantile(x, probs=c(…))<br>
+通常用于计算数据集 x 的分位数。其中 probs 参数是一个包含所需分位数的百分比的向量。</p>
+</blockquote>
+<blockquote>
+<p>x：包含数据的向量或数据框。<br>
+probs：一个包含所需分位数的百分比的向量，例如，probs = c(0.25, 0.5, 0.75) 表示计算第一四分位数（25th百分位数）、中位数（50th百分位数）、第三四分位数（75th百分位数）。</p>
+</blockquote>
+<blockquote>
+<p>返回值：返回一个包含计算得到的分位数的向量，其顺序与 probs 中指定的顺序相对应。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 创建一个示例数据集</span><br><span class="line">&gt; data &lt;- c(10, 15, 20, 25, 30, 35, 40, 45, 50)</span><br><span class="line"></span><br><span class="line"># 计算第一四分位数、中位数、第三四分位数</span><br><span class="line">&gt; quantiles &lt;- quantile(data, probs = c(0.25, 0.5, 0.75))</span><br><span class="line"></span><br><span class="line"># 打印结果</span><br><span class="line">&gt; print(quantiles)</span><br><span class="line">25% 50% 75% </span><br><span class="line"> 20  30  40</span><br></pre></td></tr></table></figure>
+<p>题外话结束。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; min(store.df$p1sales)</span><br><span class="line">[1] 73</span><br><span class="line"></span><br><span class="line">&gt; max(store.df$p1sales)</span><br><span class="line">[1] 263</span><br><span class="line"></span><br><span class="line">&gt; mean(store.df$p1prom)</span><br><span class="line">[1] 0.1</span><br><span class="line"></span><br><span class="line">&gt; median(store.df$p2sales)</span><br><span class="line">[1] 96</span><br><span class="line"></span><br><span class="line">&gt; var(store.df$p1sales)</span><br><span class="line">[1] 805.0044</span><br><span class="line"></span><br><span class="line">&gt; sd(store.df$p1sales)</span><br><span class="line">[1] 28.3726</span><br><span class="line"></span><br><span class="line">&gt; IQR(store.df$p1sales)</span><br><span class="line">[1] 37</span><br><span class="line"></span><br><span class="line">&gt; mad(store.df$p1sales)</span><br><span class="line">[1] 26.6868</span><br><span class="line"></span><br><span class="line">&gt; quantile(store.df$p1sales, probs = c(0.25, 0.5, 0.75))</span><br><span class="line">25% 50% 75% </span><br><span class="line">113 129 150 </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>For skewed and asymmetric distributions that are common in marketing, such as unit sales or household income, the arithmetic mean() and standard deviation sd() may be misleading; in those cases, the median() and the interquartile range IQR() (the range of the middle 50% of data) are often used to summarize a distribution.</p>
+</blockquote>
+<blockquote>
+<p>对于市场营销中常见的倾斜和不对称分布，例如单位销售或家庭收入，算术平均值()和标准差sd()可能会产生误导;在这些情况下，中位数()和四分位数间距IQR()(中间50%数据的范围)通常用于总结分布。</p>
+</blockquote>
+<div style="background-color:#f0f0f0; padding:10px">
+<blockquote>
+<p>因为在偏斜和不对称分布的情况下，数据中可能存在极端值（离群值），这些值对于算术平均值和标准差的影响较大，导致这两个统计量可能不太准确地反映整体数据的特征。</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>算术平均值的问题： 偏斜分布中的极端值会对平均值产生较大的影响，使其偏离数据集的中心趋势。这导致平均值可能不再是数据的典型中心度量。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>标准差的问题： 标准差对极端值非常敏感，因为它是基于平方差的，这会放大离群值的影响。这样，标准差可能高估了数据的真实分散程度。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>相比之下，中位数是数据集中的中间值，不受极端值的影响，因此更能反映数据的中心趋势。四分位数间距（IQR）是数据中间50%的范围，它也对离群值具有一定的鲁棒性，因此更适合在偏斜分布中度量数据的分散程度。</p>
+</blockquote>
+<blockquote>
+<p>综合起来，为了更准确地摘要和理解偏斜分布的数据特征，使用中位数和四分位数间距通常是更合适的选择。这样的度量方法更具有鲁棒性，能够提供更稳健、不受极端值干扰的数据摘要。</p>
+</blockquote>
+</div> 
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; quantile(store.df$p1sales, probs = c(0.05, 0.95)) # central 90% data</span><br><span class="line"> 5% 95% </span><br><span class="line"> 93 184 </span><br><span class="line"></span><br><span class="line">&gt; quantile(store.df$p1sales, probs = 0:10/10)</span><br><span class="line">   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% </span><br><span class="line"> 73.0 100.0 109.0 117.0 122.6 129.0 136.0 145.0 156.0 171.0 263.0o</span><br><span class="line"></span><br><span class="line">&gt; quantile(store.df$p1sales, probs = seq(from=0, to=1, by=0.1))</span><br><span class="line">   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% </span><br><span class="line"> 73.0 100.0 109.0 117.0 122.6 129.0 136.0 145.0 156.0 171.0 263.0</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Suppose we wanted a summary of the sales for product 1 and product 2 based on their median and interquartile range. We might assemble these summary statistics into a data frame that is easier to read than the one-line- at-a-time output above. We create a data frame to hold our summary statistics. We name the columns and rows and fill in the cells with function values:</p>
+</blockquote>
+<blockquote>
+<p>假设我们想根据产品1和产品2的中位数和四分位数范围汇总它们的销售额。我们可以将这些汇总统计信息组合成一个数据帧，这样比上面的一行一行的输出更容易阅读。我们创建一个数据框架来保存汇总统计数据。我们为列和行命名，并用函数值填充单元格:</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysummary.df &lt;- data.frame(matrix(NA, nrow=2, ncol=2)) # 2 by 2 empty matrix </span><br><span class="line">names(mysummary.df) &lt;- c(&quot;Median Sales&quot;, &quot;IQR&quot;) # name columns </span><br><span class="line">rownames(mysummary.df) &lt;- c(&quot;Product 1&quot;, &quot;Product 2&quot;) # name rows </span><br><span class="line">mysummary.df[&quot;Product 1&quot;, &quot;Median Sales&quot;] &lt;- median(store.df$p1sales) </span><br><span class="line">mysummary.df[&quot;Product 2&quot;, &quot;Median Sales&quot;] &lt;- median(store.df$p2sales) </span><br><span class="line">mysummary.df[&quot;Product 1&quot;, &quot;IQR&quot;] &lt;- IQR(store.df$p1sales) </span><br><span class="line">mysummary.df[&quot;Product 2&quot;, &quot;IQR&quot;] &lt;- IQR(store.df$p2sales)</span><br><span class="line">mysummary.df</span><br></pre></td></tr></table></figure>
+<h2 id="3-summarize-data-frames"><a class="header-anchor" href="#3-summarize-data-frames"></a>3 Summarize data frames</h2>
+<h3 id="3-1-summary"><a class="header-anchor" href="#3-1-summary"></a>3.1 summary()</h3>
+<p>有事没事，summary一下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; summary(store.df)</span><br><span class="line">    storeNum          Year          Week          p1sales       p2sales         p1price         p2price         p1prom        p2prom       country </span><br><span class="line"> Min.   :101.0   Min.   :1.0   Min.   : 1.00   Min.   : 73   Min.   : 51.0   Min.   :2.190   Min.   :2.29   Min.   :0.0   Min.   :0.0000   AU:104  </span><br><span class="line"> 1st Qu.:105.8   1st Qu.:1.0   1st Qu.:13.75   1st Qu.:113   1st Qu.: 84.0   1st Qu.:2.290   1st Qu.:2.49   1st Qu.:0.0   1st Qu.:0.0000   BR:208  </span><br><span class="line"> Median :110.5   Median :1.5   Median :26.50   Median :129   Median : 96.0   Median :2.490   Median :2.59   Median :0.0   Median :0.0000   CN:208  </span><br><span class="line"> Mean   :110.5   Mean   :1.5   Mean   :26.50   Mean   :133   Mean   :100.2   Mean   :2.544   Mean   :2.70   Mean   :0.1   Mean   :0.1385   DE:520  </span><br><span class="line"> 3rd Qu.:115.2   3rd Qu.:2.0   3rd Qu.:39.25   3rd Qu.:150   3rd Qu.:113.0   3rd Qu.:2.790   3rd Qu.:2.99   3rd Qu.:0.0   3rd Qu.:0.0000   GB:312  </span><br><span class="line"> Max.   :120.0   Max.   :2.0   Max.   :52.00   Max.   :263   Max.   :225.0   Max.   :2.990   Max.   :3.19   Max.   :1.0   Max.   :1.0000   JP:416  </span><br><span class="line">                                                                                                                                           US:312  </span><br><span class="line"></span><br><span class="line">&gt; summary(store.df$Year)</span><br><span class="line">   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span><br><span class="line">    1.0     1.0     1.5     1.5     2.0     2.0 </span><br><span class="line"></span><br><span class="line">&gt; summary(store.df, digits = 2) # 保留小数点后两位</span><br><span class="line">    storeNum        Year          Week       p1sales       p2sales       p1price       p2price        p1prom        p2prom     country </span><br><span class="line"> Min.   :101   Min.   :1.0   Min.   : 1   Min.   : 73   Min.   : 51   Min.   :2.2   Min.   :2.3   Min.   :0.0   Min.   :0.00   AU:104  </span><br><span class="line"> 1st Qu.:106   1st Qu.:1.0   1st Qu.:14   1st Qu.:113   1st Qu.: 84   1st Qu.:2.3   1st Qu.:2.5   1st Qu.:0.0   1st Qu.:0.00   BR:208  </span><br><span class="line"> Median :110   Median :1.5   Median :26   Median :129   Median : 96   Median :2.5   Median :2.6   Median :0.0   Median :0.00   CN:208  </span><br><span class="line"> Mean   :110   Mean   :1.5   Mean   :26   Mean   :133   Mean   :100   Mean   :2.5   Mean   :2.7   Mean   :0.1   Mean   :0.14   DE:520  </span><br><span class="line"> 3rd Qu.:115   3rd Qu.:2.0   3rd Qu.:39   3rd Qu.:150   3rd Qu.:113   3rd Qu.:2.8   3rd Qu.:3.0   3rd Qu.:0.0   3rd Qu.:0.00   GB:312  </span><br><span class="line"> Max.   :120   Max.   :2.0   Max.   :52   Max.   :263   Max.   :225   Max.   :3.0   Max.   :3.2   Max.   :1.0   Max.   :1.00   JP:416  </span><br><span class="line">                                                                                                                               US:312</span><br></pre></td></tr></table></figure>
+<div style="background-color:#f0f0f0; padding:10px">
+<blockquote>
+<p>在统计学中，“1st Qu” 和 “3rd Qu” 分别代表第一四分位数和第三四分位数。四分位数是将数据集分为四等份的值，它们用于描述数据分布的位置和分散程度。</p>
+</blockquote>
+<h3 id="第一四分位数-1st-qu"><a class="header-anchor" href="#第一四分位数-1st-qu"></a><strong>第一四分位数（1st Qu）</strong></h3>
+<blockquote>
+<p>是数据集中所有数值排序后第25%位置的值，也就是数据中的较小的四分之一。</p>
+</blockquote>
+<h3 id="第三四分位数-3rd-qu"><a class="header-anchor" href="#第三四分位数-3rd-qu"></a><strong>第三四分位数（3rd Qu）</strong></h3>
+<blockquote>
+<p>是数据集中所有数值排序后第75%位置的值，也就是数据中的较大的四分之三。</p>
+</blockquote>
+</div>
+<h2 id="3-2-describe"><a class="header-anchor" href="#3-2-describe"></a>3.2 describe()</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; library(psych) # install if needed </span><br><span class="line"></span><br><span class="line">&gt; describe(store.df)</span><br><span class="line">         vars    n   mean    sd median trimmed   mad    min    max range  skew kurtosis   se</span><br><span class="line">storeNum    1 2080 110.50  5.77 110.50  110.50  7.41 101.00 120.00  19.0  0.00    -1.21 0.13</span><br><span class="line">Year        2 2080   1.50  0.50   1.50    1.50  0.74   1.00   2.00   1.0  0.00    -2.00 0.01</span><br><span class="line">Week        3 2080  26.50 15.01  26.50   26.50 19.27   1.00  52.00  51.0  0.00    -1.20 0.33</span><br><span class="line">p1sales     4 2080 133.05 28.37 129.00  131.08 26.69  73.00 263.00 190.0  0.74     0.66 0.62</span><br><span class="line">p2sales     5 2080 100.16 24.42  96.00   98.05 22.24  51.00 225.00 174.0  0.99     1.51 0.54</span><br><span class="line">p1price     6 2080   2.54  0.29   2.49    2.53  0.44   2.19   2.99   0.8  0.28    -1.44 0.01</span><br><span class="line">p2price     7 2080   2.70  0.33   2.59    2.69  0.44   2.29   3.19   0.9  0.32    -1.40 0.01</span><br><span class="line">p1prom      8 2080   0.10  0.30   0.00    0.00  0.00   0.00   1.00   1.0  2.66     5.10 0.01</span><br><span class="line">p2prom      9 2080   0.14  0.35   0.00    0.05  0.00   0.00   1.00   1.0  2.09     2.38 0.01</span><br><span class="line">country*   10 2080   4.55  1.72   4.50    4.62  2.22   1.00   7.00   6.0 -0.29    -0.81 0.04</span><br><span class="line"></span><br><span class="line"># vars: 方差</span><br><span class="line"># n: 观测数量（样本数量）</span><br><span class="line"># mean: 均值</span><br><span class="line"># sd: 标准差</span><br><span class="line"># median: 中位数</span><br><span class="line"># trimmed: 修剪均值（去除异常值后的均值）</span><br><span class="line"># mad: 中位数绝对偏差（Median Absolute Deviation）</span><br><span class="line"># min: 最小值</span><br><span class="line"># max: 最大值</span><br><span class="line"># range: 范围（最大值与最小值的差）</span><br><span class="line"># skew: 偏度（Skewness，衡量分布偏斜程度）</span><br><span class="line"># kurtosis: 峰度（Kurtosis，衡量分布的尖峰程度）</span><br><span class="line"># se: 标准误差（Standard Error，均值的估计标准差）</span><br><span class="line"></span><br><span class="line">&gt; describe(store.df[,c(2, 4:9)])</span><br><span class="line">        vars    n   mean    sd median trimmed   mad   min    max range skew kurtosis   se</span><br><span class="line">Year       1 2080   1.50  0.50   1.50    1.50  0.74  1.00   2.00   1.0 0.00    -2.00 0.01</span><br><span class="line">p1sales    2 2080 133.05 28.37 129.00  131.08 26.69 73.00 263.00 190.0 0.74     0.66 0.62</span><br><span class="line">p2sales    3 2080 100.16 24.42  96.00   98.05 22.24 51.00 225.00 174.0 0.99     1.51 0.54</span><br><span class="line">p1price    4 2080   2.54  0.29   2.49    2.53  0.44  2.19   2.99   0.8 0.28    -1.44 0.01</span><br><span class="line">p2price    5 2080   2.70  0.33   2.59    2.69  0.44  2.29   3.19   0.9 0.32    -1.40 0.01</span><br><span class="line">p1prom     6 2080   0.10  0.30   0.00    0.00  0.00  0.00   1.00   1.0 2.66     5.10 0.01</span><br><span class="line">p2prom     7 2080   0.14  0.35   0.00    0.05  0.00  0.00   1.00   1.0 2.09     2.38 0.01</span><br></pre></td></tr></table></figure>
+<h4 id="trimmed"><a class="header-anchor" href="#trimmed"></a>trimmed</h4>
+<blockquote>
+<p>trimmed 是指去除了数据中一定比例的极端值（通常是尾部的极端值）后计算得到的均值。修剪均值（trimmed mean）是一种对均值的修正，旨在减少极端值对均值的影响，从而更好地反映数据的中心趋势。</p>
+</blockquote>
+<blockquote>
+<p>通常情况下，修剪均值的计算方式是将数据集中的一定比例的最小值和最大值去掉，然后计算剩余数据的算术平均值。这个比例可以根据实际情况而定，常见的修剪比例包括去掉5%、10%甚至更多的极端值。</p>
+</blockquote>
+<blockquote>
+<p>修剪均值适用于数据集中存在明显的极端值或异常值的情况。与简单的算术平均值相比，修剪均值更加稳健，因为它对异常值的影响更小，更能够反映数据的典型中心位置。然而，需要注意的是，修剪均值可能会导致一定程度上的信息损失，尤其是当数据中的极端值具有特殊意义或重要性时。</p>
+</blockquote>
+<h4 id="mad"><a class="header-anchor" href="#mad"></a>mad</h4>
+<blockquote>
+<p>MAD（Median Absolute Deviation，中位数绝对偏差）是一种用于衡量数据集散布度的统计量，它衡量了数据点与数据集中位数之间的典型偏差。</p>
+</blockquote>
+<blockquote>
+<p>具体而言，MAD是数据集中所有数据点与数据集中位数的绝对偏差的中位数。</p>
+</blockquote>
+<blockquote>
+<p>MAD相对于标准差的优势在于它对极端值（离群值）具有较强的鲁棒性。因为MAD是基于绝对偏差的中位数计算的，它不受极端值的影响，更能够准确地描述数据的离散程度，尤其是在存在离群值的情况下。</p>
+</blockquote>
+<blockquote>
+<p>MAD常用于金融领域和其他领域的数据分析中，特别是在需要考虑数据的异常值对结果的影响时。</p>
+</blockquote>
+<h4 id="skewness-偏度"><a class="header-anchor" href="#skewness-偏度"></a>Skewness（偏度）</h4>
+<blockquote>
+<p>是描述数据分布形态偏斜程度的统计量。它衡量了数据分布相对于其平均值的不对称性，即数据集在平均值两侧的分布是否对称。</p>
+</blockquote>
+<blockquote>
+<p>正偏（Positive Skewness）：数据分布向右偏移，尾部向右延伸，即数据集右侧的尾部较长，平均值右侧的数据点较多，形成一个长尾。正偏分布意味着数据集中存在较多较大的值。</p>
+</blockquote>
+<blockquote>
+<p>负偏（Negative Skewness）：数据分布向左偏移，尾部向左延伸，即数据集左侧的尾部较长，平均值左侧的数据点较多，形成一个长尾。负偏分布意味着数据集中存在较多较小的值。</p>
+</blockquote>
+<blockquote>
+<p>偏度为0表示数据分布相对对称，大于0表示正偏，小于0表示负偏。偏度的绝对值越大，偏斜程度越明显。</p>
+</blockquote>
+<blockquote>
+<p>偏度是了解数据分布形态的重要指标，特别是在做数据分析和模型建立时，它可以帮助我们判断数据集是否需要进行对称化处理，以满足建模的假设条件。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">对称化处理是指通过某种方法或技术使数据分布更加对称的过程。在统计学和数据分析中，对称化处理通常用于调整数据的分布形态，使其更接近对称分布，以满足统计方法或模型的假设条件。</span><br><span class="line"></span><br><span class="line">常见的对称化处理方法包括：</span><br><span class="line"></span><br><span class="line">1. 对数转换（Log Transformation）：对数转换是通过取数据的对数来减小数据的偏度。这种转换通常用于处理右偏分布的数据，将其转换为更接近对称分布的形式。</span><br><span class="line"></span><br><span class="line">2. 方根转换（Square Root Transformation）：方根转换是通过取数据的平方根来减小数据的偏度。类似于对数转换，它也可以用于调整右偏分布的数据。</span><br><span class="line"></span><br><span class="line">3. 幂转换（Power Transformation）：幂转换是通过取数据的某个幂次方来调整数据的分布形态。常见的幂次方包括0.5（平方根转换）、0.33、0.25等，具体选择取决于数据的分布特征。</span><br><span class="line"></span><br><span class="line">4. 标准化（Standardization）：标准化是将数据转换为均值为0，标准差为1的标准正态分布。虽然标准化不会改变数据的分布形态，但它可以将数据转换为具有固定均值和方差的形式，有助于在一些情况下比较不同尺度的变量。</span><br><span class="line"></span><br><span class="line">对称化处理的目的是使数据更符合统计模型的假设，例如线性模型对数据的正态性假设。通过对数据进行对称化处理，可以提高统计分析的准确性和稳健性，并提高模型的拟合效果。</span><br></pre></td></tr></table></figure>
+<h4 id="kurtosis-峰度"><a class="header-anchor" href="#kurtosis-峰度"></a>Kurtosis（峰度）</h4>
+<blockquote>
+<p>是描述数据分布峰态（尖峰程度）的统计量。它衡量了数据分布中数据点在均值附近聚集的程度，即数据集的尖峰度。</p>
+</blockquote>
+<blockquote>
+<p>正峰（Positive Kurtosis）：数据分布的峰态较高且尖锐，尾部较长。正峰分布表明数据集中的数据点在均值附近聚集得更为密集，同时存在更多的极端值，尾部更长。</p>
+</blockquote>
+<blockquote>
+<p>负峰（Negative Kurtosis）：数据分布的峰态较低且平缓，尾部较短。负峰分布表明数据集中的数据点分布更为扁平，相对更加分散。</p>
+</blockquote>
+<blockquote>
+<p>正常的峰度为3。大于3的峰度表示分布尖峭（尖峰），而小于3的峰度表示分布平缓（扁平）。与偏度一样，峰度也是了解数据分布形态的重要指标，特别是在建模时需要考虑数据集的峰态特征。</p>
+</blockquote>
+<h4 id="se"><a class="header-anchor" href="#se"></a>se</h4>
+<blockquote>
+<p>se 代表的是标准误差（Standard Error）。标准误差是对样本统计量的抽样分布的离散程度进行估计的一种度量，用于衡量样本统计量与总体参数之间的差异。</p>
+</blockquote>
+<blockquote>
+<p>在统计学中，标准误差通常用于估计样本统计量的抽样分布的离散程度，例如样本均值的标准误差用于估计样本均值的抽样分布的离散程度。标准误差越小，表示样本统计量更接近于总体参数的真值；标准误差越大，表示样本统计量与总体参数之间的差异越大。</p>
+</blockquote>
+<blockquote>
+<p>标准误差的应用非常广泛，特别是在统计推断和假设检验中，它常用于计算置信区间、假设检验的统计量（如 t 统计量、z 统计量）</p>
+</blockquote>
+<h2 id="检查数据集的通用方法"><a class="header-anchor" href="#检查数据集的通用方法"></a>检查数据集的通用方法</h2>
+<ol>
+<li>read.csv 读取数据</li>
+<li>转换为data frame，给定合适的名称</li>
+<li>通过dim()检查是否是预期的行数和列数</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; dim(store.df)</span><br><span class="line">[1] 2080   10</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>使用head()、tail()检查前几行和末尾几行，确保开头标题行和末尾空白行没有包含在内</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; head(store.df)</span><br><span class="line">  storeNum Year Week p1sales p2sales p1price p2price p1prom p2prom country</span><br><span class="line">1      101    1    1     127     106    2.29    2.29      0      0      US</span><br><span class="line">2      101    1    2     137     105    2.49    2.49      0      0      US</span><br><span class="line">3      101    1    3     156      97    2.99    2.99      1      0      US</span><br><span class="line">4      101    1    4     117     106    2.99    3.19      0      0      US</span><br><span class="line">5      101    1    5     138     100    2.49    2.59      0      1      US</span><br><span class="line">6      101    1    6     115     127    2.79    2.49      0      0      US</span><br><span class="line"></span><br><span class="line">&gt; tail(store.df)</span><br><span class="line">     storeNum Year Week p1sales p2sales p1price p2price p1prom p2prom country</span><br><span class="line">2075      120    2   47     140     104    2.49    2.59      0      0      CN</span><br><span class="line">2076      120    2   48     150      88    2.49    2.99      0      0      CN</span><br><span class="line">2077      120    2   49     121      97    2.49    2.59      0      0      CN</span><br><span class="line">2078      120    2   50      91     124    2.99    2.29      0      0      CN</span><br><span class="line">2079      120    2   51      83     115    2.99    2.29      0      0      CN</span><br><span class="line">2080      120    2   52     136      99    2.49    2.49      0      0      CN</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>使用Some()随机检查几行</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; some(store.df)</span><br><span class="line">     storeNum Year Week p1sales p2sales p1price p2price p1prom p2prom country</span><br><span class="line">324       104    1   12     112      99    2.29    2.29      0      0      DE</span><br><span class="line">644       107    1   20     131      92    2.49    2.59      0      0      DE</span><br><span class="line">1032      110    2   44     211      70    2.19    3.19      0      1      GB</span><br><span class="line">1183      112    1   39     155      80    2.29    2.59      1      0      BR</span><br><span class="line">1274      113    1   26     121     117    2.29    2.29      0      0      BR</span><br><span class="line">1518      115    2   10     157      82    2.49    3.19      0      0      JP</span><br><span class="line">1525      115    2   17     167      72    2.49    3.19      0      0      JP</span><br><span class="line">1565      116    1    5     186      63    2.19    3.19      0      0      JP</span><br><span class="line">1974      119    2   50     144     111    2.99    3.19      0      0      CN</span><br><span class="line">2036      120    2    8     125     103    2.79    2.99      0      0      CN</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>str()检查data frame架构，确保变量的类型和值是合适的，尤其是factor</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; str(store.df)</span><br><span class="line">&#x27;data.frame&#x27;:	2080 obs. of  10 variables:</span><br><span class="line"> $ storeNum: int  101 101 101 101 101 101 101 101 101 101 ...</span><br><span class="line"> $ Year    : int  1 1 1 1 1 1 1 1 1 1 ...</span><br><span class="line"> $ Week    : int  1 2 3 4 5 6 7 8 9 10 ...</span><br><span class="line"> $ p1sales : int  127 137 156 117 138 115 116 106 116 145 ...</span><br><span class="line"> $ p2sales : int  106 105 97 106 100 127 90 126 94 91 ...</span><br><span class="line"> $ p1price : num  2.29 2.49 2.99 2.99 2.49 2.79 2.99 2.99 2.29 2.49 ...</span><br><span class="line"> $ p2price : num  2.29 2.49 2.99 3.19 2.59 2.49 3.19 2.29 2.29 2.99 ...</span><br><span class="line"> $ p1prom  : int  0 0 1 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ p2prom  : int  0 0 0 0 1 0 0 0 0 0 ...</span><br><span class="line"> $ country : Factor w/ 7 levels &quot;AU&quot;,&quot;BR&quot;,&quot;CN&quot;,..: 7 7 7 7 7 7 7 7 7 7 ...</span><br></pre></td></tr></table></figure>
+<p>7.summary()查看预期外的值，尤其是Min/Max</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; summary(store.df)</span><br><span class="line">    storeNum          Year          Week          p1sales       p2sales         p1price         p2price         p1prom        p2prom       country </span><br><span class="line"> Min.   :101.0   Min.   :1.0   Min.   : 1.00   Min.   : 73   Min.   : 51.0   Min.   :2.190   Min.   :2.29   Min.   :0.0   Min.   :0.0000   AU:104  </span><br><span class="line"> 1st Qu.:105.8   1st Qu.:1.0   1st Qu.:13.75   1st Qu.:113   1st Qu.: 84.0   1st Qu.:2.290   1st Qu.:2.49   1st Qu.:0.0   1st Qu.:0.0000   BR:208  </span><br><span class="line"> Median :110.5   Median :1.5   Median :26.50   Median :129   Median : 96.0   Median :2.490   Median :2.59   Median :0.0   Median :0.0000   CN:208  </span><br><span class="line"> Mean   :110.5   Mean   :1.5   Mean   :26.50   Mean   :133   Mean   :100.2   Mean   :2.544   Mean   :2.70   Mean   :0.1   Mean   :0.1385   DE:520  </span><br><span class="line"> 3rd Qu.:115.2   3rd Qu.:2.0   3rd Qu.:39.25   3rd Qu.:150   3rd Qu.:113.0   3rd Qu.:2.790   3rd Qu.:2.99   3rd Qu.:0.0   3rd Qu.:0.0000   GB:312  </span><br><span class="line"> Max.   :120.0   Max.   :2.0   Max.   :52.00   Max.   :263   Max.   :225.0   Max.   :2.990   Max.   :3.19   Max.   :1.0   Max.   :1.0000   JP:416  </span><br><span class="line">                                                                                                                                           US:312</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>describe()查看各个item的n是否相同，并且检查trimmed和skew</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; describe(store.df)</span><br><span class="line">         vars    n   mean    sd median trimmed   mad    min    max range  skew kurtosis   se</span><br><span class="line">storeNum    1 2080 110.50  5.77 110.50  110.50  7.41 101.00 120.00  19.0  0.00    -1.21 0.13</span><br><span class="line">Year        2 2080   1.50  0.50   1.50    1.50  0.74   1.00   2.00   1.0  0.00    -2.00 0.01</span><br><span class="line">Week        3 2080  26.50 15.01  26.50   26.50 19.27   1.00  52.00  51.0  0.00    -1.20 0.33</span><br><span class="line">p1sales     4 2080 133.05 28.37 129.00  131.08 26.69  73.00 263.00 190.0  0.74     0.66 0.62</span><br><span class="line">p2sales     5 2080 100.16 24.42  96.00   98.05 22.24  51.00 225.00 174.0  0.99     1.51 0.54</span><br><span class="line">p1price     6 2080   2.54  0.29   2.49    2.53  0.44   2.19   2.99   0.8  0.28    -1.44 0.01</span><br><span class="line">p2price     7 2080   2.70  0.33   2.59    2.69  0.44   2.29   3.19   0.9  0.32    -1.40 0.01</span><br><span class="line">p1prom      8 2080   0.10  0.30   0.00    0.00  0.00   0.00   1.00   1.0  2.66     5.10 0.01</span><br><span class="line">p2prom      9 2080   0.14  0.35   0.00    0.05  0.00   0.00   1.00   1.0  2.09     2.38 0.01</span><br><span class="line">country*   10 2080   4.55  1.72   4.50    4.62  2.22   1.00   7.00   6.0 -0.29    -0.81 0.04</span><br></pre></td></tr></table></figure>
+<h4 id="番外-trimmmed-and-skewed"><a class="header-anchor" href="#番外-trimmmed-and-skewed"></a>番外 Trimmmed And Skewed</h4>
+<blockquote>
+<p><strong>Trimmed</strong></p>
+</blockquote>
+<p>当数据集中存在极端值时，修剪均值可以更准确地反映数据的中心趋势。让我们通过一个具体的例子来说明这一点。</p>
+<p>假设我们有一个包含10个观测值的数据集：</p>
+<p>[ {2, 3, 4, 5, 6, 7, 8, 9, 10, 100} ]</p>
+<p>这个数据集中有一个明显的极端值100。让我们计算一下这个数据集的简单算术平均值和修剪均值，并比较它们对数据中心趋势的反映。</p>
+<p>首先，计算简单算术平均值：</p>
+<p>$$
+\text{Mean} = \frac{2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 100}{10} = 15.4
+$$</p>
+<p>接下来，我们计算修剪均值，剔除最大和最小的10%的观测值（即剔除一个极端值100）：</p>
+<p>$$
+\text{Trimmed Mean} = \frac{3 + 4 + 5 + 6 + 7 + 8 + 9 + 10}{8} = 6.875
+$$</p>
+<p>从计算结果可以看出，简单算术平均值受到极端值100的影响，导致平均值达到了15.4，不够准确地反映了数据的中心趋势。而修剪均值剔除了极端值100后，得到的修剪均值为6.875，更接近数据的中心位置。</p>
+<p>因此，通过比较简单算术平均值和修剪均值，我们可以更准确地了解数据的中心趋势，尤其是在数据集中存在极端值的情况下。</p>
+<blockquote>
+<p><strong>Skewed</strong></p>
+</blockquote>
+<p>当数据集中存在极端值时，数据的分布可能会偏斜（skewed），修剪均值可以在一定程度上减少极端值对数据的影响，从而改善数据分布的偏斜情况。</p>
+<p>让我们继续使用上面的例子来说明修剪均值如何影响数据分布的偏斜情况。我们已经计算了简单算术平均值和修剪均值，现在我们将计算数据集的偏度（skewness），以了解修剪均值如何影响数据分布的偏斜性。</p>
+<p>在R语言中，我们可以使用 <code>psych</code> 包中的 <code>describe()</code> 函数来计算数据集的偏度。让我们来进行计算：</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装并加载 psych 包</span></span><br><span class="line">install.packages<span class="punctuation">(</span><span class="string">&quot;psych&quot;</span><span class="punctuation">)</span></span><br><span class="line">library<span class="punctuation">(</span>psych<span class="punctuation">)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据集</span></span><br><span class="line">data <span class="operator">&lt;-</span> <span class="built_in">c</span><span class="punctuation">(</span><span class="number">2</span><span class="punctuation">,</span> <span class="number">3</span><span class="punctuation">,</span> <span class="number">4</span><span class="punctuation">,</span> <span class="number">5</span><span class="punctuation">,</span> <span class="number">6</span><span class="punctuation">,</span> <span class="number">7</span><span class="punctuation">,</span> <span class="number">8</span><span class="punctuation">,</span> <span class="number">9</span><span class="punctuation">,</span> <span class="number">10</span><span class="punctuation">,</span> <span class="number">100</span><span class="punctuation">)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算数据集的偏度</span></span><br><span class="line">describe<span class="punctuation">(</span>data<span class="punctuation">)</span><span class="operator">$</span>skew</span><br></pre></td></tr></table></figure>
+<p>在这个例子中，数据集的偏度为4.07，这表明数据集是右偏（右偏的偏度值大于0）。右偏分布意味着数据集的尾部向右延伸，即数据集中存在极端值或较大的值。</p>
+<p>现在，我们剔除极端值100，并重新计算数据集的偏度：</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 剔除极端值并重新计算偏度</span></span><br><span class="line">trimmed_data <span class="operator">&lt;-</span> data<span class="punctuation">[</span>data <span class="operator">&lt;</span> <span class="number">100</span><span class="punctuation">]</span></span><br><span class="line">describe<span class="punctuation">(</span>trimmed_data<span class="punctuation">)</span><span class="operator">$</span>skew</span><br></pre></td></tr></table></figure>
+<p>剔除极端值后，修剪后的数据集的偏度为0.32。与原始数据集相比，修剪后的数据集的偏度更接近于0，表明修剪均值有助于减少数据分布的偏斜性，使数据更接近于对称分布。</p>
+<p>因此，通过计算修剪均值和观察数据集的偏度，我们可以更好地理解极端值对数据分布的影响，以及修剪均值对于改善数据分布的偏斜性的作用。</p>
+<h2 id="3-3-apply"><a class="header-anchor" href="#3-3-apply"></a>3.3 apply()</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apply(x = DATA, MARGIN = MARGIN, FUN = FUNCTION)</span><br><span class="line"></span><br><span class="line">apply(store.df[2:9], MARGIN = 1, FUN = mean)</span><br><span class="line">apply(store.df[2:9], MARGIN = 2, FUN = mean)</span><br><span class="line">apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)</span><br></pre></td></tr></table></figure>
+<p>在 <code>apply()</code> 函数中，<code>MARGIN</code> 参数指定了函数应该沿着哪个维度（行或列）应用。<code>MARGIN</code> 参数可以取以下值：</p>
+<ul>
+<li><code>MARGIN = 1</code>：对每一行应用函数。</li>
+<li><code>MARGIN = 2</code>：对每一列应用函数。</li>
+<li><code>MARGIN = c(1, 2)</code>：同时对每一行和每一列应用函数。</li>
+</ul>
+<p>在给定的例子中，我们使用了 <code>apply()</code> 函数来对数据集 <code>store.df</code> 中的子集进行函数的应用，子集包含列索引为2到9的数据。具体解释如下：</p>
+<ol>
+<li>
+<p><code>apply(store.df[2:9], MARGIN = 1, FUN = mean)</code>：这句代码意味着对数据集 <code>store.df</code> 中的每一行（沿着行的方向）的列索引为2到9的数据应用 <code>mean()</code> 函数，计算每一行的平均值。</p>
+</li>
+<li>
+<p><code>apply(store.df[2:9], MARGIN = 2, FUN = mean)</code>：这句代码意味着对数据集 <code>store.df</code> 中的每一列（沿着列的方向）的行索引为2到9的数据应用 <code>mean()</code> 函数，计算每一列的平均值。</p>
+</li>
+<li>
+<p><code>apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)</code>：这句代码意味着同时对数据集 <code>store.df</code> 中的每一行和每一列的行列交叉点（即所有的单元格）的数据应用 <code>mean()</code> 函数，计算所有行和列的平均值。</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; apply(store.df[ 2:9], MARGIN = 2, FUN = mean)</span><br><span class="line">       Year        Week     p1sales     p2sales     p1price     p2price      p1prom      p2prom </span><br><span class="line">  1.5000000  26.5000000 133.0485577 100.1567308   2.5443750   2.6995192   0.1000000   0.1384615 </span><br><span class="line"></span><br><span class="line">&gt; apply(store.df[ , 2:9], 2, sum)</span><br><span class="line">    Year     Week  p1sales  p2sales  p1price  p2price   p1prom   p2prom </span><br><span class="line">  3120.0  55120.0 276741.0 208326.0   5292.3   5615.0    208.0    288.0 </span><br><span class="line"></span><br><span class="line">&gt; apply(store.df[ , 2:9], 2, sd)</span><br><span class="line">      Year       Week    p1sales    p2sales    p1price    p2price     p1prom     p2prom </span><br><span class="line"> 0.5001202 15.0119401 28.3725990 24.4241905  0.2948819  0.3292181  0.3000721  0.3454668</span><br></pre></td></tr></table></figure>
+<h2 id="4-single-variable-visualisation"><a class="header-anchor" href="#4-single-variable-visualisation"></a>4. Single variable visualisation</h2>
+<h3 id="4-1-histograms-柱状图"><a class="header-anchor" href="#4-1-histograms-柱状图"></a>4.1 Histograms 柱状图</h3>
+<blockquote>
+<p>hist()</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hist(store.df$p1sales)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week1_descriptive_analysis/hist1.png" class="">
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 添加标题、x轴y轴说明</span><br><span class="line">hist(store.df$p1sales,</span><br><span class="line">     main = &quot;Product 1 Weekly Sales Frequencies, All Stores&quot;, </span><br><span class="line">     xlab = &quot;Product 1 Sales (Units)&quot;,</span><br><span class="line">     ylab = &quot;Count&quot;)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week1_descriptive_analysis/hist2.png" class="">
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hist(store.df$p1sales,</span><br><span class="line">     main = &quot;Product 1 Weekly Sales Frequencies, All Stores&quot;, xlab = &quot;Product 1 Sales (Units)&quot;,</span><br><span class="line">     ylab = &quot;Count&quot;,</span><br><span class="line">     breaks = 30, # more columns</span><br><span class="line">     col = &quot;lightblue&quot; # colore the bars</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week1_descriptive_analysis/hist3.png" class="">
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hist(store.df$p1sales,</span><br><span class="line">     main = &quot;Product 1 Weekly Sales Frequencies, All Stores&quot;, xlab = &quot;Product 1 Sales (Units)&quot;,</span><br><span class="line">     ylab = &quot;Count&quot;,</span><br><span class="line">     breaks = 30,</span><br><span class="line">     col = &quot;lightblue&quot;,</span><br><span class="line">     freq = FALSE, # means plot density, not counts</span><br><span class="line">     xaxt=&quot;n&quot; # means x-axis tick mark is set to &quot;none&quot;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week1_descriptive_analysis/hist4.png" class="">
+<blockquote>
+<p>freq</p>
+</blockquote>
+<p>freq 参数用于控制直方图的纵轴显示的是频数（counts）还是密度（density）。当 freq 设置为 TRUE 时，默认值，纵轴显示的是频数，即每个分箱内数据的数量；当 freq 设置为 FALSE 时，纵轴显示的是密度，即每个分箱内数据的概率密度。</p>
+<p>概率密度是概率论中用于描述连续随机变量的概率分布的概念。它在数学上是一个非负实值函数，通常用于描述某个随机变量落在某个区间内的概率。</p>
+<p>对于一个连续随机变量，它可能取无穷多个可能的取值，因此我们不能像离散随机变量那样直接计算某个特定值的概率。相反，我们通常关注某个区间内的概率，这个区间越小，计算的概率越准确。概率密度函数（Probability Density Function，PDF）就是用来描述随机变量在某个区间内的概率密度的函数。</p>
+<p>在数学上，对于一个连续随机变量 X，其概率密度函数 f(x) 满足以下两个性质：</p>
+<ol>
+<li>非负性：对于所有的 x，有 f(x) ≥ 0。</li>
+<li>总面积为1：整个定义域内的概率密度函数的积分等于1，即 ∫f(x)dx = 1。<br>
+因此，概率密度函数描述了随机变量落在某个区间内的概率密度，而不是具体的概率值。要计算某个区间内的概率，我们需要对概率密度函数在该区间上进行积分。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">概率密度和频数之间的关系涉及到连续随机变量和离散随机变量的概率分布。下面分别讨论它们的关系：</span><br><span class="line"></span><br><span class="line">1. 连续随机变量的概率密度和频数的关系：</span><br><span class="line"></span><br><span class="line">对于连续随机变量，概率密度函数（PDF）描述了随机变量落在某个区间内的概率密度，而不是具体的概率值。概率密度函数在某个区间上的值越大，表示该区间内的数据更加密集，概率密度更高。</span><br><span class="line">直方图是用于表示连续随机变量的分布的一种常用方法。在直方图中，将数据分成多个等宽的分箱，并统计每个分箱内数据的频数，然后通过归一化处理，得到每个分箱内的频率（即频数除以样本总数），从而得到一个近似的概率密度分布。</span><br><span class="line"></span><br><span class="line">2. 离散随机变量的概率密度和频数的关系：</span><br><span class="line"></span><br><span class="line">对于离散随机变量，概率质量函数（PMF）描述了随机变量取某个特定值的概率。每个可能的取值都有一个概率。</span><br><span class="line">直方图同样可以用于表示离散随机变量的分布。在直方图中，每个柱子代表了随机变量取某个特定值的频数，频数表示了该值在样本中出现的次数。由于离散随机变量的取值是有限的，因此直方图中的柱子通常对应于每个可能的取值，每个柱子的高度表示了该值的频率。</span><br><span class="line"></span><br><span class="line">总的来说，概率密度和频数都是用于描述随机变量的分布情况的概念，但在连续随机变量和离散随机变量的情境下有所不同。在连续情况下，我们使用概率密度函数描述概率分布，而在离散情况下，我们使用概率质量函数或频数来描述分布。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>归一化</p>
+</blockquote>
+<p>归一化是一种数学或统计方法，用于将数据转换为统一的尺度或范围，以便进行比较、分析或处理。在不同的领域中，归一化可能具有不同的含义和方法，但其基本目标是将数据转换为标准形式，消除尺度差异或使数据具有特定的性质。</p>
+<p>在统计学和机器学习中，归一化通常指的是将数据按照一定规则进行缩放，使其落入特定的范围或分布。这有助于提高模型的稳定性和收敛速度，以及降低不同特征之间的影响。</p>
+<p>常见的归一化方法包括：</p>
+<ol>
+<li>
+<p><strong>最小-最大缩放（Min-Max Scaling）</strong>：将数据线性缩放到指定的范围（通常是 [0, 1]），公式为：<br>
+$$
+x_{\text{norm}} = \frac{x - \text{min}(x)}{\text{max}(x) - \text{min}(x)}
+$$</p>
+</li>
+<li>
+<p><strong>Z-Score 标准化（Z-Score Normalization）</strong>：也称为标准化，将数据转换为均值为 0、标准差为 1 的正态分布，公式为：
+$$
+x_{\text{norm}} = \frac{x - \mu}{\sigma}
+$$</p>
+</li>
+<li>
+<p><strong>小数定标标准化（Decimal Scaling）</strong>：将数据除以一个适当的基数（例如 10 的幂），使得数据的绝对值最大不超过 1。</p>
+</li>
+</ol>
+<p>归一化可以确保数据在不同特征之间具有可比性，并且有助于提高模型的性能和稳定性。</p>
+<blockquote>
+<p>axis()</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># side=1 x轴; side=2 y轴; at=sqp() 修改间隔</span><br><span class="line">axis(side = 1, at=seq(60, 300, by=20)) # add &quot;60&quot;, &quot;80&quot;, ...</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week1_descriptive_analysis/hist5.png" class="">
+<blockquote>
+<p>lines()</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lines(density(store.df$p1sales, bw=10), # &quot;bw=...&quot; adjusts the smoothing</span><br><span class="line">      type=&quot;l&quot;, col = &quot;darkred&quot;, lwd=2) # lwd=line width</span><br></pre></td></tr></table></figure>
+<p>这是对 <code>density</code> 函数的调用，用于创建概率密度估计图（Kernel Density Estimation，KDE）。以下是其中的各个参数的解释：</p>
+<ul>
+<li>
+<p><code>density(store.df$p1sales, bw=10)</code>：这部分调用了 <code>density</code> 函数，对 <code>store.df$p1sales</code> 列进行概率密度估计。<code>bw=10</code> 指定了带宽参数，控制了估计的平滑程度。带宽越大，估计的曲线越平滑，带宽越小，曲线越精细。这里的 <code>bw=10</code> 表示带宽为 10。</p>
+</li>
+<li>
+<p><code>type=&quot;l&quot;</code>：这个参数指定了要绘制的图形类型。<code>&quot;l&quot;</code> 表示绘制一条折线图。折线图将估计的密度曲线作为折线绘制。</p>
+</li>
+<li>
+<p><code>col=&quot;darkred&quot;</code>：这个参数指定了绘制的折线的颜色。<code>&quot;darkred&quot;</code> 表示深红色。</p>
+</li>
+<li>
+<p><code>lwd=2</code>：这个参数指定了绘制的折线的线宽。<code>lwd=2</code> 表示线宽为 2 像素。</p>
+</li>
+</ul>
+<img src="/2024/R_week1_descriptive_analysis/hist6.png" class="">
+<blockquote>
+<p>type</p>
+</blockquote>
+<p>type 参数用于指定绘图的类型，除了 “l”（折线图）之外，常用的取值还有：</p>
+<ul>
+<li>“p”：绘制散点图，即仅绘制数据点而不连接它们。</li>
+<li>“b”：绘制数据点并将它们连接成线段，从而形成折线图。与 “l” 类似，但是在每个数据点处绘制一个大点。</li>
+<li>“o”：与 “b” 类似，但在每个数据点处绘制一个小圆圈，而不是大点。</li>
+<li>“h”：绘制直方图，即垂直的线条用于表示频率。</li>
+<li>“s”：绘制阶梯图，即通过垂直和水平线段连接每个数据点，从而形成阶梯状的图形。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">lines(density(store.df$p1sales, bw=10), # &quot;bw=...&quot; adjusts the smoothing</span><br><span class="line">      type=&quot;o&quot;, col = &quot;darkred&quot;, lwd=2) # lwd=line width</span><br></pre></td></tr></table></figure>
+<img src="/2024/R_week1_descriptive_analysis/hist7.png" class="">
+<h1>二、week1 code</h1>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># install.packages (&quot;readxl&quot;)</span><br><span class="line"># install.packages (&quot;psych&quot;)</span><br><span class="line"># install.packages (&quot;car&quot;)</span><br><span class="line"># install.packages (&quot;gpairs&quot;)</span><br><span class="line"># install.packages (&quot;grid&quot;)</span><br><span class="line"># install.packages (&quot;lattice&quot;)</span><br><span class="line"># install.packages (&quot;corrplot&quot;)</span><br><span class="line"># install.packages (&quot;gplots&quot;)</span><br><span class="line"></span><br><span class="line">library(&quot;readxl&quot;)</span><br><span class="line">library(&quot;psych&quot;)</span><br><span class="line">library(&quot;car&quot;)</span><br><span class="line">library(&quot;gpairs&quot;)</span><br><span class="line">library(&quot;grid&quot;)</span><br><span class="line">library(&quot;lattice&quot;)</span><br><span class="line">library(&quot;corrplot&quot;)</span><br><span class="line">library(&quot;gplots&quot;)</span><br><span class="line"></span><br><span class="line"># 获取当前已加载文件的目录</span><br><span class="line">file_dir &lt;- dirname(parent.frame(2)$ofile)</span><br><span class="line">print(file_dir)</span><br><span class="line"># 将工作目录设置为当前已加载文件的目录</span><br><span class="line">setwd(file_dir)</span><br><span class="line"></span><br><span class="line">store.df &lt;- read.csv(&quot;Data_Descriptive.csv&quot;, stringsAsFactors=TRUE)</span><br><span class="line">str(store.df)</span><br><span class="line"></span><br><span class="line">table(store.df$p1price)</span><br><span class="line"></span><br><span class="line">p1.table &lt;- table(store.df$p1price) </span><br><span class="line">p1.table</span><br><span class="line"></span><br><span class="line">str(p1.table)</span><br><span class="line"></span><br><span class="line">plot(p1.table)</span><br><span class="line"></span><br><span class="line">table(store.df$p1price, store.df$p1prom)</span><br><span class="line"></span><br><span class="line">p1.table2 &lt;- table(store.df$p1price, store.df$p1prom) </span><br><span class="line">p1.table2[ ,2] / (p1.table2[ ,1] + p1.table2[ ,2])</span><br><span class="line"></span><br><span class="line">plot(p1.table2)</span><br><span class="line"></span><br><span class="line">min(store.df$p1sales)</span><br><span class="line">max(store.df$p1sales)</span><br><span class="line">mean(store.df$p1prom)</span><br><span class="line">median(store.df$p2sales)</span><br><span class="line">var(store.df$p1sales)</span><br><span class="line">sd(store.df$p1sales)</span><br><span class="line">IQR(store.df$p1sales)</span><br><span class="line">mad(store.df$p1sales)</span><br><span class="line"></span><br><span class="line">quantile(store.df$p1sales, probs = c(0.25, 0.5, 0.75))</span><br><span class="line">quantile(store.df$p1sales, probs = c(0.05, 0.95)) # central 90% data</span><br><span class="line">quantile(store.df$p1sales, probs = 0:10/10)</span><br><span class="line">quantile(store.df$p1sales, probs = seq(from=0, to=1, by=0.1))</span><br><span class="line"></span><br><span class="line">mysummary.df &lt;- data.frame(matrix(NA, nrow=2, ncol=2)) # 2 by 2 empty matrix </span><br><span class="line">names(mysummary.df) &lt;- c(&quot;Median Sales&quot;, &quot;IQR&quot;) # name columns </span><br><span class="line">rownames(mysummary.df) &lt;- c(&quot;Product 1&quot;, &quot;Product 2&quot;) # name rows </span><br><span class="line">mysummary.df[&quot;Product 1&quot;, &quot;Median Sales&quot;] &lt;- median(store.df$p1sales) </span><br><span class="line">mysummary.df[&quot;Product 2&quot;, &quot;Median Sales&quot;] &lt;- median(store.df$p2sales) </span><br><span class="line">mysummary.df[&quot;Product 1&quot;, &quot;IQR&quot;] &lt;- IQR(store.df$p1sales) </span><br><span class="line">mysummary.df[&quot;Product 2&quot;, &quot;IQR&quot;] &lt;- IQR(store.df$p2sales)</span><br><span class="line">mysummary.df</span><br><span class="line"></span><br><span class="line">summary(store.df)</span><br><span class="line"></span><br><span class="line">summary(store.df$Year)</span><br><span class="line"></span><br><span class="line">summary(store.df, digits = 2) # 保留小数点后两位</span><br><span class="line"></span><br><span class="line">library(psych) # install if needed </span><br><span class="line">describe(store.df)</span><br><span class="line"></span><br><span class="line">describe(store.df[,c(2, 4:9)])</span><br><span class="line">dim(store.df)</span><br><span class="line">head(store.df)</span><br><span class="line">tail(store.df)</span><br><span class="line">some(store.df)</span><br><span class="line">str(store.df)</span><br><span class="line">summary(store.df)</span><br><span class="line">describe(store.df)</span><br><span class="line"></span><br><span class="line">apply(store.df[ 2:9], MARGIN = 2, FUN = mean)</span><br><span class="line">apply(store.df[ , 2:9], 2, sum)</span><br><span class="line">apply(store.df[ , 2:9], 2, sd)</span><br><span class="line"></span><br><span class="line">hist(store.df$p1sales)</span><br><span class="line"></span><br><span class="line"># 添加标题、x轴y轴说明</span><br><span class="line">hist(store.df$p1sales,</span><br><span class="line">     main = &quot;Product 1 Weekly Sales Frequencies, All Stores&quot;, </span><br><span class="line">     xlab = &quot;Product 1 Sales (Units)&quot;,</span><br><span class="line">     ylab = &quot;Count&quot;)</span><br><span class="line"></span><br><span class="line">colors()</span><br><span class="line"></span><br><span class="line">hist(store.df$p1sales,</span><br><span class="line">     main = &quot;Product 1 Weekly Sales Frequencies, All Stores&quot;, xlab = &quot;Product 1 Sales (Units)&quot;,</span><br><span class="line">     ylab = &quot;Count&quot;,</span><br><span class="line">     breaks = 30, # more columns</span><br><span class="line">     col = &quot;lightblue&quot; # colore the bars</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">hist(store.df$p1sales,</span><br><span class="line">     main = &quot;Product 1 Weekly Sales Frequencies, All Stores&quot;, xlab = &quot;Product 1 Sales (Units)&quot;,</span><br><span class="line">     ylab = &quot;Count&quot;,</span><br><span class="line">     breaks = 30,</span><br><span class="line">     col = &quot;lightblue&quot;,</span><br><span class="line">     freq = FALSE, # means plot density, not counts</span><br><span class="line">     xaxt=&quot;n&quot; # means x-axis tick mark is set to &quot;none&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">hist(store.df$p1sales,</span><br><span class="line">     main = &quot;Product 1 Weekly Sales Frequencies, All Stores&quot;, xlab = &quot;Product 1 Sales (Units)&quot;,</span><br><span class="line">     ylab = &quot;Count&quot;,</span><br><span class="line">     breaks = 30,</span><br><span class="line">     col = &quot;lightblue&quot;,</span><br><span class="line">     freq = FALSE, # means plot density, not counts</span><br><span class="line">     xaxt=&quot;n&quot; # means x-axis tick mark is set to &quot;none&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># side=1 x轴; side=2 y轴; at=sqp() 修改间隔</span><br><span class="line">axis(side = 1, at=seq(60, 300, by=20)) # add &quot;60&quot;, &quot;80&quot;, ...</span><br><span class="line"></span><br><span class="line">lines(density(store.df$p1sales, bw=10), # &quot;bw=...&quot; adjusts the smoothing</span><br><span class="line">      type=&quot;l&quot;, col = &quot;darkred&quot;, lwd=2) # lwd=line width</span><br><span class="line"></span><br><span class="line">lines(density(store.df$p1sales, bw=10), # &quot;bw=...&quot; adjusts the smoothing</span><br><span class="line">      type=&quot;o&quot;, col = &quot;darkred&quot;, lwd=2) # lwd=line width</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</div></div><script type="text/x-mathjax-config">
+   MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    }); 
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2024/R_week1_descriptive_analysis/';
+var disqus_title = 'R[week1] Desciptive Analysis';
+var disqus_url = 'https://blog.weasley.cn/2024/R_week1_descriptive_analysis/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

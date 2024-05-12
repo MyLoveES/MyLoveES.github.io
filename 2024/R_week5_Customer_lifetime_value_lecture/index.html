@@ -1,0 +1,125 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="ockquote&gt;
+&lt;p&gt;R: 4.3.2 (2023-10-31)
+R studio: 2023.12.1+402 (2023.12.1+402)"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>R[week5] Customer Lifetime Value Lecture | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/R-Language/" rel="tag">R-Language</a></div><div class="post-time">2024-03-26</div></div></div><div class="container post-header"><h1>R[week5] Customer Lifetime Value Lecture</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">1. CLV</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">2. How CLV works</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">3. CLV 公式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">4. CLV Analysis</span></a></li></ol></details></div><div class="container post-content"><blockquote>
+<p>R: 4.3.2 (2023-10-31)
+R studio: 2023.12.1+402 (2023.12.1+402)</p>
+</blockquote>
+<h1>1. CLV</h1>
+<p>CLV（Customer Lifetime Value）指的是客户生命周期价值，是指客户与公司建立关系期间所获得的所有未来利润的现值。这个指标可以帮助公司评估他们对客户的投资价值，从而确定在客户获取、留存和发展方面应该投入多少资源。CLV的计算通常涉及预测客户未来的购买行为、利润和关系持续时间，并将这些数据折现到当前值，以便进行比较和决策制定。</p>
+<p>对于企业制定收购（Acquisition）、扩张（Expansion）、保留（Retention）决策而言的关键分析工具。以下是CLV对每个AER决策组成部分的贡献：</p>
+<ol>
+<li>
+<p><strong>收购（Acquisition）</strong>：CLV帮助企业确定他们可以投入多少成本来获得新客户并实现盈利。通过了解客户的潜在长期价值，企业可以更有效地分配收购预算，针对那些可能产生最高CLV的客户群体。</p>
+</li>
+<li>
+<p><strong>扩张（Expansion）</strong>：CLV分析可以识别出对现有客户进行升级或交叉销售的机会。通过根据客户的CLV进行分组，企业可以优先将资源投入到那些具有更高潜力进行额外购买或升级的客户群体，从而最大化现有客户群体的收入。</p>
+</li>
+<li>
+<p><strong>保留（Retention）</strong>：CLV可以帮助企业识别出具有高价值的客户，并采取措施来增强与这些客户的关系，以提高客户的忠诚度和保留率。通过投资于提升服务质量、个性化营销、客户服务等方面，企业可以更好地保持和发展高价值客户，从而提高整体CLV。</p>
+</li>
+</ol>
+<h1>2. How CLV works</h1>
+<blockquote>
+<p>CLV是客户关系的美元价值，根据其现值和预测未来现金流量来确定。</p>
+</blockquote>
+<ul>
+<li>计算过程包括三个步骤：
+<ol>
+<li>估计剩余客户寿命，或客户可能与公司保持关系的年数，通常根据保留率进行估计。</li>
+<li>预测客户在预期寿命内的净利润。</li>
+<li>计算未来金额的净现值。</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>根据预期的长期利润或CLV（Customer Lifetime Value，客户生命周期价值）来对当前和潜在客户进行分段，利用CLV分布图来识别和针对最具利润性的客户进行营销保留活动。</p>
+</blockquote>
+<ul>
+<li>CLV分布：
+<ul>
+<li>不活跃客户（CLV低至负值）</li>
+<li>活跃客户（CLV为正）</li>
+<li>高度活跃客户（CLV非常高）</li>
+</ul>
+</li>
+<li>公司可以利用这样的图表来识别并针对最具利润性的客户进行营销保留活动。</li>
+</ul>
+<blockquote>
+<p>考虑不同客户之间利润差异，捕捉现有客户之间的差异，以便获取、扩展和保留“最佳客户”。</p>
+</blockquote>
+<ul>
+<li>CLV考虑了客户之间利润的差异，超越了80/20法则：企业从30%的客户中赚取了150%的利润。</li>
+<li>CLV捕捉了现有客户之间的这些差异，因此您可以获取、扩展和保留“最佳客户”。</li>
+</ul>
+<blockquote>
+<p>CLV考虑了客户利润的时间变化。</p>
+</blockquote>
+<ul>
+<li>平均而言，客户的年度收益通常会随着时间增长，这是由于交叉销售/升级。</li>
+<li>但是，一些客户的获取或保留成本较高（降低价格，提供高服务水平）。</li>
+</ul>
+<h1>3. CLV 公式</h1>
+<p>$$
+CLV = \sum_{t=0}^{T} \frac{(p_t - c_t) r_t}{(1 + i)^t} - AC
+$$</p>
+<p>其中：</p>
+<ul>
+<li>$ p_t $ 代表第 $ t $ 年的利润（Profit）</li>
+<li>$ c_t $ 代表第 $ t $ 年的成本（Cost）</li>
+<li>$ p_t - c_t $ ：代表时间 $ t $ 时消费者的利润率（Profit margin）</li>
+<li>$ r $：代表客户的保留率，即消费者再次购买的概率（Retention rate）</li>
+<li>$ i $ 代表折现率（Interest rate）</li>
+<li>$ (1+i)^t $：代表将时间 $ t $ 的利润折现(Discounting the profit in period $ t $)</li>
+<li>$ AC $ 代表获客成本（Acquisition cost）</li>
+</ul>
+<h1>4. CLV Analysis</h1>
+<p>假设：</p>
+<ul>
+<li>当 $ T $ 趋近于无穷时（$ T \rightarrow \infty $）</li>
+<li>贡献边际（Contribution margin）$ m = p - c $ 在时间上不变</li>
+</ul>
+<p>在这种情况下，CLV公式可以简化为：</p>
+<p>$$
+CLV = \sum_{t=0}^{\infty} \frac{m \cdot r^t}{(1 + i)^t} - AC = m \cdot \left( \frac{r}{1 + i - r} \right) - AC
+$$</p>
+<ul>
+<li>每年贡献边际 $m$ 保持不变</li>
+<li>每年保留率 $r$ 保持不变</li>
+<li>折现率 $i$ 保持不变</li>
+<li>获客成本 $AC$ 保持不变</li>
+</ul>
+</div></div><script type="text/x-mathjax-config">
+   MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    }); 
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2024/R_week5_Customer_lifetime_value_lecture/';
+var disqus_title = 'R[week5] Customer Lifetime Value Lecture';
+var disqus_url = 'https://blog.weasley.cn/2024/R_week5_Customer_lifetime_value_lecture/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

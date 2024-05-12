@@ -1,0 +1,317 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="ockquote&gt;
+&lt;p&gt;R: 4.3.2 (2023-10-31)
+R studio: 2023.12.1+402 (2023.12.1+402)"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>R[week8] Managing Resource Trade-Offs | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/R-Language/" rel="tag">R-Language</a></div><div class="post-time">2024-04-01</div></div></div><div class="container post-header"><h1>R[week8] Managing Resource Trade-Offs</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">0. Learning Objectives</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-1-framework-for-managing-resource-trade-offs"><span class="toc-number">1.1.</span> <span class="toc-text">0.1 Framework for Managing Resource Trade-Offs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0-2-attribution-approach"><span class="toc-number">1.2.</span> <span class="toc-text">0.2 Attribution Approach</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">1. Market Response Model</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-why-measure-returns-on-marketing-investment"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 Why Measure Returns on Marketing Investment?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-what-are-market-response-models-how-it-works"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 What are market response models? How it Works?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-how-to-measure-return-on-marketing-investment"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 How to Measure Return on Marketing Investment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-the-basics-simple-linear-regression"><span class="toc-number">2.4.</span> <span class="toc-text">1.4 The Basics: Simple linear regression</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-1-example1-radio-ads-for-sales"><span class="toc-number">2.4.1.</span> <span class="toc-text">1.4.1 Example1: Radio Ads for Sales</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-2-radio-and-tv-ads-for-sales"><span class="toc-number">2.4.2.</span> <span class="toc-text">1.4.2 Radio and TV ads for sales</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-allocating-marketing-budgets"><span class="toc-number">2.5.</span> <span class="toc-text">1.5 Allocating Marketing Budgets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-modelling-log-log-returns-on-investment"><span class="toc-number">2.6.</span> <span class="toc-text">1.6 Modelling log-log Returns on Investment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-modelling-media-synergy"><span class="toc-number">2.7.</span> <span class="toc-text">1.7 Modelling Media Synergy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-8-modelling-carryover-effects"><span class="toc-number">2.8.</span> <span class="toc-text">1.8 Modelling carryover effects</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-9-building-and-evaluating-market-response-model"><span class="toc-number">2.9.</span> <span class="toc-text">1.9 Building and Evaluating Market Response Model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-10-takeaways"><span class="toc-number">2.10.</span> <span class="toc-text">1.10 Takeaways</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">2. Marketing Experiment</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-marketing-experiment-components"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 Marketing Experiment: Components</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-marketing-experiment-how-it-works"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 Marketing Experiment: How it works</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-marketing-experiment-example"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 Marketing Experiment: Example</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-marketing-experiment-after-only"><span class="toc-number">3.3.1.</span> <span class="toc-text">2.3.1 Marketing Experiment: “after-only”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-marketing-experiment-before-and-after"><span class="toc-number">3.3.2.</span> <span class="toc-text">2.3.2 Marketing Experiment: “before-and-after”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-case"><span class="toc-number">3.3.3.</span> <span class="toc-text">2.3.3 Case</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-4-68-95-99-7-rule"><span class="toc-number">3.3.4.</span> <span class="toc-text">2.3.4 68-95-99.7 rule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-5-gogogo"><span class="toc-number">3.3.5.</span> <span class="toc-text">2.3.5 GOGOGO</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-a-b-testing"><span class="toc-number">3.4.</span> <span class="toc-text">2.4 A&#x2F;B testing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-multivariate-testing"><span class="toc-number">3.5.</span> <span class="toc-text">2.5 Multivariate testing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-natural-experiments-when-to-use"><span class="toc-number">3.6.</span> <span class="toc-text">2.6 Natural Experiments: when to use</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-1-natural-experiments-difference-in-difference"><span class="toc-number">3.6.1.</span> <span class="toc-text">2.6.1 Natural Experiments: Difference-in-Difference</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">3 Takeaways</span></a></li></ol></details></div><div class="container post-content"><blockquote>
+<p>R: 4.3.2 (2023-10-31)
+R studio: 2023.12.1+402 (2023.12.1+402)</p>
+</blockquote>
+<h1>0. Learning Objectives</h1>
+<ul>
+<li>市场营销问题
+<ul>
+<li>管理资源权衡</li>
+</ul>
+</li>
+<li>分析工具
+<ul>
+<li>市场实验</li>
+<li>市场反应模型</li>
+</ul>
+</li>
+</ul>
+<h2 id="0-1-framework-for-managing-resource-trade-offs"><a class="header-anchor" href="#0-1-framework-for-managing-resource-trade-offs"></a>0.1 Framework for Managing Resource Trade-Offs</h2>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_1.png" class="">
+<h2 id="0-2-attribution-approach"><a class="header-anchor" href="#0-2-attribution-approach"></a>0.2 Attribution Approach</h2>
+<ul>
+<li>
+<p>指定归因模型，使公司能够了解资源增加的确切美元影响，还可以回答以下问题：</p>
+<ul>
+<li>营销投资的相对美元价值影响是多少？</li>
+<li>什么是利润最大化的投资水平？</li>
+</ul>
+</li>
+<li>
+<p>通过使用归因模型，管理者可以将资源分配到优化他们期望的结果，避免浪费或依赖于任意启发式方法。</p>
+</li>
+<li>
+<p>这些归因模型主要分为两大类：</p>
+<ul>
+<li>市场反应模型（营销组合模型）</li>
+<li>实验</li>
+</ul>
+</li>
+</ul>
+<h1>1. Market Response Model</h1>
+<ul>
+<li>
+<p>第一部分：营销效果和资源分配</p>
+<ul>
+<li>为什么/如何衡量营销投资回报？</li>
+<li>分配营销预算</li>
+</ul>
+</li>
+<li>
+<p>第二部分：营销组合建模</p>
+<ul>
+<li>线性回归建模</li>
+<li>营销组合工具之间的协同建模</li>
+<li>携带效应建模</li>
+<li>评估模型</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-1-why-measure-returns-on-marketing-investment"><a class="header-anchor" href="#1-1-why-measure-returns-on-marketing-investment"></a>1.1 Why Measure Returns on Marketing Investment?</h2>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_2.png" class="">
+<h2 id="1-2-what-are-market-response-models-how-it-works"><a class="header-anchor" href="#1-2-what-are-market-response-models-how-it-works"></a>1.2 What are market response models? How it Works?</h2>
+<ol>
+<li>利用过去的数据揭示营销资源和业绩之间的关系，响应模型提供了两个主要的见解。</li>
+<li>营销资源和结果之间关系的形状（凹形或凸形）。</li>
+<li>如果营销投入增加1%，财务业绩会发生多大变化，也称为营销弹性。</li>
+</ol>
+<h2 id="1-3-how-to-measure-return-on-marketing-investment"><a class="header-anchor" href="#1-3-how-to-measure-return-on-marketing-investment"></a>1.3 How to Measure Return on Marketing Investment</h2>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_3.png" class="">
+<h2 id="1-4-the-basics-simple-linear-regression"><a class="header-anchor" href="#1-4-the-basics-simple-linear-regression"></a>1.4 The Basics: Simple linear regression</h2>
+<h3 id="1-4-1-example1-radio-ads-for-sales"><a class="header-anchor" href="#1-4-1-example1-radio-ads-for-sales"></a>1.4.1 Example1: Radio Ads for Sales</h3>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_7.png" class="">
+<p>Sales = a+ b1 Radio advertising</p>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_4.png" class="">
+<p>Does radio advertising affects sales for an electronics brand?</p>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_5.png" class="">
+<p>Predict sales</p>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_6.png" class="">
+<h3 id="1-4-2-radio-and-tv-ads-for-sales"><a class="header-anchor" href="#1-4-2-radio-and-tv-ads-for-sales"></a>1.4.2 Radio and TV ads for sales</h3>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_8.png" class="">
+<p>Sales =a+ b1 Radio advertising + b2 TV advertising</p>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_9.png" class="">
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_10.png" class="">
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_11.png" class="">
+<h2 id="1-5-allocating-marketing-budgets"><a class="header-anchor" href="#1-5-allocating-marketing-budgets"></a>1.5 Allocating Marketing Budgets</h2>
+<ul>
+<li>弹性系数是什么？
+<ul>
+<li>预测变量变化1%，响应变量变化的百分比</li>
+<li>例如：广告支出变化1%，销售变化的百分比</li>
+</ul>
+</li>
+</ul>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_12.png" class="">
+<h2 id="1-6-modelling-log-log-returns-on-investment"><a class="header-anchor" href="#1-6-modelling-log-log-returns-on-investment"></a>1.6 Modelling log-log Returns on Investment</h2>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_13.png" class="">
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_14.png" class="">
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_15.png" class="">
+<h2 id="1-7-modelling-media-synergy"><a class="header-anchor" href="#1-7-modelling-media-synergy"></a>1.7 Modelling Media Synergy</h2>
+<ul>
+<li>组合使用营销组合工具可以产生协同效应。</li>
+<li>当多种媒体的联合影响超过它们各自部分的总和时，就会产生协同效应。</li>
+</ul>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_16.png" class="">
+<h2 id="1-8-modelling-carryover-effects"><a class="header-anchor" href="#1-8-modelling-carryover-effects"></a>1.8 Modelling carryover effects</h2>
+<ul>
+<li>到目前为止，我们假设在给定时间段内的广告只会影响该时间段内的销售。</li>
+<li>实际上，消费者对广告的反应可能会有延迟。</li>
+<li>不考虑传递效应可能会导致低估广告弹性。</li>
+</ul>
+<ul>
+<li>广告储存指标衡量了当前时间段之后的广告效应</li>
+<li>广告储存t = 当期广告t + λ * 广告储存t-1</li>
+<li>在每个时间段中，你假设保留你之前广告储存的一部分（λ）</li>
+<li>例如，如果λ等于0.3，则来自一个时间段之前的广告储存在当前时间段仍然有30%的影响</li>
+</ul>
+<blockquote>
+<p>How to calculate Adstock levels?<br>
+Adstockt= Advertisingt+ λAdstockt-1</p>
+</blockquote>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_17.png" class="">
+<blockquote>
+<p>Do it in R</p>
+</blockquote>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_18.png" class="">
+<h2 id="1-9-building-and-evaluating-market-response-model"><a class="header-anchor" href="#1-9-building-and-evaluating-market-response-model"></a>1.9 Building and Evaluating Market Response Model</h2>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week8_lecture_19.png" class="">
+<h2 id="1-10-takeaways"><a class="header-anchor" href="#1-10-takeaways"></a>1.10 Takeaways</h2>
+<ul>
+<li>所有资源都是有限的。管理者必须在资源之间进行权衡，以制定有效的营销策略。</li>
+<li>管理资源权衡的方法已经从纯启发式的时代发展到数据化时代，管理者依靠统计模型和详细信息。</li>
+<li>基于响应模型的归因方法捕捉了过去营销资源和过去结果之间的关系。然后利用过去的数据可以揭示营销资源和绩效之间的关系。</li>
+</ul>
+<h1>2. Marketing Experiment</h1>
+<ul>
+<li>Marketing experiment</li>
+<li>AB testing</li>
+<li>Multivariate testing</li>
+<li>Natural experiment</li>
+<li>Research examples</li>
+</ul>
+<p>营销实验测试客户对营销决策的反应，同时排除其他可能存在的混杂因素，这些因素在比较处理组和对照组时可能存在。</p>
+<ul>
+<li>何时使用？</li>
+</ul>
+<ol>
+<li>确定特定营销投资与客户或公司结果之间是否存在直接关系。</li>
+<li>根据它们的财务影响（例如，销售额增长）在一组投资策略和策略中进行选择。</li>
+</ol>
+<h2 id="2-1-marketing-experiment-components"><a class="header-anchor" href="#2-1-marketing-experiment-components"></a>2.1 Marketing Experiment: Components</h2>
+<ul>
+<li>实验归因方法涉及干预、结果、处理条件的设计以及对照条件。</li>
+<li>决定测试哪些因素至关重要，实验很快就会变得非常复杂。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intervention</td>
+<td>A key marketing action whose effectiveness the firm seeks to document</td>
+</tr>
+<tr>
+<td>Outcome</td>
+<td>The key marketing gain for the firm implementing the experiment</td>
+</tr>
+<tr>
+<td>Treatment</td>
+<td>When, where, and to whom the firm administers the intervention</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>A region, customer, or situation similar to the experimental intervention that remains unchanged during the experimental process</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-2-marketing-experiment-how-it-works"><a class="header-anchor" href="#2-2-marketing-experiment-how-it-works"></a>2.2 Marketing Experiment: How it works</h2>
+<ul>
+<li>
+<p>实验旨在建立自变量（营销投资）和结果之间的关系。</p>
+<ul>
+<li>必须建立一个良好的处理组和比较（对照）组。处理组是接受该处理的受试者群体（例如，消费者、销售人员）。对照组保持因果因素不变（例如，向另一组销售人员支付的佣金保持不变）。</li>
+<li>处理组和对照组在所有其他方面必须相似（例如，样本大小、人口构成、销售动机、经验）。在试验条件和对照条件之间，所有其他因素（至少是公司可控制的因素）都被有意地保持不变，这些因素可能会影响结果（例如，销售）。</li>
+<li>为了达到这个标准，通常使用随机分配。通过随机分配，从概率意义上来说，受试者接受处理的机会在不同组之间是相等的。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">𝑌 𝑖 = 𝛽0 + 𝛽1𝑇𝑖 + 𝜀𝑖</span><br><span class="line"></span><br><span class="line">- 𝑌 𝑖 是感兴趣的因变量；</span><br><span class="line">- 𝑇𝑖 如果主体i被分配到处理组，则编码为1，否则为0，</span><br><span class="line">- 系数 𝛽1 是处理效应。</span><br><span class="line">- 𝜀𝑖 捕捉随机统计误差。</span><br><span class="line">- 𝛽0 是截距。</span><br></pre></td></tr></table></figure>
+<p>在进行实验后，如果 𝛽1 在统计上显著，则处理效应是合法的。</p>
+<ul>
+<li>
+<p>根据分析的目标，实验可以采用两种不同的设计：</p>
+<ol>
+<li>“后验”设计：在客户接受营销活动后，测量营销行为对客户行为的影响。</li>
+<li>“前后对照”设计：在客户接受营销活动之前和之后，测量营销行为的影响。</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-3-marketing-experiment-example"><a class="header-anchor" href="#2-3-marketing-experiment-example"></a>2.3 Marketing Experiment: Example</h2>
+<p>鲜花送货公司DFG正在进行季度营销预算会议。一位经理指出公司每年在广告上花费了25万美元，质疑是否合理，或者DFG是否花费过多。在随后的内部讨论中，一些经理坚持认为地方电视广告对于建立品牌资产和产生收入至关重要；而另一些则认为公司花费过多。</p>
+<h3 id="2-3-1-marketing-experiment-after-only"><a class="header-anchor" href="#2-3-1-marketing-experiment-after-only"></a>2.3.1 Marketing Experiment: “after-only”</h3>
+<p>DFG决定进行一项受控的营销实验。将处理组和对照组匹配在已知属性上（例如人口统计学特征）。</p>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week9_lecture_1.png" class="">
+<h3 id="2-3-2-marketing-experiment-before-and-after"><a class="header-anchor" href="#2-3-2-marketing-experiment-before-and-after"></a>2.3.2 Marketing Experiment: “before-and-after”</h3>
+<p>DFG决定采用控制的营销实验，采用前后对照的设计。</p>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week9_lecture_2.png" class="">
+<h3 id="2-3-3-case"><a class="header-anchor" href="#2-3-3-case"></a>2.3.3 Case</h3>
+<ul>
+<li>随机分配顾客</li>
+<li>分析
+<ul>
+<li>比较各组以确定均值差异是否显著</li>
+<li>T检验/方差分析/回归</li>
+</ul>
+</li>
+</ul>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week9_lecture_3.png" class="">
+<h3 id="2-3-4-68-95-99-7-rule"><a class="header-anchor" href="#2-3-4-68-95-99-7-rule"></a>2.3.4 68-95-99.7 rule</h3>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week9_lecture_4.png" class="">
+<h3 id="2-3-5-gogogo"><a class="header-anchor" href="#2-3-5-gogogo"></a>2.3.5 GOGOGO</h3>
+<ul>
+<li>公司估计了三个回归方程，从三个不同的模型中获得了系数 𝛽1，分别捕捉了由于地方电视广告增加而导致的品牌知名度、品牌回忆率和销售的统计变化。</li>
+<li>在每个回归中，处理效应都是显著的：
+<ul>
+<li>当DFG增加其地方电视广告时，处理区域的品牌知名度、品牌回忆率和销售分别增长了1.5％、3.2％和3％（与对照组相比）。</li>
+</ul>
+</li>
+<li>DFG每年销售额为2500万美元，因此该实验使公司的决策者对地方电视广告带来的销售增长更有信心。因此，一项实验帮助解决了DFG内部的冲突。</li>
+</ul>
+<h2 id="2-4-a-b-testing"><a class="header-anchor" href="#2-4-a-b-testing"></a>2.4 A/B testing</h2>
+<ul>
+<li>
+<p>使用实验设计比较一个设计的两个或更多变体</p>
+<ol>
+<li>新想法</li>
+<li>运行实验</li>
+<li>分析结果</li>
+<li>选择获胜的想法</li>
+</ol>
+</li>
+<li>
+<p>强大且广泛使用的指标</p>
+<ol>
+<li>转化率（例如点击率）</li>
+<li>参与率（例如点赞、分享）</li>
+<li>停留时间（例如在首页停留的秒数）</li>
+</ol>
+</li>
+</ul>
+<h2 id="2-5-multivariate-testing"><a class="header-anchor" href="#2-5-multivariate-testing"></a>2.5 Multivariate testing</h2>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week9_lecture_5.png" class="">
+<h2 id="2-6-natural-experiments-when-to-use"><a class="header-anchor" href="#2-6-natural-experiments-when-to-use"></a>2.6 Natural Experiments: when to use</h2>
+<ul>
+<li>我们并不总是能够进行随机化</li>
+<li>政策上的意外变化可以被视为“自然实验”。例如，对一些市场引入了新的退货政策。</li>
+<li>即使在自然实验中，我们也需要确定哪个是处理组，哪个是对照组
+<ol>
+<li>处理组：受政策变化影响的组；例如，退货政策发生变化的市场。</li>
+<li>对照组：不受政策变化影响的组；例如，退货政策保持不变的市场。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-6-1-natural-experiments-difference-in-difference"><a class="header-anchor" href="#2-6-1-natural-experiments-difference-in-difference"></a>2.6.1 Natural Experiments: Difference-in-Difference</h3>
+<img src="/2024/R_week8_Managing_Resource_Trade-Offs_lecture/R_week9_lecture_6.png" class="">
+<ul>
+<li>差异中的差异（DiD）试图通过研究自然实验中处理组与对照组之间的处理对结果变量的差异效应，来模拟实验研究设计。</li>
+<li>DiD利用面板数据来测量随时间发生的处理组和对照组之间结果变量的变化差异。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">𝑌 𝑖 = 𝛽0 + 𝛽1t𝑖 + 𝛽2T𝑖 + 𝛽3 𝑇𝑖 × 𝑡𝑖 + 𝜀𝑖</span><br><span class="line"></span><br><span class="line">- 𝑌 𝑖是依赖变量;</span><br><span class="line">- 𝑡𝑖如果是介入后，则编码为1，如果是介入前，则编码为0；</span><br><span class="line">- 𝛽1是控制组和处理组共同的时间趋势;</span><br><span class="line">- 𝑇𝑖如果主体i分配到处理组，则编码为1，否则为0，</span><br><span class="line">- 𝛽2是处理效应。</span><br><span class="line">- 交互项𝑇𝑖 × 𝑡𝑖是DiD项</span><br><span class="line">- 𝛽3是真实效应。</span><br><span class="line">- 𝜀𝑖捕获了随机统计误差</span><br><span class="line">- 𝛽0是截距</span><br></pre></td></tr></table></figure>
+<h1>3 Takeaways</h1>
+<ul>
+<li>实验评估因果关系</li>
+<li>通常使用T检验、方差分析或线性回归来比较组，以测试差异是否显著</li>
+<li>网络实验（A/B测试）成本较低且速度较快‒ 实验成本可以是可变的，而不是固定的</li>
+<li>差异中的差异用于检验准实验，如自然实验。它测量了处理组和对照组在一段时间内结果变量的变化差异</li>
+</ul>
+</div></div><script type="text/x-mathjax-config">
+   MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    }); 
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2024/R_week8_Managing_Resource_Trade-Offs_lecture/';
+var disqus_title = 'R[week8] Managing Resource Trade-Offs';
+var disqus_url = 'https://blog.weasley.cn/2024/R_week8_Managing_Resource_Trade-Offs_lecture/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>
