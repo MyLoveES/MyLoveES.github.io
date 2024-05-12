@@ -1284,4 +1284,463 @@ A graph display of rules may be useful to seek themes and patterns at a higher l
 The positioning of items on the resulting graph may differ for your system, but the item clusters should be similar. Each circle represents a rule, with inbound arrows coming from items on the left-hand side of
 the rule and outbound arrows going to the right-hand side. The size (area) of the circle represents the rule’s support, and shade represents lift (darker indicates higher lift).
 
-# 3
+# 3 Managing Resources Trade-offs
+
+## 3.1 Selecting Advertising platforms
+
+### 3.1.1 import and check data
+
+```
+spending.data <- read.csv("7_advertising.csv")
+str(spending.data)
+plot(spending.data$radio, spending.data$sales)
+```
+{% asset_image final_18.png %}
+```
+plot(spending.data$magazines, spending.data$sales)
+```
+{% asset_image final_19.png %}
+```
+plot(spending.data$social_media, spending.data$sales)
+```
+{% asset_image final_20.png %}
+```
+plot(spending.data$search_ads, spending.data$sales)
+```
+{% asset_image final_21.png %}
+```
+plot(spending.data$tv, spending.data$sales)
+```
+{% asset_image final_22.png %}
+```
+plot(spending.data$newspaper, spending.data$sales)
+```
+{% asset_image final_23.png %}
+
+### 3.1.2 Selecting Advertising platforms
+#### 3.1.2.1 line
+```
+> ## line
+> regression_1 <- lm(sales ~ radio + magazines + social_media + search_ads + tv + newspaper, data=spending.data) 
+> # 83.14% explained
+> summary(regression_1)
+
+Call:
+lm(formula = sales ~ radio + magazines + social_media + search_ads + 
+    tv + newspaper, data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1389.11   -73.13    43.17   114.90   835.69 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  323.0262    40.8171   7.914  1.9e-13 ***
+radio         15.2914     1.0354  14.768  < 2e-16 ***
+magazines     -0.5535     3.5231  -0.157    0.875    
+social_media   1.8449     1.2796   1.442    0.151    
+search_ads    -1.6499     2.0874  -0.790    0.430    
+tv             4.6694     0.2177  21.447  < 2e-16 ***
+newspaper      0.7353     0.9618   0.764    0.446    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 214.3 on 193 degrees of freedom
+Multiple R-squared:  0.8365,	Adjusted R-squared:  0.8314 
+F-statistic: 164.5 on 6 and 193 DF,  p-value: < 2.2e-16
+
+```
+#### 3.1.2.2 log
+```
+> ## log
+> summary(spending.data$radio)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.04    9.30   22.00   23.23   36.35   79.60 
+> summary(spending.data$magazines)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.030   1.050   3.420   4.828   6.383  61.160 
+> summary(spending.data$social_media)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.245   7.050  18.137  22.289  33.523  90.800 
+> summary(spending.data$search_ads)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.1568  5.6442 11.6133 14.2485 21.4547 50.3014 
+> summary(spending.data$tv)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.70   74.38  149.75  147.04  218.82  296.40 
+> summary(spending.data$newspaper)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.30   12.75   25.75   30.55   45.10  114.00 
+> 
+> regression_2 <- lm(log(sales) ~ log(radio) + log(magazines) + log(social_media) + log(search_ads) + log(tv) + log(newspaper), data=spending.data) 
+> # 90.15% explained
+> summary(regression_2)
+
+Call:
+lm(formula = log(sales) ~ log(radio) + log(magazines) + log(social_media) + 
+    log(search_ads) + log(tv) + log(newspaper), data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.53768 -0.08809 -0.01695  0.07090  0.58515 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)        5.066700   0.063064  80.342   <2e-16 ***
+log(radio)         0.143520   0.008449  16.986   <2e-16 ***
+log(magazines)     0.016958   0.015932   1.064   0.2885    
+log(social_media)  0.024575   0.015334   1.603   0.1107    
+log(search_ads)   -0.037193   0.016400  -2.268   0.0244 *  
+log(tv)            0.364471   0.013843  26.329   <2e-16 ***
+log(newspaper)     0.001954   0.017739   0.110   0.9124    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.13 on 193 degrees of freedom
+Multiple R-squared:  0.9045,	Adjusted R-squared:  0.9015 
+F-statistic: 304.7 on 6 and 193 DF,  p-value: < 2.2e-16
+
+```
+#### 3.1.2.3 log better
+```
+> regression <- lm(log(sales) ~ log(radio) + log(tv), data=spending.data) 
+> # 89.93% explained
+> summary(regression)
+
+Call:
+lm(formula = log(sales) ~ log(radio) + log(tv), data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.53810 -0.09115 -0.01295  0.06795  0.58926 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 5.098303   0.050058  101.85   <2e-16 ***
+log(radio)  0.146733   0.008299   17.68   <2e-16 ***
+log(tv)     0.356862   0.009271   38.49   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1315 on 197 degrees of freedom
+Multiple R-squared:  0.9003,	Adjusted R-squared:  0.8993 
+F-statistic: 889.6 on 2 and 197 DF,  p-value: < 2.2e-16
+```
+
+### 3.1.3 Allocating Marketing Budget
+
+> Sum elasticity
+```
+0.49 = 0.14 + 0.35
+```
+> Ratio of elasticity
+```
+0.2857 = 0.14 / 0.49
+```
+> TV of elasticity
+```
+0.7143 = 0.35 / 0.49
+```
+> Obtain elasticities from model
+```
+> mean(spending.data$radio)
+[1] 23.2297
+> mean(spending.data$tv)
+[1] 147.0425
+> mean(spending.data$sales)
+[1] 1402.25
+> 
+> # radio
+> # A 1% increase in radio advertising results in a 0.26% increase in sales.
+> 0.143520 * (23.2297 / 1402.25)
+[1] 0.002377555
+> 
+> # tv
+> # A 1% increase in tv advertising results in a 0.26% increase in sales.
+> 0.364471 * (147.0425 / 1402.25)
+[1] 0.0382191
+```
+
+### 3.1.4 Advertising Carryover Effect
+
+We are assumed to retain a 10% of your previous advertising stock.
+
+```
+> adstock <- function(x, rate){
++   return(as.numeric(stats::filter(x=x, filter=rate, method="recursive")))
++ }
+> 
+> spending.data <- spending.data %>% mutate(tv_adstock = adstock(tv,0.1),
++                                           magazines_adstock = adstock(magazines, 0.1), 
++                                           social_media_adstock = adstock(social_media, 0.1), 
++                                           search_ads_adstock = adstock(search_ads, 0.1), 
++                                           newspaper_adstock = adstock(newspaper, 0.1), 
++                                           radio_adstock = adstock(radio, 0.1))
+> 
+> regression_with_stock <- lm(log(sales) ~ log(radio_adstock) + log(magazines_adstock) + log(social_media_adstock) + log(search_ads_adstock) + log(tv_adstock) + log(newspaper_adstock), data=spending.data) 
+> # 90.15% explained
+> summary(regression_with_stock)
+
+Call:
+lm(formula = log(sales) ~ log(radio_adstock) + log(magazines_adstock) + 
+    log(social_media_adstock) + log(search_ads_adstock) + log(tv_adstock) + 
+    log(newspaper_adstock), data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.08867 -0.06993  0.00508  0.06916  0.53508 
+
+Coefficients:
+                           Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                4.253505   0.098083  43.366   <2e-16 ***
+log(radio_adstock)         0.186030   0.013809  13.472   <2e-16 ***
+log(magazines_adstock)     0.010671   0.019567   0.545   0.5861    
+log(social_media_adstock)  0.018066   0.020384   0.886   0.3766    
+log(search_ads_adstock)   -0.040954   0.022445  -1.825   0.0696 .  
+log(tv_adstock)            0.484510   0.019831  24.432   <2e-16 ***
+log(newspaper_adstock)     0.009142   0.023393   0.391   0.6964    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1566 on 193 degrees of freedom
+Multiple R-squared:  0.8615,	Adjusted R-squared:  0.8572 
+F-statistic:   200 on 6 and 193 DF,  p-value: < 2.2e-16
+
+> spending.data <- spending.data %>% mutate(tv_adstock = adstock(tv,0.1),
++                                           radio_adstock = adstock(radio, 0.1))
+> 
+> regression_with_stock <- lm(log(sales) ~ log(radio_adstock) + log(tv_adstock), data=spending.data) 
+> # 85.65% explained
+> summary(regression_with_stock)
+
+Call:
+lm(formula = log(sales) ~ log(radio_adstock) + log(tv_adstock), 
+    data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.09358 -0.07401 -0.00318  0.07187  0.59975 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         4.30635    0.08387   51.34   <2e-16 ***
+log(radio_adstock)  0.18899    0.01318   14.34   <2e-16 ***
+log(tv_adstock)     0.47064    0.01503   31.30   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.157 on 197 degrees of freedom
+Multiple R-squared:  0.858,	Adjusted R-squared:  0.8565 
+F-statistic: 594.9 on 2 and 197 DF,  p-value: < 2.2e-16
+```
+
+### 3.1.5 Synergy Effect
+
+```
+> # synergy effect
+> center <- function(x) { scale(x, scale = F)}
+> 
+> regression <- lm(log(sales) ~ log(radio) + log(magazines) + log(social_media) + log(search_ads) + log(tv) + log(newspaper) + log(radio) * log(tv), data=spending.data) 
+> summary(regression)
+
+Call:
+lm(formula = log(sales) ~ log(radio) + log(magazines) + log(social_media) + 
+    log(search_ads) + log(tv) + log(newspaper) + log(radio) * 
+    log(tv), data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.29003 -0.07859 -0.02022  0.04670  0.54257 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         5.880586   0.111464  52.758  < 2e-16 ***
+log(radio)         -0.117384   0.032064  -3.661 0.000325 ***
+log(magazines)      0.026573   0.013728   1.936 0.054378 .  
+log(social_media)   0.029733   0.013181   2.256 0.025215 *  
+log(search_ads)    -0.034111   0.014086  -2.422 0.016386 *  
+log(tv)             0.182792   0.024784   7.375 4.79e-12 ***
+log(newspaper)     -0.007208   0.015271  -0.472 0.637475    
+log(radio):log(tv)  0.058409   0.006992   8.354 1.30e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1116 on 192 degrees of freedom
+Multiple R-squared:   0.93,	Adjusted R-squared:  0.9274 
+F-statistic: 364.2 on 7 and 192 DF,  p-value: < 2.2e-16
+
+> 
+> regression <- lm(log(sales) ~ log(radio) + log(tv) + log(radio) * log(tv), data=spending.data) 
+> summary(regression)
+
+Call:
+lm(formula = log(sales) ~ log(radio) + log(tv) + log(radio) * 
+    log(tv), data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.29435 -0.07741 -0.02310  0.05873  0.59461 
+
+Coefficients:
+                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         5.870204   0.104963  55.926  < 2e-16 ***
+log(radio)         -0.108507   0.032403  -3.349 0.000974 ***
+log(tv)             0.184361   0.022818   8.080 6.53e-14 ***
+log(radio):log(tv)  0.057335   0.007097   8.079 6.54e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1142 on 196 degrees of freedom
+Multiple R-squared:  0.9252,	Adjusted R-squared:  0.9241 
+F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
+
+> 
+> spending.data <- spending.data %>% mutate(radio_log_centered = center(log(radio)),
++                                           tv_log_centered = center(log(tv)), 
++                                           newspaper_log_centered = center(log(newspaper)),
++                                           magazines_log_centered = center(log(magazines)),
++                                           social_media_log_centered = center(log(social_media)),
++                                           search_ads_log_centered = center(log(search_ads)))
+> 
+> regression <- lm(log(sales) ~ radio_log_centered + magazines_log_centered + social_media_log_centered + search_ads_log_centered + tv_log_centered + newspaper_log_centered + radio_log_centered * tv_log_centered, data=spending.data) 
+> summary(regression)
+
+Call:
+lm(formula = log(sales) ~ radio_log_centered + magazines_log_centered + 
+    social_media_log_centered + search_ads_log_centered + tv_log_centered + 
+    newspaper_log_centered + radio_log_centered * tv_log_centered, 
+    data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.29003 -0.07859 -0.02022  0.04670  0.54257 
+
+Coefficients:
+                                    Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                         7.169892   0.007894 908.260  < 2e-16 ***
+radio_log_centered                  0.155506   0.007395  21.027  < 2e-16 ***
+magazines_log_centered              0.026573   0.013728   1.936   0.0544 .  
+social_media_log_centered           0.029733   0.013181   2.256   0.0252 *  
+search_ads_log_centered            -0.034111   0.014086  -2.422   0.0164 *  
+tv_log_centered                     0.343443   0.012150  28.267  < 2e-16 ***
+newspaper_log_centered             -0.007208   0.015271  -0.472   0.6375    
+radio_log_centered:tv_log_centered  0.058409   0.006992   8.354  1.3e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1116 on 192 degrees of freedom
+Multiple R-squared:   0.93,	Adjusted R-squared:  0.9274 
+F-statistic: 364.2 on 7 and 192 DF,  p-value: < 2.2e-16
+
+> 
+> regression <- lm(log(sales) ~ radio_log_centered + tv_log_centered + radio_log_centered * tv_log_centered, data=spending.data) 
+> summary(regression)
+
+Call:
+lm(formula = log(sales) ~ radio_log_centered + tv_log_centered + 
+    radio_log_centered * tv_log_centered, data = spending.data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.29435 -0.07741 -0.02310  0.05873  0.59461 
+
+Coefficients:
+                                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                        7.169879   0.008074 888.050  < 2e-16 ***
+radio_log_centered                 0.159367   0.007374  21.611  < 2e-16 ***
+tv_log_centered                    0.342059   0.008256  41.429  < 2e-16 ***
+radio_log_centered:tv_log_centered 0.057335   0.007097   8.079 6.54e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.1142 on 196 degrees of freedom
+Multiple R-squared:  0.9252,	Adjusted R-squared:  0.9241 
+F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
+```
+
+## 3.2 Compare groups
+
+### 3.2.1 import and check data
+```
+> ad.df <- read.csv("8_clickstream.csv", stringsAsFactors = TRUE) 
+> summary(ad.df)
+      visit_date      condition     time_spent_homepage_sec clicked_article 
+ 13/04/2020: 1045   quality:15000   Min.   :46.10           Min.   :0.0000  
+ 23/04/2020: 1042   taste  :15000   1st Qu.:49.32           1st Qu.:0.0000  
+ 02/04/2020: 1038                   Median :50.00           Median :1.0000  
+ 31/03/2020: 1033                   Mean   :50.00           Mean   :0.6054  
+ 15/04/2020: 1031                   3rd Qu.:50.67           3rd Qu.:1.0000  
+ 27/04/2020: 1029                   Max.   :54.02           Max.   :1.0000  
+ (Other)   :23782                                                           
+  clicked_like    clicked_share    
+ Min.   :0.0000   Min.   :0.00000  
+ 1st Qu.:0.0000   1st Qu.:0.00000  
+ Median :0.0000   Median :0.00000  
+ Mean   :0.1177   Mean   :0.03143  
+ 3rd Qu.:0.0000   3rd Qu.:0.00000  
+ Max.   :1.0000   Max.   :1.00000  
+                                   
+> str(ad.df)
+'data.frame':	30000 obs. of  6 variables:
+ $ visit_date             : Factor w/ 30 levels "01/04/2020","02/04/2020",..: 30 30 30 30 30 30 30 30 30 30 ...
+ $ condition              : Factor w/ 2 levels "quality","taste": 2 2 2 2 2 2 2 2 2 2 ...
+ $ time_spent_homepage_sec: num  49 48.9 49.1 49.3 50.4 ...
+ $ clicked_article        : int  1 1 1 0 0 1 1 1 1 0 ...
+ $ clicked_like           : int  0 0 0 1 1 0 0 0 0 0 ...
+ $ clicked_share          : int  1 0 0 0 0 0 0 0 0 0 ...
+
+> ad.df$clicked_article <- factor(ad.df$clicked_article, ordered = FALSE)
+> ad.df$clicked_like <- factor(ad.df$clicked_like, ordered = FALSE)
+> ad.df$clicked_share <- factor(ad.df$clicked_share, ordered = FALSE)
+```
+
+### 3.2.2 Descriptives by group
+
+#### 3.2.2.1 seconds spent vary for two versions of ads.
+```
+> # seconds spent vary for two versions of ads.
+> aggregate(time_spent_homepage_sec ~ condition, data = ad.df, mean)
+  condition time_spent_homepage_sec
+1   quality                49.99489
+2     taste                49.99909
+```
+
+#### 3.2.2.2 the frequency with which different combinations of condition and like occur
+```
+> table(ad.df$condition, ad.df$clicked_article)
+         
+             0    1
+  quality 5873 9127
+  taste   5965 9035
+> table(ad.df$condition, ad.df$clicked_like)
+         
+              0     1
+  quality 13964  1036
+  taste   12506  2494
+> table(ad.df$condition, ad.df$clicked_share)
+         
+              0     1
+  quality 14550   450
+  taste   14507   493
+```
+
+### 3.2.3 Visualization by group
+```
+> histogram(~ clicked_article | condition, data = ad.df)
+```
+{% asset_image final_24.png %}
+```
+> histogram(~ clicked_like | condition, data = ad.df)
+```
+{% asset_image final_25.png %}
+```
+> histogram(~ clicked_share | condition, data = ad.df)
+```
+{% asset_image final_26.png %}
+
+```
+> ad.mean <- aggregate(time_spent_homepage_sec ~ condition, data = ad.df, mean) 
+> barchart(time_spent_homepage_sec ~ condition, data = ad.mean, col = "grey")
+```
+{% asset_image final_27.png %}
+
