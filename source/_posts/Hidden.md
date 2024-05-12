@@ -1744,3 +1744,59 @@ F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
 ```
 {% asset_image final_27.png %}
 
+### 3.2.4 Statistical tests
+
+#### 3.2.4.1 chisp.test()
+
+```
+> # chisp.test()
+> chisq.test(table(ad.df$clicked_article, ad.df$condition))
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(ad.df$clicked_article, ad.df$condition)
+X-squared = 1.1555, df = 1, p-value = 0.2824
+
+> chisq.test(table(ad.df$clicked_like, ad.df$condition))
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(ad.df$clicked_like, ad.df$condition)
+X-squared = 681.57, df = 1, p-value < 2.2e-16
+
+> chisq.test(table(ad.df$clicked_share, ad.df$condition))
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(ad.df$clicked_share, ad.df$condition)
+X-squared = 1.9313, df = 1, p-value = 0.1646
+```
+
+#### 3.2.4.2 t.test()
+```
+> # t.test()
+> t.test(time_spent_homepage_sec ~ condition, data = ad.df)
+
+	Welch Two Sample t-test
+
+data:  time_spent_homepage_sec by condition
+t = -0.36288, df = 29997, p-value = 0.7167
+alternative hypothesis: true difference in means between group quality and group taste is not equal to 0
+95 percent confidence interval:
+ -0.02691480  0.01850573
+sample estimates:
+mean in group quality   mean in group taste 
+             49.99489              49.99909
+```
+
+#### 3.2.4.3 anova
+```
+> ad.aov.con <- aov(time_spent_homepage_sec ~ condition, data = ad.df)
+> anova(ad.aov.con)
+Analysis of Variance Table
+
+Response: time_spent_homepage_sec
+             Df  Sum Sq Mean Sq F value Pr(>F)
+condition     1     0.1 0.13259  0.1317 0.7167
+Residuals 29998 30204.2 1.00687
+```
