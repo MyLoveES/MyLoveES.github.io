@@ -1,0 +1,301 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="本篇主要讲了R语言的几种类型，以及与数据之间的关系。"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>R[week1] Getting start | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/R-Language/" rel="tag">R-Language</a></div><div class="post-time">2024-03-12</div></div></div><div class="container post-header"><h1>R[week1] Getting start</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">一、Basic objects</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-vectors"><span class="toc-number">1.1.</span> <span class="toc-text">1. vectors</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-more-on-vectors-and-indexing"><span class="toc-number">1.2.</span> <span class="toc-text">2. More on Vectors and Indexing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%AD%90%E9%9B%86"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 子集</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-missing-and-interesting-values-na"><span class="toc-number">1.3.</span> <span class="toc-text">3. Missing and interesting values - NA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%87%8D%E8%A6%81%E7%9A%84na"><span class="toc-number">1.3.1.</span> <span class="toc-text">3.1 重要的NA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-lists"><span class="toc-number">1.4.</span> <span class="toc-text">4. Lists</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-data-frame"><span class="toc-number">1.5.</span> <span class="toc-text">5. Data frame</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cor-%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.1.</span> <span class="toc-text">cor()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0"><span class="toc-number">1.5.2.</span> <span class="toc-text">参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">1.5.3.</span> <span class="toc-text">返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.5.4.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9A%AE%E5%B0%94%E9%80%8A%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0-pearson-correlation-coefficient"><span class="toc-number">1.5.5.</span> <span class="toc-text">皮尔逊相关系数（Pearson correlation coefficient）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9%EF%BC%9A"><span class="toc-number">1.5.6.</span> <span class="toc-text">特点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="toc-number">1.5.7.</span> <span class="toc-text">解释：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4%EF%BC%9A"><span class="toc-number">1.5.8.</span> <span class="toc-text">适用范围：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%9A"><span class="toc-number">1.5.9.</span> <span class="toc-text">注意事项：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-saving-loading-and-importing-data"><span class="toc-number">1.6.</span> <span class="toc-text">6. Saving, loading, and importing data</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-save-and-reload"><span class="toc-number">1.6.1.</span> <span class="toc-text">6.1 save and reload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-import"><span class="toc-number">1.6.2.</span> <span class="toc-text">6.2 import</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-1-excel"><span class="toc-number">1.6.2.1.</span> <span class="toc-text">6.2.1 excel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-2-csv"><span class="toc-number">1.6.2.2.</span> <span class="toc-text">6.2.2 csv</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-function"><span class="toc-number">1.7.</span> <span class="toc-text">7. function</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-clean-up"><span class="toc-number">1.8.</span> <span class="toc-text">8. clean up</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">二、week1 code</span></a></li></ol></details></div><div class="container post-content"><p>本篇主要讲了R语言的几种类型，以及与数据之间的关系。</p>
+<blockquote>
+<p>R: 4.3.2 (2023-10-31)<br>
+R studio: 2023.12.1+402 (2023.12.1+402)</p>
+</blockquote>
+<h1>一、Basic objects</h1>
+<h2 id="1-vectors"><a class="header-anchor" href="#1-vectors"></a>1. vectors</h2>
+<p>一维数据集，常用于number, boolean, string, etc.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># define some variables</span><br><span class="line">&gt; x &lt;- c(2, 4, 6, 8)</span><br><span class="line">&gt; xNum &lt;- c(1, 3.14159, 5, 7)</span><br><span class="line">&gt; xLog &lt;- c(TRUE, FALSE, TRUE, TRUE) </span><br><span class="line">&gt; xChar &lt;- c(&quot;foo&quot;, &quot;bar&quot;, &quot;boo&quot;, &quot;far&quot;) </span><br><span class="line">&gt; xMix &lt;- c(1, TRUE, 3, &quot;Hello, world!&quot;) </span><br><span class="line"></span><br><span class="line"># print variable</span><br><span class="line">&gt; xNum</span><br><span class="line"></span><br><span class="line"># result</span><br><span class="line">[1] 1.00000 3.14159 5.00000 7.00000</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 可以使用vector作为新verctor创建的初始值</span><br><span class="line">&gt; x2 &lt;- c(xNum, xMix)</span><br><span class="line"></span><br><span class="line"># print</span><br><span class="line">&gt; x2 </span><br><span class="line"></span><br><span class="line"># result</span><br><span class="line">[1] &quot;1&quot;             &quot;3.14159&quot;       &quot;5&quot;             &quot;7&quot;             &quot;1&quot;             &quot;TRUE&quot;         </span><br><span class="line">[7] &quot;3&quot;             &quot;Hello, world!&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 下标与计算，需要注意R语言中下标从1开始</span><br><span class="line">&gt; xNum[2]</span><br><span class="line">[1] 3.14159</span><br><span class="line"></span><br><span class="line"># 计算时，不指明元素的话，会将vec中所有元素各执行一遍计算</span><br><span class="line">&gt; x2 &lt;- c(x, x) </span><br><span class="line">&gt; x2 + 1</span><br><span class="line">[1] 3 5 7 9 3 5 7 9</span><br><span class="line"></span><br><span class="line">&gt; x2 * pi</span><br><span class="line">[1]  6.283185 12.566371 18.849556 25.132741  6.283185 12.566371 18.849556 25.132741</span><br><span class="line"></span><br><span class="line">&gt; (x+cos(0.5)) * x2</span><br><span class="line">[1]  5.755165 19.510330 41.265495 71.020660  5.755165 19.510330 41.265495 71.020660</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注⚠️：由此可以看出一个特点，若两个vec计算，元素数量不相同时，会反复使用元素少的vec。（很像是矩阵的计算？（谁说vec不是一维矩阵呢？<br>
+比如上面的x只有4个元素，而x2有8个元素，所以x的元素使用了两次。</p>
+</blockquote>
+<blockquote>
+<p>注⚠️：除了cos外，常用的数学函数还有：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>exp(x)</td>
+<td>计算e的x次幂。</td>
+</tr>
+<tr>
+<td>log(x)</td>
+<td>计算x的自然对数。</td>
+</tr>
+<tr>
+<td>log10(x)</td>
+<td>计算x的以10为底的对数。</td>
+</tr>
+<tr>
+<td>log2(x)</td>
+<td>计算x的以2为底的对数。</td>
+</tr>
+<tr>
+<td>sqrt(x)</td>
+<td>计算x的平方根。</td>
+</tr>
+<tr>
+<td>^ 或 **</td>
+<td>进行幂运算，例如x^2 或 x**2表示x的平方。</td>
+</tr>
+<tr>
+<td>sin(x)</td>
+<td>计算x的正弦值。</td>
+</tr>
+<tr>
+<td>cos(x)</td>
+<td>计算x的余弦值。</td>
+</tr>
+<tr>
+<td>tan(x)</td>
+<td>计算x的正切值。</td>
+</tr>
+<tr>
+<td>asin(x)</td>
+<td>计算x的反正弦值。</td>
+</tr>
+<tr>
+<td>acos(x)</td>
+<td>计算x的反余弦值。</td>
+</tr>
+<tr>
+<td>atan(x)</td>
+<td>计算x的反正切值。</td>
+</tr>
+<tr>
+<td>sinh(x)</td>
+<td>计算x的双曲正弦值。</td>
+</tr>
+<tr>
+<td>cosh(x)</td>
+<td>计算x的双曲余弦值。</td>
+</tr>
+<tr>
+<td>tanh(x)</td>
+<td>计算x的双曲正切值。</td>
+</tr>
+<tr>
+<td>ceiling(x)</td>
+<td>对x进行向上取整。</td>
+</tr>
+<tr>
+<td>floor(x)</td>
+<td>对x进行向下取整。</td>
+</tr>
+<tr>
+<td>abs(x)</td>
+<td>计算x的绝对值。</td>
+</tr>
+<tr>
+<td>factorial(x)</td>
+<td>计算x的阶乘。</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>计算x除以y的余数，例如5 %% 2等于1。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-more-on-vectors-and-indexing"><a class="header-anchor" href="#2-more-on-vectors-and-indexing"></a>2. More on Vectors and Indexing</h2>
+<h3 id="2-1-子集"><a class="header-anchor" href="#2-1-子集"></a>2.1 子集</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 定义一个数字序列</span><br><span class="line">&gt; xSeq &lt;- 1:10 # use 1:10 instead of typing 1,2,3,4 ...10.</span><br><span class="line"></span><br><span class="line"># 获取子集</span><br><span class="line">&gt; xNum</span><br><span class="line">[1] 1.00000 3.14159 5.00000 7.00000</span><br><span class="line"></span><br><span class="line"># 第2到第4个元素</span><br><span class="line">&gt; xNum[2:4]</span><br><span class="line">[1] 3.14159 5.00000 7.00000</span><br><span class="line"></span><br><span class="line"># 第2-3个元素</span><br><span class="line">&gt; myStart &lt;- 2 </span><br><span class="line">&gt; xNum[myStart:sqrt(myStart+7)]</span><br><span class="line">[1] 3.14159 5.00000</span><br><span class="line"></span><br><span class="line">&gt; xSeq</span><br><span class="line">[1]  1  2  3  4  5  6  7  8  9 10</span><br><span class="line"></span><br><span class="line"># 负数代表排除掉第n个元素</span><br><span class="line">&gt; xSeq[-5:-7]</span><br><span class="line">[1]  1  2  3  4  8  9 10</span><br><span class="line"></span><br><span class="line"># 用vec计算得出另一个vec</span><br><span class="line">&gt; xSub &lt;- xNum[2:4]</span><br><span class="line">[1] 3.14159 5.00000 7.00000</span><br><span class="line"></span><br><span class="line"># 可以用boolean来筛选元素</span><br><span class="line">&gt; xNum[c(FALSE, TRUE, TRUE, TRUE)]</span><br><span class="line">[1] 3.14159 5.00000 7.00000</span><br><span class="line"></span><br><span class="line"># 因此可以用表达式来获取logic value</span><br><span class="line">&gt; xNum[xNum &gt; 3]</span><br><span class="line">[1] 3.14159 5.00000 7.00000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="3-missing-and-interesting-values-na"><a class="header-anchor" href="#3-missing-and-interesting-values-na"></a>3. Missing and interesting values - NA</h2>
+<h3 id="3-1-重要的na"><a class="header-anchor" href="#3-1-重要的na"></a>3.1 重要的NA</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; my.test.scores &lt;- c(91, NA, NA)</span><br><span class="line">NA</span><br><span class="line"></span><br><span class="line">&gt; mean(my.test.scores)</span><br><span class="line">NA</span><br><span class="line"></span><br><span class="line">&gt; max(my.test.scores)</span><br><span class="line">NA</span><br><span class="line"></span><br><span class="line"># 筛选掉NA</span><br><span class="line">## 方法1: na.rm=TRUE</span><br><span class="line">&gt; mean(my.test.scores, na.rm=TRUE)</span><br><span class="line">91</span><br><span class="line"></span><br><span class="line">&gt; max(my.test.scores, na.rm=TRUE)</span><br><span class="line">91</span><br><span class="line"></span><br><span class="line">## 方法2：na.omit</span><br><span class="line">&gt; mean(na.omit(my.test.scores))</span><br><span class="line">91</span><br><span class="line"></span><br><span class="line">## 方法3: !is.na(x)</span><br><span class="line">&gt; is.na(my.test.scores)</span><br><span class="line">[1] FALSE  TRUE  TRUE</span><br><span class="line"></span><br><span class="line">&gt; my.test.scores[!is.na(my.test.scores)]</span><br><span class="line">91</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="4-lists"><a class="header-anchor" href="#4-lists"></a>4. Lists</h2>
+<p><strong>多维</strong>的数据集合</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; str(xChar)</span><br><span class="line">chr [1:4] &quot;foo&quot; &quot;bar&quot; &quot;boo&quot; &quot;far&quot;</span><br><span class="line"></span><br><span class="line"># 从vec合并为list</span><br><span class="line">&gt; xList &lt;- list(xNum, xChar) </span><br><span class="line">&gt; xList</span><br><span class="line">[[1]]</span><br><span class="line">[1] 1.00000 3.14159 5.00000 7.00000</span><br><span class="line"></span><br><span class="line">[[2]]</span><br><span class="line">[1] &quot;foo&quot; &quot;bar&quot; &quot;boo&quot; &quot;far&quot;</span><br><span class="line"></span><br><span class="line">&gt; str(xList)</span><br><span class="line">List of 2</span><br><span class="line"> $ : num [1:4] 1 3.14 5 7</span><br><span class="line"> $ : chr [1:4] &quot;foo&quot; &quot;bar&quot; &quot;boo&quot; &quot;far&quot;</span><br><span class="line"></span><br><span class="line">&gt; summary(xList[[1]])</span><br><span class="line">   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span><br><span class="line">  1.000   2.606   4.071   4.035   5.500   7.000</span><br><span class="line"></span><br><span class="line"># 分配名字</span><br><span class="line">## 方式1</span><br><span class="line">&gt; names(xList) &lt;- c(&quot;itemnum&quot;, &quot;itemchar&quot;)</span><br><span class="line">## 方式2</span><br><span class="line">xList &lt;- list(itemnum=xNum, itemchar=xChar)</span><br><span class="line">&gt; xList</span><br><span class="line">$itemnum</span><br><span class="line">[1] 1.00000 3.14159 5.00000 7.00000</span><br><span class="line"></span><br><span class="line">$itemchar</span><br><span class="line">[1] &quot;foo&quot; &quot;bar&quot; &quot;boo&quot; &quot;far&quot;</span><br><span class="line"></span><br><span class="line"># 分配名字后，可以用名字来替代索引，获得元素</span><br><span class="line">&gt; xList$itemnum # method 2: $name reference</span><br><span class="line">[1] 1.00000 3.14159 5.00000 7.00000</span><br><span class="line"></span><br><span class="line">&gt; xList[[&quot;itemnum&quot;]] # method 3: quoted name</span><br><span class="line">[1] 1.00000 3.14159 5.00000 7.00000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="5-data-frame"><a class="header-anchor" href="#5-data-frame"></a>5. Data frame</h2>
+<p>即为<strong>矩阵</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 创建一个date frame, 使用多个vec作为数据源</span><br><span class="line">&gt; x.df &lt;- data.frame(xNum, xLog, xChar)</span><br><span class="line"></span><br><span class="line">&gt; x.df</span><br><span class="line">     xNum  xLog xChar</span><br><span class="line">1 1.00000  TRUE   foo</span><br><span class="line">2 3.14159 FALSE   bar</span><br><span class="line">3 5.00000  TRUE   boo</span><br><span class="line">4 7.00000  TRUE   far</span><br><span class="line"></span><br><span class="line"># 使用index获取特定元素</span><br><span class="line">&gt; x.df[2,1]</span><br><span class="line">[1] 3.14159</span><br><span class="line"></span><br><span class="line">&gt; x.df1 &lt;- data.frame(xNum, xLog, xChar, stringsAsFactors=TRUE) </span><br><span class="line">&gt; x.df1</span><br><span class="line">     xNum  xLog xChar</span><br><span class="line">1 1.00000  TRUE   foo</span><br><span class="line">2 3.14159 FALSE   bar</span><br><span class="line">3 5.00000  TRUE   boo</span><br><span class="line">4 7.00000  TRUE   far</span><br><span class="line"></span><br><span class="line">&gt; str(x.df1)</span><br><span class="line">&#x27;data.frame&#x27;:	4 obs. of  3 variables:</span><br><span class="line"> $ xNum : num  1 3.14 5 7</span><br><span class="line"> $ xLog : logi  TRUE FALSE TRUE TRUE</span><br><span class="line"> $ xChar: Factor w/ 4 levels &quot;bar&quot;,&quot;boo&quot;,&quot;far&quot;,..: 4 1 2 3</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注⚠️：何为factor？<br>
+个人理解类似于“枚举”，有限集合。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 一些 &#x27;sub&#x27; data frame 方法</span><br><span class="line">&gt; x.df[2, ] # 第2行 all of row 2 </span><br><span class="line">     xNum  xLog xChar</span><br><span class="line">2 3.14159 FALSE   bar</span><br><span class="line"></span><br><span class="line">&gt; x.df[ ,3] # 第3列 all of column 3</span><br><span class="line">[1] &quot;foo&quot; &quot;bar&quot; &quot;boo&quot; &quot;far&quot;</span><br><span class="line"></span><br><span class="line">&gt; x.df[2:3, ] # 第2-3行</span><br><span class="line">     xNum  xLog xChar</span><br><span class="line">2 3.14159 FALSE   bar</span><br><span class="line">3 5.00000  TRUE   boo</span><br><span class="line"></span><br><span class="line">&gt; x.df[ ,1:2] # two columns # 第1-2列</span><br><span class="line">     xNum  xLog</span><br><span class="line">1 1.00000  TRUE</span><br><span class="line">2 3.14159 FALSE</span><br><span class="line">3 5.00000  TRUE</span><br><span class="line">4 7.00000  TRUE</span><br><span class="line"></span><br><span class="line">&gt; x.df[-3, ] # omit the third observation # 排除掉第3行</span><br><span class="line">     xNum  xLog xChar</span><br><span class="line">1 1.00000  TRUE   foo</span><br><span class="line">2 3.14159 FALSE   bar</span><br><span class="line">4 7.00000  TRUE   far</span><br><span class="line"></span><br><span class="line">&gt; x.df[, -2] # omit the second column # 排除掉第2列</span><br><span class="line">     xNum xChar</span><br><span class="line">1 1.00000   foo</span><br><span class="line">2 3.14159   bar</span><br><span class="line">3 5.00000   boo</span><br><span class="line">4 7.00000   far</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注⚠️：从data frame中筛选数据，如果是单个元素，返回值类型为元素数量为1的vec；如果是一行或者一列，则为vec；如果是多行或者多列，则为一个新的data frame。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 清理掉上述内容</span><br><span class="line">&gt; rm(list=ls()) # caution, deletes all objects!</span><br><span class="line"></span><br><span class="line"># 新建一个data frame，填充元素</span><br><span class="line">&gt; store.num &lt;- factor(c(3, 14, 21, 32, 54)) # store id</span><br><span class="line">&gt; store.rev &lt;- c(543, 654, 345, 678, 234) # store revenue, $1000 </span><br><span class="line">&gt; store.visits &lt;- c(45, 78, 32, 56, 34) # visits, 1000s </span><br><span class="line">&gt; store.manager &lt;- c(&quot;Annie&quot;, &quot;Bert&quot;, &quot;Carla&quot;, &quot;Dave&quot;, &quot;Ella&quot;) </span><br><span class="line">&gt; (store.df &lt;- data.frame(store.num, store.rev, store.visits,store.manager)) # 加括号，直接打印内容</span><br><span class="line"></span><br><span class="line">  store.num store.rev store.visits store.manager</span><br><span class="line">1         3       543           45         Annie</span><br><span class="line">2        14       654           78          Bert</span><br><span class="line">3        21       345           32         Carla</span><br><span class="line">4        32       678           56          Dave</span><br><span class="line">5        54       234           34          Ella</span><br><span class="line"></span><br><span class="line">&gt; store.df$store.manager # 查询manager</span><br><span class="line">[1] &quot;Annie&quot; &quot;Bert&quot;  &quot;Carla&quot; &quot;Dave&quot;  &quot;Ella&quot; </span><br><span class="line"></span><br><span class="line">&gt; mean(store.df$store.rev) # 查询revenue 平均值</span><br><span class="line">[1] 490.8</span><br><span class="line"></span><br><span class="line">&gt; cor(store.df$store.rev, store.df$store.visits) # caculate correlation</span><br><span class="line">[1] 0.8291032</span><br><span class="line"></span><br><span class="line">&gt; summary(store.df) # summary</span><br><span class="line"> store.num   store.rev      store.visits store.manager     </span><br><span class="line"> 3 :1      Min.   :234.0   Min.   :32    Length:5          </span><br><span class="line"> 14:1      1st Qu.:345.0   1st Qu.:34    Class :character  </span><br><span class="line"> 21:1      Median :543.0   Median :45    Mode  :character  </span><br><span class="line"> 32:1      Mean   :490.8   Mean   :49                      </span><br><span class="line"> 54:1      3rd Qu.:654.0   3rd Qu.:56                      </span><br><span class="line">           Max.   :678.0   Max.   :78                      </span><br></pre></td></tr></table></figure>
+<div style="background-color:#f0f0f0; padding:10px">
+<h3 id="cor-函数"><a class="header-anchor" href="#cor-函数"></a><strong>cor()函数</strong></h3>
+<blockquote>
+<p>用于计算相关系数的函数之一。相关系数是衡量两个变量之间线性关系强度和方向的统计量，通常用于探索变量之间的相关性。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cor(x, y, method = c(&quot;pearson&quot;, &quot;kendall&quot;, &quot;spearman&quot;), use = c(&quot;everything&quot;, &quot;all.obs&quot;, &quot;complete.obs&quot;, &quot;na.or.complete&quot;))</span><br></pre></td></tr></table></figure>
+<h3 id="参数"><a class="header-anchor" href="#参数"></a>参数</h3>
+<blockquote>
+<p><strong>x</strong>: 一个数值向量、矩阵或数据框，或者是一个因子。<br>
+<strong>y</strong>: （可选）一个数值向量、矩阵或数据框，或者是一个因子。如果指定了 y，则会计算 x 和 y 之间的相关系数；如果未指定 y，则会计算 x 中各个变量之间的相关系数。<br>
+<strong>method</strong>: （可选）指定计算相关系数的方法，可选值为 “pearson”（皮尔逊相关系数，默认）、“kendall”（肯德尔相关系数）和 “spearman”（斯皮尔曼相关系数）。<br>
+<strong>use</strong>: （可选）指定如何处理缺失值的参数，可选值包括 “everything”（默认，对所有数据点进行计算）、“all.obs”（对所有非缺失数据点进行计算）、“complete.obs”（对完全没有缺失值的数据点进行计算）、“na.or.complete”（对有缺失值但至少有一对完整观测值的数据点进行计算）。</p>
+</blockquote>
+<h3 id="返回值"><a class="header-anchor" href="#返回值"></a>返回值</h3>
+<blockquote>
+<p>返回一个相关系数矩阵，其中包含了各个变量之间的相关系数。</p>
+</blockquote>
+<h3 id="示例"><a class="header-anchor" href="#示例"></a>示例</h3>
+<blockquote>
+<p>假设有一个数据框 df 包含了两个数值变量 x 和 y</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 创建数据框</span><br><span class="line">df &lt;- data.frame(</span><br><span class="line">  x = c(1, 2, 3, 4, 5),</span><br><span class="line">  y = c(2, 3, 5, 7, 11)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 计算两个变量之间的皮尔逊相关系数</span><br><span class="line">cor(df$x, df$y)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>将输出两个变量 x 和 y 之间的皮尔逊相关系数。</p>
+</blockquote>
+</div>
+<div style="background-color:#f0f0f0; padding:10px">
+<h3 id="皮尔逊相关系数-pearson-correlation-coefficient"><a class="header-anchor" href="#皮尔逊相关系数-pearson-correlation-coefficient"></a>皮尔逊相关系数（Pearson correlation coefficient）</h3>
+<p>是一种用来衡量两个变量之间线性关系强度和方向的统计量。它衡量的是两个变量之间的线性相关程度，取值范围在-1到1之间。</p>
+<h3 id="特点："><a class="header-anchor" href="#特点："></a>特点：</h3>
+<blockquote>
+<p>当 r=1 时，表示两个变量完全正相关，即一个变量增大时，另一个变量也增大，呈线性关系；<br>
+当 r=-1 时，表示两个变量完全负相关，即一个变量增大时，另一个变量减小，也呈线性关系；<br>
+当 r=0 时，表示两个变量之间没有线性关系，但并不代表两个变量之间没有其他类型的关系。</p>
+</blockquote>
+<h3 id="解释："><a class="header-anchor" href="#解释："></a>解释：</h3>
+<blockquote>
+<p>如果 r 的值接近于1或-1，表示两个变量之间有很强的线性关系，相关性较高；<br>
+如果 r 的值接近于0，表示两个变量之间的线性关系很弱，相关性较低。</p>
+</blockquote>
+<h3 id="适用范围："><a class="header-anchor" href="#适用范围："></a>适用范围：</h3>
+<blockquote>
+<p>皮尔逊相关系数要求两个变量的数据是连续变量；<br>
+它要求变量之间的关系是线性的。</p>
+</blockquote>
+<h3 id="注意事项："><a class="header-anchor" href="#注意事项："></a>注意事项：</h3>
+<blockquote>
+<p>皮尔逊相关系数只能衡量两个变量之间的线性关系，对于非线性关系不敏感；<br>
+相关系数不能说明因果关系，只能说明两个变量之间的相关性。</p>
+</blockquote>
+<p>在实际数据分析中，皮尔逊相关系数经常用于探索变量之间的关系，特别是在探索两个连续变量之间的关系时，它是一个非常有用的工具。</p>
+</div>
+<h2 id="6-saving-loading-and-importing-data"><a class="header-anchor" href="#6-saving-loading-and-importing-data"></a>6. Saving, loading, and importing data</h2>
+<h3 id="6-1-save-and-reload"><a class="header-anchor" href="#6-1-save-and-reload"></a>6.1 save and reload</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 保存data frame到文件</span><br><span class="line">&gt; save(store.df, file=&quot;store-df-backup.RData&quot;)</span><br><span class="line"></span><br><span class="line"># 删掉内存中的data frame</span><br><span class="line">&gt; rm(store.df) # caution, only if save() gave no error </span><br><span class="line"></span><br><span class="line"># 重新从文件中加载</span><br><span class="line">&gt; load(&quot;store-df-backup.RData&quot;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; save.image() # saves file &quot;.RData&quot; </span><br><span class="line"></span><br><span class="line">&gt; save.image(&quot;mywork.RData&quot;)</span><br><span class="line"></span><br><span class="line">&gt; load(&quot;mywork.RData&quot;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注⚠️： save()和save.image()都是保存到文件；save()只保存指定的元素；save.image()保存所有的对象和数据。
+load()加载.RData时，会把文件中保存的内存对象，<strong>覆盖</strong>掉当前内存中的</p>
+</blockquote>
+<h3 id="6-2-import"><a class="header-anchor" href="#6-2-import"></a>6.2 import</h3>
+<h4 id="6-2-1-excel"><a class="header-anchor" href="#6-2-1-excel"></a>6.2.1 excel</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 安装并引用excel处理的依赖包</span><br><span class="line">&gt; install.packages (&quot;readxl&quot;)</span><br><span class="line">&gt; library(readxl)</span><br><span class="line"></span><br><span class="line">&gt; deospray.data &lt;- read_excel(path = &quot;deospray sales.xls&quot;, sheet = &quot;deospray&quot;) # filename, sheet name</span><br><span class="line"></span><br><span class="line">&gt; str(deospray.data)</span><br><span class="line">tibble [620 × 22] (S3: tbl_df/tbl/data.frame)</span><br><span class="line"> $ chain         : num [1:620] 1 1 1 1 1 1 1 1 1 1 ...</span><br><span class="line"> $ week          : chr [1:620] &quot;W16046&quot; &quot;W16047&quot; &quot;W16048&quot; &quot;W16049&quot; ...</span><br><span class="line"> $ sales_brand1  : num [1:620] 24 28.1 25.8 24.6 23 ...</span><br><span class="line"> $ sales_brand2  : num [1:620] 31.3 39.6 102.2 68.4 37.8 ...</span><br><span class="line"> $ sales_brand3  : num [1:620] 21.1 24 26.8 22.7 20.6 ...</span><br><span class="line"> $ sales_brand4  : num [1:620] 48.4 52.1 53 43 53.9 ...</span><br><span class="line"> $ sales_brand5  : num [1:620] 65 64.6 64.7 64.2 52.7 ...</span><br><span class="line"> $ price_brand1  : num [1:620] 1.09 1.08 1.08 1.08 1.08 ...</span><br><span class="line"> $ price_brand2  : num [1:620] 0.688 0.642 0.478 0.569 0.576 ...</span><br><span class="line"> $ price_brand3  : num [1:620] 1.05 1.05 1.05 1.04 1.06 ...</span><br><span class="line"> $ price_brand4  : num [1:620] 1.12 1.12 1.12 1.12 1.12 ...</span><br><span class="line"> $ price_brand5  : num [1:620] 1.32 1.32 1.32 1.32 1.32 ...</span><br><span class="line"> $ display_brand1: num [1:620] 0.02 0.02 0.19 0.18 0.05 0.05 0.08 0.03 0.05 0.04 ...</span><br><span class="line"> $ display_brand2: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ display_brand3: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ display_brand4: num [1:620] 0.01 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ display_brand5: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ feature_brand1: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ feature_brand2: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ feature_brand3: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ feature_brand4: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"> $ feature_brand5: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...</span><br><span class="line"></span><br><span class="line"># 查看数据</span><br><span class="line">&gt; View(deospray.data)</span><br></pre></td></tr></table></figure>
+<h4 id="6-2-2-csv"><a class="header-anchor" href="#6-2-2-csv"></a>6.2.2 csv</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt; store.df &lt;- read.csv(&quot;Data_descriptive.csv&quot;) </span><br><span class="line">&gt; store.df$storeNum &lt;- factor(store.df$storeNum)</span><br></pre></td></tr></table></figure>
+<h2 id="7-function"><a class="header-anchor" href="#7-function"></a>7. function</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 一个简单的function se</span><br><span class="line">&gt; se &lt;- function(x)&#123;sd(x) / sqrt(length(x))&#125;</span><br><span class="line"></span><br><span class="line">&gt; se(store.df$store.visits)</span><br><span class="line">[1] 8.42615 # 为什么PDF里面结果是NA????</span><br><span class="line"></span><br><span class="line">&gt; se &lt;- function(x)&#123;</span><br><span class="line">&gt;   # computes standard error of the mean</span><br><span class="line">&gt;   tmp.sd &lt;- sd(x) # standard deviation</span><br><span class="line">&gt;   tmp.N &lt;- length(x) # sample size</span><br><span class="line">&gt;   tmp.se &lt;- tmp.sd / sqrt(tmp.N) #std error of the mean return(tmp.se)</span><br><span class="line">&gt; &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注⚠️：其他的一些数学函数</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mean()</td>
+<td>计算向量或数据框列的均值。</td>
+</tr>
+<tr>
+<td>median()</td>
+<td>计算向量或数据框列的中位数。</td>
+</tr>
+<tr>
+<td>min()</td>
+<td>计算向量或数据框列的最小值。</td>
+</tr>
+<tr>
+<td>max()</td>
+<td>计算向量或数据框列的最大值。</td>
+</tr>
+<tr>
+<td>quantile()</td>
+<td>计算向量或数据框列的四分位数。</td>
+</tr>
+<tr>
+<td>cv() 或 coefficient_of_variation()</td>
+<td>计算向量或数据框列的变异系数。</td>
+</tr>
+<tr>
+<td>sd()</td>
+<td>计算向量或数据框列的标准差。</td>
+</tr>
+<tr>
+<td>var()</td>
+<td>计算向量或数据框列的方差。</td>
+</tr>
+<tr>
+<td>stderr()</td>
+<td>计算向量或数据框列的标准误差。</td>
+</tr>
+<tr>
+<td>cumsum()</td>
+<td>计算向量中元素的累计和。</td>
+</tr>
+<tr>
+<td>cumprod()</td>
+<td>计算向量中元素的累计积。</td>
+</tr>
+<tr>
+<td>sort()</td>
+<td>对向量或数据框列进行排序。</td>
+</tr>
+<tr>
+<td>rank()</td>
+<td>计算向量或数据框列中元素的排名。</td>
+</tr>
+<tr>
+<td>sum()</td>
+<td>计算向量或数据框列的总和。</td>
+</tr>
+<tr>
+<td>prod()</td>
+<td>计算向量或数据框列的乘积。</td>
+</tr>
+<tr>
+<td>cor()、cov()</td>
+<td>分别计算相关系数和协方差矩阵。</td>
+</tr>
+<tr>
+<td>scale()</td>
+<td>对向量或数据框列进行标准化。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-clean-up"><a class="header-anchor" href="#8-clean-up"></a>8. clean up</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">rm(list=ls()) # delete all visible objects in memory.</span><br></pre></td></tr></table></figure>
+<h1>二、week1 code</h1>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 获取当前已加载文件的目录</span><br><span class="line">file_dir &lt;- dirname(parent.frame(2)$ofile)</span><br><span class="line">print(file_dir)</span><br><span class="line"># 将工作目录设置为当前已加载文件的目录</span><br><span class="line">setwd(file_dir)</span><br><span class="line"></span><br><span class="line"># define some variables</span><br><span class="line">x &lt;- c(2, 4, 6, 8)</span><br><span class="line">xNum &lt;- c(1, 3.14159, 5, 7)</span><br><span class="line">xLog &lt;- c(TRUE, FALSE, TRUE, TRUE)</span><br><span class="line">xChar &lt;- c(&quot;foo&quot;, &quot;bar&quot;, &quot;boo&quot;, &quot;far&quot;)</span><br><span class="line">xMix &lt;- c(1, TRUE, 3, &quot;Hello, world!&quot;)</span><br><span class="line"></span><br><span class="line">xNum</span><br><span class="line"></span><br><span class="line">x2 &lt;- c(xNum, xMix) </span><br><span class="line">x2</span><br><span class="line"></span><br><span class="line">xNum[2]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x2 &lt;- c(x, x) </span><br><span class="line">x2+1</span><br><span class="line"></span><br><span class="line">x2 * pi</span><br><span class="line"></span><br><span class="line">(x+cos(0.5)) * x2</span><br><span class="line"></span><br><span class="line">xSeq &lt;- 1:10 # use 1:10 instead of typing 1,2,3,4 ...10.</span><br><span class="line"></span><br><span class="line">xNum</span><br><span class="line"></span><br><span class="line">xNum[2:4]</span><br><span class="line"></span><br><span class="line">myStart &lt;- 2</span><br><span class="line">xNum[myStart:sqrt(myStart+7)]</span><br><span class="line"></span><br><span class="line">xSeq</span><br><span class="line"></span><br><span class="line">xSeq[-5:-7]</span><br><span class="line"></span><br><span class="line">xSub &lt;- xNum[2:4] </span><br><span class="line">xSub</span><br><span class="line"></span><br><span class="line">xNum[c(FALSE, TRUE, TRUE, TRUE)]</span><br><span class="line"></span><br><span class="line">xNum[xNum &gt; 3]</span><br><span class="line"></span><br><span class="line">my.test.scores &lt;- c(91, NA, NA)</span><br><span class="line"></span><br><span class="line">mean(my.test.scores)</span><br><span class="line"></span><br><span class="line">max(my.test.scores)</span><br><span class="line"></span><br><span class="line">mean(my.test.scores, na.rm=TRUE)</span><br><span class="line"></span><br><span class="line">max(my.test.scores, na.rm=TRUE)</span><br><span class="line"></span><br><span class="line">mean(na.omit(my.test.scores))</span><br><span class="line"></span><br><span class="line">is.na(my.test.scores)</span><br><span class="line"></span><br><span class="line">my.test.scores[!is.na(my.test.scores)]</span><br><span class="line"></span><br><span class="line">str(xChar)</span><br><span class="line"></span><br><span class="line">xList &lt;- list(xNum, xChar) </span><br><span class="line">xList</span><br><span class="line"></span><br><span class="line">str(xList)</span><br><span class="line"></span><br><span class="line">summary(xList[[1]])</span><br><span class="line"></span><br><span class="line">xList &lt;- list(xNum, xChar) # method 1: create, then name </span><br><span class="line">names(xList) &lt;- c(&quot;itemnum&quot;, &quot;itemchar&quot;)</span><br><span class="line">xList</span><br><span class="line"></span><br><span class="line">xList &lt;- list(itemnum=xNum, itemchar=xChar)</span><br><span class="line">names(xList)</span><br><span class="line">xList</span><br><span class="line"></span><br><span class="line">xList$itemnum # method 2: $name reference</span><br><span class="line"></span><br><span class="line">x.df &lt;- data.frame(xNum, xLog, xChar)</span><br><span class="line">x.df</span><br><span class="line"></span><br><span class="line">x.df[2,1]</span><br><span class="line"></span><br><span class="line">x.df1 &lt;- data.frame(xNum, xLog, xChar, stringsAsFactors=TRUE) </span><br><span class="line">x.df1</span><br><span class="line">str(x.df1)</span><br><span class="line"></span><br><span class="line">x.df[2, ] # all of row 2 </span><br><span class="line">x.df[ ,3] # all of column 3</span><br><span class="line"></span><br><span class="line">x.df[2:3, ]</span><br><span class="line">x.df[ ,1:2] # two columns</span><br><span class="line">x.df[-3, ] # omit the third observation</span><br><span class="line">x.df[, -2] # omit the second column</span><br><span class="line"></span><br><span class="line">rm(list=ls()) # caution, deletes all objects!</span><br><span class="line">store.num &lt;- factor(c(3, 14, 21, 32, 54)) # store id</span><br><span class="line">store.rev &lt;- c(543, 654, 345, 678, 234) # store revenue, $1000 </span><br><span class="line">store.visits &lt;- c(45, 78, 32, 56, 34) # visits, 1000s </span><br><span class="line">store.manager &lt;- c(&quot;Annie&quot;, &quot;Bert&quot;, &quot;Carla&quot;, &quot;Dave&quot;, &quot;Ella&quot;) </span><br><span class="line">(store.df &lt;- data.frame(store.num, store.rev, store.visits,store.manager))</span><br><span class="line"></span><br><span class="line">store.df$store.manager</span><br><span class="line"></span><br><span class="line">mean(store.df$store.rev)</span><br><span class="line"></span><br><span class="line">cor(store.df$store.rev, store.df$store.visits)</span><br><span class="line"></span><br><span class="line">summary(store.df)</span><br><span class="line"></span><br><span class="line">save(store.df, file=&quot;store-df-backup.RData&quot;)</span><br><span class="line"></span><br><span class="line">rm(store.df) # caution, only if save() gave no error </span><br><span class="line">load(&quot;store-df-backup.RData&quot;)</span><br><span class="line"></span><br><span class="line">save.image() # saves file &quot;.RData&quot; </span><br><span class="line">save.image(&quot;mywork_week1.RData&quot;)</span><br><span class="line"></span><br><span class="line">load(&quot;mywork_week1.RData&quot;)</span><br><span class="line"></span><br><span class="line"># install.packages (&quot;readxl&quot;)</span><br><span class="line"># library(readxl)</span><br><span class="line"></span><br><span class="line">deospray.data &lt;- read_excel(path = &quot;deospray sales.xls&quot;, sheet = &quot;deospray&quot;) # filename, sheet name</span><br><span class="line"></span><br><span class="line">str(deospray.data)</span><br><span class="line"></span><br><span class="line"># View(deospray.data)</span><br><span class="line"></span><br><span class="line">se &lt;- function(x)&#123;sd(x) / sqrt(length(x))&#125;</span><br><span class="line"></span><br><span class="line">se(store.df$store.visits)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2024/R_week1_getting_start/';
+var disqus_title = 'R[week1] Getting start';
+var disqus_url = 'https://blog.weasley.cn/2024/R_week1_getting_start/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>
