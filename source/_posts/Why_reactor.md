@@ -147,13 +147,8 @@ https://note.youdao.com/s/K3VE8Se9
 
 #### 3.2.3 代码示例
   
-https://gitlab.corp.youdao.com/zhiyun/privatization_centre/doc_trans_task
-
 ## 四、性能测试
   
-代码地址：https://gitlab.corp.youdao.com/ruili/mrsix
-
-
 ## 五、总结：WebFlux不是银弹
 ### 5.1 结论
 - 适合：IO密集型、高并发、延迟敏感型系统
