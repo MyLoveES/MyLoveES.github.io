@@ -1,0 +1,154 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=" id=&quot;常用-shell-命令&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#常用-shell-命令&quot;&gt;&lt;/a&gt;常用 Shell 命令&lt;/h2&gt;
+&lt;h3 id=&quot;1-文本检索-wc&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#1-文本检索-wc&quot;&gt;&lt;/a&gt;1. 文本检索 wc&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;wc&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-c&lt;/td&gt;
+&lt;td&gt;the byte counts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-m&lt;/td&gt;
+&lt;td&gt;the character counts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-l&lt;/td&gt;
+&lt;td&gt;the newline counts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-L&lt;/td&gt;
+&lt;td&gt;the maximum display width&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-w&lt;/td&gt;
+&lt;td&gt;the word counts&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&quot;2-重定向&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#2-重定向&quot;&gt;&lt;/a&gt;2. 重定向&lt;/h3&gt;
+&lt;p&gt;在shell脚本中，默认情况下，总是有三个文件处于打开状态：&lt;br&gt;
+标准输入(键盘输入)、标准输出（输出到屏幕）、标准错误（也是输出到屏幕），它们分别对应的文件描述符是0，1，2"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Hi, Linux commands | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Linux/" rel="tag">Linux</a></div><div class="post-time">2021-02-21</div></div></div><div class="container post-header"><h1>Hi, Linux commands</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8-shell-%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">常用 Shell 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%96%87%E6%9C%AC%E6%A3%80%E7%B4%A2-wc"><span class="toc-number">1.1.</span> <span class="toc-text">1. 文本检索 wc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">1.2.</span> <span class="toc-text">2. 重定向</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.3.</span> <span class="toc-text">3. 运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-awk"><span class="toc-number">1.4.</span> <span class="toc-text">4. awk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nc"><span class="toc-number">1.5.</span> <span class="toc-text">nc</span></a></li></ol></li></ol></details></div><div class="container post-content"><h2 id="常用-shell-命令"><a class="header-anchor" href="#常用-shell-命令"></a>常用 Shell 命令</h2>
+<h3 id="1-文本检索-wc"><a class="header-anchor" href="#1-文本检索-wc"></a>1. 文本检索 wc</h3>
+<table>
+<thead>
+<tr>
+<th>wc</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-c</td>
+<td>the byte counts</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>the character counts</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>the newline counts</td>
+</tr>
+<tr>
+<td>-L</td>
+<td>the maximum display width</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>the word counts</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-重定向"><a class="header-anchor" href="#2-重定向"></a>2. 重定向</h3>
+<p>在shell脚本中，默认情况下，总是有三个文件处于打开状态：<br>
+标准输入(键盘输入)、标准输出（输出到屏幕）、标准错误（也是输出到屏幕），它们分别对应的文件描述符是0，1，2</p>
+<p>&gt; 默认为标准输出重定向，与 1&gt; 相同<br>
+2&gt;&amp;1  意思是把 标准错误输出 重定向到 标准输出.<br>
+&amp;&gt;file  意思是把标准输出 和 标准错误输出 都重定向到文件file中</p>
+<p>/dev/null是一个文件，这个文件比较特殊，所有传给它的东西它都丢弃掉</p>
+<h3 id="3-运算符"><a class="header-anchor" href="#3-运算符"></a>3. 运算符</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>=~</td>
+<td>其中 ~ 其实是对后面的正则表达式表示匹配的意思，如果匹配就输出1，不匹配就输出0.</td>
+</tr>
+<tr>
+<td>==</td>
+<td>是否相等</td>
+</tr>
+</tbody>
+</table>
+<p>例子：
+[[ $test =~ <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>+ ]] &amp;&amp; echo 1 || echo 0</p>
+<h3 id="4-awk"><a class="header-anchor" href="#4-awk"></a>4. awk</h3>
+<ul>
+<li>-F fs or --field-separator fs<br>
+指定输入文件折分隔符，fs是一个字符串或者是一个正则表达式，如-F:。</li>
+<li>-v var=value or --asign var=value
+赋值一个用户定义变量。</li>
+<li>-f scripfile or --file scriptfile<br>
+从脚本文件中读取awk命令。</li>
+<li>-mf nnn and -mr nnn<br>
+对nnn值设置内在限制，-mf选项限制分配给nnn的最大块数目；-mr选项限制记录的最大数目。这两个功能是Bell实验室版awk的扩展功能，在标准awk中不适用。</li>
+<li>-W compact or --compat, -W traditional or --traditional
+在兼容模式下运行awk。所以gawk的行为和标准的awk完全一样，所有的awk扩展都被忽略。</li>
+<li>-W copyleft or --copyleft, -W copyright or --copyright
+打印简短的版权信息。</li>
+<li>-W help or --help, -W usage or --usage
+打印全部awk选项和每个选项的简短说明。</li>
+<li>-W lint or --lint
+打印不能向传统unix平台移植的结构的警告。</li>
+<li>-W lint-old or --lint-old
+打印关于不能向传统unix平台移植的结构的警告。</li>
+<li>-W posix
+打开兼容模式。但有以下限制，不识别：/x、函数关键字、func、换码序列以及当fs是一个空格时，将新行作为一个域分隔符；操作符<strong>和</strong>=不能代替<sup>和</sup>=；fflush无效。</li>
+<li>-W re-interval or --re-inerval
+允许间隔正则表达式的使用，参考(grep中的Posix字符类)，如括号表达式[[:alpha:]]。</li>
+<li>-W source program-text or --source program-text
+使用program-text作为源代码，可与-f命令混用。</li>
+<li>-W version or --version
+打印bug报告信息的版本。</li>
+</ul>
+<p><strong>用法</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2 this is a test  </span><br><span class="line">3 Are you like awk  </span><br><span class="line">This&#x27;s a test  </span><br><span class="line">10 There are orange,apple,mongo  </span><br><span class="line"></span><br><span class="line">1. awk &#x27;&#123;[pattern] action&#125;&#x27; &#123;filenames&#125;   # 行匹配语句 awk &#x27;&#x27; 只能用单引号  </span><br><span class="line"> $ awk &#x27;&#123;print $1,$4&#125;&#x27; log.txt</span><br><span class="line"> ---------------------------------------------</span><br><span class="line"> 2 a</span><br><span class="line"> 3 like</span><br><span class="line"> This&#x27;s</span><br><span class="line"> 10 orange,apple,mongo</span><br><span class="line"></span><br><span class="line"> # 格式化输出</span><br><span class="line"> $ awk &#x27;&#123;printf &quot;%-8s %-10s\n&quot;,$1,$4&#125;&#x27; log.txt</span><br><span class="line"> ---------------------------------------------</span><br><span class="line"> 2        a</span><br><span class="line"> 3        like</span><br><span class="line"> This&#x27;s</span><br><span class="line"> 10       orange,apple,mongo</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2. awk -F  #-F相当于内置变量FS, 指定分割字符</span><br><span class="line"></span><br><span class="line"> # 使用&quot;,&quot;分割</span><br><span class="line"> $  awk -F, &#x27;&#123;print $1,$2&#125;&#x27;   log.txt</span><br><span class="line"> ---------------------------------------------</span><br><span class="line"> 2 this is a test</span><br><span class="line"> 3 Are you like awk</span><br><span class="line"> This&#x27;s a test</span><br><span class="line"> 10 There are orange apple</span><br><span class="line"></span><br><span class="line"> # 或者使用内建变量</span><br><span class="line"> $ awk &#x27;BEGIN&#123;FS=&quot;,&quot;&#125; &#123;print $1,$2&#125;&#x27;     log.txt</span><br><span class="line"> ---------------------------------------------</span><br><span class="line"> 2 this is a test</span><br><span class="line"> 3 Are you like awk</span><br><span class="line"> This&#x27;s a test</span><br><span class="line"> 10 There are orange apple</span><br><span class="line"></span><br><span class="line"> # 使用多个分隔符.先使用空格分割，然后对分割结果再使用&quot;,&quot;分割</span><br><span class="line"> $ awk -F &#x27;[ ,]&#x27;  &#x27;&#123;print $1,$2,$5&#125;&#x27;   log.txt</span><br><span class="line"> ---------------------------------------------</span><br><span class="line"> 2 this test</span><br><span class="line"> 3 Are awk</span><br><span class="line"> This&#x27;s a</span><br><span class="line"> 10 There apple</span><br><span class="line"></span><br><span class="line">3. awk -v  # 设置变量</span><br><span class="line"></span><br><span class="line"> $ awk -va=1 &#x27;&#123;print $1,$1+a&#125;&#x27; log.txt</span><br><span class="line"> ---------------------------------------------</span><br><span class="line"> 2 3</span><br><span class="line"> 3 4</span><br><span class="line"> This&#x27;s 1</span><br><span class="line"> 10 11</span><br><span class="line"></span><br><span class="line"> $ awk -va=1 -vb=s &#x27;&#123;print $1,$1+a,$1b&#125;&#x27; log.txt</span><br><span class="line"> ---------------------------------------------</span><br><span class="line"> 2 3 2s</span><br><span class="line"> 3 4 3s</span><br><span class="line"> This&#x27;s 1 This&#x27;ss</span><br><span class="line"> 10 11 10s</span><br><span class="line"></span><br><span class="line">4. awk -f &#123;awk脚本&#125; &#123;文件名&#125;</span><br><span class="line"></span><br><span class="line"> awk -f cal.awk log.txt</span><br><span class="line"></span><br><span class="line">5. 过滤第一列大于2并且第二列等于&#x27;Are&#x27;的行</span><br><span class="line"> $ awk &#x27;$1&gt;2 &amp;&amp; $2==&quot;Are&quot; &#123;print $1,$2,$3&#125;&#x27; log.txt    #命令</span><br><span class="line"> #输出</span><br><span class="line"> 3 Are you</span><br><span class="line"></span><br><span class="line">6. 计算大小</span><br><span class="line"> </span><br><span class="line"> awk &#x27;&#123;sum+=$5&#125; END &#123;print sum&#125;&#x27;</span><br><span class="line"></span><br><span class="line">7. 从文件中找出长度大于 80 的行：</span><br><span class="line"> awk &#x27;length&gt;80&#x27; log.txt</span><br></pre></td></tr></table></figure>
+<h3 id="nc"><a class="header-anchor" href="#nc"></a>nc</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">通过 nc 传输文件和目录</span><br><span class="line">目录：</span><br><span class="line">接收端：nc  -l 7777 | tar xf -</span><br><span class="line">发送端：tar cf - $&#123;dir_name&#125; | nc 192.168.1.1 7777</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">文件：</span><br><span class="line">往10.105.135.50 上传输文件：</span><br><span class="line">接收端：nc -l 9999 &gt; 123 </span><br><span class="line">发送端：nc 10.105.135.50 9999 &lt; 123</span><br></pre></td></tr></table></figure>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>0-9 <a href="#fnref1" class="footnote-backref">↩</a></p>
+</li>
+</ol>
+</section>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2021/Command_base/';
+var disqus_title = 'Hi, Linux commands';
+var disqus_url = 'https://blog.weasley.cn/2021/Command_base/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&gt;响应式编程 vs 传统同步模型&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;一-传统模型的性能困境&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#一-传统模型的性能困境&quot;&gt;&lt;/a&gt;一、传统模型的性能困境&lt;/h2&gt;
+&lt;h3 id=&quot;1-1-现实中的例子&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#1-1-现实中的例子&quot;&gt;&lt;/a&gt;1.1 现实中的例子&lt;/h3&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;假设一个银行有10个柜台（线程池大小为10）：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- 每个客户（请求）需要占用柜台5分钟（包含等待IO的时间）&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- 当同时有100个客户时，90个客户必须排队等待&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- 即使柜员实际工作时间只有1分钟（CPU计算），其他4分钟都在等待（IO阻塞）&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;1-2-传统模型的瓶颈&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#1-2-传统模型的瓶颈&quot;&gt;&lt;/a&gt;1.2 传统模型的瓶颈&lt;/h3&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;  ┌───────────┐       ┌───────────┐&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;请求队列 → │ 线程池    │ → 1:1 → │ 阻塞IO    │&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  │ (200线程) │       │ (DB/HTTP) │&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  └───────────┘       └───────────┘&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;关键问题：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- 假设CPU处理本身需要10ms，而下游响应延迟从10ms升至500ms时：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  吞吐量从 200/(0.01+0.01)=10,000 QPS &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  暴跌至 200/(0.5+0.01)=392 QPS&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;线程资源浪费：大量时间浪费在等待IO（数据库、网络调用）&lt;/li&gt;
+&lt;li&gt;高并发场景下：线程池爆满，请求排队，响应延迟飙升&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;例如：Tomcat默认200线程池，下游ASR响应慢时，线程池耗尽，新的请求无法接受，触发Pod重启。"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Why Reactor | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Architecture/" rel="tag">Architecture</a></div><div class="post-time">2025-03-09</div></div></div><div class="container post-header"><h1>Why Reactor</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">响应式编程 vs 传统同步模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%80%A7%E8%83%BD%E5%9B%B0%E5%A2%83"><span class="toc-number">1.1.</span> <span class="toc-text">一、传统模型的性能困境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E7%8E%B0%E5%AE%9E%E4%B8%AD%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 现实中的例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%93%B6%E9%A2%88"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 传统模型的瓶颈</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-webflux%EF%BC%9A%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.2.</span> <span class="toc-text">二、WebFlux：事件驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%9E%B6%E6%9E%84%E5%AF%B9%E6%AF%94"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 架构对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-%E4%BC%A0%E7%BB%9Fservlet%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">2.1.1 传统Servlet模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-webflux%E5%93%8D%E5%BA%94%E5%BC%8F%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">2.1.2 WebFlux响应式模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%9E%8B-vs-webflux%E6%A8%A1%E5%9E%8B%E5%AF%B9%E6%AF%94"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.1.3 传统模型 vs WebFlux模型对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%93%8D%E5%BA%94%E5%BC%8F%E7%9A%84%E5%BD%A2%E8%B1%A1%E5%8C%96%E8%A7%A3%E9%87%8A"><span class="toc-number">1.3.</span> <span class="toc-text">2.2 响应式的形象化解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-webflux%E7%9A%84%E4%BC%98%E5%8A%BF%E4%B8%8E%E4%BB%A3%E4%BB%B7"><span class="toc-number">1.4.</span> <span class="toc-text">三、WebFlux的优势与代价</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%BC%98%E5%8A%BF%EF%BC%9A%E4%BD%95%E6%97%B6%E9%80%89%E6%8B%A9webflux"><span class="toc-number">1.4.1.</span> <span class="toc-text">3.1 优势：何时选择WebFlux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BB%A3%E4%BB%B7%EF%BC%9A%E4%BD%BF%E7%94%A8webflux%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-number">1.4.2.</span> <span class="toc-text">3.2 代价：使用WebFlux的挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1-%E7%BC%96%E7%A8%8B%E4%B9%A0%E6%83%AF"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">3.2.1 编程习惯</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2-%E7%94%9F%E6%80%81%E9%99%90%E5%88%B6"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">3.2.2 生态限制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-3-%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">3.2.3 代码示例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="toc-number">1.5.</span> <span class="toc-text">四、性能测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-%E6%80%BB%E7%BB%93%EF%BC%9Awebflux%E4%B8%8D%E6%98%AF%E9%93%B6%E5%BC%B9"><span class="toc-number">1.6.</span> <span class="toc-text">五、总结：WebFlux不是银弹</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E7%BB%93%E8%AE%BA"><span class="toc-number">1.6.1.</span> <span class="toc-text">5.1 结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%86%B3%E7%AD%96-checklist"><span class="toc-number">1.6.2.</span> <span class="toc-text">5.2 决策 Checklist</span></a></li></ol></li></ol></li></ol></details></div><div class="container post-content"><h1>响应式编程 vs 传统同步模型</h1>
+<hr>
+<h2 id="一-传统模型的性能困境"><a class="header-anchor" href="#一-传统模型的性能困境"></a>一、传统模型的性能困境</h2>
+<h3 id="1-1-现实中的例子"><a class="header-anchor" href="#1-1-现实中的例子"></a>1.1 现实中的例子</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">假设一个银行有10个柜台（线程池大小为10）：</span><br><span class="line">- 每个客户（请求）需要占用柜台5分钟（包含等待IO的时间）</span><br><span class="line">- 当同时有100个客户时，90个客户必须排队等待</span><br><span class="line">- 即使柜员实际工作时间只有1分钟（CPU计算），其他4分钟都在等待（IO阻塞）</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-传统模型的瓶颈"><a class="header-anchor" href="#1-2-传统模型的瓶颈"></a>1.2 传统模型的瓶颈</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  ┌───────────┐       ┌───────────┐</span><br><span class="line">请求队列 → │ 线程池    │ → 1:1 → │ 阻塞IO    │</span><br><span class="line">  │ (200线程) │       │ (DB/HTTP) │</span><br><span class="line">  └───────────┘       └───────────┘</span><br><span class="line"></span><br><span class="line">关键问题：</span><br><span class="line">- 假设CPU处理本身需要10ms，而下游响应延迟从10ms升至500ms时：</span><br><span class="line">  吞吐量从 200/(0.01+0.01)=10,000 QPS </span><br><span class="line">  暴跌至 200/(0.5+0.01)=392 QPS</span><br></pre></td></tr></table></figure>
+<ul>
+<li>线程资源浪费：大量时间浪费在等待IO（数据库、网络调用）</li>
+<li>高并发场景下：线程池爆满，请求排队，响应延迟飙升</li>
+</ul>
+<blockquote>
+<p>例如：Tomcat默认200线程池，下游ASR响应慢时，线程池耗尽，新的请求无法接受，触发Pod重启。</p>
+</blockquote>
+<h2 id="二-webflux：事件驱动"><a class="header-anchor" href="#二-webflux：事件驱动"></a>二、WebFlux：事件驱动</h2>
+<h3 id="2-1-架构对比"><a class="header-anchor" href="#2-1-架构对比"></a>2.1 架构对比</h3>
+<h4 id="2-1-1-传统servlet模型"><a class="header-anchor" href="#2-1-1-传统servlet模型"></a>2.1.1 传统Servlet模型</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[工作流程]</span><br><span class="line">1. 接受请求 → 分配线程</span><br><span class="line">2. 线程执行 → 阻塞等待</span><br><span class="line">3. 获取结果 → 返回响应</span><br><span class="line">4. 释放线程</span><br><span class="line"></span><br><span class="line">[资源时间线示例]</span><br><span class="line">线程1：█░░░░░░░░░（80%时间在等待）</span><br><span class="line">线程2：███░░░░░░░</span><br><span class="line">线程3：░░░░░░░░░░</span><br></pre></td></tr></table></figure>
+<h4 id="2-1-2-webflux响应式模型"><a class="header-anchor" href="#2-1-2-webflux响应式模型"></a>2.1.2 WebFlux响应式模型</h4>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[工作流程]</span><br><span class="line">1. 接受请求 → 注册回调</span><br><span class="line">2. 立即释放线程 → 处理其他请求</span><br><span class="line">3. 下游响应就绪 → 事件循环调度处理</span><br><span class="line">4. 生成响应 → 无需等待</span><br><span class="line"></span><br><span class="line">[资源时间线示例]</span><br><span class="line">线程1：██████████（持续处理事件）</span><br><span class="line">线程2：██████████</span><br><span class="line">（仅需2-4个核心线程）</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-3-传统模型-vs-webflux模型对比"><a class="header-anchor" href="#2-1-3-传统模型-vs-webflux模型对比"></a>2.1.3 传统模型 vs WebFlux模型对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>传统模型（Servlet）</th>
+<th>WebFlux（Reactive）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线程模型</td>
+<td>1请求1线程（阻塞）</td>
+<td>少量线程 + 事件循环（非阻塞）</td>
+</tr>
+<tr>
+<td>资源消耗</td>
+<td>高（线程数≈并发数）</td>
+<td>低（线程数≈CPU核心数）</td>
+</tr>
+<tr>
+<td>编程范式</td>
+<td>同步阻塞（Imperative）</td>
+<td>异步非阻塞（Declarative）</td>
+</tr>
+<tr>
+<td>吞吐量瓶颈</td>
+<td>线程池大小</td>
+<td>CPU/网络带宽</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-2-响应式的形象化解释"><a class="header-anchor" href="#2-2-响应式的形象化解释"></a>2.2 响应式的形象化解释</h2>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 传统模型：同步等待结果（线程被阻塞）</span></span><br><span class="line"><span class="type">String</span> <span class="variable">data</span> <span class="operator">=</span> database.query(); <span class="comment">// &lt;- 线程在这里卡住！</span></span><br><span class="line">response.send(data);</span><br><span class="line"></span><br><span class="line"><span class="comment">// WebFlux：订阅数据流（线程立即释放）</span></span><br><span class="line">Mono&lt;String&gt; mono = database.reactiveQuery();</span><br><span class="line">mono.subscribe(data -&gt; response.send(data));</span><br></pre></td></tr></table></figure>
+<p><em>关键机制：</em></p>
+<ol>
+<li>事件循环（Event Loop）</li>
+</ol>
+<ul>
+<li>少数线程轮询事件队列</li>
+<li>当IO就绪时触发回调，不空等</li>
+</ul>
+<ol start="2">
+<li>背压（Backpressure）</li>
+</ol>
+<ul>
+<li>生产者（Publisher）根据消费者（Subscriber）的处理能力动态调整数据流速</li>
+</ul>
+<ol start="3">
+<li>数据流操作符</li>
+</ol>
+<ul>
+<li>使用Flux（0-N个元素）和Mono（0-1个元素）组合异步操作</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">webClient.get()</span><br><span class="line">    .uri(<span class="string">&quot;/api/users&quot;</span>)</span><br><span class="line">    .retrieve()</span><br><span class="line">    .bodyToFlux(User.class)</span><br><span class="line">    .filter(user -&gt; user.age &gt; <span class="number">18</span>)</span><br><span class="line">    .take(<span class="number">10</span>)</span><br><span class="line">    .subscribe(System.out::println);</span><br></pre></td></tr></table></figure>
+<h2 id="三-webflux的优势与代价"><a class="header-anchor" href="#三-webflux的优势与代价"></a>三、WebFlux的优势与代价</h2>
+<h3 id="3-1-优势：何时选择webflux"><a class="header-anchor" href="#3-1-优势：何时选择webflux"></a>3.1 优势：何时选择WebFlux</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>传统模型</th>
+<th>WebFlux</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>流式数据传输（日志推送）</td>
+<td>❌</td>
+<td>✅</td>
+<td>天然支持SSE/WebSocket</td>
+</tr>
+<tr>
+<td>CPU密集型任务</td>
+<td>✅</td>
+<td>❌</td>
+<td>非阻塞模型无优势</td>
+</tr>
+<tr>
+<td>微服务网关（聚合请求）</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>异步组合多个服务响应</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-2-代价：使用webflux的挑战"><a class="header-anchor" href="#3-2-代价：使用webflux的挑战"></a>3.2 代价：使用WebFlux的挑战</h3>
+<h4 id="3-2-1-编程习惯"><a class="header-anchor" href="#3-2-1-编程习惯"></a>3.2.1 编程习惯</h4>
+<ul>
+<li>从&quot;按步骤执行&quot;到&quot;定义数据流管道&quot;</li>
+<li>调试困难：堆栈跟踪包含大量反应式操作符</li>
+<li>不方便的“上下文传递”（需要使用Reactor的Context，以及自定义WebFilter等）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Mono&lt;String&gt; data = webClient.get()</span><br><span class="line">    .uri(&quot;/api&quot;)</span><br><span class="line">    .retrieve()</span><br><span class="line">    .bodyToMono(String.class)</span><br><span class="line">    .flatMap(response -&gt; </span><br><span class="line">        Mono.deferContextual(ctx -&gt; &#123;</span><br><span class="line">            String requestId = ctx.get(&quot;requestId&quot;); // 从上下文中获取</span><br><span class="line">            return processResponse(response, requestId);</span><br><span class="line">        &#125;)</span><br><span class="line">    )</span><br><span class="line">    .contextWrite(Context.of(&quot;requestId&quot;, &quot;12345&quot;)); // 写入上下文</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-2-生态限制"><a class="header-anchor" href="#3-2-2-生态限制"></a>3.2.2 生态限制</h4>
+<table>
+<thead>
+<tr>
+<th>支持响应式的组件</th>
+<th>传统阻塞组件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R2DBC</td>
+<td>JDBC</td>
+</tr>
+<tr>
+<td>WebClient</td>
+<td>RestTemplate</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>达梦数据库R2DBC大坑：
+<a target="_blank" rel="noopener" href="https://note.youdao.com/s/K3VE8Se9">https://note.youdao.com/s/K3VE8Se9</a></li>
+</ul>
+<h4 id="3-2-3-代码示例"><a class="header-anchor" href="#3-2-3-代码示例"></a>3.2.3 代码示例</h4>
+<h2 id="四-性能测试"><a class="header-anchor" href="#四-性能测试"></a>四、性能测试</h2>
+<h2 id="五-总结：webflux不是银弹"><a class="header-anchor" href="#五-总结：webflux不是银弹"></a>五、总结：WebFlux不是银弹</h2>
+<h3 id="5-1-结论"><a class="header-anchor" href="#5-1-结论"></a>5.1 结论</h3>
+<ul>
+<li>适合：IO密集型、高并发、延迟敏感型系统</li>
+<li>不适合：简单CRUD应用、强依赖阻塞生态的场景</li>
+<li>核心价值：资源利用率提升，而非绝对性能</li>
+</ul>
+<h3 id="5-2-决策-checklist"><a class="header-anchor" href="#5-2-决策-checklist"></a>5.2 决策 Checklist</h3>
+<ul>
+<li>是否“真的”有高并发需求</li>
+<li>能否使用响应式数据库驱动</li>
+<li>是否承担调试和维护成本</li>
+</ul>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2025/Why_reactor/';
+var disqus_title = 'Why Reactor';
+var disqus_url = 'https://blog.weasley.cn/2025/Why_reactor/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

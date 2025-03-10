@@ -1,0 +1,105 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="g src=&quot;/2022/Process_Scheduling_In_Linux/ProcessSchedulingInLinux.jpeg&quot; class=&quot;&quot;&gt;
+&lt;h1&gt;调度 Scheduling&lt;/h1&gt;
+&lt;p&gt;调度是进行资源分配的一种行为。在单线程、多线程之间进行调度任务。"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Process Scheduling In Linux | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Linux/" rel="tag">Linux</a></div><div class="post-time">2022-04-11</div></div></div><div class="container post-header"><h1>Process Scheduling In Linux</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">调度 Scheduling</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">目标 Target</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">Linux 中的两种进程类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%97%B6%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">实时进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">常规进程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">实时调度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sched-fifo"><span class="toc-number">4.1.</span> <span class="toc-text">SCHED_FIFO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sched-rr"><span class="toc-number">4.2.</span> <span class="toc-text">SCHED_RR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%97%B6%E8%B0%83%E5%BA%A6%E6%80%BB%E7%BB%93"><span class="toc-number">4.3.</span> <span class="toc-text">实时调度总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">常规调度</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#virtual-runtime"><span class="toc-number">5.1.</span> <span class="toc-text">Virtual Runtime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cfs-%E5%AE%8C%E5%85%A8%E5%85%AC%E5%B9%B3%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8"><span class="toc-number">5.2.</span> <span class="toc-text">CFS — 完全公平的调度器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#why-what-s-the-difference"><span class="toc-number">5.2.1.</span> <span class="toc-text">Why? What’s the difference?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">diff between cfs and rr</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">Ref</span></a></li></ol></details></div><div class="container post-content"><img src="/2022/Process_Scheduling_In_Linux/ProcessSchedulingInLinux.jpeg" class="">
+<h1>调度 Scheduling</h1>
+<p>调度是进行资源分配的一种行为。在单线程、多线程之间进行调度任务。</p>
+<h1>目标 Target</h1>
+<ul>
+<li>最大吞吐量(单位时间内完成的任务量)</li>
+<li>最小的等待时间(进程准备就绪到开始执行经过的时间)</li>
+<li>最小的响应时间(进程准备就绪到执行完成经过的时间)</li>
+<li>最大的公平性(为每个进程公平地分配资源)</li>
+</ul>
+<h1>Linux 中的两种进程类型</h1>
+<ul>
+<li>实时进程</li>
+<li>常规进程</li>
+</ul>
+<h2 id="实时进程"><a class="header-anchor" href="#实时进程"></a>实时进程</h2>
+<p>实时进程需要服从个响应时间的限制，而不去考虑系统负载。换句话说，实时进程是紧急的，任何情况下都不能延迟。<br>
+举个例子来说，Linux中的负载均衡进程，负责跨CPU内核分配进程。</p>
+<h2 id="常规进程"><a class="header-anchor" href="#常规进程"></a>常规进程</h2>
+<p>传统进程没有严格的响应时间的限制，如果系统忙碌，响应会出现延迟。<br>
+比如浏览器的进程，忙碌时加载页面会出现延迟。</p>
+<blockquote>
+<p>每种进程都有不同的调度算法，只要有准备运行的实时进程，它们就会运行并使常规进程等待。</p>
+</blockquote>
+<h1>实时调度</h1>
+<p>实时调度有两种调度策略，SCHED_RR 和 SCHED_FIFO。<br>
+该策略会影响进程将获得多少运行时间以及运行队列的运行方式。<br>
+准备运行的进程存储在一个名为 runqueue 的队列中。调度程序正在根据策略从该运行队列中选择要运行的进程。</p>
+<h2 id="sched-fifo"><a class="header-anchor" href="#sched-fifo"></a>SCHED_FIFO</h2>
+<p>在此策略中，调度程序将根据到达时间（FIFO = 先进先出）选择一个进程。<br>
+具有 SCHED_FIFO 调度策略的进程可以在以下几种情况下“放弃”CPU：</p>
+<ol>
+<li>进程正在等待，例如等待 IO 操作。 当进程回到“就绪”状态时，它将回到运行队列的末尾。</li>
+<li>进程通过系统调用 sched_yield 让出 CPU。 该过程将立即返回到运行队列的末尾。</li>
+</ol>
+<h2 id="sched-rr"><a class="header-anchor" href="#sched-rr"></a>SCHED_RR</h2>
+<p>RR = Round Robin<br>
+在此调度策略中，运行队列中的每个进程都获得一个时间片（单位量）并以循环方式轮流执行（基于优先级）。<br>
+为了让我们对循环有更好的理解，让我们考虑一个例子，我们的运行队列中有 3 个进程 A B C，它们都具有 SCHED_RR 的策略。<br>
+如下图所示，每个进程都得到一个时间片并轮流执行。当所有进程运行 1 次时，它们会重复相同的执行顺序。</p>
+<img src="/2022/Process_Scheduling_In_Linux/rr.png" class="">
+<h2 id="实时调度总结"><a class="header-anchor" href="#实时调度总结"></a>实时调度总结</h2>
+<p>实时进程可以在两种不同的策略 SCHED_FIFO 和 SCHED_RR 中实现调度。该策略会影响运行队列的工作方式以及每个进程执行的时间。</p>
+<h1>常规调度</h1>
+<blockquote>
+<p>CFS — Completely Fair Scheduler 是 Linux 2.6.23 版本以来常规进程的调度算法。<br>
+CFS 主要关注一个指标——它希望尽可能公平，这意味着他让每个进程都获得 CPU 的平均时间片。<br>
+请注意，具有更高优先级的进程可能仍会获得更大的时间片。 为了让我们了解 CFS 的工作原理，我们必须熟悉一个新术语——虚拟运行时（vruntime）。</p>
+</blockquote>
+<h2 id="virtual-runtime"><a class="header-anchor" href="#virtual-runtime"></a>Virtual Runtime</h2>
+<p>进程的虚拟运行时间是实际执行所花费的时间，不包括任何形式的等待。<br>
+CFS 力求尽可能公平。 为此，CFS 将以准备运行的最短虚拟时间安排进程。<br>
+CFS 维护保持最大和最小虚拟运行时间的变量，原因我们很快就会明白。</p>
+<h2 id="cfs-完全公平的调度器"><a class="header-anchor" href="#cfs-完全公平的调度器"></a>CFS — 完全公平的调度器</h2>
+<p>在讨论算法是如何工作的之前，让我们先了解一下这个算法使用的是什么数据结构。<br>
+CFS 使用红黑树，它是一种平衡的二叉搜索树——这意味着插入、删除和查找在 O(logN) 中执行，其中 N 是进程数。<br>
+这棵树中的关键是进程的<strong>虚拟</strong>运行时。<br>
+新进程或从等待中恢复到就绪状态的进程插入到树中，键为 vruntime=min_vruntime。这对于防止树中旧进程的饥饿非常重要。</p>
+<p>继续介绍算法，首先，算法为自己设置了一个时间限制 —— sched_latency。<br>
+在这个时间限制内，它将尝试执行所有准备好的进程 —— N。<br>
+这意味着每个进程将获得时间限制除以进程数的时间片 —— Qᵢ = sched_latency/N。<br>
+当一个进程完成其时间片 (Qᵢ) 时，算法会选择树中虚拟运行时间最少的进程来执行下一个。</p>
+<p>让我们解决一个我迄今为止描述算法的方式可能存在问题的情况。<br>
+假设算法选择了 48ms（毫秒）的时间限制，我们有 6 个进程——在这种情况下，每个进程都有 8ms 的时间轮流执行。</p>
+<p>但是当系统中的进程过载时会发生什么？ 假设时间限制仍然是 48 毫秒，但现在我们有 32 个进程，现在每个进程有 1.5 毫秒的执行时间——这将导致我们的系统严重减速。</p>
+<h3 id="why-what-s-the-difference"><a class="header-anchor" href="#why-what-s-the-difference"></a>Why? What’s the difference?</h3>
+<p>上下文切换。<br>
+上下文切换是一个存储进程或线程状态的过程，以便它可以在以后恢复并恢复执行。</p>
+<p>每次进程完成其执行时间并安排新进程时，都会发生上下文切换，这也需要时间。</p>
+<p>假设上下文切换花费了我们 1 毫秒，在第一个示例中，每个进程有 6 毫秒，我们可以允许这样做，我们在上下文切换上浪费了 1 毫秒，在实际执行进程上浪费了 5 毫秒。但是在第二个例子中，我们只有 0.5ms 来执行这个过程——我们浪费了大部分时间片来进行上下文切换，这就是它根本无法工作的原因。</p>
+<p>为了克服这种情况，我们引入了一个新变量，它将确定允许的时间片有多小——min_granularity。</p>
+<p>假设 min_granularity=6ms 并回到我们的示例。 我们的时间限制是 48，我们有 32 个进程。
+根据我们之前的计算，每个进程都会得到 1.5ms，但现在根本不允许，因为 min_granularity 指定了每个进程应该得到的最小时间片。
+在这种情况下，当 Qᵢ &lt; min_granularity 我们将 min_granularity 作为我们的 Qᵢ 并根据它更改时间限制。<br>
+在我们的示例中，Qᵢ 将等于 6ms，因为 1.5ms &lt; 6ms，这意味着新的时间限制将是 Qᵢ ⋅ N = 6ms ⋅ 32 = 192ms。</p>
+<h1>diff between cfs and rr</h1>
+<p>在这一点上，可能不清楚 CFS 和 RR 之间的区别是什么，因为它们都定义了一些时间片并使进程以某种顺序执行。<br>
+为了总结和更好地理解这些算法之间的差异，这里有一个简短的表格</p>
+<img src="/2022/Process_Scheduling_In_Linux/table.jpeg" class="">
+<h1>Ref</h1>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://medium.com/geekculture/process-scheduling-in-linux-592028a5d545">Process Scheduling In Linux</a></p>
+</blockquote>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2022/Process_Scheduling_In_Linux/';
+var disqus_title = 'Process Scheduling In Linux';
+var disqus_url = 'https://blog.weasley.cn/2022/Process_Scheduling_In_Linux/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

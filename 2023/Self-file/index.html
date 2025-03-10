@@ -1,0 +1,419 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&gt;表&lt;/h1&gt;
+&lt;h2 id=&quot;file&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#file&quot;&gt;&lt;/a&gt;file&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;id&lt;/td&gt;
+&lt;td&gt;long, primary key&lt;/td&gt;
+&lt;td&gt;自增主键&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;file_id&lt;/td&gt;
+&lt;td&gt;varchar, business key&lt;/td&gt;
+&lt;td&gt;业务主键，文件Id&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;fs_key&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;文件存储key&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;file_md5&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;文件md5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;create_time&lt;/td&gt;
+&lt;td&gt;datetime&lt;/td&gt;
+&lt;td&gt;创建时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;update_time&lt;/td&gt;
+&lt;td&gt;datetime&lt;/td&gt;
+&lt;td&gt;更新时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&quot;file-owner&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#file-owner&quot;&gt;&lt;/a&gt;file_owner&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;id&lt;/td&gt;
+&lt;td&gt;long, primary key&lt;/td&gt;
+&lt;td&gt;自增主键&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;file_id&lt;/td&gt;
+&lt;td&gt;varchar, business key&lt;/td&gt;
+&lt;td&gt;业务主键，文件Id&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;file_name&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;文件名&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;file_type&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;文件类型&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;status&lt;/td&gt;
+&lt;td&gt;integer&lt;/td&gt;
+&lt;td&gt;状态；0失效，1有效，2排队中，3上传中，4下载中，-3上传失败，-4下载失败&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;owner_id&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;拥有者Id&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;create_time&lt;/td&gt;
+&lt;td&gt;datetime&lt;/td&gt;
+&lt;td&gt;创建时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;update_time&lt;/td&gt;
+&lt;td&gt;datetime&lt;/td&gt;
+&lt;td&gt;更新时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&quot;file-download&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#file-download&quot;&gt;&lt;/a&gt;file_download&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;字段&lt;/th&gt;
+&lt;th&gt;类型&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;id&lt;/td&gt;
+&lt;td&gt;long, primary key&lt;/td&gt;
+&lt;td&gt;自增主键&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;file_download_id&lt;/td&gt;
+&lt;td&gt;varchar, business key&lt;/td&gt;
+&lt;td&gt;业务主键，文件下载Id&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;file_id&lt;/td&gt;
+&lt;td&gt;varchar, business key&lt;/td&gt;
+&lt;td&gt;业务主键，文件Id&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;file_origin_path&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;原始文件路径&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;download_retry_times&lt;/td&gt;
+&lt;td&gt;integer&lt;/td&gt;
+&lt;td&gt;重试次数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;callback_required&lt;/td&gt;
+&lt;td&gt;integer&lt;/td&gt;
+&lt;td&gt;是否需要回调&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;callback_url&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;回调URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;callback_retry_time&lt;/td&gt;
+&lt;td&gt;integer&lt;/td&gt;
+&lt;td&gt;回调重试次数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;callback_status&lt;/td&gt;
+&lt;td&gt;integer&lt;/td&gt;
+&lt;td&gt;回调状态；0等待回调，1回调成功，-1回调失败&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;callback_result&lt;/td&gt;
+&lt;td&gt;varchar&lt;/td&gt;
+&lt;td&gt;回调结果&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;create_time&lt;/td&gt;
+&lt;td&gt;datetime&lt;/td&gt;
+&lt;td&gt;创建时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;update_time&lt;/td&gt;
+&lt;td&gt;datetime&lt;/td&gt;
+&lt;td&gt;更新时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1&gt;注意的点&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;封装SDK&lt;/li&gt;
+&lt;li&gt;客户端登记文件，直传存储引擎，再次确认状态&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;流程图&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;客户端上传&lt;/li&gt;
+&lt;/ol&gt;
+&lt;img src=&quot;/2023/Self-file/self-file-1.png&quot; class=&quot;&quot;&gt;
+&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;客户端提交&lt;/li&gt;
+&lt;/ol&gt;
+&lt;img src=&quot;/2023/Self-file/self-file-2.png&quot; class=&quot;&quot;&gt;
+&lt;h1&gt;新建项目&lt;/h1&gt;
+&lt;h2 id=&quot;1-init&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#1-init&quot;&gt;&lt;/a&gt;1. init&lt;/h2&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;spring init --groupId=com.weasley --artifactId=file-center --name=file-center --description=&amp;quot;file-center&amp;quot; file-center&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;2-module&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#2-module&quot;&gt;&lt;/a&gt;2. module&lt;/h2&gt;
+&lt;p&gt;根目录 setting.gradle"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Self - file | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/project/" rel="tag">project</a></div><div class="post-time">2023-03-18</div></div></div><div class="container post-header"><h1>Self - file</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#file"><span class="toc-number">1.1.</span> <span class="toc-text">file</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file-owner"><span class="toc-number">1.2.</span> <span class="toc-text">file_owner</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file-download"><span class="toc-number">1.3.</span> <span class="toc-text">file_download</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">注意的点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">流程图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">新建项目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-init"><span class="toc-number">4.1.</span> <span class="toc-text">1. init</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-module"><span class="toc-number">4.2.</span> <span class="toc-text">2. module</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-file-center-common"><span class="toc-number">4.2.1.</span> <span class="toc-text">1) file-center-common</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-file-center-domain"><span class="toc-number">4.2.2.</span> <span class="toc-text">2) file-center-domain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-file-center-application"><span class="toc-number">4.2.3.</span> <span class="toc-text">3) file-center-application</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-file-center-interface"><span class="toc-number">4.2.4.</span> <span class="toc-text">4) file-center-interface</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-file-center-infrastructure"><span class="toc-number">4.2.5.</span> <span class="toc-text">5) file-center-infrastructure</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-boot-scripts"><span class="toc-number">4.3.</span> <span class="toc-text">3. boot scripts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-logback"><span class="toc-number">4.4.</span> <span class="toc-text">4. logback</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-docs"><span class="toc-number">4.5.</span> <span class="toc-text">5. docs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-sql-generate"><span class="toc-number">4.6.</span> <span class="toc-text">6. SQL generate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-application-yml"><span class="toc-number">4.7.</span> <span class="toc-text">7.application.yml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-file-center-common"><span class="toc-number">4.8.</span> <span class="toc-text">8. file-center-common</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-errorcode"><span class="toc-number">4.8.1.</span> <span class="toc-text">1) ErrorCode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-response"><span class="toc-number">4.8.2.</span> <span class="toc-text">2) Response</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-global-exception"><span class="toc-number">4.8.3.</span> <span class="toc-text">3) Global Exception</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-response-advice"><span class="toc-number">4.8.4.</span> <span class="toc-text">4) Response advice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-submodule-build-gradle"><span class="toc-number">4.8.5.</span> <span class="toc-text">5) Submodule build.gradle</span></a></li></ol></li></ol></li></ol></details></div><div class="container post-content"><h1>表</h1>
+<h2 id="file"><a class="header-anchor" href="#file"></a>file</h2>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>long, primary key</td>
+<td>自增主键</td>
+</tr>
+<tr>
+<td>file_id</td>
+<td>varchar, business key</td>
+<td>业务主键，文件Id</td>
+</tr>
+<tr>
+<td>fs_key</td>
+<td>varchar</td>
+<td>文件存储key</td>
+</tr>
+<tr>
+<td>file_md5</td>
+<td>varchar</td>
+<td>文件md5</td>
+</tr>
+<tr>
+<td>create_time</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td>update_time</td>
+<td>datetime</td>
+<td>更新时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="file-owner"><a class="header-anchor" href="#file-owner"></a>file_owner</h2>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>long, primary key</td>
+<td>自增主键</td>
+</tr>
+<tr>
+<td>file_id</td>
+<td>varchar, business key</td>
+<td>业务主键，文件Id</td>
+</tr>
+<tr>
+<td>file_name</td>
+<td>varchar</td>
+<td>文件名</td>
+</tr>
+<tr>
+<td>file_type</td>
+<td>varchar</td>
+<td>文件类型</td>
+</tr>
+<tr>
+<td>status</td>
+<td>integer</td>
+<td>状态；0失效，1有效，2排队中，3上传中，4下载中，-3上传失败，-4下载失败</td>
+</tr>
+<tr>
+<td>owner_id</td>
+<td>varchar</td>
+<td>拥有者Id</td>
+</tr>
+<tr>
+<td>create_time</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td>update_time</td>
+<td>datetime</td>
+<td>更新时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="file-download"><a class="header-anchor" href="#file-download"></a>file_download</h2>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>long, primary key</td>
+<td>自增主键</td>
+</tr>
+<tr>
+<td>file_download_id</td>
+<td>varchar, business key</td>
+<td>业务主键，文件下载Id</td>
+</tr>
+<tr>
+<td>file_id</td>
+<td>varchar, business key</td>
+<td>业务主键，文件Id</td>
+</tr>
+<tr>
+<td>file_origin_path</td>
+<td>varchar</td>
+<td>原始文件路径</td>
+</tr>
+<tr>
+<td>download_retry_times</td>
+<td>integer</td>
+<td>重试次数</td>
+</tr>
+<tr>
+<td>callback_required</td>
+<td>integer</td>
+<td>是否需要回调</td>
+</tr>
+<tr>
+<td>callback_url</td>
+<td>varchar</td>
+<td>回调URL</td>
+</tr>
+<tr>
+<td>callback_retry_time</td>
+<td>integer</td>
+<td>回调重试次数</td>
+</tr>
+<tr>
+<td>callback_status</td>
+<td>integer</td>
+<td>回调状态；0等待回调，1回调成功，-1回调失败</td>
+</tr>
+<tr>
+<td>callback_result</td>
+<td>varchar</td>
+<td>回调结果</td>
+</tr>
+<tr>
+<td>create_time</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td>update_time</td>
+<td>datetime</td>
+<td>更新时间</td>
+</tr>
+</tbody>
+</table>
+<h1>注意的点</h1>
+<ol>
+<li>封装SDK</li>
+<li>客户端登记文件，直传存储引擎，再次确认状态</li>
+</ol>
+<h1>流程图</h1>
+<ol>
+<li>客户端上传</li>
+</ol>
+<img src="/2023/Self-file/self-file-1.png" class="">
+<ol start="2">
+<li>客户端提交</li>
+</ol>
+<img src="/2023/Self-file/self-file-2.png" class="">
+<h1>新建项目</h1>
+<h2 id="1-init"><a class="header-anchor" href="#1-init"></a>1. init</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">spring init --groupId=com.weasley --artifactId=file-center --name=file-center --description=&quot;file-center&quot; file-center</span><br></pre></td></tr></table></figure>
+<h2 id="2-module"><a class="header-anchor" href="#2-module"></a>2. module</h2>
+<p>根目录 setting.gradle</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">include &#x27;file-center-common&#x27;</span><br><span class="line">include &#x27;file-center-domain&#x27;</span><br><span class="line">include &#x27;file-center-application&#x27;</span><br><span class="line">include &#x27;file-center-interface&#x27;</span><br></pre></td></tr></table></figure>
+<p>根目录 build.gradle</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 定义项目构建所需的仓库和依赖项</span><br><span class="line">// 定义项目构建所需的仓库和依赖项</span><br><span class="line">buildscript &#123;</span><br><span class="line"></span><br><span class="line">	repositories &#123;</span><br><span class="line">		mavenCentral()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dependencies &#123;</span><br><span class="line">		classpath(&#x27;org.springframework.boot:spring-boot-gradle-plugin:3.0.4&#x27;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">plugins &#123;</span><br><span class="line">	id &#x27;java&#x27;</span><br><span class="line">	id &#x27;groovy&#x27;</span><br><span class="line">	id &#x27;java-library&#x27;</span><br><span class="line">	id &#x27;org.springframework.boot&#x27; version &#x27;3.0.4&#x27;</span><br><span class="line">	id &#x27;io.spring.dependency-management&#x27; version &#x27;1.1.0&#x27;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">allprojects&#123;</span><br><span class="line">	group = &#x27;com.weasley&#x27;</span><br><span class="line">	version = &#x27;0.0.1-SNAPSHOT&#x27;</span><br><span class="line">	sourceCompatibility = &#x27;17&#x27;</span><br><span class="line"></span><br><span class="line">	repositories &#123;</span><br><span class="line">		mavenCentral()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dependencyManagement &#123;</span><br><span class="line">		imports &#123;</span><br><span class="line">			mavenBom &#x27;org.springframework.boot:spring-boot-dependencies:3.0.4&#x27;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">subprojects &#123;</span><br><span class="line"></span><br><span class="line">	apply plugin: &#x27;java&#x27;</span><br><span class="line">	apply plugin: &#x27;java-library&#x27;</span><br><span class="line">	apply plugin: &#x27;groovy&#x27;</span><br><span class="line">	apply plugin: &#x27;org.springframework.boot&#x27;</span><br><span class="line">	apply plugin: &#x27;io.spring.dependency-management&#x27;</span><br><span class="line"></span><br><span class="line">	dependencies &#123;</span><br><span class="line"></span><br><span class="line">		implementation group: &#x27;org.springframework.boot&#x27;, name: &#x27;spring-boot-starter-web&#x27;</span><br><span class="line"></span><br><span class="line">		implementation &#x27;org.springframework.boot:spring-boot-starter&#x27;</span><br><span class="line">		testImplementation &#x27;org.springframework.boot:spring-boot-starter-test&#x27;</span><br><span class="line"></span><br><span class="line">		// devtools</span><br><span class="line">		compileOnly &#x27;org.springframework.boot:spring-boot-devtools&#x27;</span><br><span class="line"></span><br><span class="line">		// lombok</span><br><span class="line">		compileOnly &#x27;org.projectlombok:lombok:1.18.26&#x27;</span><br><span class="line">		annotationProcessor &#x27;org.projectlombok:lombok:1.18.26&#x27;</span><br><span class="line"></span><br><span class="line">		// spring-boot-configuration-processor</span><br><span class="line">		annotationProcessor &quot;org.springframework.boot:spring-boot-configuration-processor&quot;</span><br><span class="line">		// spring-boot-starter-validation</span><br><span class="line">		implementation group: &#x27;org.springframework.boot&#x27;, name: &#x27;spring-boot-starter-validation&#x27;, version: &#x27;3.0.4&#x27;</span><br><span class="line">		// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator</span><br><span class="line">		implementation group: &#x27;org.springframework.boot&#x27;, name: &#x27;spring-boot-starter-actuator&#x27;, version: &#x27;3.0.5&#x27;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		// mapstruct</span><br><span class="line">		implementation &#x27;org.mapstruct:mapstruct:1.5.3.Final&#x27;</span><br><span class="line">		annotationProcessor &#x27;org.mapstruct:mapstruct-processor:1.5.3.Final&#x27;</span><br><span class="line"></span><br><span class="line">		// knife4j</span><br><span class="line">		implementation group: &#x27;com.github.xiaoymin&#x27;, name: &#x27;knife4j-openapi3-jakarta-spring-boot-starter&#x27;, version: &#x27;4.1.0&#x27;</span><br><span class="line"></span><br><span class="line">		// mybatis plus</span><br><span class="line">		implementation group: &#x27;com.baomidou&#x27;, name: &#x27;mybatis-plus-boot-starter&#x27;, version: &#x27;3.5.3.1&#x27;</span><br><span class="line">		implementation group: &#x27;com.baomidou&#x27;, name: &#x27;mybatis-plus-generator&#x27;, version: &#x27;3.5.3.1&#x27;</span><br><span class="line">		implementation group: &#x27;org.freemarker&#x27;, name: &#x27;freemarker&#x27;, version: &#x27;2.3.31&#x27;</span><br><span class="line">		implementation group: &#x27;mysql&#x27;, name: &#x27;mysql-connector-java&#x27;, version: &#x27;8.0.32&#x27;</span><br><span class="line"></span><br><span class="line">		// spock</span><br><span class="line">		testImplementation group: &#x27;org.spockframework&#x27;, name: &#x27;spock-core&#x27;, version: &#x27;2.3-groovy-4.0&#x27;</span><br><span class="line">		testImplementation group: &#x27;org.spockframework&#x27;, name: &#x27;spock-spring&#x27;, version: &#x27;2.3-groovy-4.0&#x27;</span><br><span class="line"></span><br><span class="line">		// h2</span><br><span class="line">		testImplementation group: &#x27;com.h2database&#x27;, name: &#x27;h2&#x27;, version: &#x27;2.1.214&#x27;</span><br><span class="line"></span><br><span class="line">		// embedded-redis</span><br><span class="line">		testImplementation (group: &#x27;it.ozimov&#x27;, name: &#x27;embedded-redis&#x27;, version: &#x27;0.7.3&#x27; ) &#123;</span><br><span class="line">			exclude group: &#x27;org.slf4j&#x27;, module: &#x27;slf4j-simple&#x27;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		// redission</span><br><span class="line">		implementation group: &#x27;org.redisson&#x27;, name: &#x27;redisson-spring-boot-starter&#x27;, version: &#x27;3.20.0&#x27;</span><br><span class="line"></span><br><span class="line">		// https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine</span><br><span class="line">		implementation group: &#x27;com.github.ben-manes.caffeine&#x27;, name: &#x27;caffeine&#x27;, version: &#x27;3.1.5&#x27;</span><br><span class="line"></span><br><span class="line">		// hutool-core</span><br><span class="line">		implementation group: &#x27;cn.hutool&#x27;, name: &#x27;hutool-core&#x27;, version: &#x27;5.8.15&#x27;</span><br><span class="line">		implementation group: &#x27;cn.hutool&#x27;, name: &#x27;hutool-extra&#x27;, version: &#x27;5.8.16&#x27;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		// minio</span><br><span class="line">		implementation group: &#x27;io.minio&#x27;, name:&#x27;minio&#x27;, version: &#x27;8.4.3&#x27;</span><br><span class="line"></span><br><span class="line">		// vavr</span><br><span class="line">		implementation group: &#x27;io.vavr&#x27;, name: &#x27;vavr&#x27;, version: &#x27;0.10.4&#x27;</span><br><span class="line"></span><br><span class="line">		implementation group: &#x27;org.apache.skywalking&#x27;, name: &#x27;apm-toolkit-logback-1.x&#x27;, version: &#x27;8.15.0&#x27;</span><br><span class="line"></span><br><span class="line">		// https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path</span><br><span class="line">		implementation group: &#x27;com.jayway.jsonpath&#x27;, name: &#x27;json-path&#x27;, version: &#x27;2.8.0&#x27;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	tasks.named(&#x27;test&#x27;) &#123;</span><br><span class="line">		useJUnitPlatform()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-file-center-common"><a class="header-anchor" href="#1-file-center-common"></a>1) file-center-common</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) mkdir file-center-common</span><br><span class="line">2) mkdir -p src/main/java/com/weasley/common</span><br><span class="line">3) mkdir -p src/main/resources </span><br></pre></td></tr></table></figure>
+<h3 id="2-file-center-domain"><a class="header-anchor" href="#2-file-center-domain"></a>2) file-center-domain</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) mkdir file-center-domain</span><br><span class="line">2) mkdir -p src/main/java/com/weasley/domain</span><br><span class="line">3) mkdir -p src/main/resources </span><br></pre></td></tr></table></figure>
+<h3 id="3-file-center-application"><a class="header-anchor" href="#3-file-center-application"></a>3) file-center-application</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) mkdir file-center-application</span><br><span class="line">2) mkdir -p src/main/java/com/weasley/application</span><br><span class="line">3) mkdir -p src/main/resources </span><br></pre></td></tr></table></figure>
+<h3 id="4-file-center-interface"><a class="header-anchor" href="#4-file-center-interface"></a>4) file-center-interface</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) mkdir file-center-interface</span><br><span class="line">2) mkdir -p src/main/java/com/weasley/interface</span><br><span class="line">3) mkdir -p src/main/resources </span><br></pre></td></tr></table></figure>
+<h3 id="5-file-center-infrastructure"><a class="header-anchor" href="#5-file-center-infrastructure"></a>5) file-center-infrastructure</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1) mkdir file-center-infrastructure</span><br><span class="line">2) mkdir -p src/main/java/com/weasley/infrastructure</span><br><span class="line">3) mkdir -p src/main/resources </span><br></pre></td></tr></table></figure>
+<h2 id="3-boot-scripts"><a class="header-anchor" href="#3-boot-scripts"></a>3. boot scripts</h2>
+<h2 id="4-logback"><a class="header-anchor" href="#4-logback"></a>4. logback</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;include resource=&quot;org/springframework/boot/logging/logback/defaults.xml&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;springProperty scope=&quot;context&quot; name=&quot;spring.application.name&quot; source=&quot;spring.application.name&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径--&gt;</span><br><span class="line">    &lt;property name=&quot;logging.path&quot; value=&quot;log&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property name=&quot;CONSOLE_LOG_PATTERN&quot;</span><br><span class="line">              value=&quot;%clr(%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125;)&#123;faint&#125; %clr($&#123;LOG_LEVEL_PATTERN:-%5p&#125;) %clr([$&#123;PID:- &#125;])&#123;magenta&#125; %clr([%X&#123;tid&#125;])&#123;magenta&#125; %clr([%X&#123;requestId&#125;])&#123;magenta&#125; %clr([%X&#123;requestPath&#125;])&#123;magenta&#125; %clr([%X&#123;requestIp&#125;])&#123;magenta&#125; %clr(---)&#123;faint&#125; %clr([%15.15t])&#123;faint&#125;%clr([%X&#123;chainId&#125;])&#123;faint&#125;%clr([%X&#123;stageId&#125;])&#123;faint&#125; %clr(%-50.50logger&#123;49&#125;)&#123;cyan&#125; %clr(:)&#123;faint&#125; %m%n$&#123;LOG_EXCEPTION_CONVERSION_WORD:-%wEx&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;property name=&quot;ROLL_FILE_LOG_PATTERN&quot;</span><br><span class="line">              value=&quot;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; $&#123;LOG_LEVEL_PATTERN:-%5p&#125; [$&#123;PID:- &#125;] [%X&#123;tid&#125;] [%X&#123;requestId&#125;] [%X&#123;requestPath&#125;] [%X&#123;requestIp&#125;] --- [%t][%X&#123;chainId&#125;][%X&#123;stageId&#125;] %-50.50logger&#123;49&#125; : %m%n$&#123;LOG_EXCEPTION_CONVERSION_WORD:-%wEx&#125;&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- 控制台输出 --&gt;</span><br><span class="line">    &lt;appender name=&quot;STDOUT&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;</span><br><span class="line">        &lt;!-- 日志输出编码 --&gt;</span><br><span class="line">        &lt;encoder class=&quot;ch.qos.logback.core.encoder.LayoutWrappingEncoder&quot;&gt;</span><br><span class="line">            &lt;layout class=&quot;org.apache.skywalking.apm.toolkit.log.logback.v1.x.mdc.TraceIdMDCPatternLogbackLayout&quot;&gt;</span><br><span class="line">                &lt;pattern&gt;$&#123;CONSOLE_LOG_PATTERN&#125;&lt;/pattern&gt;</span><br><span class="line">            &lt;/layout&gt;</span><br><span class="line">        &lt;/encoder&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 控制台异步输出 --&gt;</span><br><span class="line">    &lt;appender name=&quot;STDOUTASYNC&quot; class=&quot;ch.qos.logback.classic.AsyncAppender&quot;&gt;</span><br><span class="line">        &lt;!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 --&gt;</span><br><span class="line">        &lt;discardingThreshold&gt;0&lt;/discardingThreshold&gt;</span><br><span class="line">        &lt;!-- 更改默认的队列的深度,该值会影响性能.默认值为256 --&gt;</span><br><span class="line">        &lt;queueSize&gt;512&lt;/queueSize&gt;</span><br><span class="line">        &lt;!-- 添加附加的appender,最多只能添加一个 --&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;STDOUT&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 按照每天生成日志文件 --&gt;</span><br><span class="line">    &lt;appender name=&quot;FILE&quot; class=&quot;ch.qos.logback.core.rolling.RollingFileAppender&quot;&gt;</span><br><span class="line">        &lt;file&gt;$&#123;logging.path&#125;/$&#123;spring.application.name&#125;.log&lt;/file&gt;</span><br><span class="line">        &lt;rollingPolicy class=&quot;ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy&quot;&gt;</span><br><span class="line">            &lt;!--日志文件输出的文件名--&gt;</span><br><span class="line">            &lt;FileNamePattern&gt;$&#123;logging.path&#125;/$&#123;spring.application.name&#125;.log.%d&#123;yyyy-MM-dd&#125;.%i.log&lt;/FileNamePattern&gt;</span><br><span class="line">            &lt;maxFileSize&gt;100MB&lt;/maxFileSize&gt;</span><br><span class="line">            &lt;MaxHistory&gt;7&lt;/MaxHistory&gt;</span><br><span class="line">            &lt;totalSizeCap&gt;1GB&lt;/totalSizeCap&gt;</span><br><span class="line">        &lt;/rollingPolicy&gt;</span><br><span class="line">        &lt;encoder class=&quot;ch.qos.logback.core.encoder.LayoutWrappingEncoder&quot;&gt;</span><br><span class="line">            &lt;layout class=&quot;org.apache.skywalking.apm.toolkit.log.logback.v1.x.mdc.TraceIdMDCPatternLogbackLayout&quot;&gt;</span><br><span class="line">                &lt;!--格式化输出：%d表示日期，%thread表示线程名，%msg：日志消息，%n是换行符--&gt;</span><br><span class="line">                &lt;pattern&gt;$&#123;ROLL_FILE_LOG_PATTERN&#125;&lt;/pattern&gt;</span><br><span class="line">            &lt;/layout&gt;</span><br><span class="line">        &lt;/encoder&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 日志文件异步输出 --&gt;</span><br><span class="line">    &lt;appender name=&quot;FILEASYNC&quot; class=&quot;ch.qos.logback.classic.AsyncAppender&quot;&gt;</span><br><span class="line">        &lt;!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 --&gt;</span><br><span class="line">        &lt;discardingThreshold&gt;0&lt;/discardingThreshold&gt;</span><br><span class="line">        &lt;!-- 更改默认的队列的深度,该值会影响性能.默认值为256 --&gt;</span><br><span class="line">        &lt;queueSize&gt;512&lt;/queueSize&gt;</span><br><span class="line">        &lt;!-- 添加附加的appender,最多只能添加一个 --&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;FILE&quot;/&gt;</span><br><span class="line">    &lt;/appender&gt;</span><br><span class="line"></span><br><span class="line">    &lt;root level=&quot;INFO&quot;&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;STDOUTASYNC&quot;/&gt;</span><br><span class="line">        &lt;appender-ref ref=&quot;FILEASYNC&quot;/&gt;</span><br><span class="line">    &lt;/root&gt;</span><br><span class="line"></span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="5-docs"><a class="header-anchor" href="#5-docs"></a>5. docs</h2>
+<h2 id="6-sql-generate"><a class="header-anchor" href="#6-sql-generate"></a>6. SQL generate</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import com.baomidou.mybatisplus.generator.FastAutoGenerator;</span><br><span class="line">import com.baomidou.mybatisplus.generator.config.OutputFile;</span><br><span class="line">import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;</span><br><span class="line">import org.junit.jupiter.api.Test;</span><br><span class="line"></span><br><span class="line">import java.util.Collections;</span><br><span class="line"></span><br><span class="line">public class CodeGenerator &#123;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void generator() &#123;</span><br><span class="line">        FastAutoGenerator.create(&quot;jdbc:mysql://localhost:3306/file_center?serverTimezone=Asia/Shanghai&quot;, &quot;&quot;, &quot;&quot;)</span><br><span class="line">                .globalConfig(builder -&gt; &#123;</span><br><span class="line">                    builder.author(&quot;baomidou&quot;) // 设置作者</span><br><span class="line">                            .enableSwagger() // 开启 swagger 模式</span><br><span class="line">                            .fileOverride() // 覆盖已生成文件</span><br><span class="line">                            .outputDir(&quot;/Users/disco/Downloads/outputFileCenter&quot;); // 指定输出目录</span><br><span class="line">                &#125;)</span><br><span class="line">                .packageConfig(builder -&gt; &#123;</span><br><span class="line">                    builder.parent(&quot;com.baomidou.mybatisplus.samples.generator&quot;) // 设置父包名</span><br><span class="line">                            .moduleName(&quot;system&quot;) // 设置父包模块名</span><br><span class="line">                            .pathInfo(Collections.singletonMap(OutputFile.xml, &quot;/Users/disco/Downloads/outputFileCenter&quot;)); // 设置mapperXml生成路径</span><br><span class="line">                &#125;)</span><br><span class="line">                .strategyConfig(builder -&gt; &#123;</span><br><span class="line">                    builder.addInclude(Collections.emptyList()); // 设置需要生成的表名</span><br><span class="line">//                            .addTablePrefix(&quot;t_&quot;, &quot;c_&quot;); // 设置过滤表前缀</span><br><span class="line">                &#125;)</span><br><span class="line">                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板</span><br><span class="line">                .execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="7-application-yml"><a class="header-anchor" href="#7-application-yml"></a>7.application.yml</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: file_center</span><br><span class="line">  profiles:</span><br><span class="line">    active: test</span><br><span class="line">  mvc:</span><br><span class="line">    pathmatch:</span><br><span class="line">      matching-strategy: ant_path_matcher</span><br><span class="line">  datasource:</span><br><span class="line">    url: jdbc:mysql://localhost:3306/file_center?serverTimezone=Asia/Shanghai</span><br><span class="line">    username: root</span><br><span class="line">    password: platform123456</span><br><span class="line">    driver-class-name: com.mysql.cj.jdbc.Driver</span><br><span class="line">  servlet:</span><br><span class="line">    multipart:</span><br><span class="line">      enabled: true</span><br><span class="line">      max-file-size: 100MB</span><br><span class="line">      max-request-size: 200MB</span><br><span class="line">  data:</span><br><span class="line">    redis:</span><br><span class="line">      timeout: 1000</span><br><span class="line">      host: 127.0.0.1</span><br><span class="line">      port: 6379</span><br><span class="line">      password: YpWcTLkW</span><br><span class="line">      lettuce:</span><br><span class="line">        pool:</span><br><span class="line">          max-active: 100</span><br><span class="line">          max-wait: 500</span><br><span class="line">          max-idle: 10</span><br><span class="line">          min-idle: 10</span><br><span class="line">          time-between-eviction-runs: 10s</span><br><span class="line">lock:</span><br><span class="line">  engine: lock-caffeine</span><br><span class="line">  timeout-seconds: 1</span><br><span class="line">  expire-seconds: 120</span><br><span class="line">  caffeine:</span><br><span class="line">    capacity: 10000</span><br><span class="line">    maximum-size: 20000</span><br><span class="line">storage:</span><br><span class="line">  engine: storage-minio</span><br><span class="line">  local:</span><br><span class="line">    enabled: true</span><br><span class="line">    region: asia</span><br><span class="line">    bucket: file-center</span><br><span class="line">  minio:</span><br><span class="line">    enabled: true</span><br><span class="line">    region: zh-cn-beijing</span><br><span class="line">    bucket: file-center</span><br><span class="line">    endpoint: http://127.0.0.1:9000</span><br><span class="line">    sslEnable: false</span><br><span class="line">    accessKey: 4MrQwqp2WyeAh33S</span><br><span class="line">    secretKey: DCA3sYbWHZlAcwcEHD1foRRVcbiSqqrX</span><br><span class="line">custom:</span><br><span class="line">  executor:</span><br><span class="line">    configs:</span><br><span class="line">      stage-download:</span><br><span class="line">        executor-name: stage-download</span><br><span class="line">        queue-capacity: 100</span><br><span class="line">        core-pool-size: 40</span><br><span class="line">        max-pool-size: 100</span><br><span class="line">        allow-core-Thread-time-out: false</span><br><span class="line">        keep-alive-seconds: 20</span><br><span class="line">        await-termination: false</span><br><span class="line">        await-termination-seconds: 5000</span><br><span class="line">        abort-policy: block</span><br><span class="line">      stage-upload:</span><br><span class="line">        executor-name: stage-upload</span><br><span class="line">        queue-capacity: 200</span><br><span class="line">        core-pool-size: 40</span><br><span class="line">        max-pool-size: 100</span><br><span class="line">        allow-core-Thread-time-out: false</span><br><span class="line">        keep-alive-seconds: 20</span><br><span class="line">        await-termination: false</span><br><span class="line">        await-termination-seconds: 5000</span><br><span class="line">        abort-policy: block</span><br><span class="line">      stage-callback:</span><br><span class="line">        executor-name: stage-callback</span><br><span class="line">        queue-capacity: 300</span><br><span class="line">        core-pool-size: 40</span><br><span class="line">        max-pool-size: 100</span><br><span class="line">        allow-core-Thread-time-out: false</span><br><span class="line">        keep-alive-seconds: 20</span><br><span class="line">        await-termination: false</span><br><span class="line">        await-termination-seconds: 5000</span><br><span class="line">        abort-policy: block</span><br><span class="line">      http-callback:</span><br><span class="line">        executor-name: dispatcher-http-callback</span><br><span class="line">        queue-capacity: 400</span><br><span class="line">        core-pool-size: 40</span><br><span class="line">        max-pool-size: 100</span><br><span class="line">        allow-core-Thread-time-out: false</span><br><span class="line">        keep-alive-seconds: 20</span><br><span class="line">        await-termination: false</span><br><span class="line">        await-termination-seconds: 5000</span><br><span class="line">        abort-policy: block</span><br><span class="line">  http:</span><br><span class="line">    configs:</span><br><span class="line">      http-callback:</span><br><span class="line">        client-name: http-callback</span><br><span class="line">        dispatcher-executor-name: dispatcher-http-callback</span><br><span class="line">        call-timeout-milliseconds: 1000</span><br><span class="line">        connect-timeout-milliseconds: 1000</span><br><span class="line">        readTimeoutMilliseconds: 1000</span><br><span class="line">        writeTimeoutMilliseconds: 1000</span><br><span class="line">        connectionMaxPoolSize: 100</span><br><span class="line">        keepAliveSeconds: 20</span><br><span class="line">        maxRequests: 300</span><br><span class="line">        maxRequestsPerHost: 50</span><br><span class="line">mybatis-plus:</span><br><span class="line">  mapper-locations: classpath:mappers/*.xml</span><br><span class="line">  type-aliases-package: com.weasley.infrastructure.db.model</span><br><span class="line">  configuration:</span><br><span class="line">    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl</span><br><span class="line">swagger:</span><br><span class="line">  enable: true</span><br><span class="line">knife4j:</span><br><span class="line">  enable: true</span><br><span class="line">management:</span><br><span class="line">  endpoints:</span><br><span class="line">    web:</span><br><span class="line">      exposure:</span><br><span class="line">        include: health,info,metrics,threadpool</span><br><span class="line">        exclude: shutdown</span><br><span class="line">monitor:</span><br><span class="line">  log:</span><br><span class="line">    enable: true</span><br><span class="line">  report:</span><br><span class="line">    enable: true</span><br></pre></td></tr></table></figure>
+<h2 id="8-file-center-common"><a class="header-anchor" href="#8-file-center-common"></a>8. file-center-common</h2>
+<h3 id="1-errorcode"><a class="header-anchor" href="#1-errorcode"></a>1) ErrorCode</h3>
+<h3 id="2-response"><a class="header-anchor" href="#2-response"></a>2) Response</h3>
+<h3 id="3-global-exception"><a class="header-anchor" href="#3-global-exception"></a>3) Global Exception</h3>
+<h3 id="4-response-advice"><a class="header-anchor" href="#4-response-advice"></a>4) Response advice</h3>
+<h3 id="5-submodule-build-gradle"><a class="header-anchor" href="#5-submodule-build-gradle"></a>5) Submodule build.gradle</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># unittest</span><br><span class="line">tasks.named(&#x27;test&#x27;) &#123;</span><br><span class="line">	useJUnitPlatform()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2023/Self-file/';
+var disqus_title = 'Self - file';
+var disqus_url = 'https://blog.weasley.cn/2023/Self-file/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

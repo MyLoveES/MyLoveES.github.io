@@ -1,0 +1,32 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&lt;h1&gt;线段树&lt;/h1&gt;
+&lt;h2 id=&quot;何为线段树&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#何为线段树&quot;&gt;&lt;/a&gt;何为线段树&lt;/h2&gt;
+&lt;h2 id=&quot;构造线段树&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#构造线段树&quot;&gt;&lt;/a&gt;构造线段树&lt;/h2&gt;
+&lt;h2 id=&quot;查询线段树&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#查询线段树&quot;&gt;&lt;/a&gt;查询线段树&lt;/h2&gt;
+&lt;h2 id=&quot;更新线段树&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#更新线段树&quot;&gt;&lt;/a&gt;更新线段树&lt;/h2&gt;
+&lt;h2 id=&quot;leetcode-problem&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#leetcode-problem&quot;&gt;&lt;/a&gt;LEETCODE PROBLEM&lt;/h2&gt;
+"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Algorithm - 线段树 | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Data-structure/" rel="tag">Data structure</a><a class="post-tag-none-link" href="/tags/List/" rel="tag">List</a><a class="post-tag-none-link" href="/tags/Tree/" rel="tag">Tree</a></div><div class="post-time">2021-07-20</div></div></div><div class="container post-header"><h1>Algorithm - 线段树</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">线段树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%95%E4%B8%BA%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-number">1.1.</span> <span class="toc-text">何为线段树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-number">1.2.</span> <span class="toc-text">构造线段树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-number">1.3.</span> <span class="toc-text">查询线段树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%BA%BF%E6%AE%B5%E6%A0%91"><span class="toc-number">1.4.</span> <span class="toc-text">更新线段树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#leetcode-problem"><span class="toc-number">1.5.</span> <span class="toc-text">LEETCODE PROBLEM</span></a></li></ol></li></ol></details></div><div class="container post-content"><h1>线段树</h1>
+<h2 id="何为线段树"><a class="header-anchor" href="#何为线段树"></a>何为线段树</h2>
+<h2 id="构造线段树"><a class="header-anchor" href="#构造线段树"></a>构造线段树</h2>
+<h2 id="查询线段树"><a class="header-anchor" href="#查询线段树"></a>查询线段树</h2>
+<h2 id="更新线段树"><a class="header-anchor" href="#更新线段树"></a>更新线段树</h2>
+<h2 id="leetcode-problem"><a class="header-anchor" href="#leetcode-problem"></a>LEETCODE PROBLEM</h2>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2021/(TODO)Algorithm_Segment_Tree/';
+var disqus_title = 'Algorithm - 线段树';
+var disqus_url = 'https://blog.weasley.cn/2021/(TODO)Algorithm_Segment_Tree/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>
