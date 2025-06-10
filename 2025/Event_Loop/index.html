@@ -1,0 +1,126 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&gt;事件循环&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;一-事件循环的本质：从快递分拣中心说起&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#一-事件循环的本质：从快递分拣中心说起&quot;&gt;&lt;/a&gt;一、事件循环的本质：从快递分拣中心说起&lt;/h2&gt;
+&lt;h3 id=&quot;1-1-现实世界类比&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#1-1-现实世界类比&quot;&gt;&lt;/a&gt;1.1 现实世界类比&lt;/h3&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;假设你经营一家快递分拣中心：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- **传统阻塞模型**（多线程）：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  每个包裹（请求）分配一个工人（线程）&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  工人必须全程跟踪包裹：接收 → 分拣 → 装车&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  即使工人90%时间在等待货车，也不能处理其他包裹&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- **事件循环模型**：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  少数高效工人（事件循环线程）&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  每个工人管理多个传送带（Socket通道）&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  工人只处理就绪的包裹（就绪的I/O事件）&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;1-2-传统模型的瓶颈&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#1-2-传统模型的瓶颈&quot;&gt;&lt;/a&gt;1.2 传统模型的瓶颈&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;事件循环（Event Loop）：&lt;/strong&gt;
+一种程序结构，通过无限循环持续监听并分发I/O事件，其核心组件包括："><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Event Loop | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Architecture/" rel="tag">Architecture</a></div><div class="post-time">2025-03-10</div></div></div><div class="container post-header"><h1>Event Loop</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">事件循环</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%9A%E4%BB%8E%E5%BF%AB%E9%80%92%E5%88%86%E6%8B%A3%E4%B8%AD%E5%BF%83%E8%AF%B4%E8%B5%B7"><span class="toc-number">1.1.</span> <span class="toc-text">一、事件循环的本质：从快递分拣中心说起</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E7%8E%B0%E5%AE%9E%E4%B8%96%E7%95%8C%E7%B1%BB%E6%AF%94"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 现实世界类比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%93%B6%E9%A2%88"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 传统模型的瓶颈</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AF%EF%BC%9A%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9A%84-%E7%81%AB%E7%9C%BC%E9%87%91%E7%9D%9B"><span class="toc-number">1.2.</span> <span class="toc-text">二、多路复用技术：事件循环的&quot;火眼金睛&quot;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%BB%8Ebio%E5%88%B0nio%E7%9A%84%E6%BC%94%E8%BF%9B"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 从BIO到NIO的演进</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-epoll%E7%9A%84%E4%B8%89%E5%A4%A7%E6%A0%B8%E5%BF%83%E8%83%BD%E5%8A%9B"><span class="toc-number">1.3.</span> <span class="toc-text">2.2 epoll的三大核心能力</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E7%BA%A2%E9%BB%91%E6%A0%91%E7%AE%A1%E7%90%86%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%E9%9B%86"><span class="toc-number">1.3.1.</span> <span class="toc-text">2.2.1 红黑树管理文件描述符集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%B0%B1%E7%BB%AA%E5%88%97%E8%A1%A8%E4%B8%8E%E4%BA%8B%E4%BB%B6%E5%9B%9E%E8%B0%83"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.2.1 就绪列表与事件回调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%BC%8F%E9%80%89%E6%8B%A9"><span class="toc-number">1.3.3.</span> <span class="toc-text">2.2.3 触发模式选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-netty%E7%9A%84%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.4.</span> <span class="toc-text">三、Netty的事件循环实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E5%85%B3%E7%B3%BB%E5%9B%BE"><span class="toc-number">1.4.1.</span> <span class="toc-text">3.1 核心组件关系图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.4.2.</span> <span class="toc-text">3.2 事件循环线程的生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%85%B3%E9%94%AE%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5"><span class="toc-number">1.4.3.</span> <span class="toc-text">3.3 关键性能优化手段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%EF%BC%9A%E7%90%86%E8%AE%BA-vs-%E7%8E%B0%E5%AE%9E"><span class="toc-number">1.5.</span> <span class="toc-text">四、性能对比：理论 vs 现实</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E7%90%86%E8%AE%BA%E8%AE%A1%E7%AE%97%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.5.1.</span> <span class="toc-text">4.1 理论计算模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-%E4%BB%8E%E5%86%85%E6%A0%B8%E5%88%B0%E5%BA%94%E7%94%A8%EF%BC%9A%E5%85%A8%E9%93%BE%E8%B7%AF%E8%A7%86%E8%A7%92%E7%9C%8B%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-number">1.6.</span> <span class="toc-text">五、从内核到应用：全链路视角看事件循环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-linux%E5%86%85%E6%A0%B8%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.6.1.</span> <span class="toc-text">5.1 Linux内核的工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E7%8E%B0%E4%BB%A3%E7%BD%91%E7%BB%9C%E6%A0%88%E4%BC%98%E5%8C%96"><span class="toc-number">1.6.2.</span> <span class="toc-text">5.2 现代网络栈优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9C%80%E5%A4%A7%E5%8C%96%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%95%88%E7%8E%87"><span class="toc-number">1.7.</span> <span class="toc-text">六、最佳实践：如何最大化事件循环效率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E9%85%8D%E7%BD%AE%E5%8E%9F%E5%88%99"><span class="toc-number">1.7.1.</span> <span class="toc-text">6.1 配置原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E7%A6%81%E5%BF%8C%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.7.2.</span> <span class="toc-text">6.2 禁忌事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E7%9B%91%E6%8E%A7%E6%8C%87%E6%A0%87"><span class="toc-number">1.7.3.</span> <span class="toc-text">6.3 监控指标</span></a></li></ol></li></ol></li></ol></details></div><div class="container post-content"><h1>事件循环</h1>
+<hr>
+<h2 id="一-事件循环的本质：从快递分拣中心说起"><a class="header-anchor" href="#一-事件循环的本质：从快递分拣中心说起"></a>一、事件循环的本质：从快递分拣中心说起</h2>
+<h3 id="1-1-现实世界类比"><a class="header-anchor" href="#1-1-现实世界类比"></a>1.1 现实世界类比</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">假设你经营一家快递分拣中心：</span><br><span class="line">- **传统阻塞模型**（多线程）：</span><br><span class="line">  每个包裹（请求）分配一个工人（线程）</span><br><span class="line">  工人必须全程跟踪包裹：接收 → 分拣 → 装车</span><br><span class="line">  即使工人90%时间在等待货车，也不能处理其他包裹</span><br><span class="line"></span><br><span class="line">- **事件循环模型**：</span><br><span class="line">  少数高效工人（事件循环线程）</span><br><span class="line">  每个工人管理多个传送带（Socket通道）</span><br><span class="line">  工人只处理就绪的包裹（就绪的I/O事件）</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-传统模型的瓶颈"><a class="header-anchor" href="#1-2-传统模型的瓶颈"></a>1.2 传统模型的瓶颈</h3>
+<p><strong>事件循环（Event Loop）：</strong>
+一种程序结构，通过无限循环持续监听并分发I/O事件，其核心组件包括：</p>
+<ul>
+<li>事件队列：存储待处理事件（新连接、数据到达等）</li>
+<li>事件分发器：检测哪些通道（Channel）已就绪</li>
+<li>事件处理器：处理具体I/O操作的回调函数</li>
+</ul>
+<h2 id="二-多路复用技术：事件循环的-火眼金睛"><a class="header-anchor" href="#二-多路复用技术：事件循环的-火眼金睛"></a>二、多路复用技术：事件循环的&quot;火眼金睛&quot;</h2>
+<h3 id="2-1-从bio到nio的演进"><a class="header-anchor" href="#2-1-从bio到nio的演进"></a>2.1 从BIO到NIO的演进</h3>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>工作方式</th>
+<th>资源消耗</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BIO</td>
+<td>1线程1连接（阻塞等待）</td>
+<td>随连接数线性增长</td>
+<td>低并发场景</td>
+</tr>
+<tr>
+<td>select</td>
+<td>遍历所有fd检查状态</td>
+<td>O(n)时间复杂度</td>
+<td>少量连接</td>
+</tr>
+<tr>
+<td>epoll</td>
+<td>回调通知就绪事件</td>
+<td>O(1)时间复杂度</td>
+<td>万级连接</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-2-epoll的三大核心能力"><a class="header-anchor" href="#2-2-epoll的三大核心能力"></a>2.2 epoll的三大核心能力</h2>
+<h3 id="2-2-1-红黑树管理文件描述符集"><a class="header-anchor" href="#2-2-1-红黑树管理文件描述符集"></a>2.2.1 红黑树管理文件描述符集</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 创建epoll实例</span></span><br><span class="line"><span class="type">int</span> epoll_fd = epoll_create1(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加监控描述符</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">event</span>;</span></span><br><span class="line">event.events = EPOLLIN | EPOLLET; <span class="comment">// 边缘触发模式</span></span><br><span class="line">event.data.fd = socket_fd;</span><br><span class="line">epoll_ctl(epoll_fd, EPOLL_CTL_ADD, socket_fd, &amp;event);</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-1-就绪列表与事件回调"><a class="header-anchor" href="#2-2-1-就绪列表与事件回调"></a>2.2.1 就绪列表与事件回调</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 等待事件发生（毫秒级超时）</span></span><br><span class="line"><span class="type">int</span> num_events = epoll_wait(epoll_fd, events, MAX_EVENTS, <span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理就绪事件</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; num_events; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (events[i].events &amp; EPOLLIN) &#123;</span><br><span class="line">        handle_read(events[i].data.fd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-3-触发模式选择"><a class="header-anchor" href="#2-2-3-触发模式选择"></a>2.2.3 触发模式选择</h3>
+<ul>
+<li>水平触发（LT）：只要缓冲区有数据就会持续通知</li>
+<li>边缘触发（ET）：仅在状态变化时通知一次（性能更优）</li>
+</ul>
+<h2 id="三-netty的事件循环实现"><a class="header-anchor" href="#三-netty的事件循环实现"></a>三、Netty的事件循环实现</h2>
+<h3 id="3-1-核心组件关系图"><a class="header-anchor" href="#3-1-核心组件关系图"></a>3.1 核心组件关系图</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">┌───────────────────────────┐</span><br><span class="line">│        EventLoopGroup     │</span><br><span class="line">│  ┌─────────────────────┐  │</span><br><span class="line">│  │   NioEventLoop[]    │  │</span><br><span class="line">│  │ ┌─────────────────┐ │  │</span><br><span class="line">│  │ │   Selector      │ │  │</span><br><span class="line">│  │ │  (epoll实例)     │ │  │</span><br><span class="line">│  │ └─────────────────┘ │  │</span><br><span class="line">│  │ │  Task Queue     │ │  │</span><br><span class="line">│  │ └─────────────────┘ │  │</span><br><span class="line">│  └─────────────────────┘  │</span><br><span class="line">└───────────────────────────┘</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-事件循环线程的生命周期"><a class="header-anchor" href="#3-2-事件循环线程的生命周期"></a>3.2 事件循环线程的生命周期</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 简化版事件循环伪代码</span><br><span class="line">public void run() &#123;</span><br><span class="line">    while (!terminated) &#123;</span><br><span class="line">        // 阶段1：检测I/O事件</span><br><span class="line">        int readyChannels = selector.select(timeout);</span><br><span class="line">        </span><br><span class="line">        // 阶段2：处理I/O事件</span><br><span class="line">        if (readyChannels &gt; 0) &#123;</span><br><span class="line">            Set&lt;SelectionKey&gt; keys = selector.selectedKeys();</span><br><span class="line">            for (SelectionKey key : keys) &#123;</span><br><span class="line">                if (key.isReadable()) &#123;</span><br><span class="line">                    handleRead(key);</span><br><span class="line">                &#125;</span><br><span class="line">                if (key.isWritable()) &#123;</span><br><span class="line">                    handleWrite(key);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            keys.clear();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 阶段3：处理异步任务</span><br><span class="line">        runAllTasks();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-关键性能优化手段"><a class="header-anchor" href="#3-3-关键性能优化手段"></a>3.3 关键性能优化手段</h3>
+<ol>
+<li>I/O比例控制：通过ioRatio参数平衡I/O与任务处理时间</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 默认配置：I/O操作占用50%时间</span><br><span class="line">NioEventLoopGroup group = new NioEventLoopGroup(4, new DefaultThreadFactory(), 50);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>直接内存分配：使用ByteBuf避免JVM堆内存拷贝</li>
+<li>零拷贝技术：文件传输通过FileRegion直接操作内核缓冲区</li>
+</ol>
+<h2 id="四-性能对比：理论-vs-现实"><a class="header-anchor" href="#四-性能对比：理论-vs-现实"></a>四、性能对比：理论 vs 现实</h2>
+<h3 id="4-1-理论计算模型"><a class="header-anchor" href="#4-1-理论计算模型"></a>4.1 理论计算模型</h3>
+<p><strong>C10K问题公式推导：</strong>
+传统模型所需线程数 = 并发连接数 × (平均等待时间 / 平均处理时间)
+假设：</p>
+<ul>
+<li>10,000并发连接</li>
+<li>每个请求95%时间在等待（19ms等待 + 1ms处理）</li>
+</ul>
+<p>传统模型线程数 = 10,000 × (19/1) = 190,000 → 完全不可行<br>
+事件循环模型线程数 = CPU核心数（如4线程）→ 轻松应对</p>
+<h2 id="五-从内核到应用：全链路视角看事件循环"><a class="header-anchor" href="#五-从内核到应用：全链路视角看事件循环"></a>五、从内核到应用：全链路视角看事件循环</h2>
+<h3 id="5-1-linux内核的工作流程"><a class="header-anchor" href="#5-1-linux内核的工作流程"></a>5.1 Linux内核的工作流程</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">应用层（Java NIO）</span><br><span class="line">  ↓ 系统调用（epoll_ctl/epoll_wait）</span><br><span class="line">VFS（虚拟文件系统层）</span><br><span class="line">  ↓ 回调注册</span><br><span class="line">网卡驱动</span><br><span class="line">  ↓ 硬件中断</span><br><span class="line">DMA缓冲区 → 数据就绪 → 触发epoll回调</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-现代网络栈优化"><a class="header-anchor" href="#5-2-现代网络栈优化"></a>5.2 现代网络栈优化</h3>
+<ol>
+<li>RSS（接收端扩展）：多队列网卡分散中断压力</li>
+<li>SO_REUSEPORT：允许多个Socket监听同一端口</li>
+<li>Kernel Bypass：DPDK/XDK等用户态网络方案</li>
+</ol>
+<h2 id="六-最佳实践：如何最大化事件循环效率"><a class="header-anchor" href="#六-最佳实践：如何最大化事件循环效率"></a>六、最佳实践：如何最大化事件循环效率</h2>
+<h3 id="6-1-配置原则"><a class="header-anchor" href="#6-1-配置原则"></a>6.1 配置原则</h3>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推荐Netty配置</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">netty:</span></span><br><span class="line">    <span class="attr">event-loop:</span></span><br><span class="line">      <span class="attr">boss-count:</span> <span class="number">1</span>               <span class="comment"># 接收连接线程数</span></span><br><span class="line">      <span class="attr">worker-count:</span> <span class="string">cpu_cores</span> <span class="string">*</span> <span class="number">2</span> <span class="comment"># 处理I/O线程数</span></span><br><span class="line">    <span class="attr">max-initial-line-length:</span> <span class="number">8192</span></span><br><span class="line">    <span class="attr">so-backlog:</span> <span class="number">1024</span>              <span class="comment"># 等待连接队列大小</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-2-禁忌事项"><a class="header-anchor" href="#6-2-禁忌事项"></a>6.2 禁忌事项</h3>
+<ul>
+<li>❌ 在事件循环线程执行阻塞操作</li>
+<li>❌ 忘记释放ByteBuf导致内存泄漏</li>
+<li>❌ 在Handler中处理耗时业务逻辑</li>
+</ul>
+<h3 id="6-3-监控指标"><a class="header-anchor" href="#6-3-监控指标"></a>6.3 监控指标</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">关键Metric：</span><br><span class="line">  reactor.netty.io.allocated.direct：直接内存使用量</span><br><span class="line">  reactor.netty.io.pending.tasks：待处理任务数</span><br><span class="line">  reactor.netty.io.select.latency：select操作延迟</span><br></pre></td></tr></table></figure></div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2025/Event_Loop/';
+var disqus_title = 'Event Loop';
+var disqus_url = 'https://blog.weasley.cn/2025/Event_Loop/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

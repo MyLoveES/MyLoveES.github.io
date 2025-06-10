@@ -1,0 +1,311 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="g src=&quot;/2022/Gateway_Selection/gateway.png&quot; class=&quot;&quot;&gt;
+&lt;h2 id=&quot;what-why&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#what-why&quot;&gt;&lt;/a&gt;What &amp;amp; Why&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Single entry point for all clients (面向客户端的单一入口)&lt;/li&gt;
+&lt;li&gt;Common in microservice architectures （微服务需要业务聚合）&lt;/li&gt;
+&lt;li&gt;Client insulation from services （客户端和服务隔离）&lt;/li&gt;
+&lt;li&gt;protocol （协议转换）&lt;/li&gt;
+&lt;li&gt;Security（安全）&lt;/li&gt;
+&lt;li&gt;surgical routing（路由）&lt;/li&gt;
+&lt;li&gt;Load Shedding （负载均衡）&lt;/li&gt;
+&lt;li&gt;Rate Limit（限流）&lt;/li&gt;
+&lt;li&gt;Cache（缓存）&lt;/li&gt;
+&lt;li&gt;Fuse（熔断）&lt;/li&gt;
+&lt;li&gt;Retry（重试）&lt;/li&gt;
+&lt;li&gt;Auth（认证、鉴权）&lt;/li&gt;
+&lt;li&gt;Log（日志收集）&lt;/li&gt;
+&lt;li&gt;Monitor（监控）&lt;/li&gt;
+&lt;li&gt;Tracing Analysis（链路追踪）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&quot;/2022/Gateway_Selection/apigateway.jpeg&quot; class=&quot;&quot;&gt;     
+&lt;img src=&quot;/2022/Gateway_Selection/backendforfrontend.png&quot; class=&quot;&quot;&gt;     
+&lt;h2 id=&quot;aspects-to-be-considered&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#aspects-to-be-considered&quot;&gt;&lt;/a&gt;Aspects to be considered&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Develepment（Programming Language）&lt;/li&gt;
+&lt;li&gt;Community activity&lt;/li&gt;
+&lt;li&gt;Performance&lt;/li&gt;
+&lt;li&gt;Stability&lt;/li&gt;
+&lt;li&gt;Update&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;some-gateway-by-programming-language&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#some-gateway-by-programming-language&quot;&gt;&lt;/a&gt;SOME GATEWAY(By programming language)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Nginx+Lua：Open Resty、Kong、Orange、Abtesting Gateway等；&lt;/li&gt;
+&lt;li&gt;Java：Zuul/Zuul 2、Spring Cloud Gateway、Kaazing KWG、gravitee、Dromara soul等；&lt;/li&gt;
+&lt;li&gt;Go：Janus、fagongzi、Grpc-Gateway；&lt;/li&gt;
+&lt;li&gt;.NET：Ocelot；&lt;/li&gt;
+&lt;li&gt;Node.js：Express Gateway、MicroGateway。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用范围、成熟度、活跃度等，主流有：Kong、Zuul/Zuul 2、Spring Cloud Gateway、apisix"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>网关选型 | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Business/" rel="tag">Business</a><a class="post-tag-none-link" href="/tags/Gateway/" rel="tag">Gateway</a></div><div class="post-time">2022-03-10</div></div></div><div class="container post-header"><h1>网关选型</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#what-why"><span class="toc-number">1.</span> <span class="toc-text">What &amp; Why</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#aspects-to-be-considered"><span class="toc-number">2.</span> <span class="toc-text">Aspects to be considered</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#some-gateway-by-programming-language"><span class="toc-number">3.</span> <span class="toc-text">SOME GATEWAY(By programming language)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx"><span class="toc-number">3.1.</span> <span class="toc-text">Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#openresty-nginx-lua"><span class="toc-number">3.2.</span> <span class="toc-text">OpenResty（Nginx + Lua）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apisix-nginx-etcd"><span class="toc-number">3.3.</span> <span class="toc-text">APISIX（Nginx + etcd）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kong-nginx-postgres"><span class="toc-number">3.4.</span> <span class="toc-text">Kong（Nginx + postgres）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zuul-java"><span class="toc-number">3.5.</span> <span class="toc-text">Zuul (Java)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#problems"><span class="toc-number">3.5.1.</span> <span class="toc-text">PROBLEMS?</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zuul2-java"><span class="toc-number">3.6.</span> <span class="toc-text">Zuul2 (Java)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spring-cloud-gateway-java"><span class="toc-number">3.7.</span> <span class="toc-text">Spring Cloud Gateway (Java)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#spring-cloud%E7%B4%A7%E5%AF%86%E9%85%8D%E5%90%88"><span class="toc-number">3.7.1.</span> <span class="toc-text">Spring Cloud紧密配合</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E6%80%A7%EF%BC%9A"><span class="toc-number">3.7.1.1.</span> <span class="toc-text">核心特性：</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#compare"><span class="toc-number">4.</span> <span class="toc-text">Compare</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#zuul-vs-zuul2-difference-between-sync-and-async-zuul2-win"><span class="toc-number">4.1.</span> <span class="toc-text">Zuul vs Zuul2 (Difference between sync and async): Zuul2 Win!</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kong-vs-apisix"><span class="toc-number">4.2.</span> <span class="toc-text">Kong vs APISIX</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spring-cloud-gateway-vs-zuul2-vs-openresty-vs-kong"><span class="toc-number">4.3.</span> <span class="toc-text">Spring Cloud Gateway vs Zuul2 vs OpenResty vs Kong</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#finally"><span class="toc-number">5.</span> <span class="toc-text">Finally</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#kong"><span class="toc-number">5.1.</span> <span class="toc-text">Kong</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#apisix"><span class="toc-number">5.2.</span> <span class="toc-text">Apisix</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zuul"><span class="toc-number">5.3.</span> <span class="toc-text">Zuul</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zuul2"><span class="toc-number">5.4.</span> <span class="toc-text">Zuul2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spring-cloud-gateway"><span class="toc-number">5.5.</span> <span class="toc-text">Spring Cloud Gateway</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA%E7%BB%BC%E5%90%88%E6%AF%94%E8%BE%83%E4%B8%8B%E6%9D%A5-spring-cloud-gateway-%E6%80%A7%E8%83%BD%E5%A5%BD-%E4%B9%9F%E6%AF%94%E8%BE%83%E6%88%90%E7%86%9F%E7%A8%B3%E5%AE%9A-%E5%B9%B6%E4%B8%94%E6%98%AFspring%E5%85%A8%E5%AE%B6%E6%A1%B6%E6%88%90%E5%91%98-%E5%92%8C%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E6%98%AF%E7%94%A8%E7%9A%84%E6%8A%80%E6%9C%AF%E6%A0%88%E6%9B%B4%E5%8C%B9%E9%85%8D"><span class="toc-number">6.</span> <span class="toc-text">结论综合比较下来，Spring Cloud Gateway 性能好，也比较成熟稳定，并且是Spring全家桶成员，和当前项目是用的技术栈更匹配。)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ref"><span class="toc-number">7.</span> <span class="toc-text">Ref</span></a></li></ol></details></div><div class="container post-content"><img src="/2022/Gateway_Selection/gateway.png" class="">
+<h2 id="what-why"><a class="header-anchor" href="#what-why"></a>What &amp; Why</h2>
+<ul>
+<li>Single entry point for all clients (面向客户端的单一入口)</li>
+<li>Common in microservice architectures （微服务需要业务聚合）</li>
+<li>Client insulation from services （客户端和服务隔离）</li>
+<li>protocol （协议转换）</li>
+<li>Security（安全）</li>
+<li>surgical routing（路由）</li>
+<li>Load Shedding （负载均衡）</li>
+<li>Rate Limit（限流）</li>
+<li>Cache（缓存）</li>
+<li>Fuse（熔断）</li>
+<li>Retry（重试）</li>
+<li>Auth（认证、鉴权）</li>
+<li>Log（日志收集）</li>
+<li>Monitor（监控）</li>
+<li>Tracing Analysis（链路追踪）</li>
+</ul>
+<img src="/2022/Gateway_Selection/apigateway.jpeg" class="">     
+<img src="/2022/Gateway_Selection/backendforfrontend.png" class="">     
+<h2 id="aspects-to-be-considered"><a class="header-anchor" href="#aspects-to-be-considered"></a>Aspects to be considered</h2>
+<ul>
+<li>Develepment（Programming Language）</li>
+<li>Community activity</li>
+<li>Performance</li>
+<li>Stability</li>
+<li>Update</li>
+</ul>
+<h2 id="some-gateway-by-programming-language"><a class="header-anchor" href="#some-gateway-by-programming-language"></a>SOME GATEWAY(By programming language)</h2>
+<ul>
+<li>Nginx+Lua：Open Resty、Kong、Orange、Abtesting Gateway等；</li>
+<li>Java：Zuul/Zuul 2、Spring Cloud Gateway、Kaazing KWG、gravitee、Dromara soul等；</li>
+<li>Go：Janus、fagongzi、Grpc-Gateway；</li>
+<li>.NET：Ocelot；</li>
+<li>Node.js：Express Gateway、MicroGateway。</li>
+</ul>
+<p>使用范围、成熟度、活跃度等，主流有：Kong、Zuul/Zuul 2、Spring Cloud Gateway、apisix</p>
+<h3 id="nginx"><a class="header-anchor" href="#nginx"></a>Nginx</h3>
+<p>Nginx 更偏向于作为流量网关。成熟，性能好，稳定。但致命弱点是，不便于自定义开发（有一部分是开发语言的原因），需要 +Lua (例如下面的 OpenResty / Kong / Apisix)。</p>
+<img src="/2022/Gateway_Selection/nginx.png" class="">
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Nginx 在启动后，会有一个 Master 进程和多个 Worker 进程，Master 进程和 Worker 进程之间是通过进程间通信进行交互的，如图所示。Worker 工作进程的阻塞点是在像 select()、epoll_wait() 等这样的 I/O 多路复用函数调用处，以等待发生数据可读 / 写事件。Nginx 采用了异步非阻塞的方式来处理请求，也就是说，Nginx 是可以同时处理成千上万个请求的。</span><br></pre></td></tr></table></figure>
+<h3 id="openresty-nginx-lua"><a class="header-anchor" href="#openresty-nginx-lua"></a>OpenResty（Nginx + Lua）</h3>
+<p>OpenResty nginx + Lua动态扩展。目前已经有基于Open Resty产生的gateway，例如 Kong，APISIX等。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">还可以将 Lua 嵌入到 Nginx 中，从而可以使用 Lua 来编写脚本，这样就可以使用 Lua 编写应用脚本，部署到 Nginx 中运行，即 Nginx 变成了一个 Web 容器；这样开发人员就可以使用 Lua 语言开发高性能Web应用了。在开发的时候使用 OpenResty 来搭建开发环境，OpenResty 将 Nginx 核心、LuaJIT、许多有用的 Lua 库和 Nginx 第三方模块打包在一起；这样只需要安装 OpenResty，不需要了解 Nginx 核心和写复杂的 C/C++ 模块就可以，只需要使用 Lua 语言进行 Web 应用开发了。</span><br></pre></td></tr></table></figure>
+<h3 id="apisix-nginx-etcd"><a class="header-anchor" href="#apisix-nginx-etcd"></a>APISIX（Nginx + etcd）</h3>
+<ul>
+<li>Develepment（Programming Language）: N</li>
+<li>Community activity: Y</li>
+<li>Performance: Y</li>
+<li>Stability: ？</li>
+<li>Update: Y</li>
+</ul>
+<img src="/2022/Gateway_Selection/apisix.webp" class="">
+<p>APISIX的性能更好，功能也更加丰富。但APISIX很年轻，或许需要更多的“检验”，开发语言的差别也会增加问题排查、处理的代价。<br>
+(可以尝试)</p>
+<h3 id="kong-nginx-postgres"><a class="header-anchor" href="#kong-nginx-postgres"></a>Kong（Nginx + postgres）</h3>
+<ul>
+<li>Develepment（Programming Language）: Y</li>
+<li>Community activity: Y</li>
+<li>Performance: N (compared with apisix)</li>
+<li>Stability: Y</li>
+<li>Update: Y</li>
+</ul>
+<p>Kong和APISIX相比较而言，从性能、功能丰富度方面 都处于下风（毕竟APISIX更新）。而且开发语言的劣势同样具有。</p>
+<img src="/2022/Gateway_Selection/Kong.png" class="">  
+<img src="/2022/Gateway_Selection/Kong2.png" class="">   
+<h3 id="zuul-java"><a class="header-anchor" href="#zuul-java"></a>Zuul (Java)</h3>
+<p>Zuul-动态路由、监控、弹性和安全。基于Servlet，属于上一代产品，同步I/O、多线程。性能不好，针对于Zuul的替代方案已经有 Zuul2 以及 Spring Gateway 两类。因此Zuul不予考虑。</p>
+<img src="/2022/Gateway_Selection/zuul-lifecycle.png" class="">
+<blockquote>
+<p>PreDecorationFilter<br>
+SendForwardFilter<br>
+RibbonRoutingFilter<br>
+SimpleHostRoutingFilter<br>
+SendResponseFilter<br>
+SendErrorFilter</p>
+</blockquote>
+<h4 id="problems"><a class="header-anchor" href="#problems"></a>PROBLEMS?</h4>
+<blockquote>
+<p>Large coupled filters
+Filter model/API is clunky</p>
+</blockquote>
+<h3 id="zuul2-java"><a class="header-anchor" href="#zuul2-java"></a>Zuul2 (Java)</h3>
+<ul>
+<li>Develepment（Programming Language）: N</li>
+<li>Community activity: Y</li>
+<li>Performance: Y</li>
+<li>Stability: ？</li>
+<li>Update: Y</li>
+</ul>
+<p>服务发现、负载均衡、连接池、状态分类、重试、请求凭证、HTTP/2、TLS、代理协议、GZip、WebSocket<br>
+基于 Netty，Zuul 2.x最大的改进就是基于Netty Server实现了异步I/O来接入请求，同时基于Netty Client实现了到后端业务服务API的请求。这样就可以实现更高的性能、更低的延迟。此外也调整了Filter类型，将原来的三个核心Filter显式命名为Inbound Filter、Endpoint Filter和Outbound Filter，如图7-8所示。</p>
+<img src="/2022/Gateway_Selection/Zuul2.png" class="">
+<blockquote>
+<p>Major rewrite<br>
+Not backwards compatible with Zuul 1<br>
+Non-blocking/Netty<br>
+Not released yet<br>
+HTTP/2 and Websockets in the future<br>
+Reinvents many things from Spring</p>
+</blockquote>
+<h3 id="spring-cloud-gateway-java"><a class="header-anchor" href="#spring-cloud-gateway-java"></a>Spring Cloud Gateway (Java)</h3>
+<ul>
+<li>Develepment（Programming Language）: Y</li>
+<li>Community activity: Y</li>
+<li>Performance: Y</li>
+<li>Stability: Y</li>
+<li>Update: Y</li>
+</ul>
+<p>Java 8、Spring 5.0、Spring Boot 2.0、Reactor -&gt; Spring family</p>
+<h4 id="spring-cloud紧密配合"><a class="header-anchor" href="#spring-cloud紧密配合"></a>Spring Cloud紧密配合</h4>
+<p>目前使用了nacos作为配置中心，可以和 gateway 搭配。</p>
+<blockquote>
+<p>Java 8/Spring 5/Boot 2
+WebFlux/Reactor
+HTTP/2 and Websockets
+Finchley Release Train</p>
+</blockquote>
+<p>Spring Cloud Gateway里明确地区分了Router和Filter，内置了非常多的开箱即用功能，并且都可以通过Spring Boot配置或手工编码链式调用来使用。<br>
+内置了10种Router，直接配置就可以随心所欲地根据Header、Path、Host或Query来做路由。</p>
+<h5 id="核心特性："><a class="header-anchor" href="#核心特性："></a>核心特性：</h5>
+<ul>
+<li>通过请求参数匹配路由；</li>
+<li>通过断言和过滤器实现路由；</li>
+<li>与Hystrix熔断集成；</li>
+<li>与Spring Cloud DiscoveryClient集成；</li>
+<li>非常方便地实现断言和过滤器；</li>
+<li>请求限流；</li>
+<li>路径重写。</li>
+</ul>
+<h2 id="compare"><a class="header-anchor" href="#compare"></a>Compare</h2>
+<h3 id="zuul-vs-zuul2-difference-between-sync-and-async-zuul2-win"><a class="header-anchor" href="#zuul-vs-zuul2-difference-between-sync-and-async-zuul2-win"></a><strong>Zuul vs Zuul2 (Difference between sync and async): Zuul2 Win!</strong></h3>
+<ul>
+<li><strong>Zuul(block) disadvantages</strong></li>
+<li><em>Zuul 1</em> was built on the Servlet framework</li>
+<li>Blocking and mltithreaded, means they process requests by using one thread per connection.</li>
+<li>I/O oprations are done by choosing a worker threade from athread pool to execute the I/O, and the request thread is blocked until the worker thread completes, and the worker thread notifies the request thread when its work is complete.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">This works well with modern multi-core AWS instances handling 100’s of concurrent connections each. But when things go wrong, like backend latency increases or device retries due to errors, the count of active connections and threads increases. When this happens, nodes get into trouble and can go into a death spiral where backed up threads spike server loads and overwhelm the cluster. To offset these risks, we built in throttling mechanisms and libraries (e.g., Hystrix) to help keep our blocking systems stable during these events.</span><br></pre></td></tr></table></figure>
+<img src="/2022/Gateway_Selection/Multithreaded_System_Architecture.png" class="">
+<ul>
+<li><strong>Zuul2(async) advantages</strong></li>
+<li><em>Zuul2</em> async.</li>
+<li>One thread per CPU core handling all requests and responses. The lifecycle of the request and response is handled through events and callbacks.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Because there is not a thread for each request, the cost of connections is cheap. This is the cost of a file descriptor, and the addition of a listener. Whereas the cost of a connection in the blocking model is a thread and with heavy memory and system overhead. There are some efficiency gains because data stays on the same CPU, making better use of CPU level caches and requiring fewer context switches. The fallout of backend latency and “retry storms” (customers and devices retrying requests when problems occur) is also less stressful on the system because connections and increased events in the queue are far less expensive than piling up threads.</span><br></pre></td></tr></table></figure>
+<img src="/2022/Gateway_Selection/Asynchronous_and_Non-blocking_System_Architecture.png" class="">
+<ul>
+<li><strong>Zuul2(async) disadvantages &amp; Zuul(block) advantages</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">The advantages of async systems sound glorious, but the above benefits come at a cost to operations. Blocking systems are easy to grok and debug. A thread is always doing a single operation so the thread’s stack is an accurate snapshot of the progress of a request or spawned task; and a thread dump can be read to follow a request spanning multiple threads by following locks. An exception thrown just pops up the stack. A “catch-all” exception handler can cleanup everything that isn’t explicitly caught.</span><br><span class="line"></span><br><span class="line">Async, by contrast, is callback based and driven by an event loop. The event loop’s stack trace is meaningless when trying to follow a request. It is difficult to follow a request as events and callbacks are processed, and the tools to help with debugging this are sorely lacking in this area. Edge cases, unhandled exceptions, and incorrectly handled state changes create dangling resources resulting in ByteBuf leaks, file descriptor leaks, lost responses, etc. These types of issues have proven to be quite difficult to debug because it is difficult to know which event wasn’t handled properly or cleaned up appropriately.</span><br></pre></td></tr></table></figure>
+<h3 id="kong-vs-apisix"><a class="header-anchor" href="#kong-vs-apisix"></a><strong>Kong vs APISIX</strong></h3>
+<img src="/2022/Gateway_Selection/Kong_vs_APISIX.png" class="">
+<h3 id="spring-cloud-gateway-vs-zuul2-vs-openresty-vs-kong"><a class="header-anchor" href="#spring-cloud-gateway-vs-zuul2-vs-openresty-vs-kong"></a><strong>Spring Cloud Gateway vs Zuul2 vs OpenResty vs Kong</strong></h3>
+<table>
+<thead>
+<tr>
+<th>网关</th>
+<th>限流</th>
+<th>鉴权</th>
+<th>监控</th>
+<th>易用性</th>
+<th>可维护性</th>
+<th>成熟度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Cloud Gateway</td>
+<td>IP、用户、集群限流，提供相应接口扩展</td>
+<td>普通鉴权、OAuth2.0</td>
+<td>Gateway Metrics Filter</td>
+<td>简单</td>
+<td>Spring全家桶成员、扩展性强、易配置、易维护</td>
+<td>成熟</td>
+</tr>
+<tr>
+<td>Zuul2</td>
+<td>配置文件，配置集群、单服务器限流、Filter扩展</td>
+<td>Filter实现</td>
+<td>Filter实现</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>OpenResty</td>
+<td>Lua</td>
+<td>Lua</td>
+<td>需要开发</td>
+<td>简单易用，但需要Lua开发</td>
+<td>可维护性差</td>
+<td>成熟</td>
+</tr>
+<tr>
+<td>Kong</td>
+<td>根据时间、用户限流。可在源码基础上开发http://coding.idealworld.group/2021/05/26/reflections-of-middle-platform-api-gateway-selection/</td>
+<td>普通鉴权、OAuth2.0、Key Auth、HMAC</td>
+<td>上报datadog，记录请求数量、数据量、应答数据量、接收发送时间间隔、状态码数量、Kong内耗时</td>
+<td>简单易用，API转发通过管理接口配置。需要Lua开发</td>
+<td>维护需要Lua</td>
+<td>成熟</td>
+</tr>
+</tbody>
+</table>
+<h2 id="finally"><a class="header-anchor" href="#finally"></a>Finally</h2>
+<h3 id="kong"><a class="header-anchor" href="#kong"></a>Kong</h3>
+<ol>
+<li>nginx + lua，开发不友好</li>
+<li>仅支持PostgreSQL，增加运维成本，单点数据库</li>
+<li>在不修改源码的情况下，无法自定义Nginx配置文件，重启后重新初始化所有变更的Nginx配置文件</li>
+</ol>
+<h3 id="apisix"><a class="header-anchor" href="#apisix"></a>Apisix</h3>
+<ol>
+<li>nginx + lua，开发不友好</li>
+<li>待检验</li>
+</ol>
+<h3 id="zuul"><a class="header-anchor" href="#zuul"></a>Zuul</h3>
+<ol>
+<li>性能差，已有替代品</li>
+</ol>
+<h3 id="zuul2"><a class="header-anchor" href="#zuul2"></a>Zuul2</h3>
+<ol>
+<li>性能好，但 Sprintg Cloud 没有兼容计划，与目前使用的技术栈结合的不是很好</li>
+<li>还不太稳定</li>
+</ol>
+<h3 id="spring-cloud-gateway"><a class="header-anchor" href="#spring-cloud-gateway"></a>Spring Cloud Gateway</h3>
+<ol>
+<li>性能比较好（not best）</li>
+</ol>
+<h2 id="结论综合比较下来-spring-cloud-gateway-性能好-也比较成熟稳定-并且是spring全家桶成员-和当前项目是用的技术栈更匹配"><a class="header-anchor" href="#结论综合比较下来-spring-cloud-gateway-性能好-也比较成熟稳定-并且是spring全家桶成员-和当前项目是用的技术栈更匹配"></a>结论综合比较下来，Spring Cloud Gateway 性能好，也比较成熟稳定，并且是Spring全家桶成员，和当前项目是用的技术栈更匹配。)</h2>
+<h2 id="ref"><a class="header-anchor" href="#ref"></a>Ref</h2>
+<blockquote>
+<p>ref: <a target="_blank" rel="noopener" href="https://spencergibb.netlify.app/preso/detroit-cf-api-gateway-2017-03/#/">The author of spring cloud gateway’s PPT</a><br>
+ref: <a target="_blank" rel="noopener" href="https://microservices.io/patterns/apigateway.html">What is api gateway</a><br>
+ref: <a target="_blank" rel="noopener" href="https://netflixtechblog.com/zuul-2-the-netflix-journey-to-asynchronous-non-blocking-systems-45947377fb5c">Netflix blog: Zuul2</a><br>
+ref: <a target="_blank" rel="noopener" href="https://netflixtechblog.com/optimizing-the-netflix-api-5c9ac715cf19">Netflix blog: Optimizing the Netflix API</a><br>
+ref: <a target="_blank" rel="noopener" href="https://microservices.io/patterns/microservices.html">Microservice Architecture</a><br>
+ref: <a target="_blank" rel="noopener" href="http://blog.itpub.net/31562044/viewspace-2651041/">百亿流量微服务网关的设计与实现</a><br>
+ref: <a target="_blank" rel="noopener" href="http://coding.idealworld.group/2021/05/26/reflections-of-middle-platform-api-gateway-selection/">中台反思：云原生下API网关的选择</a><br>
+ref: <a target="_blank" rel="noopener" href="https://www.yihuo.tech/news/api-gateways-apache-apisix-and-kong-selection-comparison/">API 网关 Apache APISIX 和 Kong 的选型对比</a><br>
+ref: <a target="_blank" rel="noopener" href="https://blog.csdn.net/star1210644725/article/details/113399714">API网关架构与技术选型</a><br>
+ref: <a target="_blank" rel="noopener" href="https://www.daimajiaoliu.com/daima/47973c73d100400">API网关介绍及选型(kong)</a><br>
+ref: <a target="_blank" rel="noopener" href="https://wakzz.cn/2021/03/06/%E6%9E%B6%E6%9E%84/API%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E8%B0%83%E7%A0%94/">API网关选型调研</a><br>
+ref: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/wtzbk/p/14009219.html">微服务下的网关如何选择(提到了soul)</a><br>
+ref: <a target="_blank" rel="noopener" href="https://www.infoq.cn/article/comparing-api-gateway-performances/">API 网关性能比较：NGINX vs. ZUUL vs. Spring Cloud Gateway vs. Linkerd</a><br>
+ref: <a target="_blank" rel="noopener" href="https://juejin.cn/post/6882952033712734216">API 网关选型及包含 BFF 的架构设计</a><br>
+ref: <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a2f292221b5c">5、微服务网关</a><br>
+ref: <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/280850489">如何评价 spring cloud gateway? 对比 zuul2.0 主要的优势是什么?</a><br>
+ref: <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ebe4636a13aa">如何选择和设计微服务网关</a><br>
+ref: <a target="_blank" rel="noopener" href="https://www.apiseven.com/zh/blog/why-we-need-Apache-APISIX">有了 NGINX 和 Kong，为什么还需要 Apache APISIX</a><br>
+ref: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/109458069">浅谈 k8s ingress controller 选型</a></p>
+</blockquote>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2022/Gateway_Selection/';
+var disqus_title = '网关选型';
+var disqus_url = 'https://blog.weasley.cn/2022/Gateway_Selection/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="(没有查到根本原因)"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Linux - NVIDIA 造成 kernel crash | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Linux/" rel="tag">Linux</a></div><div class="post-time">2022-07-10</div></div></div><div class="container post-header"><h1>Linux - NVIDIA 造成 kernel crash</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">分析vmcore</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">2.1.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmcore-dmesg-txt"><span class="toc-number">2.2.</span> <span class="toc-text">vmcore-dmesg.txt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmcore"><span class="toc-number">2.3.</span> <span class="toc-text">vmcore</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">nvidia-smi 查看显卡信息</span></a></li></ol></details></div><div class="container post-content"><p>(没有查到根本原因)</p>
+<h1>背景</h1>
+<p>服务运行中，发现服务器频繁不定时重启。发现是kernel crash造成的。<br>
+查看 /var/crash/ 下的log，发现<br>
+<code>BUG: unable to handle kernel paging request at xxxxxxx</code></p>
+<h1>分析vmcore</h1>
+<h2 id="环境"><a class="header-anchor" href="#环境"></a>环境</h2>
+<ul>
+<li>crash工具</li>
+<li>崩溃转储文件(vmcore)</li>
+<li>发生崩溃的内核映像文件(vmlinux)，包含调试内核所需调试信息</li>
+</ul>
+<p>需要安装：kernel-debuginfo kernel-debuginfo-common</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">yum install crash</span><br><span class="line">wget http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-common-x86_64-`uname -r`.rpm</span><br><span class="line">wget http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-`uname -r`.rpm</span><br><span class="line">rpm -ivh *.rpm</span><br></pre></td></tr></table></figure>
+<p>安装完成后，在/lib/debug/lib/modules找到vmlinux内核映像文件</p>
+<h2 id="vmcore-dmesg-txt"><a class="header-anchor" href="#vmcore-dmesg-txt"></a>vmcore-dmesg.txt</h2>
+<img src="/2022/Linux_NVIDIA_cause_crash/vmcore-dmesg.png" class="">
+<h2 id="vmcore"><a class="header-anchor" href="#vmcore"></a>vmcore</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">crash /lib/debug/lib/modules/3.10.0-957.el7.x86_64/vmlinux /var/crash/127.0.0.1-2020-04-04-14\:10\:45/vmcore</span><br></pre></td></tr></table></figure>
+<img src="/2022/Linux_NVIDIA_cause_crash/vmcore.png" class="">
+<p>执行 bt</p>
+<img src="/2022/Linux_NVIDIA_cause_crash/crash-bt.png" class="">
+<p>执行 sym</p>
+<img src="/2022/Linux_NVIDIA_cause_crash/crash-sym.png" class="">
+<h1>nvidia-smi 查看显卡信息</h1>
+<p>nvidia-smi gpu fan 显示 error</p>
+<img src="/2022/Linux_NVIDIA_cause_crash/nvidia-smi-err.png" class="">
+<p>nvidia-smi -q</p>
+<img src="/2022/Linux_NVIDIA_cause_crash/nvidia-q.png" class="">  
+<img src="/2022/Linux_NVIDIA_cause_crash/nvidia-q-2.png" class="">
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2022/Linux_NVIDIA_cause_crash/';
+var disqus_title = 'Linux - NVIDIA 造成 kernel crash';
+var disqus_url = 'https://blog.weasley.cn/2022/Linux_NVIDIA_cause_crash/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>
