@@ -1,4 +1,4 @@
-title: DISCO NAS: Immich
+title: DiscoNAS Immich
 date: 2025-07-07
 tags: [Life, Technology, NAS]
 categories: [Life, Technology, NAS]
