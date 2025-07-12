@@ -1,0 +1,74 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&gt;完全 背包问题&lt;/h1&gt;
+&lt;h2 id=&quot;1-完全背包&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#1-完全背包&quot;&gt;&lt;/a&gt;1. 完全背包&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有N种物品和一个容量为T的背包，每种物品都就可以选择任意多个，第i种物品的价值为P[i]，体积为V[i]，求解：选哪些物品放入背包，可卡因使得这些物品的价值最大，并且体积总和不超过背包容量。"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Algorithm-背包问题_完全背包 | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Dynamic-programming/" rel="tag">Dynamic programming</a></div><div class="post-time">2021-06-08</div></div></div><div class="container post-header"><h1>Algorithm-背包问题_完全背包</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">完全 背包问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85"><span class="toc-number">1.1.</span> <span class="toc-text">1. 完全背包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">2. 分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E8%B4%AA%E5%BF%83%EF%BC%9F"><span class="toc-number">1.2.1.</span> <span class="toc-text">a. 贪心？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%A7%A3%E5%86%B3"><span class="toc-number">1.3.</span> <span class="toc-text">3. 解决</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%B2%BB"><span class="toc-number">1.3.1.</span> <span class="toc-text">分治</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="toc-number">1.3.2.</span> <span class="toc-text">动态规划</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%92%E5%BD%92"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">递归</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">迭代</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">空间优化</span></a></li></ol></li></ol></li></ol></li></ol></details></div><div class="container post-content"><h1>完全 背包问题</h1>
+<h2 id="1-完全背包"><a class="header-anchor" href="#1-完全背包"></a>1. 完全背包</h2>
+<blockquote>
+<p>有N种物品和一个容量为T的背包，每种物品都就可以选择任意多个，第i种物品的价值为P[i]，体积为V[i]，求解：选哪些物品放入背包，可卡因使得这些物品的价值最大，并且体积总和不超过背包容量。</p>
+</blockquote>
+<blockquote>
+<p>跟01背包一样，完全背包也是一个很经典的动态规划问题，不同的地方在于01背包问题中，每件物品最多选择一件，而在完全背包问题中，只要背包装得下，每件物品可以选择任意多件。从每件物品的角度来说，与之相关的策略已经不再是选或者不选了，而是有取0件、取1件、取2件…直到取⌊T/Vi⌋（向下取整）件。</p>
+</blockquote>
+<h2 id="2-分析"><a class="header-anchor" href="#2-分析"></a>2. 分析</h2>
+<h3 id="a-贪心？"><a class="header-anchor" href="#a-贪心？"></a>a. 贪心？</h3>
+<p>根据性价比排序，性价比从高到底取。<br>
+结论：不可行<br>
+反例：如果一个背包的容量为10，有三件物品可供选择，分别是</p>
+<table>
+<thead>
+<tr>
+<th>物品</th>
+<th>价值</th>
+<th>体积</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>B</td>
+<td>8</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<p>按照性价比，必然取一个B。但是取两个A明显收益更高。因此贪心不可行。</p>
+<h2 id="3-解决"><a class="header-anchor" href="#3-解决"></a>3. 解决</h2>
+<h3 id="分治"><a class="header-anchor" href="#分治"></a>分治</h3>
+<p>和之前相似，直接递归即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span>[] w, <span class="type">int</span>[] v, <span class="type">int</span> c)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> cal(w, v, w.length, c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">cal</span><span class="params">(<span class="type">int</span> w[], <span class="type">int</span> v[], <span class="type">int</span> i, <span class="type">int</span> j)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (i &lt; <span class="number">0</span> || j &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (w[i] &gt; j) &#123;</span><br><span class="line">    result = cal(w, v, i - <span class="number">1</span>, j);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (i &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    result = v[i] * Math.floor(j / w[i]);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k * w[i] &lt; j; k++) &#123;</span><br><span class="line">      <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> cal(w, v, i - <span class="number">1</span>, j - k * w[i]) + k * v[i];</span><br><span class="line">      result = Math.max(result, tmp);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="动态规划"><a class="header-anchor" href="#动态规划"></a>动态规划</h3>
+<h4 id="递归"><a class="header-anchor" href="#递归"></a><strong>递归</strong></h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> w[], <span class="type">int</span> v[], <span class="type">int</span> c)</span> &#123;</span><br><span class="line">  <span class="type">int</span>[][] result = <span class="keyword">new</span> <span class="title class_">int</span>[][];</span><br><span class="line">  <span class="keyword">return</span> cal(w, v, result, w.length, c);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">cal</span><span class="params">(<span class="type">int</span> w[], <span class="type">int</span> v[], <span class="type">int</span>[][] result, <span class="type">int</span> i, <span class="type">int</span> j)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (result[i][j] != <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> result[i][j];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (i &lt; <span class="number">0</span> || j &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (w[i] &gt; j) &#123;</span><br><span class="line">      result[i][j] = cal(w, v, result, i - <span class="number">1</span>, j);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k * w[i] &lt;= j; k++) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">tmp</span> <span class="operator">=</span> cal(w, v, result, i, j - k * w[i]);</span><br><span class="line">        result[i][j] = Math.max(result[i][j], tmp);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="迭代"><a class="header-anchor" href="#迭代"></a><strong>迭代</strong></h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> w[], <span class="type">int</span> v[], <span class="type">int</span> c)</span> &#123;</span><br><span class="line">  <span class="comment">// 初始化为 r = 0 / r[i][0] = 0</span></span><br><span class="line">  <span class="type">int</span>[][] result = <span class="keyword">new</span> <span class="title class_">int</span>[][];</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; w.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt;= c; j++) &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>; k * w[i] &lt;= j; k++) &#123;</span><br><span class="line">        result[i][j] = Math.max(result[i][j], result[i - <span class="number">1</span>][j - k * w[i]] + k * v[i]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result[w.length][c];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="空间优化"><a class="header-anchor" href="#空间优化"></a><strong>空间优化</strong></h4>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">solution</span><span class="params">(<span class="type">int</span> w[], <span class="type">int</span> v[], <span class="type">int</span> c)</span> &#123;</span><br><span class="line">  <span class="comment">// 初始化为 r = 0 / r[0] = 0</span></span><br><span class="line">  <span class="type">int</span>[] result = <span class="keyword">new</span> <span class="title class_">int</span>[];</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; w.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> w[i]; j &lt;= c; j++) &#123;</span><br><span class="line">      result[j] = Math.max(result[j], result[j - w[i]] + v[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result[c];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>原文作者：<a target="_blank" rel="noopener" href="https://home.cnblogs.com/u/mfrank/">弗兰克的猫</a><br>
+原文链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mfrank/p/10533701.html">https://www.cnblogs.com/mfrank/p/10533701.html</a></p>
+</blockquote>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2021/Algorithm_package_complex/';
+var disqus_title = 'Algorithm-背包问题_完全背包';
+var disqus_url = 'https://blog.weasley.cn/2021/Algorithm_package_complex/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>

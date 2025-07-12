@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <url>
+        <loc>https://blog.weasley.cn</loc>
+        <changefreq>daily</changefreq>
+        <priority>1</priority>
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/maven/</loc>
+        <lastmod>2025-07-12T10:31:19.824Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/pandoc/</loc>
+        <lastmod>2025-07-12T10:31:19.824Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/ssh/</loc>
+        <lastmod>2025-07-12T10:31:19.824Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2025/Why_reactor/</loc>
+        <lastmod>2025-07-12T10:31:19.367Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2025/kyoto_and_osaka/</loc>
+        <lastmod>2025-07-12T10:31:19.367Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Shell_base/</loc>
+        <lastmod>2025-07-12T10:31:19.366Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/TengxServer_Bitwarden/</loc>
+        <lastmod>2025-07-12T10:31:19.366Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/TengxServer_Chevereto/</loc>
+        <lastmod>2025-07-12T10:31:19.366Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Vim_guide/</loc>
+        <lastmod>2025-07-12T10:31:19.366Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Vim_plugin/</loc>
+        <lastmod>2025-07-12T10:31:19.366Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Why_Events_Are_A_Bad_Idea/</loc>
+        <lastmod>2025-07-12T10:31:19.366Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Why_Threads_Are_A_Bad_IDEA/</loc>
+        <lastmod>2025-07-12T10:31:19.366Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2023/Self-file/</loc>
+        <lastmod>2025-07-12T10:31:19.365Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Seda/</loc>
+        <lastmod>2025-07-12T10:31:19.363Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Reaching_agreement_in_the_presence_of_faults/</loc>
+        <lastmod>2025-07-12T10:31:19.354Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week9_Managing_Resource_Trade-Offs-II_code/</loc>
+        <lastmod>2025-07-12T10:31:19.352Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week8_Managing_Resource_Trade-Offs_code/</loc>
+        <lastmod>2025-07-12T10:31:19.339Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week8_Managing_Resource_Trade-Offs_lecture/</loc>
+        <lastmod>2025-07-12T10:31:19.339Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week7_Managing_Sustainable_Competitive_Advantage_II_lecture/</loc>
+        <lastmod>2025-07-12T10:31:19.338Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week7_Managing_Sustainable_Competitive_Advantage_II_code/</loc>
+        <lastmod>2025-07-12T10:31:19.337Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week5_Customer_lifetime_value_lecture/</loc>
+        <lastmod>2025-07-12T10:31:19.333Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week6_Managing_Sustainable_Competitive_Advantage_code/</loc>
+        <lastmod>2025-07-12T10:31:19.333Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week6_Managing_Sustainable_Competitive_Advantage_lecture/</loc>
+        <lastmod>2025-07-12T10:31:19.333Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week5_Customer_lifetime_value_code/</loc>
+        <lastmod>2025-07-12T10:31:19.332Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week4_choice_model_code/</loc>
+        <lastmod>2025-07-12T10:31:19.328Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week4_choice_model_lecture/</loc>
+        <lastmod>2025-07-12T10:31:19.328Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week3_factor_analysis_lecture/</loc>
+        <lastmod>2025-07-12T10:31:19.327Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week3_factor_analysis_code/</loc>
+        <lastmod>2025-07-12T10:31:19.325Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week2_segmentation_lecture/</loc>
+        <lastmod>2025-07-12T10:31:19.322Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week1_getting_start/</loc>
+        <lastmod>2025-07-12T10:31:19.319Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week2_segmentation_code/</loc>
+        <lastmod>2025-07-12T10:31:19.319Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_week1_descriptive_analysis/</loc>
+        <lastmod>2025-07-12T10:31:19.315Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R_language_introduce/</loc>
+        <lastmod>2025-07-12T10:31:19.314Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2023/R_final/</loc>
+        <lastmod>2025-07-12T10:31:19.307Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Process_Scheduling_In_Linux/</loc>
+        <lastmod>2025-07-12T10:31:19.281Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2024/R-studio/</loc>
+        <lastmod>2025-07-12T10:31:19.281Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Linux_NVIDIA_cause_crash/</loc>
+        <lastmod>2025-07-12T10:31:19.260Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Java_Exception_Custom/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/JSONPATH_guide/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2023/Last_dance/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Leetcode_1818_Minimum_Absolute_Sum_Difference/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Leetcode_191_Number_of_1_Bits/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Leetcode_203_Remove_Linked_List_Elements/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Leetcode_274_H_Index/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Leetcode_451_Sort_Characters_By_Frequency/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Leetcode_981_Time_Based_Key_Value_Store/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Leetcode_645_Set_Mismatch/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2023/Letter_for_dear/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2023/Letter_for_dear_2/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Linux_AVX512_cause_crash/</loc>
+        <lastmod>2025-07-12T10:31:19.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Gateway_Selection_Detail/</loc>
+        <lastmod>2025-07-12T10:31:19.245Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Gateway_Selection/</loc>
+        <lastmod>2025-07-12T10:31:19.237Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2025/Event_Loop/</loc>
+        <lastmod>2025-07-12T10:31:19.232Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2023/FFmpeg-for-amrwb-bandwidth-efficient/</loc>
+        <lastmod>2025-07-12T10:31:19.232Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/EventDriven_or_Procedure/</loc>
+        <lastmod>2025-07-12T10:31:19.229Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2025/DiscoNAS_Immich/</loc>
+        <lastmod>2025-07-12T10:31:19.228Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/ByzantineGeneralsProblem-translation/</loc>
+        <lastmod>2025-07-12T10:31:19.214Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/ByzantineGeneralsProblem/</loc>
+        <lastmod>2025-07-12T10:31:19.214Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Command_ack/</loc>
+        <lastmod>2025-07-12T10:31:19.214Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Command_base/</loc>
+        <lastmod>2025-07-12T10:31:19.214Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2025/DIscoNAS_Media_Library/</loc>
+        <lastmod>2025-07-12T10:31:19.214Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Path_Enumerations/</loc>
+        <lastmod>2025-07-12T10:31:19.211Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Nested_Sets/</loc>
+        <lastmod>2025-07-12T10:31:19.208Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Closure_Table/</loc>
+        <lastmod>2025-07-12T10:31:19.205Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/Build_Self_DDD_Proj/</loc>
+        <lastmod>2025-07-12T10:31:19.204Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Business_Mysql_Storing_Hierarchical_Data_In_A_Database_Adjacency_List/</loc>
+        <lastmod>2025-07-12T10:31:19.204Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2023/Build-spring-project/</loc>
+        <lastmod>2025-07-12T10:31:19.203Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2025/Build-spring-web-project/</loc>
+        <lastmod>2025-07-12T10:31:19.203Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Algorithm_package_complex/</loc>
+        <lastmod>2025-07-12T10:31:19.201Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Algorithm_package_multiple/</loc>
+        <lastmod>2025-07-12T10:31:19.201Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/(TODO)Algorithm_Segment_Tree/</loc>
+        <lastmod>2025-07-12T10:31:19.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/(TODO)Business_Priority_MQ/</loc>
+        <lastmod>2025-07-12T10:31:19.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/(TODO)CallbackOrMessageQueue/</loc>
+        <lastmod>2025-07-12T10:31:19.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/(TODO)Code_Without_ThreadPool/</loc>
+        <lastmod>2025-07-12T10:31:19.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/(TODO)Docker_Substitute_Podman/</loc>
+        <lastmod>2025-07-12T10:31:19.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2022/(TODO)Window_TinyLFU/</loc>
+        <lastmod>2025-07-12T10:31:19.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://blog.weasley.cn/2021/Algorithm_package_01/</loc>
+        <lastmod>2025-07-12T10:31:19.200Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+</urlset>
+<!-- XML Sitemap generated by Hexo SEO Friendly Sitemap Generator -->

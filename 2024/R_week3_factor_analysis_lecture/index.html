@@ -1,0 +1,77 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&gt;Prepare&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;收集数据：通过调查问卷收集目标消费者群体对选定品牌在关键属性上的评价。&lt;/li&gt;
+&lt;li&gt;选择属性：确定哪些属性对目标消费者群体来说最重要。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Perceptual mapping&lt;/h1&gt;
+&lt;p&gt;感知映射，可视化现实消费者观点"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>R[week3] Factor Analysis For Perceptual Maps Lecture | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/R-Language/" rel="tag">R-Language</a></div><div class="post-time">2024-03-22</div></div></div><div class="container post-header"><h1>R[week3] Factor Analysis For Perceptual Maps Lecture</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">Perceptual mapping</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#factor-analysis"><span class="toc-number">2.1.</span> <span class="toc-text">Factor Analysis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#create-perceptual-map"><span class="toc-number">2.2.</span> <span class="toc-text">Create perceptual map</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">Explain</span></a></li></ol></details></div><div class="container post-content"><h1>Prepare</h1>
+<ol>
+<li>收集数据：通过调查问卷收集目标消费者群体对选定品牌在关键属性上的评价。</li>
+<li>选择属性：确定哪些属性对目标消费者群体来说最重要。</li>
+</ol>
+<h1>Perceptual mapping</h1>
+<p>感知映射，可视化现实消费者观点</p>
+<img src="/2024/R_week3_factor_analysis_lecture/R_week3_perceptual_mapping.png" class="">
+<h2 id="factor-analysis"><a class="header-anchor" href="#factor-analysis"></a>Factor Analysis</h2>
+<ol>
+<li>数据简化，降维到少量factor，使用因子分析来减少属性的数量，只保留最能解释数据变异的因子。</li>
+<li>压缩成简短的相似特征，构建感知图。</li>
+<li>解释因子：根据属性的因子载荷（即属性与因子之间的相关性），解释每个因子代表的潜在概念。</li>
+</ol>
+<h2 id="create-perceptual-map"><a class="header-anchor" href="#create-perceptual-map"></a>Create perceptual map</h2>
+<ol>
+<li>选择因子：根据因子分析的结果，选择两个或三个最主要的因子来创建感知图。</li>
+<li>计算因子得分：为每个品牌计算每个因子的得分，这些得分将用于在感知图上定位品牌。</li>
+<li>绘制感知图：在一个二维平面上，以选定的因子为坐标轴，绘制每个品牌的点。</li>
+</ol>
+<div style="background-color:#f0f0f0; padding:10px">
+<blockquote>
+<p>Pearson相关系数（Pearson Correlation Coefficient）</p>
+</blockquote>
+<p>是用来衡量两个变量之间线性相关程度的统计指标。其计算公式如下：</p>
+<p>$$
+r = \frac{\sum((x_i - \bar{x}) \cdot (y_i - \bar{y}))}{\sqrt{\sum(x_i - \bar{x})^2} \cdot \sqrt{\sum(y_i - \bar{y})^2}}
+$$</p>
+<p>相关系数的值范围从 -1 到 1，其中 -1 表示完全负相关，1 表示完全正相关，0 表示没有线性相关性。</p>
+</div>
+<h1>Explain</h1>
+<ol>
+<li>分析品牌位置：观察品牌在感知图上的相对位置，了解它们在消费者心目中的优势和劣势。</li>
+<li>制定策略：基于感知图的结果，制定品牌定位策略，以改善品牌形象或区分竞争对手。</li>
+</ol>
+<img src="/2024/R_week3_factor_analysis_lecture/R_week3_jobs.png" class="">
+</div></div><script type="text/x-mathjax-config">
+   MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    }); 
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2024/R_week3_factor_analysis_lecture/';
+var disqus_title = 'R[week3] Factor Analysis For Perceptual Maps Lecture';
+var disqus_url = 'https://blog.weasley.cn/2024/R_week3_factor_analysis_lecture/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>
