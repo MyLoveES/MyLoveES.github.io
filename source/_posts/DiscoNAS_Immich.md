@@ -130,4 +130,4 @@ NAS上模型目录结构
 
 ## 2. immich 配置
 
-![image.png](DiscoNAS_Immich/image.png)
+{% asset_img image.png %}

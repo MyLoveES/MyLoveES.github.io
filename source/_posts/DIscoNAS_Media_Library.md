@@ -104,23 +104,23 @@ services:
 
 ### 1.1 修改密码
 
-![image.png](DiscoNAS_Media_Library/image.png)
+{% asset_img image.png %}
 
 ### 1.2 修改端口号
 
-![image.png](DiscoNAS_Media_Library/image%201.png)
+{% asset_img image%201.png %}
 
 ### 1.3 修改下载路径
 
-![image.png](DiscoNAS_Media_Library/image%202.png)
+{% asset_img image%202.png %}
 
 ### 1.4 修改语言
 
-![image.png](DiscoNAS_Media_Library/image%203.png)
+{% asset_img image%203.png %}
 
 ### 1.5 添加分类
 
-![image.png](DiscoNAS_Media_Library/image%204.png)
+{% asset_img image%204.png %}
 
 ## 2. Jackett
 
@@ -128,15 +128,15 @@ services:
 
 后面需要配置到 NASTOOL 中
 
-![image.png](DiscoNAS_Media_Library/image%205.png)
+{% asset_img image%205.png %}
 
 ### 2.2 添加公开的 INDEXER
 
 需要等待几分钟，才能添加完
 
-![image.png](DiscoNAS_Media_Library/image%206.png)
+{% asset_img image%206.png %}
 
-![image.png](DiscoNAS_Media_Library/image%207.png)
+{% asset_img image%207.png %}
 
 ## 3. Jellyfin
 
@@ -144,21 +144,21 @@ services:
 
 - 选择 NASTOOL 链接后的目录
 
-![image.png](DiscoNAS_Media_Library/image%208.png)
+{% asset_img image%208.png %}
 
-![image.png](DiscoNAS_Media_Library/image%209.png)
+{% asset_img image%209.png %}
 
-![image.png](DiscoNAS_Media_Library/image%2010.png)
+{% asset_img image%2010.png %}
 
 ### 3.2 生成API密钥
 
 后面给 NASTOOL 用
 
-![image.png](DiscoNAS_Media_Library/image%2011.png)
+{% asset_img image%2011.png %}
 
 ### 3.3 指定转码
 
-![image.png](DiscoNAS_Media_Library/image%2012.png)
+{% asset_img image%2012.png %}
 
 ## 4. NASTOOL
 
@@ -166,44 +166,44 @@ services:
 
 https://www.themoviedb.org/
 
-![image.png](DiscoNAS_Media_Library/image%2013.png)
+{% asset_img image%2013.png %}
 
-![image.png](DiscoNAS_Media_Library/image%2014.png)
+{% asset_img image%2014.png %}
 
-![image.png](DiscoNAS_Media_Library/image%2015.png)
+{% asset_img image%2015.png %}
 
 ### 4.2 媒体库
 
 - 注意要用NASTOOL链接后的目录
 
-![image.png](DiscoNAS_Media_Library/image%2016.png)
+{% asset_img image%2016.png %}
 
 ### 4.3 目录同步
 
 - 从 下载目录 到 转换后的目录
 
-![image.png](DiscoNAS_Media_Library/image%2017.png)
+{% asset_img image%2017.png %}
 
 ### 4.4 索引器
 
-![image.png](DiscoNAS_Media_Library/image%2018.png)
+{% asset_img image%2018.png %}
 
-![image.png](DiscoNAS_Media_Library/image%2019.png)
+{% asset_img image%2019.png %}
 
 ### 4.5 下载器
 
-![image.png](DiscoNAS_Media_Library/image%2020.png)
+{% asset_img image%2020.png %}
 
-![image.png](DiscoNAS_Media_Library/image%2021.png)
+{% asset_img image%2021.png %}
 
 ### 4.6 媒体播放器
 
-![image.png](DiscoNAS_Media_Library/image%2022.png)
+{% asset_img image%2022.png %}
 
-![image.png](DiscoNAS_Media_Library/image%2023.png)
+{% asset_img image%2023.png %}
 
 ### 4.7 服务
 
 - 可以手动目录同步，或者清理缓存
 
-![image.png](DiscoNAS_Media_Library/image%2024.png)
+{% asset_img image%2024.png %}
