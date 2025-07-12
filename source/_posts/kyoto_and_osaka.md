@@ -19,33 +19,33 @@ toc: true
 
 京都的标志之一。悬空的大木台（叫“清水舞台”）真的很特别，是古人用木头巧妙搭建起来的，没用钉子，站在上面看下面的景色，视野非常开阔，能看到大半个京都。我们去的时候虽然不是樱花或红叶季，但满眼的绿色也很养眼。感觉它受欢迎，一是因为历史悠久、建筑独特，二是因为景色确实好，拍照也好看。
 
-{% asset_img %E6%B8%85%E6%B0%B4%E5%AF%BA.jpeg %}
+{% asset_img kiyomizu_dera_temple.jpeg %}
 
-{% asset_img %E6%B8%85%E6%B0%B4%E5%AF%BA_%E5%85%A8.jpeg %}
+{% asset_img kiyomizu_dera_temple_full_view.jpeg %}
 
 另外，这也是情侣照名打卡地，因为《名侦探柯南》里新兰出现过这里。
 
-{% asset_img %E6%9F%AF%E5%8D%97_-_%E6%B8%85%E6%B0%B4%E5%AF%BA.jpg %}
+{% asset_img conan_kiyomizu_dera_temple.jpg %}
 
 ### 凌云之龙
 
 造型气势磅礴、极富动感，权力的象征。
 
-{% asset_img %E6%B8%85%E6%B0%B4%E5%AF%BA_%E5%87%8C%E4%BA%91%E4%B9%8B%E9%BE%99.jpeg %}
+{% asset_img kiyomizu_dera_temple_dragon.jpeg %}
 
 ### 「音羽瀑布」
 
 接水祈福。
 
-{% asset_img %E6%B8%85%E6%B0%B4%E5%AF%BA_%E6%8E%92%E9%98%9F%E7%A5%88%E7%A6%8F.jpeg %}
+{% asset_img kiyomizu_dera_temple_lining_up_for_prayers.jpeg %}
 
 ## 二、三年坂
 
 二年坂与三年坂是京都清水寺通往街道的两条传统坡道，以古色古香的石板路、和风茶屋与手工店铺闻名，是体验京都古都风情的热门步行街。传说中在三年坂跌倒会有三年厄运，也为其增添一丝神秘色彩。
 
-{% asset_img %E4%BA%8C%E5%B9%B4%E5%9D%82.jpeg %}
+{% asset_img ninen_zaka.jpeg %}
 
-{% asset_img %E4%BA%8C%E5%B9%B4%E5%9D%82_%E8%A1%97.jpeg %}
+{% asset_img ninen_zaka_street.jpeg %}
 
 ## 伏见稻荷大社
 
@@ -55,123 +55,123 @@ toc: true
 
 这个神社最特别的就是那条长长的“千本鸟居”了。一座接一座的红色鸟居沿着山路往上排，形成了一条望不到头的红色通道。走进去感觉挺神奇的，越往山上走人越少，也越安静。爬到一半回头看，还能看到京都的城市风景。每个鸟居后面都写着捐赠者的名字和心愿，挺有意思的。
 
-{% asset_img %E4%BC%8F%E8%A7%81%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE_%E7%AB%8B%E6%9F%B1.jpeg %}
+{% asset_img fushimi_inari_shrine_torii_gate.jpeg %}
 
-{% asset_img %E4%BC%8F%E8%A7%81%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE_%E7%AB%8B%E6%9F%B1%E7%BE%A4.jpeg %}
+{% asset_img fushimi_inari_shrine_torii_gates.jpeg %}
 
-{% asset_img %E4%BC%8F%E8%A7%81%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE_%E7%AB%8B%E6%9F%B1_%E8%A7%86%E9%A2%91.mov %}
+{% asset_img fushimi_inari_shrine_torii_gates_video.mov %}
 
 这里拍照确实好看，电影《艺伎回忆录》也在这里取过景。
 
-{% asset_img %E8%89%BA%E4%BC%8E%E5%9B%9E%E5%BF%86%E5%BD%95_-_%E5%8D%83%E6%9C%AC%E9%B8%9F%E5%B1%85.mp4 %}
+{% asset_img memoirs_of_a_geisha_senbon_torii.mp4 %}
 
 登顶，非常简陋的打卡点
 
-{% asset_img %E4%BC%8F%E8%A7%81%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE_%E5%B1%B1%E9%A1%B6.jpeg %}
+{% asset_img fushimi_inari_shrine_summit.jpeg %}
 
 ### 使者 狐狸
 
 狐狸因其常出没于田间地头，被认为是稻荷神的“神使”。相传狐狸拥有神秘力量，能穿梭阴阳界，帮助传达神谕、驱邪保平安。因此神社内常见手持钥匙、宝珠、卷轴、稻穗的狐狸像。
 
-{% asset_img %E4%BC%8F%E8%A7%81%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE_%E5%90%89%E7%A5%A5%E7%89%A9_%E7%8B%90%E7%8B%B8.jpeg %}
+{% asset_img fushimi_inari_shrine_mascot_fox.jpeg %}
 
-{% asset_img %E4%BC%8F%E8%A7%81%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE_%E5%90%89%E7%A5%A5%E7%89%A9_%E7%8B%90%E7%8B%B8_%E7%BA%AA%E5%BF%B5%E5%93%81.jpeg %}
+{% asset_img fushimi_inari_shrine_mascot_fox_souvenir.jpeg %}
 
-{% asset_img %E4%BC%8F%E8%A7%81%E7%A8%BB%E8%8D%B7%E5%A4%A7%E7%A4%BE_%E5%90%89%E7%A5%A5%E7%89%A9_NPC.jpeg %}
+{% asset_img fushimi_inari_shrine_mascot_npc.jpeg %}
 
 ## 鸭川 & 八坂神社
 
 傍晚在鸭川边散步是我们在京都最放松的时刻之一。河水很干净，两边修了很宽的步行道。当地人三三两两地坐在河边的石阶上，聊天、看风景、等日落，感觉特别生活化，节奏很慢。
 
-{% asset_img %E9%B8%AD%E5%B7%9D_%E8%BE%B9.jpeg %}
+{% asset_img kamo_river_side.jpeg %}
 
-{% asset_img %E9%B8%AD%E5%B7%9D_%E8%BF%9C%E5%90%91.jpeg %}
+{% asset_img kamo_river_view.jpeg %}
 
 沿着鸭川走不远就是八坂神社。这个神社好像大门一直开着，白天挺热闹，晚上去就安静多了，灯笼点起来，氛围很宁静，跟白天很不一样。
 
 - 八坂神社是京都最重要的神社之一，位于祇园地区，以祈求厄除、健康与良缘闻名，也是每年祇园祭的主办神社，深受当地人和游客喜爱。
 
-{% asset_img %E5%85%AB%E5%9D%82%E7%A5%9E%E7%A4%BE.jpeg %}
+{% asset_img yasaka_shrine.jpeg %}
 
-{% asset_img %E5%85%AB%E5%9D%82%E7%A5%9E%E7%A4%BE_%E7%81%AF%E7%AC%BC.jpeg %}
+{% asset_img yasaka_shrine_lanterns.jpeg %}
 
 ## 金阁寺
 
 - 金阁寺（正式名称为鹿苑寺）是京都著名的世界文化遗产，以其外墙贴满金箔的华丽三重楼阁倒映在镜湖池中的绝美景色而闻名，象征着日本室町时代的极致审美与权力荣耀。
 
-{% asset_img %E9%87%91%E9%98%81%E5%AF%BA.jpeg %}
+{% asset_img kinkaku_ji_temple.jpeg %}
 
 同样，柯南中也有它的身影
 
-{% asset_img %E6%9F%AF%E5%8D%97_%E9%87%91%E9%98%81%E5%AF%BA.png %}
+{% asset_img conan_kinkaku_ji_temple.png %}
 
 ### 御守
 
 虽门票附赠
 
-{% asset_img %E9%87%91%E9%98%81%E5%AF%BA_%E5%BE%A1%E5%AE%88.jpeg %}
+{% asset_img kinkaku_ji_temple_omamori.jpeg %}
 
 ### 白蛇冢
 
 我称之为 雷峰塔京都分塔=MINI版
 
-{% asset_img %E9%87%91%E9%98%81%E5%AF%BA_%E7%99%BD%E8%9B%87%E5%86%A2.jpeg %}
+{% asset_img kinkaku_ji_temple_white_snake_mound.jpeg %}
 
 ## 贵船神社
 
 如果觉得市区人多，可以抽半天去北边的贵船神社，躲个清净。它藏在山里，一路绿树成荫，夏天去特别凉快。最吸引人的是入口那条石阶路，两边排满了红灯笼，傍晚亮灯时或者雨天，氛围感特别好，很适合拍照。
 
-{% asset_img %E8%B4%B5%E8%88%B9%E7%A5%9E%E7%A4%BE_%E6%AD%A3%E9%97%A8.jpeg %}
+{% asset_img kifune_shrine_main_gate.jpeg %}
 
-{% asset_img %E8%B4%B5%E8%88%B9%E7%A5%9E%E7%A4%BE_%E9%98%B6%E6%A2%AF.jpeg %}
+{% asset_img kifune_shrine_stairs.jpeg %}
 
-{% asset_img %E8%B4%B5%E8%88%B9%E7%A5%9E%E7%A4%BE_%E6%A0%91%E6%9E%97.jpeg %}
+{% asset_img kifune_shrine_forest.jpeg %}
 
 这里据说求姻缘挺灵的，还可以玩一种“水占卜”，签纸放水里会显出字来。
 
-{% asset_img %E8%B4%B5%E8%88%B9%E7%A5%9E%E7%A4%BE_%E6%B0%B4%E5%8D%A0%E5%8D%9C.png %}
+{% asset_img kifune_shrine_water_fortune.png %}
 
 ## 京都车站
 
 京都车站本身也挺有看头的，是个很现代的大建筑。里面什么都有：商店、餐厅、还有个大阶梯广场让人休息。
 
-{% asset_img %E4%BA%AC%E9%83%BD%E7%AB%99.jpeg %}
+{% asset_img kyoto_station.jpeg %}
 
-{% asset_img %E4%BA%AC%E9%83%BD%E7%AB%99_%E9%99%84%E8%BF%91.jpeg %}
+{% asset_img kyoto_station_vicinity.jpeg %}
 
 同样，这里也是《迷宫的十字路口》的取景地。
 
-{% asset_img %E6%9F%AF%E5%8D%97_-_%E4%BA%AC%E9%83%BD%E7%AB%99.jpg %}
+{% asset_img conan_kyoto_station.jpg %}
 
 ## 动漫
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E7%AB%99%E5%8F%B0.jpeg %}
+{% asset_img anime_platform.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E5%AD%A6%E6%A0%A1.jpeg %}
+{% asset_img anime_school.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E5%AD%A6%E6%A0%A1%E5%90%89%E7%A5%A5%E7%89%A9.jpeg %}
+{% asset_img anime_school_mascot.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E6%B5%B7%E6%8A%A5.jpeg %}
+{% asset_img anime_poster.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E8%8C%B6%E5%85%B7.jpeg %}
+{% asset_img anime_tea_set.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E6%B4%BB%E5%8A%A8.jpeg %}
+{% asset_img anime_event.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E7%95%99%E8%A8%80%E6%9D%BF.jpeg %}
+{% asset_img anime_message_board.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E6%89%8B%E5%8A%9E.jpeg %}
+{% asset_img anime_figurines.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E6%89%8B%E5%8A%9E_%E4%B8%A4%E4%BA%BA.jpeg %}
+{% asset_img anime_figurines_two_people.jpeg %}
 
-{% asset_img %E5%8A%A8%E6%BC%AB_%E6%89%8B%E5%8A%9E_%E7%BE%A4.jpeg %}
+{% asset_img anime_figurines_group.jpeg %}
 
 ## 环境
 
 非常干净。你可以说意林，读者在美化国外，但是，京都真的非常非常非常非常干净。为什么呢？街道上不允许设置垃圾桶，这能不干净吗？
 
-{% asset_img %E6%97%A5%E5%B8%B8_%E8%A1%97%E6%99%AF.jpeg %}
+{% asset_img daily_life_street_view.jpeg %}
 
-{% asset_img %E6%97%A5%E5%B8%B8_%E8%B7%AF%E5%8F%A3.jpeg %}
+{% asset_img daily_life_intersection.jpeg %}
 
 ---
 
@@ -183,21 +183,21 @@ toc: true
 
 大阪环球影城确实好玩，尤其是马里奥园区，做得太用心了。戴上AR手环，那些游戏里的场景和道具真的能互动，感觉自己就在游戏世界里。库巴城堡里的赛车游戏尤其刺激。哈利波特园区也还原得很好。不过热门项目排队时间确实长，建议提前研究下快速票（Express Pass）。为什么大家愿意排长队？我觉得主要是沉浸感做得特别好，让你不只是看，而是能“参与”进去，像真的进入了电影或游戏的世界，大人小孩都能玩得很开心。
 
-{% asset_img %E5%A4%A7%E9%98%AA%E7%8E%AF%E7%90%83%E5%BD%B1%E5%9F%8E_%E9%A9%AC%E9%87%8C%E5%A5%A5_%E5%85%A5%E5%8F%A3.jpeg %}
+{% asset_img universal_studios_osaka_super_nintendo_world_entrance.jpeg %}
 
-{% asset_img %E5%A4%A7%E9%98%AA%E7%8E%AF%E7%90%83%E5%BD%B1%E5%9F%8E_%E9%A9%AC%E9%87%8C%E5%A5%A5_%E5%85%A8%E6%99%AF.jpeg %}
+{% asset_img universal_studios_osaka_super_nintendo_world_panorama.jpeg %}
 
-{% asset_img %E5%A4%A7%E9%98%AA%E7%8E%AF%E7%90%83%E5%BD%B1%E5%9F%8E_%E6%8A%B1%E6%9E%95.jpeg %}
+{% asset_img universal_studios_osaka_cushion.jpeg %}
 
-{% asset_img %E5%A4%A7%E9%98%AA%E7%8E%AF%E7%90%83%E5%BD%B1%E5%9F%8E_%E5%93%88%E5%88%A9%E6%B3%A2%E7%89%B9%E5%9F%8E%E5%A0%A1.jpeg %}
+{% asset_img universal_studios_osaka_hogwarts_castle.jpeg %}
 
-{% asset_img %E5%A4%A7%E9%98%AA%E7%8E%AF%E7%90%83%E5%BD%B1%E5%9F%8E_%E7%81%AB%E8%BD%A6.jpeg %}
+{% asset_img universal_studios_osaka_train.jpeg %}
 
 ## 神户 须磨山
 
 如果时间充裕，可以从大阪坐车去神户的须磨山（大约1小时）。坐缆车上山，站在山顶能同时看到濑户内海和壮观的明石海峡大桥，视野非常开阔。山上人不多，还有个动物园和植物园，山下有海滩，是个可以远离城市喧嚣、轻松逛逛的好地方。
 
-{% asset_img %E9%A1%BB%E7%A3%A8.jpeg %}
+{% asset_img suma.jpeg %}
 
 ## 心斋桥 & 道顿堀
 
@@ -211,9 +211,9 @@ toc: true
 
 日本的电车（包括地铁和火车）系统很发达，但也确实有点复杂。同一个站台可能有不同速度的车（普通、快速、急行、特急），上车前一定要看清电子屏上的目的地和车种。换乘有时需要走点路，甚至上下楼。用Suica或ICOCA这种交通卡最方便，刷卡进出，自动扣费，省去买票的麻烦。强烈推荐用Google Maps查路线，会告诉你坐哪趟车、在几号站台、几点发车，非常准。
 
-{% asset_img %E6%97%A5%E5%B8%B8_%E5%85%AC%E4%BA%A4.jpeg %}
+{% asset_img daily_life_bus.jpeg %}
 
-{% asset_img %E6%97%A5%E5%B8%B8_%E7%94%B5%E8%BD%A6.jpeg %}
+{% asset_img daily_life_train.jpeg %}
 
 ## 新干线
 
@@ -235,21 +235,21 @@ toc: true
 
 **豆腐套餐**
 
-{% asset_img %E9%A3%9F%E7%89%A9_%E5%A5%97%E9%A4%901.jpg %}
+{% asset_img food_set_meal_1.jpg %}
 
 **和牛饭：**
 
-{% asset_img %E9%A3%9F%E7%89%A9_%E5%A5%97%E9%A4%902.jpg %}
+{% asset_img food_set_meal_2.jpg %}
 
-{% asset_img %E9%A3%9F%E7%89%A9_%E5%A5%97%E9%A4%903.jpg %}
+{% asset_img food_set_meal_3.jpg %}
 
 **居酒屋烧鸟：**
 
-{% asset_img %E9%A3%9F%E7%89%A9_%E7%83%A7%E9%B8%9F.jpg %}
+{% asset_img food_yakitori.jpg %}
 
 **和牛自助：**
 
-{% asset_img %E9%A3%9F%E7%89%A9_%E5%92%8C%E7%89%9B%E8%87%AA%E5%8A%A9.jpg %}
+{% asset_img food_wagyu_buffet.jpg %}
 
 ---
 
@@ -266,8 +266,8 @@ toc: true
 
 总的来说，这是一次节奏比较舒缓但体验很丰富的旅行。希望以后有机会还能再去。也欢迎大家分享你们的日本旅行经验！
 
-{% asset_img %E6%97%A5%E5%B8%B8_%E5%B7%B7%E9%81%93.jpeg %}
+{% asset_img daily_life_alley.jpeg %}
 
-{% asset_img %E6%97%A5%E5%B8%B8_%E8%8D%AF%E5%A6%86%E5%BA%97.jpeg %}
+{% asset_img daily_life_drugstore.jpeg %}
 
-{% asset_img %E6%97%A5%E5%B8%B8_%E9%B2%A4%E9%B1%BC%E6%97%97.jpeg %}
+{% asset_img daily_life_koinobori.jpeg %}
