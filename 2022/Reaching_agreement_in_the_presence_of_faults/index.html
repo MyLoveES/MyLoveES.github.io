@@ -1,0 +1,120 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="&gt;Q：处理器、进程或者节点各自独立，如何才能够达成共识？&lt;/h1&gt;
+&lt;p&gt;一般情况下，节点间可以彼此传递消息达成一致。但是有故障节点存在的是时候，故障节点可能会向其他节点发送一个错误值，或者发送一些随即值，甚至不发送，导致每个处理器获取到不同的数据，最终计算出不一致的结果。"><link rel="stylesheet" type="text/css" href="/css/normalize.css"><link rel="stylesheet" type="text/css" href="/css/highlight.css"><link rel="stylesheet" type="text/css" href="/css/noise.css"><title>Reaching agreement in the presence of faults | Kunkka</title><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head><body><article class="wrapper"><div class="post-main"><div class="nav"><nav class="container"><a class="sidebar-nav-item active" href="/">Home</a><a class="sidebar-nav-item" href="/books">Books</a><a class="sidebar-nav-item" href="/about">About</a><a class="sidebar-nav-item" href="/archives">Archives</a></nav><div class="container post-meta"><div class="post-tags"><a class="post-tag-none-link" href="/tags/Distributed/" rel="tag">Distributed</a></div><div class="post-time">2022-08-11</div></div></div><div class="container post-header"><h1>Reaching agreement in the presence of faults</h1></div><div class="container post-toc"><details class="toc"><summary class="toc-accordion">Table of Contents</summary><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">Q：处理器、进程或者节点各自独立，如何才能够达成共识？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">Assumptions</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%A4%E4%BA%92%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">2.1.</span> <span class="toc-text">交互一致性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">单节点错误</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#n-4-m-1"><span class="toc-number">3.1.</span> <span class="toc-text">n&#x3D;4, m&#x3D;1</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">多节点错误</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#n-7-m-2"><span class="toc-number">4.1.</span> <span class="toc-text">n&#x3D;7, m&#x3D;2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#step1-%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E6%8A%8A%E8%87%AA%E5%B7%B1%E7%9A%84%E5%80%BC%E5%8F%91%E9%80%81%E7%BB%99%E5%85%B6%E4%BB%96%E8%8A%82%E7%82%B9"><span class="toc-number">4.1.1.</span> <span class="toc-text">step1: 每个节点把自己的值发送给其他节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#step2-%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%E4%B8%8A%E4%B8%80%E8%BD%AE%E6%8E%A5%E6%94%B6%E5%88%B0%E7%9A%84%E5%80%BC"><span class="toc-number">4.1.2.</span> <span class="toc-text">step2: 每个节点分享上一轮接收到的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#step3-%E6%AF%8F%E4%B8%AA%E8%8A%82%E7%82%B9%E5%86%8D%E6%AC%A1%E5%88%86%E4%BA%AB%E4%B8%8A%E4%B8%80%E8%BD%AE%E6%8E%A5%E6%94%B6%E5%88%B0%E7%9A%84%E5%80%BC"><span class="toc-number">4.1.3.</span> <span class="toc-text">step3: 每个节点再次分享上一轮接收到的值</span></a></li></ol></li></ol></li></ol></details></div><div class="container post-content"><h1>Q：处理器、进程或者节点各自独立，如何才能够达成共识？</h1>
+<p>一般情况下，节点间可以彼此传递消息达成一致。但是有故障节点存在的是时候，故障节点可能会向其他节点发送一个错误值，或者发送一些随即值，甚至不发送，导致每个处理器获取到不同的数据，最终计算出不一致的结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">比如，处理器间的时钟同步，集群服务器间的数据同步</span><br></pre></td></tr></table></figure>
+<p>Reaching Agreement in the Presence of Faults 论文作者提出一种方法来消除错误处理器的影响 - 通过使用循环多轮的信息交换方案来处理;这样的方案可能会迫使有错误的处理器暴露自己有错误，或者至少使其行为与没有错误的处理器保持一致，从而使后者能够达成一致(当然，是在一定的条件下)。</p>
+<h1>Assumptions</h1>
+<p>假设总共有n个独立节点，其中错误节点m个，并且不知道具体是哪些节点出现了问题。节点之间只能双方彼此通信，并且假设数据传输是有保障的并且无延迟。接收方可以识别消息的发出者。<br>
+每个节点n具有私有值Vn（可以理解为当前该节点的状态，比如负载等）。对于给定的m、n，通过彼此间的信息交换，让每个节点持有一个所有节点私有值的向量。最终达成：</p>
+<ul>
+<li>非故障节点能够计算得到完全相同的向量;</li>
+<li>该向量中，非错误节点的所对应的元素元素，是该节点的私有值</li>
+</ul>
+<p>举个例子：</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger1.png" class="" title="finger1">
+<h2 id="交互一致性"><a class="header-anchor" href="#交互一致性"></a>交互一致性</h2>
+<p>虽然我们不需要最终知道哪些节点是有问题的，与错误节点对应的向量元素也可以是任意的;但是正确节点对于错误节点的向量元素必须是一致的。</p>
+<p>比如下面的这种情况是不被接受的：</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger2.png" class="" title="finger2">
+<p>正确节点对所有节点(包括有故障的节点)持有的值达成共识，最终得到（交互式）一致性向量。这样，每个节点就能够通过对该向量的计算，继续得到业务上的所需要的值。</p>
+<h1>单节点错误</h1>
+<h2 id="n-4-m-1"><a class="header-anchor" href="#n-4-m-1"></a>n=4, m=1</h2>
+<p>首先可以假设 n=4, m=1。进行两轮信息交换：</p>
+<ol>
+<li>各个节点先把自己的私有值发给其他节点</li>
+<li>各个节点彼此交换第一轮收到的信息</li>
+</ol>
+<p>在信息交换过程中，错误节点可能会发出错误的值，或者不发出任何值，来干扰其他正常节点的计算。对于一个正常节点，如果没有收到节点N的消息，会将其置为默认值（假设为NULL）。</p>
+<p>STEP1:</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger3.png" class="" title="finger3">
+<p>STEP2:</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger4.png" class="" title="finger4">
+<p>在两轮信息交换完成后，每个节点都会持有“一组”向量值元素。节点可以选取“多数”作为认可的元素值，形成最终的向量。</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger5.png" class="" title="finger5">
+<h1>多节点错误</h1>
+<p>仅仅两轮信息交换不足以达成共识：</p>
+<p>STEP1:</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger6.png" class="" title="finger6">
+<p>STEP2:</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger7.png" class="" title="finger7">
+<p>Finally:</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger8.png" class="" title="finger8">
+<p>继续下一轮交换信息…</p>
+<p>m+1 轮后：</p>
+<center>P: 节点集合</center>   
+<center>V: 值的集合</center>   
+<p>定义：<br>
+1）w=p1p2p3…pr, σ(w) 意为 pr -&gt; p(r-1) -&gt; p(r-2) -&gt; ··· -&gt; p2 -&gt; p1，Vpr最终流转到p1的结果。<br>
+2）对于一个单节点，σ§ = Vp<br>
+3）如果一个节点q是正常的，那么他一定满足：对于任意的集合组成的字串w和任意节点p，</p>
+<center>σ(pqw) = σ(qw)</center>  
+同理如果一个集合全部是正常节点，那么集合所组成的字串 w=p1p2p3...pr，和一个任意节点p', 一定能够满足  
+<center>σ(pwp') = σ(wp')</center>  
+<p>那么，通过如下方法帮助p节点得到q值（总节点n，错误节点m，n&gt;=3m+1）：</p>
+<ol>
+<li>对于集合P的某个大小超过(n+m)/2的子集Q，σp(pwq) = v 对于每个长度不大于m的字串w（取自Q）都成立，那么p记录下v；</li>
+<li>否则，算法将递归应用m-1，n-1，使P-{q}来替代P，并且对于每个长度不大于m的字串w（取自于P-{q}）</li>
+</ol>
+<center>σp'(pw) = σp(pwq)</center>  
+如果在这向量n-1个元素里有至少(n+m)/2个元素值相同，p记录下该值，否则记录NIL值。  
+<p>step1：（目的是确定源节点q正确与否）一定能够找到一个全部是正常节点的集合Q(size &lt;= m)，使得正常的源节点q的值，经过Q处理后，依然不变。</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger9.png" class="" title="finger9">
+<p>step2：（目的是对错误节点的值达成共识）如果源节点q没能满足step1，说明q在乱发值，q是一个问题节点。</p>
+<p>q向d发送X：</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger10.png" class="" title="finger10">  
+<p>q向e发送Y：</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger11.png" class="" title="finger11">
+<p>所以q的值是多少不重要了，重要的是其他节点要对q的值达成共识。做法，把问题节点q踢出去，询问其他节点，在他们眼里，q是多少。如果某个值Vq’超过半数认可，那么就以Vq’作为q的值，否则，记默认值NIL。即：</p>
+<center>σp'(pw) = σp'(pwq') = σp(pwq'q) = σp(pwq)</center>
+<p>p 问q’（中间也经过了step1的处理），你眼里q是多少？如果获得了不一致的答案，说明q’也有问题，踢了，再问其他节点，最终得到一个正常节点认可的值Vq’1<br>
+最终，p得到了其他所有正常节点眼里的q值: Vq’1 Vq’2 … Vq’k，如果在这中间，某个值Vq’m超过了半数，那么以Vq’m作为q的值，否值取默认值NIL。<br>
+这个过程就像是询问“认可值”，只要获得了足够多的“认可”，就可视Vq为q的值。</p>
+<h2 id="n-7-m-2"><a class="header-anchor" href="#n-7-m-2"></a>n=7, m=2</h2>
+<p>以A为主视角</p>
+<h3 id="step1-每个节点把自己的值发送给其他节点"><a class="header-anchor" href="#step1-每个节点把自己的值发送给其他节点"></a>step1: 每个节点把自己的值发送给其他节点</h3>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger12.png" class="" title="finger12">
+<h3 id="step2-每个节点分享上一轮接收到的值"><a class="header-anchor" href="#step2-每个节点分享上一轮接收到的值"></a>step2: 每个节点分享上一轮接收到的值</h3>
+<h3 id="step3-每个节点再次分享上一轮接收到的值"><a class="header-anchor" href="#step3-每个节点再次分享上一轮接收到的值"></a>step3: 每个节点再次分享上一轮接收到的值</h3>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger13.png" class="" title="finger13">
+<ul>
+<li>对于一个正常节点，经过子集Q，抵达A的值不会变</li>
+</ul>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger14.png" class="" title="finger14">
+<ul>
+<li>对于一个非正常节点，经过子集Q，抵达A的值可能会变。此时需要踢出错误节点，来达成值的一致</li>
+</ul>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger15.png" class="" title="finger15">
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger16.png" class="" title="finger16">
+<hr>
+<hr>
+<hr>
+<p>拜占庭国王放下手中的 Reaching_agreement_in_the_presence_of_faults.pdf，陷入沉思。</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger17.png" class="" title="finger17">
+<p>最近他的军队正在攻打敌方同样强大的城池，需要将领们协同一致才可制胜。而他也知道，将军们中间有叛徒，正因此进攻才耽搁许久。忽然他眉头一皱，计上心来！</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger18.png" class="" title="finger18"> 
+<p>国王究竟想到了什么办法呢？请看下回：</p>
+<img src="/2022/Reaching_agreement_in_the_presence_of_faults/ReachAggrement-finger19.png" class="" title="finger19">
+<hr>
+<hr>
+<hr>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">回想一下，上一节给出的过程需要两轮信息交换，第一轮“我的私有值是”，第二轮“节点x告诉我他的私有值是....”。在m个节点故障的一般情况下，需要m + 1轮通信。为了描述该算法，可以以更通用的方式描述这种消息交换。</span><br><span class="line">  </span><br><span class="line">&lt;center&gt;P: 节点集合&lt;/center&gt;  </span><br><span class="line">&lt;center&gt;V: 值的集合&lt;/center&gt;  </span><br><span class="line">对于 k&gt;=1. 定义k-scenario为从非空字符串（可能含有重复）P(length &lt;= k+1) 映射到 V。对于一个给出的k-level scenario σ 和字符串 w= p1p2...pr, 2&lt;=r&lt;=k+1, σ(w) 意为 pr-\&gt;p(r-1)-\&gt;p(r-2)-&gt;···-\&gt;p2-\&gt;p1, 【pr 的私有值】。对于一个单一元素的字符串p，σp指代p的私有值Vp。一个k-level scenario 总结了k轮信息交换的结果。(请注意，如果一个错误的节点伪造其他节点给它的信息，这就相当于对给它的值造假。)对于一个正常节点子集，只有可能是确定的映射：尤其是，一个正常节点在传递消息时总是诚实的，所以对于一个正常节点q，任意节点p，以及字符串w来说，一个scenario一定满足：（也就是传递到q的字符串会原封不动地传达给p）  </span><br><span class="line">&lt;center&gt;σ(pqw) = σ(qw)&lt;/center&gt;   </span><br><span class="line">节点p在scenario σ接收的消息由σp对以p开头的字符串的限制操作给出(这句话好难理解，我感觉是在表达，secnario σ 是给来源字串加了一个p头)。现在我们要描述，对于任意m&gt;=0,n&gt;=3m+1, 计算p的过程。对于一个给定的σp, 其中交互一致性向量的元素对应着每个节点p。计算过程如下：  </span><br><span class="line">   </span><br><span class="line">1. 对于P的某个大小&gt;(n+m)/2的子集Q，σp(pwq) = v 对于每个长度&lt;=m的字串w（取自Q）都成立，那么p记录下v； </span><br><span class="line">2. 否则，算法将递归应用m-1，n-1，使P-&#123;q&#125;来替代P，并且对于每个长度不大于m的字串w（取自于P-&#123;q&#125;）  </span><br><span class="line">&lt;center&gt;σp&#x27;(pw) = σp(pwq)&lt;/center&gt;  </span><br><span class="line">如果在这向量n-1个元素里有至少(n+m)/2个元素值相同，p记录下该值，否则记录NIL值。  </span><br><span class="line">σp&#x27;反应了m-level σ的子场景，其中q被排除在外，并且在σp&#x27;每个节点的私有值是它直接从σ中的q获得的值。  </span><br><span class="line">通过对m进行约简，证明上述算法确实保证了交互一致性:  </span><br><span class="line">Basis m=0。此时没有节点是错误的，算法总是在第一步结束。p记录Vq为q的私有值；  </span><br><span class="line">Induction Step m&gt;0. 如果q是正常节点，对于来自于正常节点集合的，长度不大于m的字串w（包括空串），σp(pwq)=Vq。这个集合包含了n-m个成员，多于(n+m)/2，满足了条件1. 此外，满足这些要求的任何其他集合必然包含一个正常节点, 因为集合数量大于(n+m)/2，而n&gt;=3m+1. 因此也必然得到Vq作为可用值。因此算法在第(1)步终止，p按要求记录Vq为q的私有值。  </span><br><span class="line">现在假设q是错误的。我们必须表明p记录下的q私有值Vq和其他正常节点一致。  </span><br><span class="line">首先考虑这种情况：p和其他节点p&#x27;都在step1结束，他们都找到了一个合适的集合Q。由于每个集合都包含有(n+m)/2个成员，并且由于P总共只有n个成员，两个集合必须有超过2((n + m)/2) - n = m个公共成员。因为其中至少有一个必须是正常的节点，所以这两个集合必须产生相同的值v。  </span><br><span class="line">接下来我们假设p&#x27;在step1退出了，找到了合适的集合Q以及值v，并且p执行step2.</span><br></pre></td></tr></table></figure>
+</div></div><div class="post-main post-comment"><div id="disqus_thread"></div><script type="text/javascript">
+var disqus_shortname = 'weasley';
+var disqus_identifier = '2022/Reaching_agreement_in_the_presence_of_faults/';
+var disqus_title = 'Reaching agreement in the presence of faults';
+var disqus_url = 'https://blog.weasley.cn/2022/Reaching_agreement_in_the_presence_of_faults/';
+(function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a target="_blank" rel="noopener" href="http://disqus.com" class="dsq-brlink">Blog comments powered by <span class="logo-disqus">Disqus</span></a></div></article><link rel="stylesheet" type="text/css" href="/css/font.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.css"><script src="//cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script><script src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js"></script><script>$(document).ready(function() {
+  $(".fancybox").fancybox();
+});
+</script></body></html>
