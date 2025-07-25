@@ -1,7 +1,7 @@
 title: R final
 date: 2023-04-05
 tags: [R-Language]
-categories: R-Language
+categories: [R-Language]
 math: true
 toc: true
 ---

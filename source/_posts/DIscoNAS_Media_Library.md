@@ -108,19 +108,19 @@ services:
 
 ### 1.2 修改端口号
 
-{% asset_img image%201.png %}
+{% asset_img image_1.png %}
 
 ### 1.3 修改下载路径
 
-{% asset_img image%202.png %}
+{% asset_img image_2.png %}
 
 ### 1.4 修改语言
 
-{% asset_img image%203.png %}
+{% asset_img image_3.png %}
 
 ### 1.5 添加分类
 
-{% asset_img image%204.png %}
+{% asset_img image_4.png %}
 
 ## 2. Jackett
 
@@ -128,15 +128,15 @@ services:
 
 后面需要配置到 NASTOOL 中
 
-{% asset_img image%205.png %}
+{% asset_img image_5.png %}
 
 ### 2.2 添加公开的 INDEXER
 
 需要等待几分钟，才能添加完
 
-{% asset_img image%206.png %}
+{% asset_img image_6.png %}
 
-{% asset_img image%207.png %}
+{% asset_img image_7.png %}
 
 ## 3. Jellyfin
 
@@ -144,21 +144,21 @@ services:
 
 - 选择 NASTOOL 链接后的目录
 
-{% asset_img image%208.png %}
+{% asset_img image_8.png %}
 
-{% asset_img image%209.png %}
+{% asset_img image_9.png %}
 
-{% asset_img image%2010.png %}
+{% asset_img image_10.png %}
 
 ### 3.2 生成API密钥
 
 后面给 NASTOOL 用
 
-{% asset_img image%2011.png %}
+{% asset_img image_11.png %}
 
 ### 3.3 指定转码
 
-{% asset_img image%2012.png %}
+{% asset_img image_12.png %}
 
 ## 4. NASTOOL
 
@@ -166,44 +166,44 @@ services:
 
 https://www.themoviedb.org/
 
-{% asset_img image%2013.png %}
+{% asset_img image_13.png %}
 
-{% asset_img image%2014.png %}
+{% asset_img image_14.png %}
 
-{% asset_img image%2015.png %}
+{% asset_img image_15.png %}
 
 ### 4.2 媒体库
 
 - 注意要用NASTOOL链接后的目录
 
-{% asset_img image%2016.png %}
+{% asset_img image_16.png %}
 
 ### 4.3 目录同步
 
 - 从 下载目录 到 转换后的目录
 
-{% asset_img image%2017.png %}
+{% asset_img image_17.png %}
 
 ### 4.4 索引器
 
-{% asset_img image%2018.png %}
+{% asset_img image_18.png %}
 
-{% asset_img image%2019.png %}
+{% asset_img image_19.png %}
 
 ### 4.5 下载器
 
-{% asset_img image%2020.png %}
+{% asset_img image_20.png %}
 
-{% asset_img image%2021.png %}
+{% asset_img image_21.png %}
 
 ### 4.6 媒体播放器
 
-{% asset_img image%2022.png %}
+{% asset_img image_22.png %}
 
-{% asset_img image%2023.png %}
+{% asset_img image_23.png %}
 
 ### 4.7 服务
 
 - 可以手动目录同步，或者清理缓存
 
-{% asset_img image%2024.png %}
+{% asset_img image_24.png %}
