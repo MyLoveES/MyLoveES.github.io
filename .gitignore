@@ -11,5 +11,5 @@ public/
 _book
 package-lock.json
 
-.trash
-.obsidian/workspace.json
+*.trash/
+*.obsidian/

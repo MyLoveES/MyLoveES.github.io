@@ -41,5 +41,14 @@
   "Appearance-light@@background-activated-tab-header-light": "transparent",
   "Appearance-light@@shadow-activated-tab-header-light": "none",
   "Appearance-light@@color-activated-tab-header-underline-light": "var(--color-accent)",
-  "Appearance-light@@workspace-divider-transparent-light": true
+  "Appearance-light@@workspace-divider-transparent-light": true,
+  "Components@@tab-autohide": true,
+  "Components@@status-bar-autohide": true,
+  "Components@@Ribbon-autohide": true,
+  "Components@@nav-header-autohide": false,
+  "Components@@tab-title-bar-autohide": true,
+  "Components@@vault-profile-autohide": false,
+  "Appearance-light@@card-layout-open-light": false,
+  "Components@@colorful-folder": true,
+  "Editor@@line-hover-indicator": true
 }
