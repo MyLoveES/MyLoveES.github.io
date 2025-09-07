@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>媒体库 on Kunkka</title><link>https://MyLoveES.github.io/tags/%E5%AA%92%E4%BD%93%E5%BA%93/</link><description>Recent content in 媒体库 on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 07 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/%E5%AA%92%E4%BD%93%E5%BA%93/index.xml" rel="self" type="application/rss+xml"/><item><title>DiscoNAS Media Library</title><link>https://MyLoveES.github.io/p/disconas-media-library/</link><pubDate>Sat, 07 Jun 2025 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/disconas-media-library/</guid><description>&lt;h1 id="media-library"&gt;Media Library
+&lt;/h1&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;span class="lnt"&gt;45
+&lt;/span&gt;&lt;span class="lnt"&gt;46
+&lt;/span&gt;&lt;span class="lnt"&gt;47
+&lt;/span&gt;&lt;span class="lnt"&gt;48
+&lt;/span&gt;&lt;span class="lnt"&gt;49
+&lt;/span&gt;&lt;span class="lnt"&gt;50
+&lt;/span&gt;&lt;span class="lnt"&gt;51
+&lt;/span&gt;&lt;span class="lnt"&gt;52
+&lt;/span&gt;&lt;span class="lnt"&gt;53
+&lt;/span&gt;&lt;span class="lnt"&gt;54
+&lt;/span&gt;&lt;span class="lnt"&gt;55
+&lt;/span&gt;&lt;span class="lnt"&gt;56
+&lt;/span&gt;&lt;span class="lnt"&gt;57
+&lt;/span&gt;&lt;span class="lnt"&gt;58
+&lt;/span&gt;&lt;span class="lnt"&gt;59
+&lt;/span&gt;&lt;span class="lnt"&gt;60
+&lt;/span&gt;&lt;span class="lnt"&gt;61
+&lt;/span&gt;&lt;span class="lnt"&gt;62
+&lt;/span&gt;&lt;span class="lnt"&gt;63
+&lt;/span&gt;&lt;span class="lnt"&gt;64
+&lt;/span&gt;&lt;span class="lnt"&gt;65
+&lt;/span&gt;&lt;span class="lnt"&gt;66
+&lt;/span&gt;&lt;span class="lnt"&gt;67
+&lt;/span&gt;&lt;span class="lnt"&gt;68
+&lt;/span&gt;&lt;span class="lnt"&gt;69
+&lt;/span&gt;&lt;span class="lnt"&gt;70
+&lt;/span&gt;&lt;span class="lnt"&gt;71
+&lt;/span&gt;&lt;span class="lnt"&gt;72
+&lt;/span&gt;&lt;span class="lnt"&gt;73
+&lt;/span&gt;&lt;span class="lnt"&gt;74
+&lt;/span&gt;&lt;span class="lnt"&gt;75
+&lt;/span&gt;&lt;span class="lnt"&gt;76
+&lt;/span&gt;&lt;span class="lnt"&gt;77
+&lt;/span&gt;&lt;span class="lnt"&gt;78
+&lt;/span&gt;&lt;span class="lnt"&gt;79
+&lt;/span&gt;&lt;span class="lnt"&gt;80
+&lt;/span&gt;&lt;span class="lnt"&gt;81
+&lt;/span&gt;&lt;span class="lnt"&gt;82
+&lt;/span&gt;&lt;span class="lnt"&gt;83
+&lt;/span&gt;&lt;span class="lnt"&gt;84
+&lt;/span&gt;&lt;span class="lnt"&gt;85
+&lt;/span&gt;&lt;span class="lnt"&gt;86
+&lt;/span&gt;&lt;span class="lnt"&gt;87
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-jsx" data-lang="jsx"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;version&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;3&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nx"&gt;services&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;jellyfin&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;nyanmisaka&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;jellyfin&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;250627&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;amd64&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;container_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;media_library_jellyfin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;environment&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PGID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;TZ&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;Asia&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;volumes&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Container/container-station-data/application/media_library/jellyfin/config:/config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Container/container-station-data/application/media_library/jellyfin/cache:/cache&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Weasley/Videos/:/videos&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;ports&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;8096&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8096&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;8920&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8920&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;devices&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/dev/dri:/dev/dri&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;restart&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;unless&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;nastool&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;hsuyelin&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;nas&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;tools&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;3.4.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;razeencheng&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;nastool&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;2.9.1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;container_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;media_library_nastool&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;environment&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PGID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;UMASK&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;TZ&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;Asia&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;NASTOOL_AUTO_UPDATE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;REPO_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//ghproxy.com/https://github.com/hsuyelin/nas-tools.git
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;ALPINE_MIRROR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;mirrors&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ustc&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;edu&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;cn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;LANG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;C&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;UTF&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;NASTOOL_AUTO_UPDATE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;NASTOOL_CN_UPDATE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;NASTOOL_CONFIG&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/config/config.yaml&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;NASTOOL_VERSION&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;master&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PYPI_MIRROR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//pypi.tuna.tsinghua.edu.cn/simple
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;REPO_URL&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;https&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//github.com/jxxghp/nas-tools.git
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;WORKDIR&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/nas-tools&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;volumes&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Container/container-station-data/application/media_library/nastool/config:/config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Weasley/Videos/:/videos&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;ports&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;3000&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;3000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;restart&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;unless&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;jackett&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;linuxserver&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;jackett&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="nx"&gt;amd64&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;0.22.2132&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;container_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;media_library_jackett&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;volumes&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Container/container-station-data/application/media_library/jackett/config:/config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Container/container-station-data/application/media_library/jackett/downloads:/downloads&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;environment&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PGID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;TZ&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;Asia&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;AUTO_UPDATE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/root&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;LSIO_FIRST_PARTY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/lsiopy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;S6_CMD_WAIT_FOR_SERVICES_MAXTIME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;S6_STAGE2_HOOK&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/docker-mods&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;S6_VERBOSITY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;TERM&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;xterm&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;VIRTUAL_ENV&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/lsiopy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;XDG_CONFIG_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="err"&gt;#&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;XDG_DATA_HOME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;/config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;ports&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;9117&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;9117&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;restart&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;unless&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;qBittorrent&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;image&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;superng6&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;qbittorrentee&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mf"&gt;5.1.1.10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;container_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;media_library_qBittorrent&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;environment&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PUID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1026&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;PGID&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;TZ&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;Asia&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;Shanghai&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;WEBUIPORT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;8080&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;ENABLE_DOWNLOADS_PERM_FIX&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;restart&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;unless&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;stopped&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;volumes&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Container/container-station-data/application/media_library/qBittorrent/config:/config&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="err"&gt;/share/CACHEDEV1_DATA/Weasley/Videos/:/downloads&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;ports&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;8080&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8080&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;26881&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;6881&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;26881&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;6881&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;udp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="1-qbittorrent"&gt;1. qBittorrent
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;默认账号：admin&lt;/li&gt;
+&lt;li&gt;默认密码：需要查看 qBittorrent 容器日志&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="11-修改密码"&gt;1.1 修改密码
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image.png"
+width="732"
+height="687"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_hu_75766a97c1935482.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_hu_ebe5b5303ff57704.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="106"
+data-flex-basis="255px"
+&gt;&lt;/p&gt;
+&lt;h3 id="12-修改端口号"&gt;1.2 修改端口号
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_1.png"
+width="733"
+height="684"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_1_hu_9c7cac00d53e259f.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_1_hu_9d61a130e6c3da21.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="107"
+data-flex-basis="257px"
+&gt;&lt;/p&gt;
+&lt;h3 id="13-修改下载路径"&gt;1.3 修改下载路径
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_2.png"
+width="734"
+height="684"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_2_hu_76fd74dff1e7f6d7.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_2_hu_68325a3518792be9.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="107"
+data-flex-basis="257px"
+&gt;&lt;/p&gt;
+&lt;h3 id="14-修改语言"&gt;1.4 修改语言
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_3.png"
+width="733"
+height="691"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_3_hu_352c096cb2360da.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_3_hu_6332efec26ab8241.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="106"
+data-flex-basis="254px"
+&gt;&lt;/p&gt;
+&lt;h3 id="15-添加分类"&gt;1.5 添加分类
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_4.png"
+width="237"
+height="621"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_4_hu_34f4375fff9daa4f.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_4_hu_dafdff5bd3dcf642.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="38"
+data-flex-basis="91px"
+&gt;&lt;/p&gt;
+&lt;h2 id="2-jackett"&gt;2. Jackett
+&lt;/h2&gt;&lt;h3 id="21-记住-api-key"&gt;2.1 记住 API KEY
+&lt;/h3&gt;&lt;p&gt;后面需要配置到 NASTOOL 中&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_5.png"
+width="990"
+height="409"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_5_hu_9ec7815793a15e08.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_5_hu_a33c105052fb0640.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="242"
+data-flex-basis="580px"
+&gt;&lt;/p&gt;
+&lt;h3 id="22-添加公开的-indexer"&gt;2.2 添加公开的 INDEXER
+&lt;/h3&gt;&lt;p&gt;需要等待几分钟，才能添加完&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_6.png"
+width="1008"
+height="344"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_6_hu_35bc7e788e3c58e6.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_6_hu_3393e547e95d7e5f.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="293"
+data-flex-basis="703px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_7.png"
+width="934"
+height="459"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_7_hu_67abd794bcbe8044.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_7_hu_16deb73525c427df.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="203"
+data-flex-basis="488px"
+&gt;&lt;/p&gt;
+&lt;h2 id="3-jellyfin"&gt;3. Jellyfin
+&lt;/h2&gt;&lt;h3 id="31-添加媒体库"&gt;3.1 添加媒体库
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;选择 NASTOOL 链接后的目录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_8.png"
+width="1849"
+height="468"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_8_hu_d76d0bfbada47091.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_8_hu_cb7d91128786174a.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="395"
+data-flex-basis="948px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_9.png"
+width="1546"
+height="535"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_9_hu_7057b78d70c4973e.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_9_hu_6db4226c44762b95.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="288"
+data-flex-basis="693px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_10.png"
+width="1529"
+height="1037"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_10_hu_fc77e2d800c1a9a5.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_10_hu_42af37a2ec01e6eb.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="147"
+data-flex-basis="353px"
+&gt;&lt;/p&gt;
+&lt;h3 id="32-生成api密钥"&gt;3.2 生成API密钥
+&lt;/h3&gt;&lt;p&gt;后面给 NASTOOL 用&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_11.png"
+width="2559"
+height="1119"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_11_hu_c921bb87edb0d1c2.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_11_hu_5be07793cd02af89.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="228"
+data-flex-basis="548px"
+&gt;&lt;/p&gt;
+&lt;h3 id="33-指定转码"&gt;3.3 指定转码
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_12.png"
+width="1591"
+height="763"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_12_hu_247d58b1ec64b596.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_12_hu_403182f1a38e3cd4.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="208"
+data-flex-basis="500px"
+&gt;&lt;/p&gt;
+&lt;h2 id="4-nastool"&gt;4. NASTOOL
+&lt;/h2&gt;&lt;h3 id="41-tmdb"&gt;4.1 TMDB
+&lt;/h3&gt;&lt;p&gt;&lt;a class="link" href="https://www.themoviedb.org/" target="_blank" rel="noopener"
+&gt;https://www.themoviedb.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_13.png"
+width="1425"
+height="815"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_13_hu_f5689c6965ec57f3.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_13_hu_3a92eb4479599779.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="174"
+data-flex-basis="419px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_14.png"
+width="2558"
+height="992"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_14_hu_4d5381acf07dbbab.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_14_hu_5c8bece72fffafdf.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="257"
+data-flex-basis="618px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_15.png"
+width="2559"
+height="591"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_15_hu_5cbd150e36daef08.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_15_hu_6b601ca98ccc0925.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="432"
+data-flex-basis="1039px"
+&gt;&lt;/p&gt;
+&lt;h3 id="42-媒体库"&gt;4.2 媒体库
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;注意要用NASTOOL链接后的目录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_16.png"
+width="2555"
+height="961"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_16_hu_b20d643234925da0.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_16_hu_c4cd30e91fc17340.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="265"
+data-flex-basis="638px"
+&gt;&lt;/p&gt;
+&lt;h3 id="43-目录同步"&gt;4.3 目录同步
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;从 下载目录 到 转换后的目录&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_17.png"
+width="2558"
+height="1030"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_17_hu_f78a2fd86bf4f34c.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_17_hu_9ba90c6a13a675af.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="248"
+data-flex-basis="596px"
+&gt;&lt;/p&gt;
+&lt;h3 id="44-索引器"&gt;4.4 索引器
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_18.png"
+width="1046"
+height="1167"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_18_hu_bd2d79aeb8a2aaf1.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_18_hu_efd87b42d7606bb2.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="89"
+data-flex-basis="215px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_19.png"
+width="752"
+height="358"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_19_hu_71cbebbfff57d21c.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_19_hu_2b40a79a7a357e8.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="210"
+data-flex-basis="504px"
+&gt;&lt;/p&gt;
+&lt;h3 id="45-下载器"&gt;4.5 下载器
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_20.png"
+width="1551"
+height="1166"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_20_hu_9e0e775967845be2.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_20_hu_8f1b80c46ebcc25a.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="319px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_21.png"
+width="771"
+height="427"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_21_hu_9f3e44aa4c8308e3.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_21_hu_5310e42d60ecc2b0.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="180"
+data-flex-basis="433px"
+&gt;&lt;/p&gt;
+&lt;h3 id="46-媒体播放器"&gt;4.6 媒体播放器
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_22.png"
+width="1049"
+height="1236"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_22_hu_ecadd9b34135802e.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_22_hu_cc6af53f3340a96c.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="84"
+data-flex-basis="203px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_23.png"
+width="762"
+height="283"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_23_hu_c8c3a8e6b6cebc43.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_23_hu_7b7920bb87a37174.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="269"
+data-flex-basis="646px"
+&gt;&lt;/p&gt;
+&lt;h3 id="47-服务"&gt;4.7 服务
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;可以手动目录同步，或者清理缓存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/disconas-media-library/image_24.png"
+width="2549"
+height="464"
+srcset="https://MyLoveES.github.io/p/disconas-media-library/image_24_hu_b378957ac9811112.png 480w, https://MyLoveES.github.io/p/disconas-media-library/image_24_hu_bb02763c38d5b5c0.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="549"
+data-flex-basis="1318px"
+&gt;&lt;/p&gt;</description></item></channel></rss>

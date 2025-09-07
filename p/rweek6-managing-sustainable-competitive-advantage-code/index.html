@@ -1,0 +1,505 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content=' R: 4.3.2 (2023-10-31) R studio: 2023.12.1+402 (2023.12.1+402)\n假设一家公司正在开发一款新系列的平板电脑，并试图确定平板电脑的尺寸应该有多大，以及应该具有何种类型的存储和内存。 为了支持这个决定，了解客户对这些不同特征的价值会很有帮助。\n客户喜欢还是不喜欢大屏幕尺寸？ 如果他们喜欢，他们愿意为更大尺寸的屏幕支付多少更多的费用？ 是否有一些客户群体比其他客户更喜欢大屏幕？ 1. Choice-Based Conjoint Analysis Data 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 > cbc.df<-read.csv("Data_Conjoint_Choice.csv", stringsAsFactors = TRUE) > str(cbc.df) &#39;data.frame&#39;:\t6165 obs. of 10 variables: $ ConsumerId : int 1 1 1 1 1 1 1 1 1 1 ... $ ChoiceSetId : int 1 1 1 2 2 2 3 3 3 4 ... $ AlternativeIdInSet: int 1 2 3 1 2 3 1 2 3 1 ... $ Choice : int 1 0 0 1 0 0 0 0 1 1 ... $ Brand : Factor w/ 5 levels "Galaxy","iPad",..: 2 5 3 2 5 4 5 3 1 2 ... $ Size : Factor w/ 4 levels "sz10inch","sz7inch",..: 2 1 4 3 1 2 3 4 1 4 ... $ Storage : Factor w/ 4 levels "st128gb","st16gb",..: 3 4 2 3 1 4 4 2 1 2 ... $ Ram : Factor w/ 3 levels "r1gb","r2gb",..: 3 2 2 1 3 1 1 3 2 3 ... $ Battery : Factor w/ 3 levels "b7h","b8h","b9h": 1 3 2 2 1 3 1 3 3 1 ... $ Price : int 499 399 499 399 299 199 199 399 499 299 ... > head(cbc.df) ConsumerId ChoiceSetId AlternativeIdInSet Choice Brand Size Storage Ram Battery Price 1 1 1 1 1 iPad sz7inch st32gb r4gb b7h 499 2 1 1 2 0 Surface sz10inch st64gb r2gb b9h 399 3 1 1 3 0 Kindle sz9inch st16gb r2gb b8h 499 4 1 2 1 1 iPad sz8inch st32gb r1gb b8h 399 5 1 2 2 0 Surface sz10inch st128gb r4gb b7h 299 6 1 2 3 0 Nexus sz7inch st64gb r1gb b9h 199 cbc.df 中的前三行描述了对受访者1提出的第一个问题。选择列显示该受访者选择了第一个备选方案。 ConsumerId 表示回答这个问题的受访者。 ChoiceSetId 表示这前三行是第一个问题的配置文件。ChoiceSetId 编号 1:15 是为受访者1，然后 15:30 是为受访者2，依此类推。 AlternativeIdInSet 表示第一行是备选方案1，第二行是备选方案2，第三行是备选方案3。 Choice 表示受访者选择了哪个备选方案；对于每个选择问题中被指定为首选备选方案的配置文件，它的值为1。 现在重要的是估计一个完整的选择模型。任何建模的第一步是使用基本描述性统计了解数据。我们从摘要开始:\n'><title>R[week6] Managing Sustainable Competitive Advantage code</title><link rel=canonical href=https://MyLoveES.github.io/p/rweek6-managing-sustainable-competitive-advantage-code/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="R[week6] Managing Sustainable Competitive Advantage code"><meta property='og:description' content=' R: 4.3.2 (2023-10-31) R studio: 2023.12.1+402 (2023.12.1+402)\n假设一家公司正在开发一款新系列的平板电脑，并试图确定平板电脑的尺寸应该有多大，以及应该具有何种类型的存储和内存。 为了支持这个决定，了解客户对这些不同特征的价值会很有帮助。\n客户喜欢还是不喜欢大屏幕尺寸？ 如果他们喜欢，他们愿意为更大尺寸的屏幕支付多少更多的费用？ 是否有一些客户群体比其他客户更喜欢大屏幕？ 1. Choice-Based Conjoint Analysis Data 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 > cbc.df<-read.csv("Data_Conjoint_Choice.csv", stringsAsFactors = TRUE) > str(cbc.df) &#39;data.frame&#39;:\t6165 obs. of 10 variables: $ ConsumerId : int 1 1 1 1 1 1 1 1 1 1 ... $ ChoiceSetId : int 1 1 1 2 2 2 3 3 3 4 ... $ AlternativeIdInSet: int 1 2 3 1 2 3 1 2 3 1 ... $ Choice : int 1 0 0 1 0 0 0 0 1 1 ... $ Brand : Factor w/ 5 levels "Galaxy","iPad",..: 2 5 3 2 5 4 5 3 1 2 ... $ Size : Factor w/ 4 levels "sz10inch","sz7inch",..: 2 1 4 3 1 2 3 4 1 4 ... $ Storage : Factor w/ 4 levels "st128gb","st16gb",..: 3 4 2 3 1 4 4 2 1 2 ... $ Ram : Factor w/ 3 levels "r1gb","r2gb",..: 3 2 2 1 3 1 1 3 2 3 ... $ Battery : Factor w/ 3 levels "b7h","b8h","b9h": 1 3 2 2 1 3 1 3 3 1 ... $ Price : int 499 399 499 399 299 199 199 399 499 299 ... > head(cbc.df) ConsumerId ChoiceSetId AlternativeIdInSet Choice Brand Size Storage Ram Battery Price 1 1 1 1 1 iPad sz7inch st32gb r4gb b7h 499 2 1 1 2 0 Surface sz10inch st64gb r2gb b9h 399 3 1 1 3 0 Kindle sz9inch st16gb r2gb b8h 499 4 1 2 1 1 iPad sz8inch st32gb r1gb b8h 399 5 1 2 2 0 Surface sz10inch st128gb r4gb b7h 299 6 1 2 3 0 Nexus sz7inch st64gb r1gb b9h 199 cbc.df 中的前三行描述了对受访者1提出的第一个问题。选择列显示该受访者选择了第一个备选方案。 ConsumerId 表示回答这个问题的受访者。 ChoiceSetId 表示这前三行是第一个问题的配置文件。ChoiceSetId 编号 1:15 是为受访者1，然后 15:30 是为受访者2，依此类推。 AlternativeIdInSet 表示第一行是备选方案1，第二行是备选方案2，第三行是备选方案3。 Choice 表示受访者选择了哪个备选方案；对于每个选择问题中被指定为首选备选方案的配置文件，它的值为1。 现在重要的是估计一个完整的选择模型。任何建模的第一步是使用基本描述性统计了解数据。我们从摘要开始:\n'><meta property='og:url' content='https://MyLoveES.github.io/p/rweek6-managing-sustainable-competitive-advantage-code/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='R语言'><meta property='article:tag' content='数据分析'><meta property='article:tag' content='竞争优势'><meta property='article:published_time' content='2024-03-29T00:00:00+00:00'><meta property='article:modified_time' content='2024-03-29T00:00:00+00:00'><meta name=twitter:title content="R[week6] Managing Sustainable Competitive Advantage code"><meta name=twitter:description content=' R: 4.3.2 (2023-10-31) R studio: 2023.12.1+402 (2023.12.1+402)\n假设一家公司正在开发一款新系列的平板电脑，并试图确定平板电脑的尺寸应该有多大，以及应该具有何种类型的存储和内存。 为了支持这个决定，了解客户对这些不同特征的价值会很有帮助。\n客户喜欢还是不喜欢大屏幕尺寸？ 如果他们喜欢，他们愿意为更大尺寸的屏幕支付多少更多的费用？ 是否有一些客户群体比其他客户更喜欢大屏幕？ 1. Choice-Based Conjoint Analysis Data 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 > cbc.df<-read.csv("Data_Conjoint_Choice.csv", stringsAsFactors = TRUE) > str(cbc.df) &#39;data.frame&#39;:\t6165 obs. of 10 variables: $ ConsumerId : int 1 1 1 1 1 1 1 1 1 1 ... $ ChoiceSetId : int 1 1 1 2 2 2 3 3 3 4 ... $ AlternativeIdInSet: int 1 2 3 1 2 3 1 2 3 1 ... $ Choice : int 1 0 0 1 0 0 0 0 1 1 ... $ Brand : Factor w/ 5 levels "Galaxy","iPad",..: 2 5 3 2 5 4 5 3 1 2 ... $ Size : Factor w/ 4 levels "sz10inch","sz7inch",..: 2 1 4 3 1 2 3 4 1 4 ... $ Storage : Factor w/ 4 levels "st128gb","st16gb",..: 3 4 2 3 1 4 4 2 1 2 ... $ Ram : Factor w/ 3 levels "r1gb","r2gb",..: 3 2 2 1 3 1 1 3 2 3 ... $ Battery : Factor w/ 3 levels "b7h","b8h","b9h": 1 3 2 2 1 3 1 3 3 1 ... $ Price : int 499 399 499 399 299 199 199 399 499 299 ... > head(cbc.df) ConsumerId ChoiceSetId AlternativeIdInSet Choice Brand Size Storage Ram Battery Price 1 1 1 1 1 iPad sz7inch st32gb r4gb b7h 499 2 1 1 2 0 Surface sz10inch st64gb r2gb b9h 399 3 1 1 3 0 Kindle sz9inch st16gb r2gb b8h 499 4 1 2 1 1 iPad sz8inch st32gb r1gb b8h 399 5 1 2 2 0 Surface sz10inch st128gb r4gb b7h 299 6 1 2 3 0 Nexus sz7inch st64gb r1gb b9h 199 cbc.df 中的前三行描述了对受访者1提出的第一个问题。选择列显示该受访者选择了第一个备选方案。 ConsumerId 表示回答这个问题的受访者。 ChoiceSetId 表示这前三行是第一个问题的配置文件。ChoiceSetId 编号 1:15 是为受访者1，然后 15:30 是为受访者2，依此类推。 AlternativeIdInSet 表示第一行是备选方案1，第二行是备选方案2，第三行是备选方案3。 Choice 表示受访者选择了哪个备选方案；对于每个选择问题中被指定为首选备选方案的配置文件，它的值为1。 现在重要的是估计一个完整的选择模型。任何建模的第一步是使用基本描述性统计了解数据。我们从摘要开始:\n'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#21-define-reference-levels---used-when-estimating-model>2.1 Define reference levels - used when estimating model</a></li><li><a href=#22-define-data-format>2.2 Define data format</a></li></ol><ol><li><a href=#31-meaning-of-parameters>3.1 Meaning of parameters</a></li><li><a href=#32-model-fit>3.2 Model fit</a></li></ol><ol><li><a href=#41-predicted-market-share>4.1 Predicted Market Share</a></li><li><a href=#42-conjoint-simulator>4.2 Conjoint simulator</a></li><li><a href=#43-willingness-to-pay>4.3 Willingness to pay</a><ol><li><a href=#431-what-is-the-brand-value-of-ipad-relative-to-galaxy>4.3.1 What is the brand value of iPad relative to Galaxy?</a></li><li><a href=#432-willingness-to-pay-for-an-attribute-upgrade>4.3.2 Willingness to Pay for an Attribute Upgrade</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%95%99%E7%A8%8B/>教程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/rweek6-managing-sustainable-competitive-advantage-code/>R[week6] Managing Sustainable Competitive Advantage code</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Mar 29, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>9 minute read</time></div></footer></div></header><section class=article-content><blockquote><p>R: 4.3.2 (2023-10-31)
+R studio: 2023.12.1+402 (2023.12.1+402)</p></blockquote><p>假设一家公司正在开发一款新系列的平板电脑，并试图确定平板电脑的尺寸应该有多大，以及应该具有何种类型的存储和内存。
+为了支持这个决定，了解客户对这些不同特征的价值会很有帮助。</p><ul><li>客户喜欢还是不喜欢大屏幕尺寸？</li><li>如果他们喜欢，他们愿意为更大尺寸的屏幕支付多少更多的费用？</li><li>是否有一些客户群体比其他客户更喜欢大屏幕？</li></ul><h1 id=1-choice-based-conjoint-analysis-data>1. Choice-Based Conjoint Analysis Data</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>&lt;-</span><span class=n>read</span><span class=o>.</span><span class=n>csv</span><span class=p>(</span><span class=s2>&#34;Data_Conjoint_Choice.csv&#34;</span><span class=p>,</span> <span class=n>stringsAsFactors</span> <span class=o>=</span> <span class=n>TRUE</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>str</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;data.frame&#39;</span><span class=p>:</span>	<span class=mi>6165</span> <span class=n>obs</span><span class=o>.</span> <span class=n>of</span>  <span class=mi>10</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>ConsumerId</span>        <span class=p>:</span> <span class=ne>int</span>  <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>ChoiceSetId</span>       <span class=p>:</span> <span class=ne>int</span>  <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>3</span> <span class=mi>3</span> <span class=mi>3</span> <span class=mi>4</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>AlternativeIdInSet</span><span class=p>:</span> <span class=ne>int</span>  <span class=mi>1</span> <span class=mi>2</span> <span class=mi>3</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>3</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>3</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Choice</span>            <span class=p>:</span> <span class=ne>int</span>  <span class=mi>1</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Brand</span>             <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>5</span> <span class=n>levels</span> <span class=s2>&#34;Galaxy&#34;</span><span class=p>,</span><span class=s2>&#34;iPad&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>2</span> <span class=mi>5</span> <span class=mi>3</span> <span class=mi>2</span> <span class=mi>5</span> <span class=mi>4</span> <span class=mi>5</span> <span class=mi>3</span> <span class=mi>1</span> <span class=mi>2</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Size</span>              <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>4</span> <span class=n>levels</span> <span class=s2>&#34;sz10inch&#34;</span><span class=p>,</span><span class=s2>&#34;sz7inch&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>4</span> <span class=mi>3</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>3</span> <span class=mi>4</span> <span class=mi>1</span> <span class=mi>4</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Storage</span>           <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>4</span> <span class=n>levels</span> <span class=s2>&#34;st128gb&#34;</span><span class=p>,</span><span class=s2>&#34;st16gb&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>3</span> <span class=mi>4</span> <span class=mi>2</span> <span class=mi>3</span> <span class=mi>1</span> <span class=mi>4</span> <span class=mi>4</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>2</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Ram</span>               <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>3</span> <span class=n>levels</span> <span class=s2>&#34;r1gb&#34;</span><span class=p>,</span><span class=s2>&#34;r2gb&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>3</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>3</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>3</span> <span class=mi>2</span> <span class=mi>3</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Battery</span>           <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>3</span> <span class=n>levels</span> <span class=s2>&#34;b7h&#34;</span><span class=p>,</span><span class=s2>&#34;b8h&#34;</span><span class=p>,</span><span class=s2>&#34;b9h&#34;</span><span class=p>:</span> <span class=mi>1</span> <span class=mi>3</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>3</span> <span class=mi>1</span> <span class=mi>3</span> <span class=mi>3</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Price</span>             <span class=p>:</span> <span class=ne>int</span>  <span class=mi>499</span> <span class=mi>399</span> <span class=mi>499</span> <span class=mi>399</span> <span class=mi>299</span> <span class=mi>199</span> <span class=mi>199</span> <span class=mi>399</span> <span class=mi>499</span> <span class=mi>299</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>head</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>ConsumerId</span> <span class=n>ChoiceSetId</span> <span class=n>AlternativeIdInSet</span> <span class=n>Choice</span>   <span class=n>Brand</span>     <span class=n>Size</span> <span class=n>Storage</span>  <span class=n>Ram</span> <span class=n>Battery</span> <span class=n>Price</span>
+</span></span><span class=line><span class=cl><span class=mi>1</span>          <span class=mi>1</span>           <span class=mi>1</span>                  <span class=mi>1</span>      <span class=mi>1</span>    <span class=n>iPad</span>  <span class=n>sz7inch</span>  <span class=n>st32gb</span> <span class=n>r4gb</span>     <span class=n>b7h</span>   <span class=mi>499</span>
+</span></span><span class=line><span class=cl><span class=mi>2</span>          <span class=mi>1</span>           <span class=mi>1</span>                  <span class=mi>2</span>      <span class=mi>0</span> <span class=n>Surface</span> <span class=n>sz10inch</span>  <span class=n>st64gb</span> <span class=n>r2gb</span>     <span class=n>b9h</span>   <span class=mi>399</span>
+</span></span><span class=line><span class=cl><span class=mi>3</span>          <span class=mi>1</span>           <span class=mi>1</span>                  <span class=mi>3</span>      <span class=mi>0</span>  <span class=n>Kindle</span>  <span class=n>sz9inch</span>  <span class=n>st16gb</span> <span class=n>r2gb</span>     <span class=n>b8h</span>   <span class=mi>499</span>
+</span></span><span class=line><span class=cl><span class=mi>4</span>          <span class=mi>1</span>           <span class=mi>2</span>                  <span class=mi>1</span>      <span class=mi>1</span>    <span class=n>iPad</span>  <span class=n>sz8inch</span>  <span class=n>st32gb</span> <span class=n>r1gb</span>     <span class=n>b8h</span>   <span class=mi>399</span>
+</span></span><span class=line><span class=cl><span class=mi>5</span>          <span class=mi>1</span>           <span class=mi>2</span>                  <span class=mi>2</span>      <span class=mi>0</span> <span class=n>Surface</span> <span class=n>sz10inch</span> <span class=n>st128gb</span> <span class=n>r4gb</span>     <span class=n>b7h</span>   <span class=mi>299</span>
+</span></span><span class=line><span class=cl><span class=mi>6</span>          <span class=mi>1</span>           <span class=mi>2</span>                  <span class=mi>3</span>      <span class=mi>0</span>   <span class=n>Nexus</span>  <span class=n>sz7inch</span>  <span class=n>st64gb</span> <span class=n>r1gb</span>     <span class=n>b9h</span>   <span class=mi>199</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>cbc.df 中的前三行描述了对受访者1提出的第一个问题。选择列显示该受访者选择了第一个备选方案。</li><li>ConsumerId 表示回答这个问题的受访者。</li><li>ChoiceSetId 表示这前三行是第一个问题的配置文件。ChoiceSetId 编号 1:15 是为受访者1，然后 15:30 是为受访者2，依此类推。</li><li>AlternativeIdInSet 表示第一行是备选方案1，第二行是备选方案2，第三行是备选方案3。</li><li>Choice 表示受访者选择了哪个备选方案；对于每个选择问题中被指定为首选备选方案的配置文件，它的值为1。</li></ul><p>现在重要的是估计一个完整的选择模型。任何建模的第一步是使用基本描述性统计了解数据。我们从摘要开始:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; summary(cbc.df)
+</span></span><span class=line><span class=cl>   ConsumerId   ChoiceSetId   AlternativeIdInSet     Choice           Brand            Size         Storage       Ram       Battery        Price      
+</span></span><span class=line><span class=cl> Min.   :  1   Min.   :   1   Min.   :1          Min.   :0.0000   Galaxy :1263   sz10inch:1371   st128gb:1376   r1gb:2192   b7h:1918   Min.   :169.0  
+</span></span><span class=line><span class=cl> 1st Qu.: 35   1st Qu.: 514   1st Qu.:1          1st Qu.:0.0000   iPad   :1538   sz7inch :1767   st16gb :1370   r2gb:2055   b8h:2055   1st Qu.:199.0  
+</span></span><span class=line><span class=cl> Median : 69   Median :1028   Median :2          Median :0.0000   Kindle :1119   sz8inch :1520   st32gb :1774   r4gb:1918   b9h:2192   Median :299.0  
+</span></span><span class=line><span class=cl> Mean   : 69   Mean   :1028   Mean   :2          Mean   :0.3333   Nexus  :1104   sz9inch :1507   st64gb :1645                          Mean   :307.5  
+</span></span><span class=line><span class=cl> 3rd Qu.:103   3rd Qu.:1542   3rd Qu.:3          3rd Qu.:1.0000   Surface:1141                                                         3rd Qu.:399.0  
+</span></span><span class=line><span class=cl> Max.   :137   Max.   :2055   Max.   :3          Max.   :1.0000                                                                        Max.   :499.0 
+</span></span></code></pre></td></tr></table></div></div><p>我们看到每个属性水平在问题中出现了多少次。总结选择数据的一个更具信息量的方式是计算选择计数，这是受访者在每个特征水平上选择备选方案的次数的交叉表。我们可以使用 xtabs() 轻松地完成这个任务。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; xtabs(Choice~Price, data=cbc.df)
+</span></span><span class=line><span class=cl>Price
+</span></span><span class=line><span class=cl>169 199 299 399 499 
+</span></span><span class=line><span class=cl>688 472 329 365 201
+</span></span></code></pre></td></tr></table></div></div><ul><li>表格的行表示选择（Choice），在这个例子中，选择是一个二元变量（1 或 0）。</li><li>表格的列表示价格（Price），列中的数值表示该价格下被选择的次数。
+具体到结果的解释如下：</li></ul><p>在价格为 169 的情况下，被选择了 688 次。<br>在价格为 199 的情况下，被选择了 472 次。<br>在价格为 299 的情况下，被选择了 329 次。<br>在价格为 399 的情况下，被选择了 365 次。<br>在价格为 499 的情况下，被选择了 201 次。</p><p>受访者更经常选择售价为 £169 的平板电脑，而不是售价为 £299 或 £499 的平板电脑。<br>如果我们计算尺寸属性的计数，我们会发现选择在 7 英寸、8 英寸和 10 英寸之间更加平衡，而在 9 英寸上选择更多。</p><blockquote><p>xtabs()</p></blockquote><p>用于创建交叉表（Contingency Table）的函数。交叉表是一种用于展示两个或多个分类变量之间关系的表格，通常显示了每个组合的频数或频率。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; xtabs(Choice~Size, data=cbc.df)
+</span></span><span class=line><span class=cl>Size
+</span></span><span class=line><span class=cl>sz10inch  sz7inch  sz8inch  sz9inch 
+</span></span><span class=line><span class=cl>     475      535      472      573 
+</span></span></code></pre></td></tr></table></div></div><p>在估计选择模型之前，始终鼓励为每个属性计算选择计数。</p><h1 id=2-prepare-the-data>2. Prepare the data</h1><p>我们现在可以估计我们的第一个选择模型了。通过拟合选择模型，我们可以精确地测量每个属性与受访者选择的关联程度。
+我们使用 mlogit 包，你可能需要使用 install.packages() 安装。mlogit 估计最基本和常用的选择模型，即多项逻辑回归模型。</p><h2 id=21-define-reference-levels---used-when-estimating-model>2.1 Define reference levels - used when estimating model</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cbc.df$Brand &lt;- relevel(cbc.df$Brand, ref = &#34;Nexus&#34;) 
+</span></span><span class=line><span class=cl>cbc.df$Size &lt;- relevel(cbc.df$Size, ref = &#34;sz7inch&#34;) 
+</span></span><span class=line><span class=cl>cbc.df$Storage &lt;- relevel(cbc.df$Storage, ref = &#34;st16gb&#34;) 
+</span></span><span class=line><span class=cl>cbc.df$Ram &lt;- relevel(cbc.df$Ram, ref = &#34;r1gb&#34;) 
+</span></span><span class=line><span class=cl>cbc.df$Battery &lt;- relevel(cbc.df$Battery, ref = &#34;b7h&#34;)
+</span></span></code></pre></td></tr></table></div></div><h2 id=22-define-data-format>2.2 Define data format</h2><p>mlogit 要求选择数据具有特定的数据格式。我们使用 dfidx 包中的 dfidx 函数来整理格式。</p><ul><li>choice 参数指示包含响应数据的列。在我们的案例中，choice = “Choice”。</li><li>idx 参数指示备选方案的结构。列表中的第一个索引表示选择集和消费者的列，第二个索引表示每个选择集中备选方案的列。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cbc.mlogit &lt;- dfidx(cbc.df, choice=&#34;Choice&#34;, idx=list(c(&#34;ChoiceSetId&#34;, &#34;ConsumerId&#34;), &#34;AlternativeIdInSet&#34;))
+</span></span></code></pre></td></tr></table></div></div><h1 id=3-multinomial-conjoint-model-estimation-with-mlogit>3 Multinomial conjoint model estimation with mlogit()</h1><p>当我们运行模型时，它会选择每个离散属性的参考水平。参考水平的效用被归一化为零。我们在数据加载阶段为每个离散属性指定了一个参考水平。这些参考水平是 Nexus、7 英寸屏幕、16GB 硬盘、1GB 内存、7 小时电池。我们将价格视为连续变量，因此不需要指定参考水平。<br>该模型假定没有误差项的备选方案 j 的效用如下所示。</p>$$
+V_j = \beta_{11}[ \text{Brand} = \text{Galaxy}] + \beta_{12}[ \text{Brand} = \text{iPad}] + \beta_{13}[ \text{Brand} = \text{Kindle}] + \beta_{14}[ \text{Brand} = \text{Surface}] + \beta_{21}[ \text{Screen} = \text{10inch}] + \beta_{22}[ \text{Screen} = \text{9inch}] + \beta_{23}[ \text{Screen} = \text{8inch}] + \beta_{31}[ \text{Storage} = \text{128gb}] + \beta_{32}[ \text{Storage} = \text{64gb}] + \beta_{33}[ \text{Storage} = \text{32gb}] + \beta_{41}[ \text{RAM} = \text{4gb}] + \beta_{42}[ \text{RAM} = \text{2gb}] + \beta_{51}[ \text{Battery} = \text{9h}] + \beta_{52}[ \text{Battery} = \text{8h}] + \beta_6 \text{Price}
+$$<p>其中，$ U_j = V_j + error $ 。也就是说，有 15 个参数 $ \beta $ 需要估计。</p><p>假设独立的极值误差分布，消费者以概率从三个备选方案中选择备选方案 j。<br></p>$$
+p_j = \frac{\exp(V_j)}{\sum_{k=1}^{3} \exp(V_k)}, \quad \text{for } j \in \{1,2,3\}
+$$<p>显然，$ p_1 + p_2 + p_3 = 1 $
+我们实际估计模型。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; model&lt;-mlogit(Choice ~ 0+Brand+Size+Storage+Ram+Battery+Price, data=cbc.mlogit) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; kable(summary(model)$CoefTable)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>|               |   Estimate| Std. Error|    z-value| Pr(&gt;&amp;#124;z&amp;#124;)|
+</span></span><span class=line><span class=cl>|:--------------|----------:|----------:|----------:|------------------:|
+</span></span><span class=line><span class=cl>|BrandGalaxy    |  0.3378857|  0.0925056|   3.652596|          0.0002596|
+</span></span><span class=line><span class=cl>|BrandiPad      |  0.9780287|  0.0937336|  10.434136|          0.0000000|
+</span></span><span class=line><span class=cl>|BrandKindle    |  0.2630105|  0.0996254|   2.639995|          0.0082907|
+</span></span><span class=line><span class=cl>|BrandSurface   |  0.1450365|  0.0938521|   1.545373|          0.1222560|
+</span></span><span class=line><span class=cl>|Sizesz10inch   |  0.3240632|  0.0841953|   3.848949|          0.0001186|
+</span></span><span class=line><span class=cl>|Sizesz8inch    |  0.1890775|  0.0829232|   2.280151|          0.0225987|
+</span></span><span class=line><span class=cl>|Sizesz9inch    |  0.4355415|  0.0808408|   5.387644|          0.0000001|
+</span></span><span class=line><span class=cl>|Storagest128gb |  0.5897703|  0.0870533|   6.774822|          0.0000000|
+</span></span><span class=line><span class=cl>|Storagest32gb  |  0.2168719|  0.0829213|   2.615395|          0.0089124|
+</span></span><span class=line><span class=cl>|Storagest64gb  |  0.5782183|  0.0808259|   7.153877|          0.0000000|
+</span></span><span class=line><span class=cl>|Ramr2gb        |  0.3189348|  0.0672579|   4.741970|          0.0000021|
+</span></span><span class=line><span class=cl>|Ramr4gb        |  0.6357438|  0.0645225|   9.853053|          0.0000000|
+</span></span><span class=line><span class=cl>|Batteryb8h     |  0.1299599|  0.0651501|   1.994777|          0.0460672|
+</span></span><span class=line><span class=cl>|Batteryb9h     |  0.1253824|  0.0650588|   1.927216|          0.0539528|
+</span></span><span class=line><span class=cl>|Price          | -0.0050888|  0.0002752| -18.488626|          0.0000000|
+</span></span></code></pre></td></tr></table></div></div><h2 id=31-meaning-of-parameters>3.1 Meaning of parameters</h2><p>在估计后，我们得到了每个离散属性的每个水平（除了参考水平）的系数估计。这样的系数捕获了与参考相比属性水平的相对效用或部分价值。例如，在品牌属性的情况下，品牌iPad系数给出了iPad相对于Nexus（参考品牌）的品牌相对效用的估计。</p><p>正号告诉我们，平均而言，客户更喜欢iPad而不是Nexus，因为较大的估计表示更强的偏好，所以我们可以看到客户非常喜欢64GB存储（相对于基本水平，即16GB）。这些参数估计值是在logit刻度上的。</p><p>在连续价格的情况下，我们得到一个单一的系数，它捕捉到当价格增加一单位（$1）时备选方案的效用如何变化，同时保持备选方案的所有其他特征不变。</p><h2 id=32-model-fit>3.2 Model fit</h2><p>有人可能会想知道偏好是否仅受品牌效应驱动。我们可以估计一个只有品牌作为预测变量的模型。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>model</span><span class=o>.</span><span class=n>constraint</span> <span class=o>&lt;-</span><span class=n>mlogit</span><span class=p>(</span><span class=n>Choice</span> <span class=o>~</span> <span class=mi>0</span><span class=o>+</span><span class=n>Brand</span><span class=p>,</span> <span class=n>data</span> <span class=o>=</span> <span class=n>cbc</span><span class=o>.</span><span class=n>mlogit</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>mlogit()
+用于拟合多项 Logit 模型。多项 Logit 模型是一种用于处理多分类问题的统计模型，通常用于解释和预测个体选择不同类别的概率。<br>然后我们可以使用 lrtest 来比较这两个模型。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>lrtest</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>model</span><span class=o>.</span><span class=n>constraint</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>Likelihood</span> <span class=n>ratio</span> <span class=n>test</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Model</span> <span class=mi>1</span><span class=p>:</span> <span class=n>Choice</span> <span class=o>~</span> <span class=mi>0</span> <span class=o>+</span> <span class=n>Brand</span> <span class=o>+</span> <span class=n>Size</span> <span class=o>+</span> <span class=n>Storage</span> <span class=o>+</span> <span class=n>Ram</span> <span class=o>+</span> <span class=n>Battery</span> <span class=o>+</span> <span class=n>Price</span>
+</span></span><span class=line><span class=cl><span class=n>Model</span> <span class=mi>2</span><span class=p>:</span> <span class=n>Choice</span> <span class=o>~</span> <span class=mi>0</span> <span class=o>+</span> <span class=n>Brand</span>
+</span></span><span class=line><span class=cl>  <span class=c1>#Df  LogLik  Df  Chisq Pr(&gt;Chisq)    </span>
+</span></span><span class=line><span class=cl><span class=mi>1</span>  <span class=mi>15</span> <span class=o>-</span><span class=mf>1938.9</span>                          
+</span></span><span class=line><span class=cl><span class=mi>2</span>   <span class=mi>4</span> <span class=o>-</span><span class=mf>2218.0</span> <span class=o>-</span><span class=mi>11</span> <span class=mf>558.29</span>  <span class=o>&lt;</span> <span class=mf>2.2e-16</span> <span class=o>***</span>
+</span></span><span class=line><span class=cl><span class=o>---</span>
+</span></span><span class=line><span class=cl><span class=n>Signif</span><span class=o>.</span> <span class=n>codes</span><span class=p>:</span>  <span class=mi>0</span> <span class=err>‘</span><span class=o>***</span><span class=err>’</span> <span class=mf>0.001</span> <span class=err>‘</span><span class=o>**</span><span class=err>’</span> <span class=mf>0.01</span> <span class=err>‘</span><span class=o>*</span><span class=err>’</span> <span class=mf>0.05</span> <span class=err>‘</span><span class=o>.</span><span class=err>’</span> <span class=mf>0.1</span> <span class=err>‘</span> <span class=err>’</span> <span class=mi>1</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>lrtest()
+用于进行两个线性回归模型之间的 Likelihood Ratio Test（似然比检验）。Likelihood Ratio Test 用于比较两个具有不同复杂度的模型是否在解释数据方面有显著的差异。</p></blockquote><h1 id=4-interpreting-conjoint-analysis-findings>4. Interpreting Conjoint Analysis Findings</h1><p>通常很难直接解释选择模型的部分效用估计。系数处于一个不熟悉的尺度上（即log），它们衡量了各个水平的相对偏好，这使得它们很难理解。因此，大多数选择模型偏好专注于使用模型进行选择份额预测或计算每个属性的支付意愿，而不是呈现系数。</p><h2 id=41-predicted-market-share>4.1 Predicted Market Share</h2><p>我们还可以使用估计的参数来预测数据中不同备选方案的选择概率。在这里，我们打印出数据中前六个选择集的预测。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; kable(head(predict(model,cbc.mlogit)))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>|         1|         2|         3|
+</span></span><span class=line><span class=cl>|---------:|---------:|---------:|
+</span></span><span class=line><span class=cl>| 0.3717263| 0.4405521| 0.1877216|
+</span></span><span class=line><span class=cl>| 0.2367797| 0.4718620| 0.2913583|
+</span></span><span class=line><span class=cl>| 0.4760867| 0.2974319| 0.2264814|
+</span></span><span class=line><span class=cl>| 0.3730366| 0.4456505| 0.1813129|
+</span></span><span class=line><span class=cl>| 0.3984632| 0.1618560| 0.4396807|
+</span></span><span class=line><span class=cl>| 0.3791075| 0.2506170| 0.3702755|
+</span></span></code></pre></td></tr></table></div></div><p>现在，我们可以测量整个数据集中预测的准确性。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; predicted_alternative &lt;- apply(predict(model,cbc.mlogit),1,which.max) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; selected_alternative &lt;- cbc.mlogit$AlternativeIdInSet[cbc.mlogit$Choice&gt;0] 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; confusionMatrix(table(predicted_alternative,selected_alternative),positive = &#34;1&#34;)
+</span></span><span class=line><span class=cl>Confusion Matrix and Statistics
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                     selected_alternative
+</span></span><span class=line><span class=cl>predicted_alternative   1   2   3
+</span></span><span class=line><span class=cl>                    1 362 158 130
+</span></span><span class=line><span class=cl>                    2 164 449 149
+</span></span><span class=line><span class=cl>                    3 136 160 347
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Overall Statistics
+</span></span><span class=line><span class=cl>                                          
+</span></span><span class=line><span class=cl>               Accuracy : 0.5635          
+</span></span><span class=line><span class=cl>                 95% CI : (0.5417, 0.5851)
+</span></span><span class=line><span class=cl>    No Information Rate : 0.3732          
+</span></span><span class=line><span class=cl>    P-Value [Acc &gt; NIR] : &lt;2e-16          
+</span></span><span class=line><span class=cl>                                          
+</span></span><span class=line><span class=cl>                  Kappa : 0.343           
+</span></span><span class=line><span class=cl>                                          
+</span></span><span class=line><span class=cl> Mcnemar&#39;s Test P-Value : 0.8875          
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Statistics by Class:
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                     Class: 1 Class: 2 Class: 3
+</span></span><span class=line><span class=cl>Sensitivity            0.5468   0.5854   0.5543
+</span></span><span class=line><span class=cl>Specificity            0.7933   0.7570   0.7929
+</span></span><span class=line><span class=cl>Pos Pred Value         0.5569   0.5892   0.5397
+</span></span><span class=line><span class=cl>Neg Pred Value         0.7865   0.7541   0.8024
+</span></span><span class=line><span class=cl>Prevalence             0.3221   0.3732   0.3046
+</span></span><span class=line><span class=cl>Detection Rate         0.1762   0.2185   0.1689
+</span></span><span class=line><span class=cl>Detection Prevalence   0.3163   0.3708   0.3129
+</span></span><span class=line><span class=cl>Balanced Accuracy      0.6700   0.6712   0.6736
+</span></span></code></pre></td></tr></table></div></div><p>请注意，如果预测是随机的，准确率将为33.3%（对于三个备选方案）。我们的简单模型比这要好得多，尽管它并不完美。</p><h2 id=42-conjoint-simulator>4.2 Conjoint simulator</h2><p>现在，让我们看看如何使用模型参数场景来预测在假设市场条件下任意一组产品的市场份额。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; predict.share &lt;- function(model, d) {
+</span></span><span class=line><span class=cl>+   temp &lt;- model.matrix(update(model$formula, 0 ~ .), data = d)[,-1] # generate dummy matri 
+</span></span><span class=line><span class=cl>+   u &lt;- temp%*% .... [TRUNCATED] 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; # hypothetical base market structure with 4 alternatives in the market
+</span></span><span class=line><span class=cl>&gt; d.base &lt;- cbc.df[c(44,34,33,40),c(&#34;Brand&#34;,&#34;Size&#34;,&#34;Storage&#34;,&#34;Ram&#34;, &#34;Battery&#34; .... [TRUNCATED] 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; d.base &lt;- cbind(d.base,as.vector(predict.share(model,d.base)))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; colnames(d.base)[7] &lt;- &#34;Predicted.Share&#34; 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; rownames(d.base) &lt;- c()
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; kable(d.base)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>|Brand   |Size     |Storage |Ram  |Battery | Price| Predicted.Share|
+</span></span><span class=line><span class=cl>|:-------|:--------|:-------|:----|:-------|-----:|---------------:|
+</span></span><span class=line><span class=cl>|iPad    |sz7inch  |st64gb  |r2gb |b8h     |   399|       0.3423928|
+</span></span><span class=line><span class=cl>|Galaxy  |sz10inch |st32gb  |r2gb |b7h     |   299|       0.2540301|
+</span></span><span class=line><span class=cl>|Surface |sz10inch |st64gb  |r1gb |b7h     |   399|       0.1313854|
+</span></span><span class=line><span class=cl>|Kindle  |sz7inch  |st32gb  |r1gb |b9h     |   169|       0.2721917|
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; # hypothetical market structure after Galaxy gets a RAM upgrade
+</span></span><span class=line><span class=cl>&gt; d.new &lt;- d.base
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; d.new[2, &#39;Ram&#39;] &lt;- &#34;r4gb&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; d.new$Predicted.Share &lt;- as.vector(predict.share(model,d.new)) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; kable(d.new)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>|Brand   |Size     |Storage |Ram  |Battery | Price| Predicted.Share|
+</span></span><span class=line><span class=cl>|:-------|:--------|:-------|:----|:-------|-----:|---------------:|
+</span></span><span class=line><span class=cl>|iPad    |sz7inch  |st64gb  |r2gb |b8h     |   399|       0.3127768|
+</span></span><span class=line><span class=cl>|Galaxy  |sz10inch |st32gb  |r4gb |b7h     |   299|       0.3185544|
+</span></span><span class=line><span class=cl>|Surface |sz10inch |st64gb  |r1gb |b7h     |   399|       0.1200209|
+</span></span><span class=line><span class=cl>|Kindle  |sz7inch  |st32gb  |r1gb |b9h     |   169|       0.2486479|
+</span></span></code></pre></td></tr></table></div></div><h2 id=43-willingness-to-pay>4.3 Willingness to pay</h2><p>非常重要的是，使用参数估计，我们通过除以该属性的系数来为所选属性水平估计，换句话说，我们估计价格的变化将导致由于问题属性水平变化而引起的效用变化的等价物。例如，我们发现，普通消费者在选择是否购买 Galaxy 和支付额外 $125.8 之间处于中立状态，或者购买 iPad。换句话说，普通消费者愿意支付高达 $125.8 来获取 iPad 而不是 Nexus，同时保持所有其他特征不变。</p><h3 id=431-what-is-the-brand-value-of-ipad-relative-to-galaxy>4.3.1 What is the brand value of iPad relative to Galaxy?</h3><p>品牌资产 - 从 Galaxy 升级到 iPad 的美元价值</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; (coef(model)[&#34;BrandiPad&#34;]-coef(model)[&#34;BrandGalaxy&#34;]) / (-coef(model)[&#34;Price&#34;])
+</span></span><span class=line><span class=cl>BrandiPad 
+</span></span><span class=line><span class=cl> 125.7944 
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>coef()</p></blockquote><p>提取模型系数的函数，可以用于提取线性回归、逻辑回归、多项式回归等模型的系数。</p><h3 id=432-willingness-to-pay-for-an-attribute-upgrade>4.3.2 Willingness to Pay for an Attribute Upgrade</h3><p>从 1GB 升级到 4GB RAM 的美元价值（1GB 是参考水平。因此其系数为0）。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; coef(model)[&#34;Sizesz9inch&#34;] / (-coef(model)[&#34;Price&#34;])
+</span></span><span class=line><span class=cl>Sizesz9inch 
+</span></span><span class=line><span class=cl>    85.5882
+</span></span></code></pre></td></tr></table></div></div><h1 id=5-code>5. Code</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;xtable&#34;</span><span class=p>)</span> <span class=c1># processing of regression output </span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;knitr&#34;</span><span class=p>)</span> <span class=c1># used for report compilation and table display </span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;ggplot2&#34;</span><span class=p>)</span> <span class=c1># very popular plotting library ggplot2 </span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;mlogit&#34;</span><span class=p>)</span> <span class=c1># multinomial logit</span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;caret&#34;</span><span class=p>)</span> <span class=c1># ConfusionMatrix</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 获取当前已加载文件的目录</span>
+</span></span><span class=line><span class=cl><span class=n>file_dir</span> <span class=o>&lt;-</span> <span class=n>dirname</span><span class=p>(</span><span class=n>parent</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span><span class=o>$</span><span class=n>ofile</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>file_dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 将工作目录设置为当前已加载文件的目录</span>
+</span></span><span class=line><span class=cl><span class=n>setwd</span><span class=p>(</span><span class=n>file_dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>&lt;-</span><span class=n>read</span><span class=o>.</span><span class=n>csv</span><span class=p>(</span><span class=s2>&#34;Data_Conjoint_Choice.csv&#34;</span><span class=p>,</span> <span class=n>stringsAsFactors</span> <span class=o>=</span> <span class=n>TRUE</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=nb>str</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>head</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>summary</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xtabs</span><span class=p>(</span><span class=n>Choice</span><span class=o>~</span><span class=n>Price</span><span class=p>,</span> <span class=n>data</span><span class=o>=</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xtabs</span><span class=p>(</span><span class=n>Choice</span><span class=o>~</span><span class=n>Size</span><span class=p>,</span> <span class=n>data</span><span class=o>=</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Brand</span> <span class=o>&lt;-</span> <span class=n>relevel</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Brand</span><span class=p>,</span> <span class=n>ref</span> <span class=o>=</span> <span class=s2>&#34;Nexus&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Size</span> <span class=o>&lt;-</span> <span class=n>relevel</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Size</span><span class=p>,</span> <span class=n>ref</span> <span class=o>=</span> <span class=s2>&#34;sz7inch&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Storage</span> <span class=o>&lt;-</span> <span class=n>relevel</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Storage</span><span class=p>,</span> <span class=n>ref</span> <span class=o>=</span> <span class=s2>&#34;st16gb&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Ram</span> <span class=o>&lt;-</span> <span class=n>relevel</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Ram</span><span class=p>,</span> <span class=n>ref</span> <span class=o>=</span> <span class=s2>&#34;r1gb&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Battery</span> <span class=o>&lt;-</span> <span class=n>relevel</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Battery</span><span class=p>,</span> <span class=n>ref</span> <span class=o>=</span> <span class=s2>&#34;b7h&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=n>dfidx</span><span class=p>)</span> <span class=c1>#install if needed </span>
+</span></span><span class=line><span class=cl><span class=n>cbc</span><span class=o>.</span><span class=n>mlogit</span> <span class=o>&lt;-</span> <span class=n>dfidx</span><span class=p>(</span><span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>,</span> <span class=n>choice</span><span class=o>=</span><span class=s2>&#34;Choice&#34;</span><span class=p>,</span> <span class=n>idx</span><span class=o>=</span><span class=n>list</span><span class=p>(</span><span class=n>c</span><span class=p>(</span><span class=s2>&#34;ChoiceSetId&#34;</span><span class=p>,</span> <span class=s2>&#34;ConsumerId&#34;</span><span class=p>),</span> <span class=s2>&#34;AlternativeIdInSet&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>model</span><span class=o>&lt;-</span><span class=n>mlogit</span><span class=p>(</span><span class=n>Choice</span> <span class=o>~</span> <span class=mi>0</span><span class=o>+</span><span class=n>Brand</span><span class=o>+</span><span class=n>Size</span><span class=o>+</span><span class=n>Storage</span><span class=o>+</span><span class=n>Ram</span><span class=o>+</span><span class=n>Battery</span><span class=o>+</span><span class=n>Price</span><span class=p>,</span> <span class=n>data</span><span class=o>=</span><span class=n>cbc</span><span class=o>.</span><span class=n>mlogit</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>kable</span><span class=p>(</span><span class=n>summary</span><span class=p>(</span><span class=n>model</span><span class=p>)</span><span class=o>$</span><span class=n>CoefTable</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>model</span><span class=o>.</span><span class=n>constraint</span> <span class=o>&lt;-</span><span class=n>mlogit</span><span class=p>(</span><span class=n>Choice</span> <span class=o>~</span> <span class=mi>0</span><span class=o>+</span><span class=n>Brand</span><span class=p>,</span> <span class=n>data</span> <span class=o>=</span> <span class=n>cbc</span><span class=o>.</span><span class=n>mlogit</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>lrtest</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>model</span><span class=o>.</span><span class=n>constraint</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>kable</span><span class=p>(</span><span class=n>head</span><span class=p>(</span><span class=n>predict</span><span class=p>(</span><span class=n>model</span><span class=p>,</span><span class=n>cbc</span><span class=o>.</span><span class=n>mlogit</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>predicted_alternative</span> <span class=o>&lt;-</span> <span class=n>apply</span><span class=p>(</span><span class=n>predict</span><span class=p>(</span><span class=n>model</span><span class=p>,</span><span class=n>cbc</span><span class=o>.</span><span class=n>mlogit</span><span class=p>),</span><span class=mi>1</span><span class=p>,</span><span class=n>which</span><span class=o>.</span><span class=n>max</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>selected_alternative</span> <span class=o>&lt;-</span> <span class=n>cbc</span><span class=o>.</span><span class=n>mlogit</span><span class=o>$</span><span class=n>AlternativeIdInSet</span><span class=p>[</span><span class=n>cbc</span><span class=o>.</span><span class=n>mlogit</span><span class=o>$</span><span class=n>Choice</span><span class=o>&gt;</span><span class=mi>0</span><span class=p>]</span> 
+</span></span><span class=line><span class=cl><span class=n>confusionMatrix</span><span class=p>(</span><span class=n>table</span><span class=p>(</span><span class=n>predicted_alternative</span><span class=p>,</span><span class=n>selected_alternative</span><span class=p>),</span><span class=n>positive</span> <span class=o>=</span> <span class=s2>&#34;1&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>predict</span><span class=o>.</span><span class=n>share</span> <span class=o>&lt;-</span> <span class=n>function</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>d</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>temp</span> <span class=o>&lt;-</span> <span class=n>model</span><span class=o>.</span><span class=n>matrix</span><span class=p>(</span><span class=n>update</span><span class=p>(</span><span class=n>model</span><span class=o>$</span><span class=n>formula</span><span class=p>,</span> <span class=mi>0</span> <span class=o>~</span> <span class=o>.</span><span class=p>),</span> <span class=n>data</span> <span class=o>=</span> <span class=n>d</span><span class=p>)[,</span><span class=o>-</span><span class=mi>1</span><span class=p>]</span> <span class=c1># generate dummy matri </span>
+</span></span><span class=line><span class=cl>  <span class=n>u</span> <span class=o>&lt;-</span> <span class=n>temp</span><span class=o>%*%</span><span class=n>model</span><span class=o>$</span><span class=n>coef</span><span class=p>[</span><span class=n>colnames</span><span class=p>(</span><span class=n>temp</span><span class=p>)]</span> <span class=c1># calculate utilities; %*% is matrix multiplicati </span>
+</span></span><span class=line><span class=cl>  <span class=n>probs</span> <span class=o>&lt;-</span> <span class=n>t</span><span class=p>(</span><span class=nb>exp</span><span class=p>(</span><span class=n>u</span><span class=p>)</span><span class=o>/</span><span class=n>sum</span><span class=p>(</span><span class=nb>exp</span><span class=p>(</span><span class=n>u</span><span class=p>)))</span> <span class=c1># calculate probabilities</span>
+</span></span><span class=line><span class=cl>  <span class=n>colnames</span><span class=p>(</span><span class=n>probs</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>paste</span><span class=p>(</span><span class=s2>&#34;alternative&#34;</span><span class=p>,</span> <span class=n>colnames</span><span class=p>(</span><span class=n>probs</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span><span class=p>(</span><span class=n>probs</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=c1># hypothetical base market structure with 4 alternatives in the market</span>
+</span></span><span class=line><span class=cl><span class=n>d</span><span class=o>.</span><span class=n>base</span> <span class=o>&lt;-</span> <span class=n>cbc</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=n>c</span><span class=p>(</span><span class=mi>44</span><span class=p>,</span><span class=mi>34</span><span class=p>,</span><span class=mi>33</span><span class=p>,</span><span class=mi>40</span><span class=p>),</span><span class=n>c</span><span class=p>(</span><span class=s2>&#34;Brand&#34;</span><span class=p>,</span><span class=s2>&#34;Size&#34;</span><span class=p>,</span><span class=s2>&#34;Storage&#34;</span><span class=p>,</span><span class=s2>&#34;Ram&#34;</span><span class=p>,</span> <span class=s2>&#34;Battery&#34;</span><span class=p>,</span><span class=s2>&#34;Price&#34;</span><span class=p>)]</span> 
+</span></span><span class=line><span class=cl><span class=n>d</span><span class=o>.</span><span class=n>base</span> <span class=o>&lt;-</span> <span class=n>cbind</span><span class=p>(</span><span class=n>d</span><span class=o>.</span><span class=n>base</span><span class=p>,</span><span class=n>as</span><span class=o>.</span><span class=n>vector</span><span class=p>(</span><span class=n>predict</span><span class=o>.</span><span class=n>share</span><span class=p>(</span><span class=n>model</span><span class=p>,</span><span class=n>d</span><span class=o>.</span><span class=n>base</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=n>colnames</span><span class=p>(</span><span class=n>d</span><span class=o>.</span><span class=n>base</span><span class=p>)[</span><span class=mi>7</span><span class=p>]</span> <span class=o>&lt;-</span> <span class=s2>&#34;Predicted.Share&#34;</span> 
+</span></span><span class=line><span class=cl><span class=n>rownames</span><span class=p>(</span><span class=n>d</span><span class=o>.</span><span class=n>base</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>kable</span><span class=p>(</span><span class=n>d</span><span class=o>.</span><span class=n>base</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># hypothetical market structure after Galaxy gets a RAM upgrade</span>
+</span></span><span class=line><span class=cl><span class=n>d</span><span class=o>.</span><span class=n>new</span> <span class=o>&lt;-</span> <span class=n>d</span><span class=o>.</span><span class=n>base</span>
+</span></span><span class=line><span class=cl><span class=n>d</span><span class=o>.</span><span class=n>new</span><span class=p>[</span><span class=mi>2</span><span class=p>,</span> <span class=s1>&#39;Ram&#39;</span><span class=p>]</span> <span class=o>&lt;-</span> <span class=s2>&#34;r4gb&#34;</span>
+</span></span><span class=line><span class=cl><span class=n>d</span><span class=o>.</span><span class=n>new</span><span class=o>$</span><span class=n>Predicted</span><span class=o>.</span><span class=n>Share</span> <span class=o>&lt;-</span> <span class=n>as</span><span class=o>.</span><span class=n>vector</span><span class=p>(</span><span class=n>predict</span><span class=o>.</span><span class=n>share</span><span class=p>(</span><span class=n>model</span><span class=p>,</span><span class=n>d</span><span class=o>.</span><span class=n>new</span><span class=p>))</span> 
+</span></span><span class=line><span class=cl><span class=n>kable</span><span class=p>(</span><span class=n>d</span><span class=o>.</span><span class=n>new</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>coef</span><span class=p>(</span><span class=n>model</span><span class=p>)[</span><span class=s2>&#34;BrandiPad&#34;</span><span class=p>]</span><span class=o>-</span><span class=n>coef</span><span class=p>(</span><span class=n>model</span><span class=p>)[</span><span class=s2>&#34;BrandGalaxy&#34;</span><span class=p>])</span> <span class=o>/</span> <span class=p>(</span><span class=o>-</span><span class=n>coef</span><span class=p>(</span><span class=n>model</span><span class=p>)[</span><span class=s2>&#34;Price&#34;</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>coef</span><span class=p>(</span><span class=n>model</span><span class=p>)[</span><span class=s2>&#34;Sizesz9inch&#34;</span><span class=p>]</span> <span class=o>/</span> <span class=p>(</span><span class=o>-</span><span class=n>coef</span><span class=p>(</span><span class=n>model</span><span class=p>)[</span><span class=s2>&#34;Price&#34;</span><span class=p>])</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/tags/r%E8%AF%AD%E8%A8%80/>R语言</a>
+<a href=/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/>数据分析</a>
+<a href=/tags/%E7%AB%9E%E4%BA%89%E4%BC%98%E5%8A%BF/>竞争优势</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".main-article");renderMathInElement(e,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-lecture-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage lecture II</h2></div></a></article><article><a href=/p/rweek6-managing-sustainable-competitive-advantage-lecture/><div class=article-details><h2 class=article-title>R[week6] Managing Sustainable Competitive Advantage lecture</h2></div></a></article><article><a href=/p/rweek9-managing-resource-trade-offs-ii-code/><div class=article-details><h2 class=article-title>R[week9] Managing Resource Trade-Offs II Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs-code/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

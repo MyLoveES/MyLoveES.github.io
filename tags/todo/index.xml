@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TODO on Kunkka</title><link>https://MyLoveES.github.io/tags/todo/</link><description>Recent content in TODO on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 06 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/todo/index.xml" rel="self" type="application/rss+xml"/><item><title>Callback Or MessageQueue</title><link>https://MyLoveES.github.io/p/callback-or-messagequeue/</link><pubDate>Fri, 06 May 2022 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/callback-or-messagequeue/</guid><description/></item><item><title>缓存算法 - Window-TinyLFU</title><link>https://MyLoveES.github.io/p/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95-window-tinylfu/</link><pubDate>Thu, 10 Mar 2022 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/%E7%BC%93%E5%AD%98%E7%AE%97%E6%B3%95-window-tinylfu/</guid><description/></item><item><title>Code without TheadPool</title><link>https://MyLoveES.github.io/p/code-without-theadpool/</link><pubDate>Thu, 25 Nov 2021 18:40:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/code-without-theadpool/</guid><description>&lt;h1 id="脱离线程池这些操作的替代方案"&gt;脱离线程池，这些操作的替代方案
+&lt;/h1&gt;&lt;h2 id="线程池---优"&gt;线程池 - 优
+&lt;/h2&gt;&lt;h2 id="线程池---缺"&gt;线程池 - 缺
+&lt;/h2&gt;&lt;h2 id="方案"&gt;方案
+&lt;/h2&gt;&lt;h3 id="1-非阻塞"&gt;1. 非阻塞
+&lt;/h3&gt;&lt;h3 id="2-限流"&gt;2. 限流
+&lt;/h3&gt;&lt;h3 id="3-隔离"&gt;3. 隔离
+&lt;/h3&gt;&lt;h3 id="4-任务状态监控干预"&gt;4. 任务状态监控、干预
+&lt;/h3&gt;</description></item><item><title>MQ - Consume messages with Priority</title><link>https://MyLoveES.github.io/p/mq-consume-messages-with-priority/</link><pubDate>Sat, 20 Nov 2021 18:38:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/mq-consume-messages-with-priority/</guid><description>&lt;h1 id="根据优先级消费mq消息"&gt;根据优先级消费MQ消息
+&lt;/h1&gt;&lt;h2 id="背景"&gt;背景
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;MQ作为处理任务的消息中间件。由于任务来自于不同的场景，带有不同的优先级属性，因此消费者需要根据呀优先级对任务进行处理。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id="方案"&gt;方案
+&lt;/h2&gt;&lt;h3 id="带有优先级的mq以-rabbitmq-为例"&gt;带有优先级的MQ：以 RabbitMQ 为例
+&lt;/h3&gt;&lt;h4 id="1-为什么-kafkapulsar-不带有优先级概念"&gt;1. 为什么 Kafka/Pulsar 不带有优先级概念
+&lt;/h4&gt;&lt;h4 id="2-两者的差别"&gt;2. 两者的差别
+&lt;/h4&gt;&lt;h3 id="topic-优先级顺序消费"&gt;Topic 优先级顺序消费
+&lt;/h3&gt;&lt;h4 id="1-通过单一任务队列限流当前实现方案"&gt;1. 通过单一任务队列限流（当前实现方案）
+&lt;/h4&gt;&lt;h4 id="2-为每个topic分配队列容量整体调控"&gt;2. 为每个Topic分配队列，容量整体调控
+&lt;/h4&gt;</description></item><item><title>Docker Substitute Podman</title><link>https://MyLoveES.github.io/p/docker-substitute-podman/</link><pubDate>Wed, 13 Oct 2021 18:14:13 +0000</pubDate><guid>https://MyLoveES.github.io/p/docker-substitute-podman/</guid><description>&lt;h2 id="podman简介"&gt;Podman简介
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://podman.io/" target="_blank" rel="noopener"
+&gt;podman&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="和docker的区别"&gt;和Docker的区别
+&lt;/h2&gt;&lt;h2 id="安装"&gt;安装
+&lt;/h2&gt;&lt;h2 id="使用"&gt;使用
+&lt;/h2&gt;&lt;h2 id="使用-nvidia-driver"&gt;使用 Nvidia-driver
+&lt;/h2&gt;</description></item><item><title>Algorithm - 线段树</title><link>https://MyLoveES.github.io/p/algorithm-%E7%BA%BF%E6%AE%B5%E6%A0%91/</link><pubDate>Tue, 20 Jul 2021 15:44:10 +0000</pubDate><guid>https://MyLoveES.github.io/p/algorithm-%E7%BA%BF%E6%AE%B5%E6%A0%91/</guid><description>&lt;h1 id="线段树"&gt;线段树
+&lt;/h1&gt;&lt;h2 id="何为线段树"&gt;何为线段树
+&lt;/h2&gt;&lt;h2 id="构造线段树"&gt;构造线段树
+&lt;/h2&gt;&lt;h2 id="查询线段树"&gt;查询线段树
+&lt;/h2&gt;&lt;h2 id="更新线段树"&gt;更新线段树
+&lt;/h2&gt;&lt;h2 id="leetcode-problem"&gt;LEETCODE PROBLEM
+&lt;/h2&gt;</description></item></channel></rss>

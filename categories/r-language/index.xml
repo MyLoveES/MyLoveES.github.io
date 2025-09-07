@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>R-Language on Kunkka</title><link>https://MyLoveES.github.io/categories/r-language/</link><description>Recent content in R-Language on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 25 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/categories/r-language/index.xml" rel="self" type="application/rss+xml"/><item><title>R[week4] Choice model code</title><link>https://MyLoveES.github.io/p/rweek4-choice-model-code/</link><pubDate>Mon, 25 Mar 2024 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/rweek4-choice-model-code/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;R: 4.3.2 (2023-10-31)
+R studio: 2023.12.1+402 (2023.12.1+402)&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;Choice modeling 是一种市场研究方法，用于理解消费者在购买决策中做出选择的过程。这种方法使用数学模型来分析消费者如何根据不同的产品或服务特征做出选择，并量化这些选择的概率。通常，研究者会设计实验或调查来收集关于消费者对不同产品或服务的偏好和选择的数据，然后使用选择模型来解释这些数据。&lt;/p&gt;
+&lt;p&gt;选择模型可以是基于参数的，比如概率模型（如逻辑回归）、偏好模型（如偏好函数）或效用模型（如福利函数）等；也可以是非参数的，比如决策树、随机森林等机器学习方法。这些模型能够帮助企业了解消费者对产品或服务的偏好，从而指导产品定价、市场定位、广告策略等决策。&lt;/p&gt;
+&lt;p&gt;Marketers often observe yes/no outcomes:&lt;br&gt;
+• Did a customer purchase a product?&lt;br&gt;
+• Did a customer take a test drive?&lt;br&gt;
+• Did a customer sign up for a credit card, renew her subscription, or respond to a promotion?&lt;br&gt;
+All of these kinds of outcomes are binary because they have only two possible overserved states: yes or no. A logistic model is used to fit such outcomes.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这些类型的结果都是二元的，它们只有两种可能的状态：是或否。 logistic模型被用来拟合这样的结果。&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id="1-basics-of-logistic-regression"&gt;1. Basics of logistic regression
+&lt;/h1&gt;&lt;p&gt;The core feature of a logistic model is that it relates the probability of an outcome to an exponential function of a predictor variable.&lt;br&gt;
+By modelling the probability of an outcome, a logistic model accomplishes two things:&lt;br&gt;
+• First, it more directly models what we are interested in, which is a probability or proportion, such as the likelihood of a given customer to purchase a product or the expected proportion of a segment who will respond to a promotion.&lt;br&gt;
+• Second, it limits the model to the appropriate range for a proportion, which is [0, 1]. A basic linear model, as generated with lm(), does not have such a limit. The equation for the logistic function is:&lt;/p&gt;
+$$
+p(y) = \frac{e^{v_x}}{e^{v_x} + 1}
+$$&lt;p&gt;Logistic模型的核心特征是它将结果的概率与预测变量的指数函数相关联。&lt;br&gt;
+通过对结果的概率建模，logistic模型实现了两个目标。&lt;br&gt;
+• 首先，它更直接地对我们感兴趣的内容进行建模，即概率或比例，例如给定客户购买产品的可能性或将对促销活动做出回应的细分预期比例。&lt;br&gt;
+• 其次，它将模型限制在比例的适当范围内，即[0,1]。基本的线性模型，如lm()生成的模型，没有这样的限制。&lt;/p&gt;
+&lt;p&gt;In this equation, the outcome of interest is y, and we compute its likelihood p(y) as a function of vx. We typically estimate vx as a function of the features (x) of a product, such as price. vx can take any real value, so we are able to treat it as a continuous function in a linear model. In that case, vx is composed of one or more coefficients of the model and indicates the importance of the corresponding features of the product.&lt;/p&gt;
+&lt;p&gt;在这个方程中，我们感兴趣的结果是y，我们计算其概率p(y)作为vx的函数。我们通常将vx估计为产品特征（x）的函数，例如价格。vx可以取任何实数值，因此我们可以将其视为线性模型中的连续函数。在这种情况下，vx由模型的一个或多个系数组成，并指示产品相应特征的重要性。&lt;/p&gt;
+&lt;p&gt;The formula gives a value between [0, 1]. The likelihood of y is less than 50% when vx is negative, is 50% when vx = 0 and is above 50% when vx is positive. We compute this first by hand and then switch to the equivalent plogis() function:&lt;/p&gt;
+&lt;p&gt;这个公式给出了一个在[0, 1]之间的值。当vx为负时，y的概率小于50％，当vx = 0时，概率为50％，当vx为正时，概率大于50％。我们首先手工计算这个值，然后切换到等效的plogis()函数：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; exp(0) / exp(0)+1 # computing logistic by hand, or using plogis()
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;•[1] 2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# plogis参数其实就是p(y)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; plogis(-Inf) #infinitely low = likelihood 0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[1] 0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; plogis(2) #moderate probability = 88% chance of outcome
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[1] 0.8807971
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; plogis(-0.2) # weak likelihood
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[1] 0.450166
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+&lt;blockquote&gt;
+&lt;p&gt;plogis():&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;plogis()&lt;/code&gt; 函数是 R 语言中用于计算逻辑函数（logistic function）的函数。&lt;/p&gt;
+&lt;p&gt;逻辑函数的定义如下所示：&lt;/p&gt;
+$$
+\text{logistic}(x) = \frac{1}{1 + e^{-x}}
+$$&lt;p&gt;其中，\(x\) 是逻辑函数的输入值。&lt;code&gt;plogis()&lt;/code&gt; 函数接受一个参数 \(x\)，表示逻辑函数的输入值，然后返回逻辑函数的值。这个函数通常用于逻辑回归模型中，将线性预测值转换为0到1之间的概率值。&lt;/p&gt;
+&lt;p&gt;在 R 中，你可以使用 &lt;code&gt;plogis()&lt;/code&gt; 函数来计算逻辑函数的值。例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 计算逻辑函数值
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;x &amp;lt;- 2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;probability &amp;lt;- plogis(x)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;print(probability)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Such a model is known as a logit model, which determines the value of vx from the logarithm of the relative probability of occurence of y:&lt;/p&gt;
+$$
+v_x = \log \left( \frac{p(y)}{1 - p(y)} \right)
+$$&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; log(0.88 / (1-0.88)) # moderate high likelihood
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[1] 1.99243
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; qlogis(0.88) # equivalent to hand computation
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;[1] 1.99243
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+&lt;blockquote&gt;
+&lt;p&gt;qlogis()&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;qlogis()&lt;/code&gt; 函数是 R 语言中用于计算逻辑函数的反函数的函数。&lt;/p&gt;
+&lt;p&gt;逻辑函数的反函数通常称为逆逻辑函数，其定义如下所示：&lt;/p&gt;
+$$
+\text{logit}(p) = \log\left(\frac{p}{1 - p}\right)
+$$&lt;p&gt;其中，\( p \) 是逻辑函数的输出值，即概率值。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;qlogis()&lt;/code&gt; 函数接受一个参数 \( p \)，表示逻辑函数的输出值（即概率值），然后返回逆逻辑函数的值。这个函数通常用于从逻辑函数的概率值中反推出线性预测值。&lt;/p&gt;
+&lt;p&gt;在 R 中，你可以使用 &lt;code&gt;qlogis()&lt;/code&gt; 函数来计算逆逻辑函数的值。例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-R" data-lang="R"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 计算逆逻辑函数值&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="m"&gt;0.7&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;linear_pred&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="nf"&gt;qlogis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;linear_pred&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;h1 id="2-generalised-linear-model-glm"&gt;2. Generalised linear model (GLM)
+&lt;/h1&gt;&lt;p&gt;A logistic regression model in R is fitted as a generalised linear model (GLM) using a process similar to linear regression with lm(), but with the difference that a GLM can handle dependent variables that are not normally distributed. Thus, GLM can be used to model data counts (such as the number of purchases), time intervals (such as time spent on a website), or binary variables (e.g., did/didn’t purchase). The common feature of all GLM models is that they relate normally distributed predictors to a non-normal outcome using a function known as a link. This means that they are able to fit models for many different distributions using a single, consistent framework.&lt;/p&gt;
+&lt;p&gt;在R中，逻辑回归模型是作为广义线性模型（GLM）进行拟合的，使用的过程类似于使用lm()进行线性回归，但不同之处在于GLM可以处理不符合正态分布的因变量。因此，GLM可用于对数据计数（例如购买次数）、时间间隔（例如在网站上的停留时间）或二元变量（例如是否购买）建模。所有GLM模型的共同特点是它们将正态分布的预测变量与一个非正态的结果相关联，使用的函数称为链接函数。这意味着它们能够使用单一、一致的框架拟合许多不同分布的模型。&lt;/p&gt;
+&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+&lt;p&gt;广义线性模型（Generalized Linear Model，GLM）是一种广泛应用于统计分析中的模型，它将线性模型扩展到了更广泛的数据类型和分布。GLM可以处理不同类型的响应变量，包括二项分布、泊松分布、正态分布等，并且可以处理不同的链接函数，如恒等函数、对数函数、逻辑斯蒂函数等。&lt;/p&gt;
+&lt;p&gt;GLM的基本形式如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;线性部分：&lt;/li&gt;
+&lt;/ol&gt;
+$$
+\eta = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_p x_p
+$$&lt;p&gt;这部分与多元线性回归模型相似，其中 $ \eta $ 是线性预测值，$ \beta_0 $ , $ \beta_1 $ , $ \ldots $, $ \beta_p $ 是系数，$ x_1 $ , $ x_2 $ , $ \ldots $, $ x_p $ 是预测变量。&lt;/p&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;链接函数：&lt;/li&gt;
+&lt;/ol&gt;
+$$ g(\mu) = \eta $$&lt;p&gt;这里的 $ g(\cdot) $ 是链接函数，它定义了预测变量 $ \eta $ 与响应变量 $ \mu $ 之间的关系。链接函数通常根据响应变量的类型选择，如对数链接函数用于处理泊松分布的响应变量，逻辑斯蒂链接函数用于处理二项分布的响应变量等。&lt;/p&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;分布族：&lt;/li&gt;
+&lt;/ol&gt;
+$$ Y \sim \text{Dist}(\mu) $$&lt;p&gt;这里的 $ \text{Dist}(\mu) $ 表示响应变量 Y 的分布族，$ \mu $ 是响应变量的均值。&lt;/p&gt;
+&lt;p&gt;GLM的优势在于它的灵活性和适用性，可以适应不同类型和分布的数据，同时保持了对参数的解释性。它在许多领域都得到了广泛应用，包括生物统计学、医学、社会科学等。&lt;/p&gt;
+&lt;/div&gt;
+&lt;h1 id="3-rfm-recency-frequency-monetary"&gt;3. RFM (recency, frequency, monetary)
+&lt;/h1&gt;&lt;p&gt;RFM is a method used for analyzing customer value. RFM stands for the three dimensions: Recency: How recently did the customer purchase? Frequency: How often do they purchase? Monetary Value: How much do they spend?&lt;/p&gt;
+&lt;p&gt;RFM是用于分析客户价值的一种方法。RFM代表三个维度：Recency（最近购买时间）：客户最近一次购买是在多久之前？Frequency（购买频率）：他们购买的频率如何？Monetary Value（购买金额）：他们的消费金额是多少？&lt;/p&gt;
+&lt;h2 id="31-the-logit-model"&gt;3.1 The Logit Model
+&lt;/h2&gt;&lt;p&gt;The logit model restricts the output values to lie in [0, 1] intervals.&lt;br&gt;
+Specifically, it expresses the probability of purchase by customer i as a function of coefficients β0:3 and variables in the following manner:&lt;/p&gt;
+&lt;p&gt;逻辑斯蒂模型将输出值限制在[0, 1]的区间内。
+具体而言，它将客户i的购买概率表达为系数β0:3和以下变量的函数：&lt;/p&gt;
+$$
+P(Purchase_i) = \frac{exp(\beta_0 + \beta_1 \text{Recency}_i + \beta_2 \text{Frequency}_i + \beta_3 \text{Monetary}_i)}{exp(\beta_0 + \beta_1 \text{Recency}_i + \beta_2 \text{Frequency}_i + \beta_3 \text{Monetary}_i) + 1}
+$$&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+&lt;p&gt;这个公式是一个逻辑回归模型中用于计算购买概率的方程。在这个方程中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$ P(Purchase_i) $ 表示第 i 个个体购买的概率。&lt;/li&gt;
+&lt;li&gt;$ \beta_0 $, $ \beta_1 $, $ \beta_2 $, $ \beta_3 $ 是模型的参数，分别表示截距和与每个预测变量（Recency、Frequency、Monetary）相关的系数。&lt;/li&gt;
+&lt;li&gt;$ \text{Recency}_i $, $ \text{Frequency}_i $, $ \text{Monetary}_i $ 是第 i 个个体的预测变量值，分别表示最近一次购买距离、购买频率和购买金额。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;公式的分子部分表示了一个线性组合$ (\beta_0 + \beta_1 \text{Recency}_i + \beta_2 \text{Frequency}_i + \beta_3 \text{Monetary}_i) $ 的指数形式，即指数函数 $ \text{exp}(\ldots) $ ，代表了购买的可能性。&lt;/p&gt;
+&lt;p&gt;分母部分是分子部分加上1，这是由于逻辑回归模型的形式，保证了概率值在0和1之间。整个方程实际上是逻辑回归模型的逻辑函数（logistic function），它将线性预测值转换为0到1之间的概率值，这表示个体购买的概率。&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Intuitively, the utility of choosing to buy is:&lt;/p&gt;
+$$ V_{bi} = \beta_0 + \beta_1 \text{Recency}_i + \beta_2 \text{Frequency}_i + \beta_3 \text{Monetary}_i $$&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+&lt;p&gt;这个公式表示了一个线性模型，用于预测个体 i 的 $ V $ 值。在这个公式中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$ V_{bi} $ 表示个体 $ i $ 的 $ V $ 值。&lt;/li&gt;
+&lt;li&gt;$ \beta_0, \beta_1, \beta_2, \beta_3 $ 是模型的参数，分别表示截距和与每个预测变量（Recency、Frequency、Monetary）相关的系数。&lt;/li&gt;
+&lt;li&gt;$ \text{Recency}_i, \text{Frequency}_i, \text{Monetary}_i $ 第 $ i $ 个个体的预测变量值，分别表示最近一次购买距离、购买频率和购买金额。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个模型的目的是通过个体的购买行为的相关特征（Recency、Frequency、Monetary）来预测他们的 $ V $ 值。这个 $ V $ 值可能表示个体的潜在价值或其他相关的指标。&lt;/p&gt;
+&lt;p&gt;whereas utility of choosing not to buy is normalized to zero $ V_ni = 0 $, so $ exp(V_n) = exp(0) = 1 $ in the fraction above.&lt;br&gt;
+With the given formulation, we can estimate values $ \beta_0:3 $ that fit the data best. We use glm() of family=“binomial”.&lt;/p&gt;
+&lt;p&gt;选择不购买的效用被归一化为零，即 Vni = 0，因此在上述分数中 exp(Vn) = exp(0) = 1。&lt;br&gt;
+通过给定的公式，我们可以估计最适合数据的 β0:3 值。我们使用 glm() 中的 family=&amp;ldquo;binomial&amp;rdquo;。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; RFMdata &amp;lt;- read.csv(file = &amp;#34;RFMData.csv&amp;#34;,row.names=1)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; head(RFMdata,5)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Recency Frequency Monetary Purchase
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;1 120 7 41.66 0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;2 90 9 46.71 0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;3 120 6 103.99 1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;4 270 17 37.13 1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;5 60 5 88.92 0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; model &amp;lt;- glm(Purchase~Recency+Frequency+Monetary, data=RFMdata, family = &amp;#34;binomial&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; output &amp;lt;- cbind(coef(summary(model))[, 1:4],exp(coef(model)))
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; colnames(output) &amp;lt;- c(&amp;#34;beta&amp;#34;,&amp;#34;SE&amp;#34;,&amp;#34;z val.&amp;#34;,&amp;#34;Pr(&amp;gt;|z|)&amp;#34;,&amp;#39;exp(beta)&amp;#39;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; kable(output,caption = &amp;#34;Logistic regression estimates&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Table: Logistic regression estimates
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| | beta| SE| z val.| Pr(&amp;gt;&amp;amp;#124;z&amp;amp;#124;)| exp(beta)|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|:-----------|-----------:|---------:|---------:|------------------:|---------:|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|(Intercept) | -30.2976692| 8.5522913| -3.542638| 0.0003961| 0.000000|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|Recency | 0.1114175| 0.0309797| 3.596464| 0.0003226| 1.117862|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|Frequency | 0.5941268| 0.2429393| 2.445577| 0.0144620| 1.811448|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|Monetary | 0.1677054| 0.0465645| 3.601572| 0.0003163| 1.182588|
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;glm()&lt;/p&gt;&lt;/blockquote&gt;
+&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+glm() 函数是 R 语言中的一个重要函数，用于拟合广义线性模型（Generalized Linear Models）。广义线性模型是线性模型的扩展，允许因变量服从不同的分布，而不仅仅是正态分布。这使得广义线性模型适用于更广泛的数据类型，包括二项分布（二元逻辑回归）、泊松分布（计数数据）、多项分布（多类别分类）等。
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;cbind()&lt;/p&gt;&lt;/blockquote&gt;
+&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+cbind() 函数是 R 语言中的一个基础函数，用于按列合并多个对象（通常是向量、矩阵或数据框）。cbind 是 "column bind" 的缩写，表示按列合并。
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;kable()&lt;/p&gt;&lt;/blockquote&gt;
+&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+kable() 函数是 R 语言中 knitr 和 rmarkdown 包中的一个函数，用于生成美观的表格输出。它能够将 R 中的数据框、矩阵或表格转换为 Markdown 或 LaTeX 格式的表格，从而方便地将其插入到 R Markdown 文档或 HTML 页面中。
+&lt;/div&gt;
+&lt;p&gt;We also run the likelihood ratio test with H0 : β1 = β2 = β3 = 0 – to make sure our full logit model offers a significantly better fit than the model with just an intercept. We find that χ2 = 107.14 and P(&amp;gt; |Chi|) ≈ 0, so we reject H0.&lt;/p&gt;
+&lt;p&gt;我们还进行了似然比检验，假设 H0：β1 = β2 = β3 = 0，以确保我们的完整 logit 模型提供了显着更好的拟合效果，而不仅仅是一个截距模型。我们发现 χ2 = 107.14，P(&amp;gt; |Chi|) ≈ 0，因此我们拒绝 H0。&lt;/p&gt;
+&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+&lt;p&gt;这句话表明了对全模型（含有Recency、Frequency、Monetary预测变量）和只有截距项的模型之间进行了似然比检验。在似然比检验中，原假设 $ H_0 $ 是模型中所有预测变量的系数都为零，即 $ \beta_1 = \beta_2 = \beta_3 = 0 $，即只有截距项。备择假设 $ H_1 $ 是至少有一个预测变量的系数不为零，即全模型。&lt;/p&gt;
+&lt;p&gt;通过似然比检验，可以确定是否全模型相对于只有截距项的模型提供了更好的拟合。在这种情况下，通过计算得到的卡方统计量 $ \chi^2 $ 为107.14，对应的P值非常接近于0，通常小于显著性水平（例如0.05）。由于P值小于显著性水平，我们拒绝原假设 $ H_0 $，即认为全模型的拟合效果显著地优于只有截距项的模型。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; # likelihood ratio test
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; reduced.model &amp;lt;- glm(Purchase ~ 1, data=RFMdata, family = &amp;#34;binomial&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; kable(xtable(anova(reduced.model, model, test = &amp;#34;Chisq&amp;#34;)),caption = &amp;#34;Likelihood ratio test&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Table: Likelihood ratio test
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| Resid. Df| Resid. Dev| Df| Deviance| Pr(&amp;gt;Chi)|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|---------:|----------:|--:|--------:|--------:|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| 99| 137.62776| NA| NA| NA|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| 96| 30.48715| 3| 107.1406| 0|
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="32-predicting-probabilities"&gt;3.2 Predicting probabilities
+&lt;/h2&gt;&lt;p&gt;Now we calculate $ P(Purchase_i) $ for each individual in the data set.&lt;/p&gt;
+&lt;p&gt;现在我们计算数据集中每个个体的购买概率$ P(Purchase_i) $。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; # calculate logit probabilities
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; RFMdata$Base.Probability &amp;lt;- predict(model, RFMdata, type=&amp;#34;response&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; kable(head(RFMdata,5),row.names = TRUE)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| | Recency| Frequency| Monetary| Purchase| Base.Probability|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|:--|-------:|---------:|--------:|--------:|----------------:|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|1 | 120| 7| 41.66| 0| 0.0030728|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|2 | 90| 9| 46.71| 0| 0.0008332|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|3 | 120| 6| 103.99| 1| 0.9833225|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|4 | 270| 17| 37.13| 1| 0.9999999|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|5 | 60| 5| 88.92| 0| 0.0032378|
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;predict()&lt;/p&gt;&lt;/blockquote&gt;
+&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+predict() 函数是 R 语言中的一个常用函数，用于对已拟合的模型进行预测。它可以对新的观测数据应用已经拟合好的模型，从而生成预测值。
+&lt;/div&gt;
+&lt;h2 id="33-predicting-behaviour"&gt;3.3 Predicting behaviour
+&lt;/h2&gt;&lt;p&gt;We also calculate an indicator variable for whether individuals will purchase or not based on their predicted probabilities&lt;/p&gt;
+&lt;p&gt;我们还根据他们的预测概率计算出个体是否会购买的指示变量。&lt;/p&gt;
+&lt;p&gt;符号 &amp;ldquo;⊮&amp;rdquo; 代表逻辑非（negation）或者“非”。所以整个公式的含义是：购买概率不大于或等于0.5。&lt;/p&gt;
+$$
+\neg [P(Purchase_i) \geq 0.5]
+$$&lt;p&gt;If individual’s predicted probability is greater or equal to 0.5, we predict he will make a purchase.&lt;br&gt;
+如果个体的预测概率大于或等于0.5，则我们预测他会购买。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; # purchase vs. no purchase &amp;lt;-&amp;gt; p&amp;gt;0.5 or p&amp;lt;0.5
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; RFMdata$Predicted.Purchase &amp;lt;- 1*(RFMdata$Base.Probability&amp;gt;=0.5)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; kable(head(RFMdata,5),row.names = TRUE)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;| | Recency| Frequency| Monetary| Purchase| Base.Probability| Predicted.Purchase|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|:--|-------:|---------:|--------:|--------:|----------------:|------------------:|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|1 | 120| 7| 41.66| 0| 0.0030728| 0|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|2 | 90| 9| 46.71| 0| 0.0008332| 0|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|3 | 120| 6| 103.99| 1| 0.9833225| 1|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|4 | 270| 17| 37.13| 1| 0.9999999| 1|
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;|5 | 60| 5| 88.92| 0| 0.0032378| 0|
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="34-evaluating-the-model"&gt;3.4 Evaluating the model
+&lt;/h2&gt;&lt;p&gt;Now, we compute a confusion matrix between predicted purchases and actual purchase behaviour.&lt;/p&gt;
+&lt;p&gt;现在，我们计算预测购买和实际购买行为之间的混淆矩阵。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; confusionMatrix(table(RFMdata$Predicted.Purchase,RFMdata$Purchase),positive = &amp;#34;1&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Confusion Matrix and Statistics
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 0 1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 0 51 2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 1 4 43
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Accuracy : 0.94
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 95% CI : (0.874, 0.9777)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; No Information Rate : 0.55
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; P-Value [Acc &amp;gt; NIR] : &amp;lt;2e-16
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Kappa : 0.8793
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Now we calculate
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Mcnemar&amp;#39;s Test P-Value : 0.6831
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Sensitivity : 0.9556
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Specificity : 0.9273
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Pos Pred Value : 0.9149
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Neg Pred Value : 0.9623
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Prevalence : 0.4500
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Detection Rate : 0.4300
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Detection Prevalence : 0.4700
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; Balanced Accuracy : 0.9414
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &amp;#39;Positive&amp;#39; Class : 1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;confusionMatrix()&lt;/p&gt;&lt;/blockquote&gt;
+&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+confusionMatrix() 函数是 caret 包中的一个函数，用于计算分类模型的混淆矩阵以及各种分类指标，如准确率、灵敏度、特异性等。混淆矩阵是一种用于评估分类模型性能的表格，其中行表示真实类别，列表示预测类别。
+&lt;p&gt;在市场营销场景中，confusionMatrix() 函数可以用于评估分类模型在预测客户行为方面的性能。以下是一些实际应用场景：&lt;/p&gt;
+&lt;p&gt;• 客户流失预测：假设你正在开展客户流失预测项目。你可以使用历史数据训练一个流失预测模型，并使用 confusionMatrix() 函数来评估该模型的性能。通过混淆矩阵，你可以了解模型正确预测流失客户和未流失客户的情况，并计算出准确率、灵敏度等指标。&lt;/p&gt;
+&lt;p&gt;• 营销活动反馈：如果你进行了一项市场营销活动，例如发送电子邮件或短信营销活动，你可以使用 confusionMatrix() 函数来评估活动的效果。你可以将实际活动的结果与预期结果进行比较，以了解活动的成功率以及是否有必要调整你的营销策略。&lt;/p&gt;
+&lt;p&gt;• 客户分群：在客户分群项目中，你可能使用聚类算法将客户分成不同的群体。你可以使用 confusionMatrix() 函数来评估模型的性能，例如比较聚类结果与真实的客户特征之间的匹配程度。这可以帮助你确定是否需要重新调整分群方法或者改进数据质量。&lt;/p&gt;
+&lt;p&gt;• 产品推荐系统：如果你正在开发一个产品推荐系统，你可以使用 confusionMatrix() 函数来评估系统的准确性。你可以比较系统推荐的产品与用户实际购买的产品之间的匹配情况，并计算出准确率、召回率等指标，以了解系统的性能和用户的满意度。&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;We can also plot the receiver operating characteristic (ROC) curve, which illustrates the diagnostic ability of a binary logit model. It is created by plotting the true positive rate (TPR) against the false positive rate (FPR) – at various decision threshold values for prediction.&lt;br&gt;
+ROC curve can be quickly evaluated using the area under the curve (AUC) metric, which captures the overall quality of the classifier. The greater the AUC, the better. AUC of 1.0 represents a perfect classifier, AUC of 0.5 (diagonal line) represents a worthless classifier. As we see, the binary logit classifier does a good job of predicting purchases on the training data.&lt;/p&gt;
+&lt;p&gt;我们还可以绘制接收者操作特征曲线（ROC曲线），它展示了二元Logit模型的诊断能力。ROC曲线通过在不同的预测决策阈值下绘制真正率（TPR）与假正率（FPR）之间的关系来创建。&lt;br&gt;
+ROC曲线可以通过曲线下面积（AUC）指标进行快速评估，该指标捕捉了分类器的整体质量。AUC越大，分类器的性能越好。AUC为1.0表示完美的分类器，AUC为0.5（对角线）表示一个毫无价值的分类器。正如我们所看到的，二元Logit分类器在训练数据上预测购买行为的效果良好。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; rocobj &amp;lt;- roc(RFMdata$Purchase, RFMdata$Base.Probability)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Setting levels: control = 0, case = 1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Setting direction: controls &amp;lt; cases
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; {plot(rocobj,legacy.axes=TRUE)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; text(0.5, 0.8, labels = sprintf(&amp;#34;AUC = %.5f&amp;#34;,rocobj$auc))}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;roc()&lt;/p&gt;&lt;/blockquote&gt;
+&lt;div style="background-color:#f0f0f0; padding:10px;"&gt;
+roc() 函数是 pROC 包中的一个函数，用于计算接收者操作特征（Receiver Operating Characteristic，ROC）曲线以及计算曲线下面积（Area Under the Curve，AUC）。ROC 曲线是一种用于评估二元分类器性能的图形工具，它显示了在不同分类阈值下真正例率（True Positive Rate，TPR，又称为灵敏度）与假正例率（False Positive Rate，FPR）之间的关系。
+&lt;/div&gt;
+&lt;p&gt;{% asset_image week4_plot.png %}&lt;/p&gt;
+&lt;p&gt;Finally, we predict new probabilities under a hypothetical scenario that everyone’s Monetary variable went up by one unit.&lt;/p&gt;
+$$
+V_{\text{new}} = \beta_0 + \beta_1 \text{Recency} + \beta_2 \text{Frequency} + \beta_3 (\text{Monetary} + 1)
+$$&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; # calculate new logit probabilities (Monetary+1)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; RFMdata_new &amp;lt;- RFMdata
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; RFMdata_new$Monetary &amp;lt;- RFMdata_new$Monetary + 1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;gt; RFMdata$New.Probability &amp;lt;- predict(model, RFMdata_new, type=&amp;#34;response&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;We compare mean new probability across individuals to the mean of old probabilities, and also calculate the lift metric.&lt;/p&gt;
+&lt;p&gt;我们比较各个个体的新概率均值与旧概率均值，并计算提升度量。&lt;/p&gt;
+$$ P(Purchase_i) = \frac{1}{N} \sum_{i=1}^{N} \frac{\exp(V_{bi})}{\exp(V_{bi}) + 1} $$$$ P(Purchase_{\text{new}}) = \frac{1}{N} \sum_{i=1}^{N} \frac{\exp(V_{\text{new}})}{\exp(V_{\text{new}}) + 1} $$$$ \text{Lift} = \frac{p_{\text{new}} - p_{\text{old}}}{p_{\text{old}}} $$&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;# mean predicted base probability&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RFMdata&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Probability&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="mf"&gt;0.45&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;# mean new predicted probability&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RFMdata&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;New&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Probability&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="mf"&gt;0.4578851&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;# lift&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RFMdata&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;New&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Probability&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RFMdata&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Probability&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RFMdata&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Probability&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="mf"&gt;0.01752255&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;# remove predicted purchase variable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;RFMdata&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;&lt;span class="n"&gt;Predicted&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Purchase&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;NULL&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="c1"&gt;# data&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;kable&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;head&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RFMdata&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;names&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Recency&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Frequency&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Monetary&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Purchase&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Probability&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;New&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Probability&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;--|-------&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;|---------&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;|--------&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;|--------&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;|----------------&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;|---------------&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;41.66&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.0030728&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.0036319&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;46.71&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.0008332&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.0009852&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;120&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;103.99&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.9833225&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.9858611&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;270&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;17&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;37.13&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.9999999&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.9999999&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;60&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;88.92&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.0032378&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mf"&gt;0.0038267&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h1 id="4-recap"&gt;4. Recap
+&lt;/h1&gt;&lt;p&gt;• Logistic regression is a powerful method and a particularly good fit for many marketing problems with binary outcomes. We will cover the choice model later for modelling product choice among sets of alternatives.&lt;br&gt;
+• Logistic regression relates a binary outcome such as purchase to predictors that may include continuous and factor variable by modelling the variable’s association with the probability of the outcome.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Although we performed logistic regression here with categorical predictors (factor variables) due to the structure of the amusement park sales data, we could also use continuous predictors in glm(). Just add those to the right-hand side of the model formula as we did with lm()&lt;br&gt;
+• A logistic regression model, also known as a logit model, is a member of the generalized linear model family and is fit using glm( , family = binomial).&lt;br&gt;
+• Coefficient in a logit model can be interpreted in terms of odds ratios, the degree to which they are associated with the increased or decreased likelihood of an outcome. This is done simply by exponentiating the coefficients with exp().&lt;br&gt;
+• A statistically significant result does not always mean that the model is appropriate. It is important to explore data thoroughly and construct models on the basis of careful consideration.&lt;br&gt;
+We saw that the estimated effect of promotion was positive when we estimated one model yet negative when we estimated another. This shows that it is crucial to explore data thoroughly before modelling or interpreting a model. For most marketing data, no model is ever definitive. However, through careful data exploration and consideration of multiple models, we may increase our confidence in our models and the inferences drawn from them.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;• 逻辑回归是一种强大的方法，特别适用于许多具有二元结果的营销问题。我们稍后将介绍选择模型，用于对一组替代品中的产品选择进行建模。&lt;br&gt;
+• 逻辑回归将二元结果（如购买）与可能包括连续和因子变量的预测变量关联起来，方法是通过模拟变量与结果的概率之间的关联。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;尽管我们在这里使用了因子变量（分类变量）执行逻辑回归，因为娱乐园销售数据的结构如此，但我们也可以在glm()中使用连续预测变量。只需像我们在lm()中那样将它们添加到模型公式的右侧即可。&lt;br&gt;
+• 逻辑回归模型，也称为logit模型，是广义线性模型家族的一员，使用glm()拟合，家族设置为binomial。&lt;br&gt;
+• 在logit模型中，系数可以通过将其指数化为exp()来解释为几率比，即它们与结果的增加或减少可能性的相关程度。&lt;br&gt;
+• 统计显著结果并不总意味着模型是适当的。在建模或解释模型之前，彻底探索数据并基于深思熟虑构建模型是非常重要的。&lt;br&gt;
+我们看到，当我们估计一个模型时，促销的估计效果是正向的，但当我们估计另一个模型时，效果是负向的。这表明，在建模或解释模型之前，彻底探索数据是至关重要的。对于大多数营销数据，没有一个模型是绝对的。然而，通过对数据进行深入探索并考虑多个模型，我们可能会增加对模型及其推断的信心。&lt;/p&gt;&lt;/blockquote&gt;</description></item></channel></rss>

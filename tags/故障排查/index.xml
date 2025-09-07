@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>故障排查 on Kunkka</title><link>https://MyLoveES.github.io/tags/%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5/</link><description>Recent content in 故障排查 on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 10 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux - NVIDIA 造成 kernel crash</title><link>https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/</link><pubDate>Sun, 10 Jul 2022 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/</guid><description>&lt;p&gt;(没有查到根本原因)&lt;/p&gt;
+&lt;h1 id="背景"&gt;背景
+&lt;/h1&gt;&lt;p&gt;服务运行中，发现服务器频繁不定时重启。发现是kernel crash造成的。&lt;br&gt;
+查看 /var/crash/ 下的log，发现&lt;br&gt;
+&lt;code&gt;BUG: unable to handle kernel paging request at xxxxxxx&lt;/code&gt;&lt;/p&gt;
+&lt;h1 id="分析vmcore"&gt;分析vmcore
+&lt;/h1&gt;&lt;h2 id="环境"&gt;环境
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;crash工具&lt;/li&gt;
+&lt;li&gt;崩溃转储文件(vmcore)&lt;/li&gt;
+&lt;li&gt;发生崩溃的内核映像文件(vmlinux)，包含调试内核所需调试信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;需要安装：kernel-debuginfo kernel-debuginfo-common&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;yum install crash
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;wget http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-common-x86_64-`uname -r`.rpm
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;wget http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-`uname -r`.rpm
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;rpm -ivh *.rpm
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装完成后，在/lib/debug/lib/modules找到vmlinux内核映像文件&lt;/p&gt;
+&lt;h2 id="vmcore-dmesgtxt"&gt;vmcore-dmesg.txt
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore-dmesg.png"
+width="1920"
+height="836"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore-dmesg_hu_2355dea8ceb88248.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore-dmesg_hu_dc6a23abe28d9755.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="229"
+data-flex-basis="551px"
+&gt;&lt;/p&gt;
+&lt;h2 id="vmcore"&gt;vmcore
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;crash&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;modules&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;3.10&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;957.&lt;/span&gt;&lt;span class="n"&gt;el7&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x86_64&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;vmlinux&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;crash&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;127.0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2020&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;04&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;04&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;14&lt;/span&gt;\&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;\&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;vmcore&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore.png"
+width="1294"
+height="1110"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore_hu_d0e6c698f5aff2e2.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore_hu_95f5a1ce120b9338.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="116"
+data-flex-basis="279px"
+&gt;&lt;/p&gt;
+&lt;p&gt;执行 bt&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-bt.png"
+width="876"
+height="804"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-bt_hu_6315db0c08ddedc9.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-bt_hu_4731a6655ce77015.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="108"
+data-flex-basis="261px"
+&gt;&lt;/p&gt;
+&lt;p&gt;执行 sym&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-sym.png"
+width="1442"
+height="96"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-sym_hu_40a54ccc0fbb17b5.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-sym_hu_47254bc34deb0784.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1502"
+data-flex-basis="3605px"
+&gt;&lt;/p&gt;
+&lt;h1 id="nvidia-smi-查看显卡信息"&gt;nvidia-smi 查看显卡信息
+&lt;/h1&gt;&lt;p&gt;nvidia-smi gpu fan 显示 error&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-smi-err.png"
+width="868"
+height="940"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-smi-err_hu_ee6cc3ddc6e40069.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-smi-err_hu_6d9b6afb63ee2cb9.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="92"
+data-flex-basis="221px"
+&gt;&lt;/p&gt;
+&lt;p&gt;nvidia-smi -q&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q.png"
+width="870"
+height="974"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q_hu_424bc11631ee0e64.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q_hu_2a280a353ee40dd0.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="89"
+data-flex-basis="214px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q-2.png"
+width="778"
+height="744"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q-2_hu_ef0fa14085d5f11e.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q-2_hu_a35fdd92fc14fea5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="104"
+data-flex-basis="250px"
+&gt;&lt;/p&gt;</description></item><item><title>Linux - AVX512 造成程序 crash</title><link>https://MyLoveES.github.io/p/linux-avx512-%E9%80%A0%E6%88%90%E7%A8%8B%E5%BA%8F-crash/</link><pubDate>Mon, 07 Mar 2022 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/linux-avx512-%E9%80%A0%E6%88%90%E7%A8%8B%E5%BA%8F-crash/</guid><description>&lt;h2 id="背景"&gt;背景
+&lt;/h2&gt;&lt;p&gt;服务运行不起来，ps aux查看state始终处在 Dl+ 状态&lt;br&gt;
+查看dmesg或者cat /var/log/messages，发现 &lt;strong&gt;trap invalid opcode&lt;/strong&gt; 和 &lt;strong&gt;segfault at&lt;/strong&gt;. 查过后，可能是指令集问题。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-avx512-%E9%80%A0%E6%88%90%E7%A8%8B%E5%BA%8F-crash/trap_invalid_opcode.jpg"
+width="1121"
+height="37"
+srcset="https://MyLoveES.github.io/p/linux-avx512-%E9%80%A0%E6%88%90%E7%A8%8B%E5%BA%8F-crash/trap_invalid_opcode_hu_208e01d83f47f57f.jpg 480w, https://MyLoveES.github.io/p/linux-avx512-%E9%80%A0%E6%88%90%E7%A8%8B%E5%BA%8F-crash/trap_invalid_opcode_hu_aa37a05603223947.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="3029"
+data-flex-basis="7271px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-avx512-%E9%80%A0%E6%88%90%E7%A8%8B%E5%BA%8F-crash/segment_at.jpg"
+width="1258"
+height="102"
+srcset="https://MyLoveES.github.io/p/linux-avx512-%E9%80%A0%E6%88%90%E7%A8%8B%E5%BA%8F-crash/segment_at_hu_f46476abc67da1c4.jpg 480w, https://MyLoveES.github.io/p/linux-avx512-%E9%80%A0%E6%88%90%E7%A8%8B%E5%BA%8F-crash/segment_at_hu_c4d156986e7c0ba.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1233"
+data-flex-basis="2960px"
+&gt;&lt;/p&gt;
+&lt;h2 id="解释"&gt;解释
+&lt;/h2&gt;&lt;p&gt;ip:c14490 sp:7f975324f790 error:0 in xxxx[400000+53a3d000]&lt;br&gt;
+其中，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ip: 指令(内存)指针&lt;/li&gt;
+&lt;li&gt;sp: 堆栈指针地址（栈顶指针）&lt;/li&gt;
+&lt;li&gt;[xxxx+yyyy] : 虚拟内存起始地址、大小&lt;/li&gt;
+&lt;li&gt;error number: 4 -&amp;gt; 100&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;bit2: 值为1表示是用户态程序内存访问越界，值为0表示是内核态程序内存访问越界&lt;br&gt;
+bit1: 值为1表示是写操作导致内存访问越界，值为0表示是读操作导致内存访问越界&lt;br&gt;
+bit0: 值为1表示没有足够的权限访问非法地址的内容，值为0表示访问的非法地址根本没有对应的页面，也就是无效地址&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;出错地址： 0xc14490 - 0x400000 = 0x814490&lt;/p&gt;
+&lt;p&gt;反汇编，执行(很不幸，我反编译失败了)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;objdump -D xxxx &amp;gt; obj
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;检索 0814490
+尝试在老CPU上重新编译，运行无错。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ref: &lt;a class="link" href="https://blog.csdn.net/wangtingting_100/article/details/83749504" target="_blank" rel="noopener"
+&gt;https://blog.csdn.net/wangtingting_100/article/details/83749504&lt;/a&gt;&lt;br&gt;
+ref: &lt;a class="link" href="https://stackoverflow.com/questions/2549214/interpreting-segfault-messages" target="_blank" rel="noopener"
+&gt;https://stackoverflow.com/questions/2549214/interpreting-segfault-messages&lt;/a&gt;&lt;br&gt;
+ref: &lt;a class="link" href="https://utcc.utoronto.ca/~cks/space/blog/linux/KernelSegfaultMessageMeaning" target="_blank" rel="noopener"
+&gt;https://utcc.utoronto.ca/~cks/space/blog/linux/KernelSegfaultMessageMeaning&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id="贴一下-starkoverflow-上的操作"&gt;贴一下 starkoverflow 上的操作
+&lt;/h2&gt;&lt;h3 id="if-this-were-a-program-not-a-shared-library"&gt;&lt;strong&gt;If this were a program, not a shared library&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;Run &lt;code&gt;addr2line -e yourSegfaultingProgram c14490&lt;/code&gt; (and repeat for the other instruction pointer valUes given) to see where the error is happening. Better, get a debug-instrumented build, and reproduce the problem under a debugger such as gdb.&lt;/p&gt;
+&lt;h3 id="since-it"&gt;&lt;strong&gt;Since it&amp;rsquo;s a shared library&lt;/strong&gt;
+&lt;/h3&gt;&lt;p&gt;You&amp;rsquo;re hosed, unfortunately; it&amp;rsquo;s not possible to know where the libraries were placed in memory by the dynamic linker after-the-fact. Reproduce the problem under gdb.&lt;/p&gt;
+&lt;h3 id="what-the-error-means"&gt;What the error means
+&lt;/h3&gt;&lt;p&gt;Here&amp;rsquo;s the breakdown of the fields:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;address (after the at) - the location in memory the code is trying to access (it&amp;rsquo;s likely that c14490 are offsets from a pointer we expect to be set to a valid value but which is instead pointing to 0)&lt;/li&gt;
+&lt;li&gt;ip - instruction pointer, ie. where the code which is trying to do this lives (指令指针，即尝试执行此操作的代码所在的位置)&lt;/li&gt;
+&lt;li&gt;sp - stack pointer (堆栈指针)&lt;/li&gt;
+&lt;li&gt;error - An error code for page faults; see below for what this means on x86 &lt;a class="link" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/include/asm/trap_pf.h?h=v5.16#n5" target="_blank" rel="noopener"
+&gt;link&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/*
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * Page fault error code bits:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; *
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * bit 0 == 0: no page found 1: protection fault
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * bit 1 == 0: read access 1: write access
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * bit 2 == 0: kernel-mode access 1: user-mode access
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * bit 3 == 1: use of reserved bit detected
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * bit 4 == 1: fault was an instruction fetch
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * bit 5 == 1: protection keys block access
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; * bit 15 == 1: SGX MMU page-fault
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; */
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="贴另一个blog更详尽的解释"&gt;贴另一个blog，更详尽的解释
+&lt;/h2&gt;&lt;h3 id="what-the-linux-kernels-messages-about-segfaulting-programs-mean-on-64-bit-x86"&gt;What the Linux kernel&amp;rsquo;s messages about segfaulting programs mean on 64-bit x86
+&lt;/h3&gt;&lt;p&gt;For quite a while the Linux kernel has had an option to log a kernel message about every faulting user program, and it probably defaults to on in your Linux distribution. I&amp;rsquo;ve seen these messages fly by for years, but for reasons beyond the scope of this entry I&amp;rsquo;ve recently wanted to understand what they mean in some moderate amount of detail.&lt;/p&gt;
+&lt;p&gt;很长一段时间以来，Linux 内核都有一个选项来记录有关每个错误用户程序的内核消息，并且它可能在您的 Linux 发行版中默认为开启。多年来，我一直看到这些消息飞来飞去，但由于超出本文范围的原因，我最近想以适度的细节了解它们的含义。&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ll start with a straightforward and typical example, one that I see every time I build and test Go (as this is a test case that is supposed to crash):&lt;br&gt;
+我将从一个简单而典型的示例开始，我每次构建和测试 Go 时都会看到这个示例（因为这是一个应该崩溃的测试用例）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;testp[19288]: segfault at 0 ip 0000000000401271 sp 00007fff2ce4d210 error 4 in testp[400000+98000]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The meaning of this is:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;rsquo;testp[19288]&amp;rsquo; is the faulting program and its PID&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;segfault at 0&amp;rsquo; tells us the memory address (in hex) that caused the segfault when the program tried to access it. Here the address is 0, so we have a null dereference of some sort.(告诉我们当程序试图访问它时导致段错误的内存地址（十六进制）。这里的地址是 0，所以我们有某种类型的空解引用。)&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;ip 0000000000401271&amp;rsquo; is the value of the instruction pointer at the time of the fault. This should be the instruction that attempted to do the invalid memory access. In 64-bit x86, this will be register %rip (useful for inspecting things in GDB and elsewhere).(是故障时指令指针的值。这应该是试图进行无效内存访问的指令。在 64 位 x86 中，这将是寄存器 %rip（用于检查 GDB 和其他地方的内容）)&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;sp 00007fff2ce4d210&amp;rsquo; is the value of the stack pointer. In 64-bit x86, this will be %rsp.(是堆栈指针的值。在 64 位 x86 中，这将是 %rsp。)(是来自traps.herror 4的十六进制页面错误代码位 ，和往常一样，几乎总是至少为 4（这意味着“用户模式访问”）。值 4 表示读取未映射区域，例如地址 0，而值 6 (4+2) 表示写入未映射区域)&lt;/li&gt;
+&lt;li&gt;&amp;rsquo;error 4&amp;rsquo; is the page fault error code bits from traps.h in hex, as usual, and will almost always be at least 4 (which means &amp;lsquo;user-mode access&amp;rsquo;). A value of 4 means it was a read of an unmapped area, such as address 0, while a value of 6 (4+2) means it was a write of an unmapped area.&lt;/li&gt;
+&lt;li&gt;&amp;lsquo;in testp[400000+98000]&amp;rsquo; tells us the specific virtual memory area that the instruction pointer is in, specifying which file it is (here it&amp;rsquo;s the executable), the starting address that VMA is mapped at (0x400000), and the size of the mapping (0x98000).(告诉我们指令指针所在的特定虚拟内存区域，指定它是哪个文件（这里是可执行文件），VMA 映射的起始地址（0x400000），以及映射的大小（0x98000）)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With a faulting address of 0 and an error code of 4, we know this particular segfault is a read of a null pointer.&lt;br&gt;
+错误地址为 0，错误代码为 4，我们知道这个特定的段错误是对空指针的读取。&lt;br&gt;
+Here&amp;rsquo;s two more error messages:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bash[12235]: segfault at 1054808 ip 000000000041d989 sp 00007ffec1f1cbd8 error 6 in bash[400000+f4000]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&amp;lsquo;Error 6&amp;rsquo; means a write to an unmapped user address, here 0x1054808. &lt;br&gt;
+“错误 6”表示写入未映射的用户地址，此处为 0x1054808。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bash[11909]: segfault at 0 ip 00007f83c03db746 sp 00007ffccbeda010 error 4 in libc-2.23.so[7f83c0350000+1c0000]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Error 4 and address 0 is a null pointer read but this time it&amp;rsquo;s in some libc function, not in bash&amp;rsquo;s own code, since it&amp;rsquo;s reported as &amp;lsquo;in libc-2.23.so[&amp;hellip;]&amp;rsquo;. Since I looked at the core dump, I can tell you that this was in strlen().&lt;br&gt;
+错误 4 和地址 0 是读取的空指针，但这次是在某个 libc 函数中，而不是在 bash 自己的代码中，因为它被报告为“在 libc-2.23.so[&amp;hellip;]”中。由于我查看了核心转储，我可以告诉你这是在strlen().&lt;br&gt;
+On 64-bit x86 Linux, you&amp;rsquo;ll get a somewhat different message if the problem is actually with the instruction being executed, not the address it&amp;rsquo;s referencing. For example:
+在 64 位 x86 Linux 上，如果问题实际上出在正在执行的指令上，而不是它所引用的地址上，那么您将收到一条稍微不同的消息。例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bash[2848] trap invalid opcode ip:48db90 sp:7ffddc8879e8 error:0 in bash[400000+f4000]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;There are a number of such trap types set up in traps.c. Two notable additional ones are &amp;lsquo;divide error&amp;rsquo;, which you get if you do an integer division by zero, and &amp;lsquo;general protection&amp;rsquo;, which you can get for certain extremely wild pointers (one case I know of is when your 64-bit x86 address is not in &amp;lsquo;canonical form&amp;rsquo;). Although these fields are formatted slightly differently, most of them mean the same thing as in segfaults. The exception is &amp;rsquo;error:0&amp;rsquo;, which is not a page fault error code. I don&amp;rsquo;t understand the relevant kernel code enough to know what it means, but if I&amp;rsquo;m reading between the lines correctly in entry_64.txt, then it&amp;rsquo;s either 0 (the usual case) or an error code from the CPU. Here is one possible list of exceptions that get error codes.
+在traps.c中设置了许多此类陷阱类型。两个值得注意的附加错误是“除法错误”，如果你将整数除以零，你会得到它，以及“一般保护”，你可以得到某些非常狂野的指针（我知道的一种情况是当你的 64 位 x86地址不是“规范形式”）。尽管这些字段的格式略有不同，但它们中的大多数与段错误中的含义相同。例外是“ error:0”，它不是页面错误错误代码。我对相关内核代码的理解不足以知道它的含义，但是如果我在entry_64.txt中的行之间正确读取，那么它要么是 0（通常情况），要么是来自 CPU 的错误代码。这里是获取错误代码的一个可能的异常列表。&lt;/p&gt;
+&lt;p&gt;Sometimes these messages can be a little bit unusual and surprising. Here is a silly sample program and the error it produces when run. The code:
+有时这些消息可能有点不寻常和令人惊讶。这是一个愚蠢的示例程序以及它在运行时产生的错误。代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-c" data-lang="c"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mh"&gt;0x0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nf"&gt;printf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;%d&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)());&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;If compiled (without optimization is best) and run, this generates the kernel message:
+如果编译（最好没有优化）并运行，这会生成内核消息：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;a.out[3714]: segfault at 0 ip (null) sp 00007ffe872aa418 error 14 in a.out[400000+1000]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The &amp;lsquo;(null)&amp;rsquo; bit turns out to be expected; it&amp;rsquo;s what the general kernel printf() function generates when asked to print something as a pointer and it&amp;rsquo;s null (as seen here). In our case the instruction pointer is 0 (null) because we&amp;rsquo;ve made a subroutine call through a null pointer and thus we&amp;rsquo;re trying to execute code at address 0. I don&amp;rsquo;t know why the &amp;lsquo;in &amp;hellip;&amp;rsquo; portion says that we&amp;rsquo;re in the executable (although in this case the call actually was there).&lt;/p&gt;
+&lt;p&gt;The error code of 14 is in hex, which means that as bits it&amp;rsquo;s 010100. This is a user mode read of an unmapped area (our usual &amp;lsquo;4&amp;rsquo; case), but it&amp;rsquo;s an instruction fetch, not a normal data read or write. Any error 14s are a sign of some form of mangled function call or a return to a mangled address because the stack has been mashed.&lt;/p&gt;
+&lt;p&gt;&amp;rsquo; (null)&amp;rsquo; 位是预期的；这是一般内核 printf() 函数在被要求将某些内容作为指针打印并且它为 null 时生成的内容（如此处所示）。在我们的例子中，指令指针为 0（空），因为我们通过空指针进行了子程序调用，因此我们试图在地址 0 处执行代码。我不知道为什么“in &amp;hellip;”部分表示我们在可执行文件中（尽管在这种情况下调用实际上在那里）。&lt;/p&gt;
+&lt;p&gt;错误代码 14 是十六进制的，这意味着它的位是 010100。这是对未映射区域的用户模式读取（我们通常的“4”情况），但它是指令获取，而不是正常的数据读取或写入。任何错误 14s 都是某种形式的函数调用错误或返回到错误地址的标志，因为堆栈已被混合。&lt;/p&gt;
+&lt;p&gt;(These bits turn out to come straight from the CPU&amp;rsquo;s page fault IDT.) .&lt;/p&gt;
+&lt;p&gt;For 64-bit x86 Linux kernels (and possibly for 32-bit x86 ones as well), the code you want to look at is show_signal_msg in fault.c, which prints the general &amp;lsquo;segfault at ..&amp;rsquo; message, do_trap and do_general_protection in traps.c, which print the &amp;rsquo;trap &amp;hellip;&amp;rsquo; messages, and print_vma_addr in memory.c, which prints the &amp;lsquo;in &amp;hellip;&amp;rsquo; portion for all of these messages.&lt;/p&gt;
+&lt;h4 id="sidebar-the-various-error-code-bits-as-numbers"&gt;Sidebar: The various error code bits as numbers
+&lt;/h4&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;+1&lt;/td&gt;
+&lt;td&gt;protection fault in a mapped area (eg writing to a read-only mapping) 映射区域中的保护故障（例如写入只读映射）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;+2&lt;/td&gt;
+&lt;td&gt;write (instead of a read)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;+4&lt;/td&gt;
+&lt;td&gt;user mode access (instead of kernel mode access)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;+8&lt;/td&gt;
+&lt;td&gt;use of reserved bits in the page table entry detected (the kernel will panic if this happens) use of reserved bits in the page table entry detected (the kernel will panic if this happens)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;+16 (+0x10)&lt;/td&gt;
+&lt;td&gt;fault was an instruction fetch, not data read or write&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;+32 (+0x20)&lt;/td&gt;
+&lt;td&gt;&amp;lsquo;protection keys block access&amp;rsquo; (don&amp;rsquo;t ask me)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Hex 0x14 is 0x10 + 4; (hex) 6 is 4 + 2. Error code 7 (0x7) is 4 + 2 + 1, a user-mode write to a read-only mapping, and is what you get if you attempt to write to a string constant in C:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;char *ex = &amp;#34;example&amp;#34;;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;int main(int argc, char **argv) {
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; *ex = &amp;#39;E&amp;#39;;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Compile and run this and you will get:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;a.out[8832]: segfault at 400540 ip 0000000000400499 sp 00007ffce6831490 error 7 in a.out[400000+1000]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;It appears that the program code always gets loaded at 0x400000 for ordinary programs, although I believe that shared libraries can have their location randomized.&lt;/p&gt;
+&lt;p&gt;PS: Per a comment in the kernel source, all accesses to addresses above the end of user space will be labeled as &amp;lsquo;protection fault in a mapped area&amp;rsquo; whether or not there are actual page table entries there. The kernel does this so you can&amp;rsquo;t work out where its memory pages are by looking at the error code.&lt;/p&gt;
+&lt;p&gt;(I believe that user space normally ends around 0x07fffffffffff, per mm.txt, although see the comments about TASK_SIZE_MAX in processor.h and also page_64_types.h.) .&lt;/p&gt;</description></item></channel></rss>

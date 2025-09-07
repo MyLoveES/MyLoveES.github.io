@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FFmpeg on Kunkka</title><link>https://MyLoveES.github.io/tags/ffmpeg/</link><description>Recent content in FFmpeg on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 29 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/ffmpeg/index.xml" rel="self" type="application/rss+xml"/><item><title>ffmpeg develop for amrwb bandwidth efficient</title><link>https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/</link><pubDate>Tue, 29 Aug 2023 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/</guid><description>&lt;h1 id="一背景"&gt;一、背景
+&lt;/h1&gt;&lt;p&gt;手机原生通话应用，实现流式语音翻译。&lt;/p&gt;
+&lt;h1 id="二差异"&gt;二、差异
+&lt;/h1&gt;&lt;p&gt;和以往客户接入不同，需要我们自行监听RTP流(通过SDP描述文件)，并且终端输入的音频流并非我们可接受的WAV/PCM格式，而是AMR-WB，需要我们监听RTP流获取音频数据。终端通信设备是现网设备，编码方式无法变更，需要我们来实现音频数据的解码。&lt;/p&gt;
+&lt;h2 id="初版实现"&gt;初版实现
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/origin-pipe.png"
+width="945"
+height="179"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/origin-pipe_hu_2dfb1ce7fe8c508d.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/origin-pipe_hu_a1afbaa6bcdb3a92.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="527"
+data-flex-basis="1267px"
+&gt;&lt;/p&gt;
+&lt;p&gt;借助FFmpeg输入SDP监听对应地址的RTP，并根据SDP中描述的音频编码进行解码以及转格式，直接输出到WAV文件中。Java程序读取WAV文件，做ASR+翻译。&lt;/p&gt;
+&lt;h1 id="三预期外的困难与解决方式"&gt;三、预期外的困难与解决方式
+&lt;/h1&gt;&lt;h2 id="1-amr-wb编码音频ffmpeg不能完全支持解码"&gt;1. AMR-WB编码音频，FFmpeg不能完全支持解码
+&lt;/h2&gt;&lt;p&gt;AMR-WB编码分为两种，Bandwidth-efficient 和 Octet-aligned。&lt;/p&gt;
+&lt;p&gt;阅读&lt;a class="link" href="https://datatracker.ietf.org/doc/html/rfc4867#page-17" target="_blank" rel="noopener"
+&gt;RFC 4867协议&lt;/a&gt;后，发现bandwidth-efficient和octet-aligned之间的差距并不大，内容不变，只是排除了中间的填充字节，更紧凑了些：&lt;/p&gt;
+&lt;h4 id="bandwidth-efficient"&gt;bandwidth efficient
+&lt;/h4&gt;&lt;p&gt;header:
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient-header.png"
+width="283"
+height="107"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient-header_hu_210afcb3723b3862.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient-header_hu_89202ef7c054f44e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="264"
+data-flex-basis="634px"
+&gt;
+table:
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient-table.png"
+width="357"
+height="116"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient-table_hu_bf2058ca33b5f7a5.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient-table_hu_343266205c819256.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="307"
+data-flex-basis="738px"
+&gt;
+payload:
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient.png"
+width="727"
+height="520"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient_hu_b649bd5aae9acd56.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-bandwidth-efficient_hu_1866ee086ea9dbad.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="139"
+data-flex-basis="335px"
+&gt;&lt;/p&gt;
+&lt;h4 id="octet-aligned"&gt;octet aligned
+&lt;/h4&gt;&lt;p&gt;header:
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-header.png"
+width="377"
+height="124"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-header_hu_802cd831238f4623.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-header_hu_9e07b8b8bfe10f90.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="304"
+data-flex-basis="729px"
+&gt;
+table:
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-table.png"
+width="517"
+height="101"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-table_hu_2c8d30695688996f.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-table_hu_67a4c09b4b2c7e01.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="511"
+data-flex-basis="1228px"
+&gt;
+payload:
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned.png"
+width="677"
+height="369"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned_hu_129e9e40ff926d1b.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned_hu_c3cf85ac85264288.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="183"
+data-flex-basis="440px"
+&gt;&lt;/p&gt;
+&lt;p&gt;终端所采用的AMR-WB并非常见的Octet-aligned，而是Bandwidth-efficient。不幸，FFmpeg并不支持这种模式的编码：&lt;a class="link" href="https://github.com/FFmpeg/FFmpeg/blob/master/libavformat/rtpdec_amr.c#L175" target="_blank" rel="noopener"
+&gt;rtpdec_amr.c&lt;/a&gt; &lt;br&gt;
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg_not_support_bw.png"
+width="630"
+height="528"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg_not_support_bw_hu_160363a13729e64d.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg_not_support_bw_hu_34fc499fde7691d3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="119"
+data-flex-basis="286px"
+&gt;&lt;/p&gt;
+&lt;h3 id="方案1-pythonrtp解码重编码---ffmpeg转格式---asr"&gt;方案1: python(RTP解码+重编码) -&amp;gt; ffmpeg转格式 -&amp;gt; ASR
+&lt;/h3&gt;&lt;p&gt;运维帮忙找到了一个脚本，可以实现AMR-WB Bandwidth-efficient音频的解码，并提取出其中有效的payload，输出到文件中。最终生成的文件可以通过ffmpeg进一步转格式，得到可接受的WAV。基于这个脚本，运维开发了一个简单的解码器，针对于这种格式，监听RTP流并转码。 &lt;br&gt;
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-script.png"
+width="1297"
+height="218"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-script_hu_adfdf35db0bd18ed.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-script_hu_bb0018d050b89932.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="594"
+data-flex-basis="1427px"
+&gt;
+但是，这种方式会带来新的问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果终端的数据不是AMR格式，不适用于这条路，还需要走老流程，所以对于音频处理会分成两条路：
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-with-python.png"
+width="1280"
+height="261"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-with-python_hu_c15130ebe097c54d.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-with-python_hu_fce24afcc4f63663.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="490"
+data-flex-basis="1177px"
+&gt;
+如果在通信过程中发生音频编码的变化（SDP信息更新），Java服务需要在两条路之间来回切换，增加了稳定性风险和复杂度。所以在有了保底方案之后，继续尝试另一种方式。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="方案2-修改ffmpeg支持amr-bandwidth-efficient编码"&gt;方案2: 修改ffmpeg，支持AMR Bandwidth-efficient编码
+&lt;/h3&gt;&lt;p&gt;1.简单分析一下FFmpeg对amr的解码部分，对于octet-aligned模式，实际上就是按照字节读取，逐帧剥离数据，送到后面的decoder：
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-decode.png"
+width="649"
+height="1205"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-decode_hu_b6ddf76bd09ef4a7.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-octet-aligned-decode_hu_bf44b49251d28e69.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="53"
+data-flex-basis="129px"
+&gt;
+最终送去转码的audio-data结构：
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-amr-decoded-audio-data.png"
+width="1057"
+height="173"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-amr-decoded-audio-data_hu_5fab2739d353c7f3.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-amr-decoded-audio-data_hu_c613d33c284d6639.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="610"
+data-flex-basis="1466px"
+&gt;
+那么对于bandwidth-efficient，payload一致的前提下，我们只需要重写解析逻辑，按位读取，并在适当的位置填充0bit，即可转化成octet-aligned模式的数据，继续后面的解码：
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-amr-decode-bandwidth-efficient.png"
+width="1299"
+height="770"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-amr-decode-bandwidth-efficient_hu_cce532fb561de13e.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/ffmpeg-amr-decode-bandwidth-efficient_hu_bb8fef05cec373e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="168"
+data-flex-basis="404px"
+&gt;&lt;/p&gt;
+&lt;h2 id="2-静音期间解码器不工作"&gt;2. 静音期间，解码器不工作
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/SID_SKIP.png"
+width="1012"
+height="651"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/SID_SKIP_hu_1ec1ed723dec3545.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/SID_SKIP_hu_3895bc85677324c0.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="155"
+data-flex-basis="373px"
+&gt;
+当碰到SID的时候，AMR-decoder不会对音频数据进行解码，而是选择“忽略”。造成在静音的一段时间内，服务无法收到解码后的数据，也就无法向ASR发送音频数据。而ASR无法收到足够的音频，也无法进行识别，从终端体验来看，像是一句话的最后几个字“被吞了”，直到开始说下一句话才继续识别：
+&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-SID-block.png"
+width="1158"
+height="618"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-SID-block_hu_f70c51528d150c94.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/amr-SID-block_hu_f881412097e01c81.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="187"
+data-flex-basis="449px"
+&gt;&lt;/p&gt;
+&lt;h3 id="方案1-让ffmpeg支持sid解码时填充静音数据"&gt;方案1: 让FFmpeg支持SID解码时填充静音数据
+&lt;/h3&gt;&lt;p&gt;难度大，否&lt;/p&gt;
+&lt;h3 id="方案2-让asr支持客户端主动发起断句断句后继续维持websocket识别"&gt;方案2: 让ASR支持客户端主动发起断句，断句后继续维持websocket识别
+&lt;/h3&gt;&lt;p&gt;算法改动麻烦，否&lt;/p&gt;
+&lt;h3 id="方案3-nio异步从socket读取数据加设超时时间"&gt;方案3: NIO异步从socket读取数据，加设超时时间
+&lt;/h3&gt;&lt;p&gt;在静音时段内，将无法收到bytes，一旦触发超时，客户端主动断开websocket，触发ASR断句，然后再重新建立新的链接&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/asr-end.png"
+width="982"
+height="682"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/asr-end_hu_f7b53d05f72e3dfe.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/asr-end_hu_47c4774cfc2470b5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="143"
+data-flex-basis="345px"
+&gt;&lt;/p&gt;
+&lt;h1 id="四最终实现"&gt;四、最终实现
+&lt;/h1&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/hw-final-pipeline.png"
+width="930"
+height="1239"
+srcset="https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/hw-final-pipeline_hu_2afec0deaea2f50b.png 480w, https://MyLoveES.github.io/p/ffmpeg-develop-for-amrwb-bandwidth-efficient/hw-final-pipeline_hu_380bfc789dfb1cf6.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="75"
+data-flex-basis="180px"
+&gt;&lt;/p&gt;</description></item></channel></rss>

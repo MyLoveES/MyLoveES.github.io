@@ -1,0 +1,509 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content=' R: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\n市场分析师经常研究不同群体之间的差异:\n按人群对数据进行分组：男性或女性更倾向于订阅我们的服务？哪个人口统计分段最有能力购买我们的产品？该产品更受房主还是租户的青睐？ 按地理位置对数据进行分组：A地区的表现是否优于B地区？ 按实验操作对数据进行分组：广告版本A的转化率是否高于广告版本B？ 按时间对数据进行分组：类似邮件或促销活动后，同店销售是否增加了？\n在所有这些情况下，我们将一个数据组与另一个数据组进行比较，以识别效应。本教程探讨了市场营销中经常出现的这些比较类型。 1 Descriptives by group 我们使用消费者细分数据。我们对两个新开发的广告（叙事型 vs. 信息型）的效果感兴趣，并收集了来自300名受访者的数据，包括他们的年龄、性别、子女数量、是否喜欢广告以及他们在页面上花费的时间。在这些数据中，每个受访者来自我们的四个消费者细分之一：郊区混合、都市潮流、旅行者或晋升中。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 > ad.df <- read.csv("Data_Compare_Groups.csv", stringsAsFactors = TRUE) > summary(ad.df) condition like seconds_spent age gender kids segment control :159 likeNo :260 Min. : 0.69 Min. :19.00 Female:157 Min. :0.00 Moving up : 70 treatment:141 likeYes: 40 1st Qu.: 39.66 1st Qu.:33.00 Male :143 1st Qu.:0.00 Suburb mix:100 Median : 52.02 Median :39.50 Median :1.00 Travelers : 80 Mean : 50.98 Mean :41.17 Mean :1.27 Urban hip : 50 3rd Qu.: 61.41 3rd Qu.:48.00 3rd Qu.:2.00 Max. :114.28 Max. :80.00 Max. :7.00 > str(ad.df) &#39;data.frame&#39;:\t300 obs. of 7 variables: $ condition : Factor w/ 2 levels "control","treatment": 1 2 2 1 2 2 1 1 1 2 ... $ like : Factor w/ 2 levels "likeNo","likeYes": 1 1 1 1 1 1 1 1 1 1 ... $ seconds_spent: num 49.5 35.5 44.2 81 79.3 ... $ age : int 47 31 43 37 41 43 38 28 44 35 ... $ gender : Factor w/ 2 levels "Female","Male": 2 2 2 1 1 2 2 2 1 1 ... $ kids : int 2 1 0 1 3 4 3 0 1 0 ... $ segment : Factor w/ 4 levels "Moving up","Suburb mix",..: 2 2 2 2 2 2 2 2 2 2 ... 我们对广告的两个版本在诸如浏览时长和喜欢程度等指标上的变化感兴趣。\n'><title>R[week9] Managing Resource Trade-Offs II Code</title><link rel=canonical href=https://MyLoveES.github.io/p/rweek9-managing-resource-trade-offs-ii-code/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="R[week9] Managing Resource Trade-Offs II Code"><meta property='og:description' content=' R: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\n市场分析师经常研究不同群体之间的差异:\n按人群对数据进行分组：男性或女性更倾向于订阅我们的服务？哪个人口统计分段最有能力购买我们的产品？该产品更受房主还是租户的青睐？ 按地理位置对数据进行分组：A地区的表现是否优于B地区？ 按实验操作对数据进行分组：广告版本A的转化率是否高于广告版本B？ 按时间对数据进行分组：类似邮件或促销活动后，同店销售是否增加了？\n在所有这些情况下，我们将一个数据组与另一个数据组进行比较，以识别效应。本教程探讨了市场营销中经常出现的这些比较类型。 1 Descriptives by group 我们使用消费者细分数据。我们对两个新开发的广告（叙事型 vs. 信息型）的效果感兴趣，并收集了来自300名受访者的数据，包括他们的年龄、性别、子女数量、是否喜欢广告以及他们在页面上花费的时间。在这些数据中，每个受访者来自我们的四个消费者细分之一：郊区混合、都市潮流、旅行者或晋升中。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 > ad.df <- read.csv("Data_Compare_Groups.csv", stringsAsFactors = TRUE) > summary(ad.df) condition like seconds_spent age gender kids segment control :159 likeNo :260 Min. : 0.69 Min. :19.00 Female:157 Min. :0.00 Moving up : 70 treatment:141 likeYes: 40 1st Qu.: 39.66 1st Qu.:33.00 Male :143 1st Qu.:0.00 Suburb mix:100 Median : 52.02 Median :39.50 Median :1.00 Travelers : 80 Mean : 50.98 Mean :41.17 Mean :1.27 Urban hip : 50 3rd Qu.: 61.41 3rd Qu.:48.00 3rd Qu.:2.00 Max. :114.28 Max. :80.00 Max. :7.00 > str(ad.df) &#39;data.frame&#39;:\t300 obs. of 7 variables: $ condition : Factor w/ 2 levels "control","treatment": 1 2 2 1 2 2 1 1 1 2 ... $ like : Factor w/ 2 levels "likeNo","likeYes": 1 1 1 1 1 1 1 1 1 1 ... $ seconds_spent: num 49.5 35.5 44.2 81 79.3 ... $ age : int 47 31 43 37 41 43 38 28 44 35 ... $ gender : Factor w/ 2 levels "Female","Male": 2 2 2 1 1 2 2 2 1 1 ... $ kids : int 2 1 0 1 3 4 3 0 1 0 ... $ segment : Factor w/ 4 levels "Moving up","Suburb mix",..: 2 2 2 2 2 2 2 2 2 2 ... 我们对广告的两个版本在诸如浏览时长和喜欢程度等指标上的变化感兴趣。\n'><meta property='og:url' content='https://MyLoveES.github.io/p/rweek9-managing-resource-trade-offs-ii-code/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='R语言'><meta property='article:tag' content='数据分析'><meta property='article:published_time' content='2024-04-03T00:00:00+00:00'><meta property='article:modified_time' content='2024-04-03T00:00:00+00:00'><meta name=twitter:title content="R[week9] Managing Resource Trade-Offs II Code"><meta name=twitter:description content=' R: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\n市场分析师经常研究不同群体之间的差异:\n按人群对数据进行分组：男性或女性更倾向于订阅我们的服务？哪个人口统计分段最有能力购买我们的产品？该产品更受房主还是租户的青睐？ 按地理位置对数据进行分组：A地区的表现是否优于B地区？ 按实验操作对数据进行分组：广告版本A的转化率是否高于广告版本B？ 按时间对数据进行分组：类似邮件或促销活动后，同店销售是否增加了？\n在所有这些情况下，我们将一个数据组与另一个数据组进行比较，以识别效应。本教程探讨了市场营销中经常出现的这些比较类型。 1 Descriptives by group 我们使用消费者细分数据。我们对两个新开发的广告（叙事型 vs. 信息型）的效果感兴趣，并收集了来自300名受访者的数据，包括他们的年龄、性别、子女数量、是否喜欢广告以及他们在页面上花费的时间。在这些数据中，每个受访者来自我们的四个消费者细分之一：郊区混合、都市潮流、旅行者或晋升中。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 > ad.df <- read.csv("Data_Compare_Groups.csv", stringsAsFactors = TRUE) > summary(ad.df) condition like seconds_spent age gender kids segment control :159 likeNo :260 Min. : 0.69 Min. :19.00 Female:157 Min. :0.00 Moving up : 70 treatment:141 likeYes: 40 1st Qu.: 39.66 1st Qu.:33.00 Male :143 1st Qu.:0.00 Suburb mix:100 Median : 52.02 Median :39.50 Median :1.00 Travelers : 80 Mean : 50.98 Mean :41.17 Mean :1.27 Urban hip : 50 3rd Qu.: 61.41 3rd Qu.:48.00 3rd Qu.:2.00 Max. :114.28 Max. :80.00 Max. :7.00 > str(ad.df) &#39;data.frame&#39;:\t300 obs. of 7 variables: $ condition : Factor w/ 2 levels "control","treatment": 1 2 2 1 2 2 1 1 1 2 ... $ like : Factor w/ 2 levels "likeNo","likeYes": 1 1 1 1 1 1 1 1 1 1 ... $ seconds_spent: num 49.5 35.5 44.2 81 79.3 ... $ age : int 47 31 43 37 41 43 38 28 44 35 ... $ gender : Factor w/ 2 levels "Female","Male": 2 2 2 1 1 2 2 2 1 1 ... $ kids : int 2 1 0 1 3 4 3 0 1 0 ... $ segment : Factor w/ 4 levels "Moving up","Suburb mix",..: 2 2 2 2 2 2 2 2 2 2 ... 我们对广告的两个版本在诸如浏览时长和喜欢程度等指标上的变化感兴趣。\n'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#11-aggregate>1.1 aggregate()</a></li><li><a href=#12-basic-formula-syntax>1.2 Basic formula syntax</a></li><li><a href=#13-descriptives-for-two-way-groups>1.3 Descriptives for two-way groups</a><ol><li><a href=#131-means>1.3.1 Means</a></li><li><a href=#132-frequencies>1.3.2 Frequencies</a></li></ol></li></ol><ol><li><a href=#21-visualizing-frequencies-and-proportions>2.1 Visualizing frequencies and proportions</a></li><li><a href=#22-visualizing-continuous-data>2.2 Visualizing continuous data</a><ol><li><a href=#221-bwplot->2.2.1 bwplot() *</a></li></ol></li></ol><ol><li><a href=#31-testing-group-frequencies-chisqtest>3.1 Testing group frequencies: chisq.test()</a></li><li><a href=#32-testing-group-means-ttest>3.2 Testing group means: t.test()</a></li><li><a href=#33-testing-multiple-group-means-anova>3.3 Testing multiple-group means: ANOVA</a><ol><li><a href=#331-visualize-anova-result>3.3.1 Visualize ANOVA result</a></li></ol></li><li><a href=#34-testing-group-means-lm>3.4 Testing group means: lm()</a></li><li><a href=#35-difference-in-difference>3.5 Difference-in-Difference</a><ol><li><a href=#351-estimating-the-did-estimator>3.5.1 Estimating the DID estimator</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%95%99%E7%A8%8B/>教程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/rweek9-managing-resource-trade-offs-ii-code/>R[week9] Managing Resource Trade-Offs II Code</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Apr 03, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>9 minute read</time></div></footer></div></header><section class=article-content><blockquote><p>R: 4.3.2 (2023-10-31)<br>R studio: 2023.12.1+402 (2023.12.1+402)</p></blockquote><p>市场分析师经常研究不同群体之间的差异:</p><ol><li>按人群对数据进行分组：男性或女性更倾向于订阅我们的服务？哪个人口统计分段最有能力购买我们的产品？该产品更受房主还是租户的青睐？</li><li>按地理位置对数据进行分组：A地区的表现是否优于B地区？</li><li>按实验操作对数据进行分组：广告版本A的转化率是否高于广告版本B？</li><li>按时间对数据进行分组：类似邮件或促销活动后，同店销售是否增加了？<br>在所有这些情况下，我们将一个数据组与另一个数据组进行比较，以识别效应。本教程探讨了市场营销中经常出现的这些比较类型。</li></ol><h1 id=1-descriptives-by-group>1 Descriptives by group</h1><p>我们使用消费者细分数据。我们对两个新开发的广告（叙事型 vs. 信息型）的效果感兴趣，并收集了来自300名受访者的数据，包括他们的年龄、性别、子女数量、是否喜欢广告以及他们在页面上花费的时间。在这些数据中，每个受访者来自我们的四个消费者细分之一：郊区混合、都市潮流、旅行者或晋升中。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>ad</span><span class=o>.</span><span class=n>df</span> <span class=o>&lt;-</span> <span class=n>read</span><span class=o>.</span><span class=n>csv</span><span class=p>(</span><span class=s2>&#34;Data_Compare_Groups.csv&#34;</span><span class=p>,</span> <span class=n>stringsAsFactors</span> <span class=o>=</span> <span class=n>TRUE</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>summary</span><span class=p>(</span><span class=n>ad</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>     <span class=n>condition</span>        <span class=n>like</span>     <span class=n>seconds_spent</span>         <span class=n>age</span>           <span class=n>gender</span>         <span class=n>kids</span>            <span class=n>segment</span>   
+</span></span><span class=line><span class=cl> <span class=n>control</span>  <span class=p>:</span><span class=mi>159</span>   <span class=n>likeNo</span> <span class=p>:</span><span class=mi>260</span>   <span class=n>Min</span><span class=o>.</span>   <span class=p>:</span>  <span class=mf>0.69</span>   <span class=n>Min</span><span class=o>.</span>   <span class=p>:</span><span class=mf>19.00</span>   <span class=n>Female</span><span class=p>:</span><span class=mi>157</span>   <span class=n>Min</span><span class=o>.</span>   <span class=p>:</span><span class=mf>0.00</span>   <span class=n>Moving</span> <span class=n>up</span> <span class=p>:</span> <span class=mi>70</span>  
+</span></span><span class=line><span class=cl> <span class=n>treatment</span><span class=p>:</span><span class=mi>141</span>   <span class=n>likeYes</span><span class=p>:</span> <span class=mi>40</span>   <span class=mi>1</span><span class=n>st</span> <span class=n>Qu</span><span class=o>.</span><span class=p>:</span> <span class=mf>39.66</span>   <span class=mi>1</span><span class=n>st</span> <span class=n>Qu</span><span class=o>.</span><span class=p>:</span><span class=mf>33.00</span>   <span class=n>Male</span>  <span class=p>:</span><span class=mi>143</span>   <span class=mi>1</span><span class=n>st</span> <span class=n>Qu</span><span class=o>.</span><span class=p>:</span><span class=mf>0.00</span>   <span class=n>Suburb</span> <span class=n>mix</span><span class=p>:</span><span class=mi>100</span>  
+</span></span><span class=line><span class=cl>                               <span class=n>Median</span> <span class=p>:</span> <span class=mf>52.02</span>   <span class=n>Median</span> <span class=p>:</span><span class=mf>39.50</span>                <span class=n>Median</span> <span class=p>:</span><span class=mf>1.00</span>   <span class=n>Travelers</span> <span class=p>:</span> <span class=mi>80</span>  
+</span></span><span class=line><span class=cl>                               <span class=n>Mean</span>   <span class=p>:</span> <span class=mf>50.98</span>   <span class=n>Mean</span>   <span class=p>:</span><span class=mf>41.17</span>                <span class=n>Mean</span>   <span class=p>:</span><span class=mf>1.27</span>   <span class=n>Urban</span> <span class=n>hip</span> <span class=p>:</span> <span class=mi>50</span>  
+</span></span><span class=line><span class=cl>                               <span class=mi>3</span><span class=n>rd</span> <span class=n>Qu</span><span class=o>.</span><span class=p>:</span> <span class=mf>61.41</span>   <span class=mi>3</span><span class=n>rd</span> <span class=n>Qu</span><span class=o>.</span><span class=p>:</span><span class=mf>48.00</span>                <span class=mi>3</span><span class=n>rd</span> <span class=n>Qu</span><span class=o>.</span><span class=p>:</span><span class=mf>2.00</span>                   
+</span></span><span class=line><span class=cl>                               <span class=n>Max</span><span class=o>.</span>   <span class=p>:</span><span class=mf>114.28</span>   <span class=n>Max</span><span class=o>.</span>   <span class=p>:</span><span class=mf>80.00</span>                <span class=n>Max</span><span class=o>.</span>   <span class=p>:</span><span class=mf>7.00</span>   
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>str</span><span class=p>(</span><span class=n>ad</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;data.frame&#39;</span><span class=p>:</span>	<span class=mi>300</span> <span class=n>obs</span><span class=o>.</span> <span class=n>of</span>  <span class=mi>7</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>condition</span>    <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>2</span> <span class=n>levels</span> <span class=s2>&#34;control&#34;</span><span class=p>,</span><span class=s2>&#34;treatment&#34;</span><span class=p>:</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>2</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>like</span>         <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>2</span> <span class=n>levels</span> <span class=s2>&#34;likeNo&#34;</span><span class=p>,</span><span class=s2>&#34;likeYes&#34;</span><span class=p>:</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>seconds_spent</span><span class=p>:</span> <span class=n>num</span>  <span class=mf>49.5</span> <span class=mf>35.5</span> <span class=mf>44.2</span> <span class=mi>81</span> <span class=mf>79.3</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>age</span>          <span class=p>:</span> <span class=ne>int</span>  <span class=mi>47</span> <span class=mi>31</span> <span class=mi>43</span> <span class=mi>37</span> <span class=mi>41</span> <span class=mi>43</span> <span class=mi>38</span> <span class=mi>28</span> <span class=mi>44</span> <span class=mi>35</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>gender</span>       <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>2</span> <span class=n>levels</span> <span class=s2>&#34;Female&#34;</span><span class=p>,</span><span class=s2>&#34;Male&#34;</span><span class=p>:</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>kids</span>         <span class=p>:</span> <span class=ne>int</span>  <span class=mi>2</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>3</span> <span class=mi>4</span> <span class=mi>3</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>0</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>segment</span>      <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>4</span> <span class=n>levels</span> <span class=s2>&#34;Moving up&#34;</span><span class=p>,</span><span class=s2>&#34;Suburb mix&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>2</span> <span class=o>...</span>
+</span></span></code></pre></td></tr></table></div></div><p>我们对广告的两个版本在诸如浏览时长和喜欢程度等指标上的变化感兴趣。</p><p>一种临时的方法是使用数据框索引：找到符合某些条件的行，然后取另一个统计量的平均值。例如，要找出叙事型广告（处理组）的平均总浏览时长。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; mean(ad.df$seconds_spent[ad.df$condition == &#34;treatment&#34;])
+</span></span><span class=line><span class=cl>[1] 55.01809
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; # We could further narrow the cases to Moving up respondents who are in the treatment condition:
+</span></span><span class=line><span class=cl>&gt; mean(ad.df$seconds_spent[ad.df$condition == &#34;trea ...&#34; ... [TRUNCATED] 
+</span></span><span class=line><span class=cl>[1] 50.21652
+</span></span></code></pre></td></tr></table></div></div><h2 id=11-aggregate>1.1 aggregate()</h2><p>当你想要找到多个组的值时，一个更通用的方法是使用aggregate()函数。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; aggregate(ad.df$seconds_spent, list(ad.df$condition), mean)
+</span></span><span class=line><span class=cl>    Group.1        x
+</span></span><span class=line><span class=cl>1   control 47.39132
+</span></span><span class=line><span class=cl>2 treatment 55.01809
+</span></span></code></pre></td></tr></table></div></div><h2 id=12-basic-formula-syntax>1.2 Basic formula syntax</h2><p>R通过公式规范提供了描述变量之间关系的标准方法。一个公式使用波浪线（~）运算符将左侧的响应变量与右侧的解释变量分开。基本形式是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>y ~ x（简单公式）  
+</span></span></code></pre></td></tr></table></div></div><p>这在R的许多情境中使用，其中响应和解释的含义取决于情况。例如，在线性回归中，上述简单公式将y建模为x的线性函数。在aggregate()命令的情况下，效果是根据x的水平对y进行聚合。<br>让我们实践一下。不使用aggregate(ad.dfsecondsspent,list(ad.dfcondition), mean)的方式，而是使用通用形式aggregate(formula, data, FUN)。在我们的例子中，我们告诉R“在数据集ad.df中按照条件取seconds_spent，并对每个组应用平均函数”。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; aggregate(seconds_spent ~ condition, data = ad.df, mean)
+</span></span><span class=line><span class=cl>  condition seconds_spent
+</span></span><span class=line><span class=cl>1   control      47.39132
+</span></span><span class=line><span class=cl>2 treatment      55.01809
+</span></span></code></pre></td></tr></table></div></div><h2 id=13-descriptives-for-two-way-groups>1.3 Descriptives for two-way groups</h2><p>在市场营销中的一个常见任务是交叉制表，根据两个（或更多）因素将客户分成组。公式语法使得通过指定多个解释变量来计算交叉制表变得容易：</p><p>y ~ x1 + x2 + . . . (Multiple variable formula)</p><h3 id=131-means>1.3.1 Means</h3><p>利用这种格式与aggregate()，我们可以这样写：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; aggregate(seconds_spent ~ segment + condition, data = ad.df, mean)
+</span></span><span class=line><span class=cl>     segment condition seconds_spent
+</span></span><span class=line><span class=cl>1  Moving up   control      54.49787
+</span></span><span class=line><span class=cl>2 Suburb mix   control      54.93308
+</span></span><span class=line><span class=cl>3  Travelers   control      63.18900
+</span></span><span class=line><span class=cl>4  Urban hip   control      21.33800
+</span></span><span class=line><span class=cl>5  Moving up treatment      50.21652
+</span></span><span class=line><span class=cl>6 Suburb mix treatment      55.14312
+</span></span><span class=line><span class=cl>7  Travelers treatment      62.08533
+</span></span><span class=line><span class=cl>8  Urban hip treatment      23.05800
+</span></span></code></pre></td></tr></table></div></div><p>现在，我们为每个段和条件的组合都有一个单独的组，并且可以开始看到seconds_spent与段和条件变量之间的关系。</p><p>我们可以将结果分配给一个数据框对象并进行索引：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>agg.data &lt;- aggregate(seconds_spent ~ segment + condition, data = ad.df, mean)
+</span></span></code></pre></td></tr></table></div></div><p>aggregate()命令允许我们计算连续变量的函数，例如seconds_spent或like的平均值，适用于任何因素的组合（如段、条件等）。这是市场研究中的一个常见任务，许多公司专门生产交叉制表。</p><h3 id=132-frequencies>1.3.2 Frequencies</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; table(ad.df$condition, ad.df$like)
+</span></span><span class=line><span class=cl>           
+</span></span><span class=line><span class=cl>            likeNo likeYes
+</span></span><span class=line><span class=cl>  control      137      22
+</span></span><span class=line><span class=cl>  treatment    123      18
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; table(ad.df$segment, ad.df$like)
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>             likeNo likeYes
+</span></span><span class=line><span class=cl>  Moving up      56      14
+</span></span><span class=line><span class=cl>  Suburb mix     94       6
+</span></span><span class=line><span class=cl>  Travelers      70      10
+</span></span><span class=line><span class=cl>  Urban hip      40      10
+</span></span></code></pre></td></tr></table></div></div><p>我们可以将计数相加以找到它们的总数。例如，kids是一个计数变量；如果一个受访者报告有3个孩子，那么这就是一个计数为3，我们可以将计数相加以得到每个段中报告的孩子总数。我们可以使用aggregate(. . . , sum)：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; aggregate(kids ~ segment, data = ad.df, sum)
+</span></span><span class=line><span class=cl>     segment kids
+</span></span><span class=line><span class=cl>1  Moving up  134
+</span></span><span class=line><span class=cl>2 Suburb mix  192
+</span></span><span class=line><span class=cl>3  Travelers    0
+</span></span><span class=line><span class=cl>4  Urban hip   55
+</span></span></code></pre></td></tr></table></div></div><p>结果显示，“都市上升”受访者报告了总共55个孩子，而“旅行者”没有报告。</p><h1 id=2-visualization-by-group>2 Visualization by group</h1><h2 id=21-visualizing-frequencies-and-proportions>2.1 Visualizing frequencies and proportions</h2><p>Lattice包提供了一个有用的解决方案：histogram (formula, data, type)。它理解公式的概念，包括对因子进行条件划分（" | &ldquo;），这意味着根据因子将绘图分成多个面板。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>histogram(~ like | condition, data = ad.df)
+</span></span></code></pre></td></tr></table></div></div><p>结果显示，两个广告版本生成的喜欢程度相似。<br>你会注意到在这个公式中，波浪线（~）前面没有响应变量，只有它后面的解释变量（condition）。histogram()默认情况下，假设我们想要绘制每个喜欢程度水平上的人群比例。我们在条件上进行了绘图，告诉histogram为每个段生成一个单独的直方图。<br>histogram()的默认方式是在每个组内绘制比例，使得值相对于组的大小。如果我们想要实际计数，可以包含参数type = &ldquo;count&rdquo;。</p><p>{% asset_image R_week9_code_2.png %}</p><p>我们可以通过使用“+”在多个因素上添加条件。例如，每个段内的订阅者比例如何根据住房所有权来计算？</p><p>{% asset_image R_week9_code_3.png %}</p><p>结果告诉我们，根据广告条件在段内的喜欢程度差异很小。这意味着两个广告版本在喜欢程度上产生的差异很小。</p><h2 id=22-visualizing-continuous-data>2.2 Visualizing continuous data</h2><p>在前面的部分中，我们看到了如何绘制计数和比例。那么连续数据呢？我们如何绘制我们数据中按条件分组的总浏览时间？一个简单的方法是使用aggregate()来找到平均总时间，然后使用lattice包中的barchart()来绘制计算出的值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; ad.mean &lt;- aggregate(seconds_spent ~ condition, data = ad.df, mean)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; barchart(seconds_spent ~ condition, data = ad.mean, col = &#34;grey&#34;)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image R_week9_code_4.png %}</p><p>我们如何进一步按段拆分数据？首先，我们必须对数据进行聚合，以在公式中包括两个因素。然后，我们通过添加参数groups=factor，告诉barchart()使用段作为分组变量。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; ad.seconds.agg &lt;- aggregate (seconds_spent ~ condition + segment, data = ad.df, mean) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; barchart(seconds_spent ~ condition, data = ad.seconds.agg ,groups = segment, auto.key=TRUE)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image R_week9_code_5.png %}</p><p>用于比较不同组的连续数据值（如不同组的seconds_spent）的更具信息性的图表是箱线图。箱线图比柱状图更好，因为它显示了更多关于值分布的信息。</p><p>{% asset_image R_week9_code_6.png %}</p><h3 id=221-bwplot->2.2.1 bwplot() *</h3><p>对于箱线图的更好选择是lattice包中的bwplot()命令，它提供了更漂亮的图表，并且允许多因素条件化。需要注意的一点是，bwplot()使用的模型公式方向与你可能期望的相反；你写的是condition ~ seconds_spent。我们按段绘制水平箱线图如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>bwplot(condition ~ seconds_spent, data = ad.df, horizontal = TRUE, xlab = &#34;Total seconds spent&#34;)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image R_week9_code_7.png %}</p><p>我们可以将处理条件作为一个条件变量：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>bwplot(condition ~ seconds_spent | segment, data = ad.df, horizontal = TRUE, xlab = &#34;seconds_spent&#34;)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image R_week9_code_8.png %}</p><p>对于按段和广告条件分组的总浏览时长的条件化图表显示，旅行者细分中处于处理组的人的总浏览时长分布比处于对照组的人的分布要宽得多。</p><h1 id=3-statistical-tests>3 Statistical tests</h1><p>除了使用上面描述的组平均值和交叉制表总结组间的差异外，一个优秀的分析师能够使用统计检验来确定差异是否真实，或者可能是由于数据中的微小变化（“噪音”）造成的。我们应该专注于帮助识别真实差异的统计检验。</p><h2 id=31-testing-group-frequencies-chisqtest>3.1 Testing group frequencies: chisq.test()</h2><p>卡方检验用于频率计数，例如由table产生的计数。卡方检验确定单元格中的频率是否与基于它们的总计数的预期值显着不同。在R中，我们使用chisq.test()命令。一般来说，chisq.test()操作在一个表上。<br>喜欢行为是否独立于条件？也就是说，在我们的数据中，受访者无论看到哪个版本的广告，他们都同样可能喜欢吗？我们构建一个二维表并对其进行测试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; table(ad.df$like, ad.df$condition)
+</span></span><span class=line><span class=cl>         
+</span></span><span class=line><span class=cl>          control treatment
+</span></span><span class=line><span class=cl>  likeNo      137       123
+</span></span><span class=line><span class=cl>  likeYes      22        18
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; chisq.test(table(ad.df$like, ad.df$condition))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>data:  table(ad.df$like, ad.df$condition)
+</span></span><span class=line><span class=cl>X-squared = 0.010422, df = 1, p-value = 0.9187
+</span></span></code></pre></td></tr></table></div></div><p>在这种情况下，零假设是因素之间没有关联。也就是说，单元格中的计数与边际比例一样符合预期。基于较高的p值，我们无法拒绝零假设，并得出结论：因素之间没有关联，喜欢与条件在我们的数据中是独立的。喜欢和条件之间没有关系。</p><h2 id=32-testing-group-means-ttest>3.2 Testing group means: t.test()</h2><p>t检验比较一个样本的平均值与另一个样本的平均值（或与一个特定值，如0）之间的差异。重要的是，它比较了完全两组数据的平均值。例如，在数据中，我们可能会询问两种广告条件之间的总浏览时间是否有所不同。<br>我们使用t.test(formula, data)测试两组之间的浏览时间（处理组 vs. 控制组）的差异：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; t.test(seconds_spent ~ condition, data = ad.df)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	Welch Two Sample t-test
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>data:  seconds_spent by condition
+</span></span><span class=line><span class=cl>t = -3.3297, df = 286.45, p-value = 0.0009832
+</span></span><span class=line><span class=cl>alternative hypothesis: true difference in means between group control and group treatment is not equal to 0
+</span></span><span class=line><span class=cl>95 percent confidence interval:
+</span></span><span class=line><span class=cl> -12.135137  -3.118392
+</span></span><span class=line><span class=cl>sample estimates:
+</span></span><span class=line><span class=cl>  mean in group control mean in group treatment 
+</span></span><span class=line><span class=cl>               47.39132                55.01809 
+</span></span></code></pre></td></tr></table></div></div><p>在t.test()输出中有几个重要的信息：</p><ol><li>t统计量为-3.12，p值为0.0010。这意味着拒绝了没有广告条件下浏览时间差异的零假设。这表明在处理组看到广告版本的人花费了更长的时间。</li><li>差异的95%置信区间为-12.14到-3.12。我们可以有95%的信心认为组之间的差异在这些值之间。</li><li>我们数据的样本均值：控制条件下的平均总浏览时间为47.39132，处理条件下为55.01809。</li></ol><p>在旅行者细分中的差异如何？我们可以使用过滤数据=子集数据, 条件选择只有旅行者，并重复测试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; t.test(seconds_spent ~ condition, data = subset(ad.df, segment == &#34;Travelers&#34;))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	Welch Two Sample t-test
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>data:  seconds_spent by condition
+</span></span><span class=line><span class=cl>t = 0.22758, df = 52.758, p-value = 0.8209
+</span></span><span class=line><span class=cl>alternative hypothesis: true difference in means between group control and group treatment is not equal to 0
+</span></span><span class=line><span class=cl>95 percent confidence interval:
+</span></span><span class=line><span class=cl> -8.624575 10.831909
+</span></span><span class=line><span class=cl>sample estimates:
+</span></span><span class=line><span class=cl>  mean in group control mean in group treatment 
+</span></span><span class=line><span class=cl>               63.18900                62.08533 
+</span></span></code></pre></td></tr></table></div></div><p>置信区间从-8.62到10.83包含了0，并且p值为0.82。因此，我们得出结论，在我们的数据中，旅行者中两个条件之间的平均浏览时间没有显著差异。</p><h2 id=33-testing-multiple-group-means-anova>3.3 Testing multiple-group means: ANOVA</h2><p>方差分析（ANOVA）比较多个组的平均值。零假设是多个平均值之间没有差异。<br>ANOVA可以处理单个因素（称为单因素ANOVA）、两个因素（双因素）、以及更高阶的因素，包括因素之间的交互作用。<br>ANOVA的基本R命令是aov(formula, data)来设置模型，然后是anova(model)来显示标准的ANOVA汇总。<br>例如，我们想要回答这个问题：浏览时间与条件、段成员资格或两者之间是否相关？我们可以将seconds_spent建模为对条件的响应：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; ad.aov.con &lt;- aov(seconds_spent ~ condition, data = ad.df) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; anova(ad.aov.con)
+</span></span><span class=line><span class=cl>Analysis of Variance Table
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Response: seconds_spent
+</span></span><span class=line><span class=cl>           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+</span></span><span class=line><span class=cl>condition   1   4347  4346.9  11.195 0.0009251 ***
+</span></span><span class=line><span class=cl>Residuals 298 115706   388.3                      
+</span></span><span class=line><span class=cl>---
+</span></span><span class=line><span class=cl>Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+</span></span></code></pre></td></tr></table></div></div><p>在两个条件之间的浏览时间存在显著差异（与我们从t检验中得出的结论相同）。</p><p>为了测试浏览时间是否同时受到条件和段的影响，我们可以将两个因素都添加到ANOVA模型中进行测试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; anova(aov(seconds_spent ~ segment + condition, data = ad.df)) # combine two commands
+</span></span><span class=line><span class=cl>Analysis of Variance Table
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Response: seconds_spent
+</span></span><span class=line><span class=cl>           Df Sum Sq Mean Sq F value Pr(&gt;F)    
+</span></span><span class=line><span class=cl>segment     3  55237 18412.2 83.8824 &lt;2e-16 ***
+</span></span><span class=line><span class=cl>condition   1     64    63.9  0.2913 0.5898    
+</span></span><span class=line><span class=cl>Residuals 295  64753   219.5                   
+</span></span><span class=line><span class=cl>---
+</span></span><span class=line><span class=cl>Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+</span></span></code></pre></td></tr></table></div></div><p>结果表明，当我们尝试用段和条件来解释总浏览时间的差异时，段是一个显著的预测因子，但条件不是一个显著的预测因子。然而，先前的结果表明条件是显著的。这种差异是什么？这意味着段和条件不是独立的，而且段成员资格单独就足以捕捉到效应。条件仅仅比段解释了稍微多一点。</p><h3 id=331-visualize-anova-result>3.3.1 Visualize ANOVA result</h3><p>可视化ANOVA结果的一个好方法是绘制组均值的置信区间。我们使用multcomp（多重比较）包和它的glht(model)（一般线性假设）命令。<br>默认的aov()模型具有一个截距项（对应于一个段），而所有其他段相对于该截距项。这可能会让决策者或客户难以理解，因此我们发现最好通过在模型公式中添加“0”来移除截距项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; ad.aov &lt;- aov (seconds_spent ~ 0 + segment, data = ad.df) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; glht(ad.aov)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	 General Linear Hypotheses
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Linear Hypotheses:
+</span></span><span class=line><span class=cl>                       Estimate
+</span></span><span class=line><span class=cl>segmentMoving up == 0     53.09
+</span></span><span class=line><span class=cl>segmentSuburb mix == 0    55.03
+</span></span><span class=line><span class=cl>segmentTravelers == 0     62.36
+</span></span><span class=line><span class=cl>segmentUrban hip == 0     21.68
+</span></span></code></pre></td></tr></table></div></div><p>在移除截距项后，glht()为我们提供了每个段的均值。我们使用plot()函数绘制它，使用par(mar =. . . )命令为长轴标签添加一些额外的边距：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># cex.axis = 0.8 makes the axis labels smaller to 80%.
+</span></span><span class=line><span class=cl>&gt; plot(glht(ad.aov),
+</span></span><span class=line><span class=cl>+      xlab = &#34;Total seconds spent&#34;, main = &#34;Average seconds spent by Segment (95% CI)&#34;, cex.axis = 0.8)
+</span></span></code></pre></td></tr></table></div></div><p>点表示每个段的均值，条形图反映了置信区间。我们可以看到每个段中平均浏览时间的置信区间。很明显，都市潮流段成员的平均浏览时间明显低于其他三组。</p><h2 id=34-testing-group-means-lm>3.4 Testing group means: lm()</h2><p>你也可以使用lm()回归来比较组，当响应变量是连续变量时，比如总浏览时间。<br>分组变量（因子）必须被重新编码为虚拟变量（即取0和1为值的变量）。例如，因子“条件”（包括“对照”和“处理”）应该被重新编码为“dummy_condition: 0 = 对照，1 = 处理”。<br>具有多于两个水平的因子（n）应该使用多个虚拟变量（n-1）进行重新编码。例如，段有四个水平，可以使用三个虚拟变量进行重新编码：dummy_s，dummy_u，dummy_t：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>郊区混合：dummy_s = 1，dummy_u = 0，dummy_t = 0
+</span></span><span class=line><span class=cl>都市潮流：dummy_s = 0，dummy_u = 1，dummy_t = 0
+</span></span><span class=line><span class=cl>旅行者：dummy_s = 0，dummy_u = 0，dummy_t = 1
+</span></span><span class=line><span class=cl>晋升中：dummy_s = 0，dummy_u = 0，dummy_t = 0（参考水平）
+</span></span></code></pre></td></tr></table></div></div><p>虚拟变量应该作为预测变量输入模型。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; ad.df.reg &lt;- ad.df %&gt;%
+</span></span><span class=line><span class=cl>+   mutate(dummy_condition = ifelse(condition == &#34;treatment&#34;,1,0),
+</span></span><span class=line><span class=cl>+          dummy_s = ifelse(segment == &#34;Suburb mix&#34;,1,0),  .... [TRUNCATED] 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; regression &lt;- lm(seconds_spent ~ dummy_condition, data = ad.df.reg) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary(regression)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Call:
+</span></span><span class=line><span class=cl>lm(formula = seconds_spent ~ dummy_condition, data = ad.df.reg)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Residuals:
+</span></span><span class=line><span class=cl>   Min     1Q Median     3Q    Max 
+</span></span><span class=line><span class=cl>-54.33 -11.02   0.97  12.10  66.07 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Coefficients:
+</span></span><span class=line><span class=cl>                Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class=line><span class=cl>(Intercept)       47.391      1.563  30.327  &lt; 2e-16 ***
+</span></span><span class=line><span class=cl>dummy_condition    7.627      2.279   3.346 0.000925 ***
+</span></span><span class=line><span class=cl>---
+</span></span><span class=line><span class=cl>Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Residual standard error: 19.7 on 298 degrees of freedom
+</span></span><span class=line><span class=cl>Multiple R-squared:  0.03621,	Adjusted R-squared:  0.03297 
+</span></span><span class=line><span class=cl>F-statistic:  11.2 on 1 and 298 DF,  p-value: 0.0009251
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; regression &lt;- lm(seconds_spent ~ dummy_s + dummy_u + dummy_t, data = ad.df.reg) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary(regression)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Call:
+</span></span><span class=line><span class=cl>lm(formula = seconds_spent ~ dummy_s + dummy_u + dummy_t, data = ad.df.reg)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Residuals:
+</span></span><span class=line><span class=cl>    Min      1Q  Median      3Q     Max 
+</span></span><span class=line><span class=cl>-61.671  -7.059  -0.442   6.281  51.919 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Coefficients:
+</span></span><span class=line><span class=cl>            Estimate Std. Error t value Pr(&gt;|t|)    
+</span></span><span class=line><span class=cl>(Intercept)   53.091      1.769  30.017  &lt; 2e-16 ***
+</span></span><span class=line><span class=cl>dummy_s        1.943      2.306   0.842 0.400214    
+</span></span><span class=line><span class=cl>dummy_u      -31.409      2.740 -11.463  &lt; 2e-16 ***
+</span></span><span class=line><span class=cl>dummy_t        9.270      2.422   3.828 0.000158 ***
+</span></span><span class=line><span class=cl>---
+</span></span><span class=line><span class=cl>Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Residual standard error: 14.8 on 296 degrees of freedom
+</span></span><span class=line><span class=cl>Multiple R-squared:  0.4601,	Adjusted R-squared:  0.4546 
+</span></span><span class=line><span class=cl>F-statistic: 84.08 on 3 and 296 DF,  p-value: &lt; 2.2e-16
+</span></span></code></pre></td></tr></table></div></div><h2 id=35-difference-in-difference>3.5 Difference-in-Difference</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>panel</span><span class=o>.</span><span class=n>df</span><span class=o>.</span><span class=n>raw</span> <span class=o>&lt;-</span> <span class=n>read</span><span class=o>.</span><span class=n>csv</span><span class=p>(</span><span class=s2>&#34;Data_Panel.csv&#34;</span><span class=p>,</span> <span class=n>stringsAsFactors</span> <span class=o>=</span> <span class=n>TRUE</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>str</span><span class=p>(</span><span class=n>panel</span><span class=o>.</span><span class=n>df</span><span class=o>.</span><span class=n>raw</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;data.frame&#39;</span><span class=p>:</span>	<span class=mi>70</span> <span class=n>obs</span><span class=o>.</span> <span class=n>of</span>  <span class=mi>3</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>market</span><span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>7</span> <span class=n>levels</span> <span class=s2>&#34;A&#34;</span><span class=p>,</span><span class=s2>&#34;B&#34;</span><span class=p>,</span><span class=s2>&#34;C&#34;</span><span class=p>,</span><span class=s2>&#34;D&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>year</span>  <span class=p>:</span> <span class=ne>int</span>  <span class=mi>2010</span> <span class=mi>2011</span> <span class=mi>2012</span> <span class=mi>2013</span> <span class=mi>2014</span> <span class=mi>2015</span> <span class=mi>2016</span> <span class=mi>2017</span> <span class=mi>2018</span> <span class=mi>2019</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>profit</span><span class=p>:</span> <span class=n>num</span>  <span class=mi>13428</span> <span class=o>-</span><span class=mi>18997</span> <span class=o>-</span><span class=mi>112</span> <span class=mi>26458</span> <span class=mi>30083</span> <span class=o>...</span>
+</span></span></code></pre></td></tr></table></div></div><p>创建一个虚拟变量来指示治疗开始的时间。假设治疗始于2014年。在这种情况下，2014年之前的年份将取值为0，2014年之后的年份将取值为1。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; panel.df&lt;-panel.df.raw %&gt;%
+</span></span><span class=line><span class=cl>+   mutate(time = ifelse(panel.df.raw$year &gt;= 2014, 1, 0))
+</span></span></code></pre></td></tr></table></div></div><p>然后，我们创建一个虚拟变量来识别接受治疗的群体。在这个例子中，市场5、6和7是治疗组（=1）。市场1-4没有受到影响（=0）。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>panel.df&lt;-panel.df %&gt;%
+</span></span><span class=line><span class=cl>  mutate(treatment = ifelse(panel.df$market == &#34;E&#34; |
+</span></span><span class=line><span class=cl>                              panel.df$market== &#34;F&#34; |
+</span></span><span class=line><span class=cl>                              panel.df$market == &#34;G&#34;, 1, 0))
+</span></span></code></pre></td></tr></table></div></div><p>创建一个时间和受治疗之间的交互项。我们将这个交互项称为“did”。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>panel</span><span class=o>.</span><span class=n>df</span><span class=o>&lt;-</span><span class=n>panel</span><span class=o>.</span><span class=n>df</span> <span class=o>%&gt;%</span> <span class=n>mutate</span><span class=p>(</span><span class=n>did</span> <span class=o>=</span> <span class=n>time</span> <span class=o>*</span> <span class=n>treatment</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>str</span><span class=p>(</span><span class=n>panel</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;data.frame&#39;</span><span class=p>:</span>	<span class=mi>70</span> <span class=n>obs</span><span class=o>.</span> <span class=n>of</span>  <span class=mi>6</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>market</span>   <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>7</span> <span class=n>levels</span> <span class=s2>&#34;A&#34;</span><span class=p>,</span><span class=s2>&#34;B&#34;</span><span class=p>,</span><span class=s2>&#34;C&#34;</span><span class=p>,</span><span class=s2>&#34;D&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>year</span>     <span class=p>:</span> <span class=ne>int</span>  <span class=mi>2010</span> <span class=mi>2011</span> <span class=mi>2012</span> <span class=mi>2013</span> <span class=mi>2014</span> <span class=mi>2015</span> <span class=mi>2016</span> <span class=mi>2017</span> <span class=mi>2018</span> <span class=mi>2019</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>profit</span>   <span class=p>:</span> <span class=n>num</span>  <span class=mi>13428</span> <span class=o>-</span><span class=mi>18997</span> <span class=o>-</span><span class=mi>112</span> <span class=mi>26458</span> <span class=mi>30083</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>time</span>     <span class=p>:</span> <span class=n>num</span>  <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>treatment</span><span class=p>:</span> <span class=n>num</span>  <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>did</span>      <span class=p>:</span> <span class=n>num</span>  <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=o>...</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=351-estimating-the-did-estimator>3.5.1 Estimating the DID estimator</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; didreg &lt;- lm(profit ~ treatment + time + did, data = panel.df) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary(didreg)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Call:
+</span></span><span class=line><span class=cl>lm(formula = profit ~ treatment + time + did, data = panel.df)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Residuals:
+</span></span><span class=line><span class=cl>   Min     1Q Median     3Q    Max 
+</span></span><span class=line><span class=cl>-97675 -16228   1167  13928  68071 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Coefficients:
+</span></span><span class=line><span class=cl>            Estimate Std. Error t value Pr(&gt;|t|)  
+</span></span><span class=line><span class=cl>(Intercept)     3581       7382   0.485   0.6292  
+</span></span><span class=line><span class=cl>treatment      17760      11276   1.575   0.1200  
+</span></span><span class=line><span class=cl>time           22894       9530   2.402   0.0191 *
+</span></span><span class=line><span class=cl>did           -25195      14557  -1.731   0.0882 .
+</span></span><span class=line><span class=cl>---
+</span></span><span class=line><span class=cl>Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Residual standard error: 29530 on 66 degrees of freedom
+</span></span><span class=line><span class=cl>Multiple R-squared:  0.08273,	Adjusted R-squared:  0.04104 
+</span></span><span class=line><span class=cl>F-statistic: 1.984 on 3 and 66 DF,  p-value: 0.1249
+</span></span></code></pre></td></tr></table></div></div><p>“did”的系数是差异中的差异估计量。治疗效应在10%的显著性水平下具有边际意义，治疗效应为负。</p><h1 id=4-takeaways>4 Takeaways</h1><ul><li><p>在描述和可视化组数据时：</p><ul><li>aggregate()更强大；它理解公式模型，并生成一个可重用的、可索引的对象来存储结果。</li><li>频率可以使用table()函数找到。</li><li>对于某个因子的比例和出现频率的图表，lattice包中的histogram()命令非常合适。</li><li>对于因子的连续数据绘图，可以使用barchart()，或者更好的是使用box-and-whiskers plots（箱线图）和boxplot()。lattice包通过公式规范和bwplot()命令扩展了这样的绘图到多个因子。</li></ul></li><li><p>在进行组间差异的统计测试时：</p><ul><li>chisq.test()函数用于在表格数据上找到置信区间，并进行假设检验。</li><li>t.test()是检验两组（或一组和一个固定值）均值差异的常见方法。</li><li>方差分析（ANOVA）是一种更一般的方法，用于测试由一个或多个因素识别的多个组之间的均值差异。基本模型使用aov()拟合，常见的汇总统计量使用anova()报告。</li><li>anova()命令还可以用于比较两个或更多ANOVA模型或其他线性模型，前提是它们是嵌套模型。</li><li>从multicomp包中绘制glht()对象是可视化ANOVA模型置信区间的好方法。</li><li>线性回归lm()是检查组间差异的更一般的方法。对于分组变量，虚拟编码很重要。</li><li>差异-差异是通过检查治疗和时间之间的交互项系数来测试的。</li></ul></li></ul></section><footer class=article-footer><section class=article-tags><a href=/tags/r%E8%AF%AD%E8%A8%80/>R语言</a>
+<a href=/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/>数据分析</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".main-article");renderMathInElement(e,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/rweek8-managing-resource-trade-offs-code/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs</h2></div></a></article><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-code-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage code II</h2></div></a></article><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-lecture-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage lecture II</h2></div></a></article><article><a href=/p/rweek6-managing-sustainable-competitive-advantage-code/><div class=article-details><h2 class=article-title>R[week6] Managing Sustainable Competitive Advantage code</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

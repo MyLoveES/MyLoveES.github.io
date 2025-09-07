@@ -1,0 +1,47 @@
+/* 自定义菜单样式 */
+
+/* 减小图标和文本之间的间距 */
+.menu .menu-item .menu-icon {
+    margin-right: 6px !important; /* 原来可能是10px或12px */
+}
+
+/* 增大菜单项字体和图标大小 */
+.menu .menu-item {
+    font-size: 1.1rem !important; /* 增大字体 */
+}
+
+.menu .menu-item .menu-icon {
+    font-size: 1.3rem !important; /* 增大图标 */
+    width: 1.3rem !important;
+    height: 1.3rem !important;
+}
+
+/* 放大个人信息区域 */
+.site-avatar .site-logo {
+    width: 100px !important; /* 放大头像 */
+    height: 100px !important;
+}
+
+.site-name {
+    font-size: 1.5rem !important; /* 放大站点名称 */
+    margin: 0.5rem 0 !important;
+}
+
+.site-description {
+    font-size: 1.1rem !important; /* 放大站点描述/签名 */
+}
+
+/* 移除标题链接样式代码 */
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .menu .menu-item {
+        font-size: 1rem !important;
+    }
+    
+    .menu .menu-item .menu-icon {
+        font-size: 1.2rem !important;
+        width: 1.2rem !important;
+        height: 1.2rem !important;
+    }
+}

@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>事件驱动 on Kunkka</title><link>https://MyLoveES.github.io/tags/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8/</link><description>Recent content in 事件驱动 on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 23 Mar 2022 18:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8/index.xml" rel="self" type="application/rss+xml"/><item><title>Why events are a bad idea</title><link>https://MyLoveES.github.io/p/why-events-are-a-bad-idea/</link><pubDate>Wed, 23 Mar 2022 18:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/why-events-are-a-bad-idea/</guid><description>&lt;h1 id="why-events-are-a-bad-idea"&gt;Why Events Are A Bad Idea
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;论点：线程可以实现事件的所有优点，包括支持高并发性、低开销和简单的并发模型。此外，线程允许更简单和更自然的编程风格。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;details&gt;
+&lt;summary&gt;原文&lt;/summary&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Specifically, we believe that threads can achieve all of the strengths of events, including support for high concurrency, low overhead, and a simple concurrency model. Moreover, we argue that threads allow a simpler and more natural programming style.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;/details&gt;
+&lt;p&gt;过去的一段时间（论文发表前），人们认为Event-oriented是高并发程序中实现高性能的最佳方法。
+主要原因有：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;由于协作多任务处理，同步的成本很低;&lt;/li&gt;
+&lt;li&gt;管理状态的开销更低(没有栈);&lt;/li&gt;
+&lt;li&gt;基于应用级的信息，更好的调度和局部性;&lt;/li&gt;
+&lt;li&gt;更灵活的控制流(不仅仅是调用/返回);&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;但是作者认为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;线程为高并发服务器提供了一个更自然的抽象;&lt;/li&gt;
+&lt;li&gt;对编译器和线程运行时系统的小改进可以消除使用事件的历史原因;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;线程更易于接受基于编译器的增强;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;details&gt;
+&lt;summary&gt;原文&lt;/summary&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-go" data-lang="go"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="err"&gt;•&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;Inexpensive&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;synchronization&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;due&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;cooperative&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;multitasking&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="err"&gt;•&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;Lower&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;overhead&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;managing&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;state&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;no&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;stacks&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="err"&gt;•&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;Better&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;scheduling&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;and&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;locality&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;based&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;on&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="nx"&gt;application&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;level&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;information&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;and&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="err"&gt;•&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;More&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;flexible&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;control&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;flow&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;not&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;just&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;call&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="nx"&gt;We&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;believe&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;that&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;threads&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;provide&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;more&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;natural&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;abstraction&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;high&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;concurrency&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;servers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;and&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;that&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;small&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;improvements&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;compilers&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;and&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;thread&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;runtime&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;systems&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;can&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;eliminate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;historical&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;reasons&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;use&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;events&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;Additionally&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;threads&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;are&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;more&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;amenable&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;compiler&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nx"&gt;based&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;enhancements&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;we&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;believe&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;right&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;paradigm&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;highly&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;concurrent&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;applications&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;thread&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kn"&gt;package&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;with&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;better&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;compiler&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nx"&gt;support&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/details&gt;
+&lt;h2 id="duality-revisited"&gt;Duality Revisited
+&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;event handlers&lt;/td&gt;
+&lt;td&gt;monitors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;events accepted by a handler&lt;/td&gt;
+&lt;td&gt;functions exported by a module&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SendMessage / AwaitReply&lt;/td&gt;
+&lt;td&gt;procedure call, or fork/join&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SendReply&lt;/td&gt;
+&lt;td&gt;return from procedure&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;waiting for messages&lt;/td&gt;
+&lt;td&gt;waiting on condition variables&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;First, Lauer and Needham ignore the cooperative scheduling used by events for synchronization.&lt;/li&gt;
+&lt;li&gt;Second, most event systems use shared memory and global data structures, which are described as atypical for Lauer and Needham’s message- passing systems.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="problems-with-threads"&gt;“Problems” with Threads
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/ConcurrentTasks.png"
+loading="lazy"
+&gt;&lt;/p&gt;
+&lt;h3 id="performance"&gt;Performance
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Criticism: 许多尝试使用线程实现的高并发模型并不是很棒&lt;br&gt;
+开销的主要来源是，存在和线程数相关的O(n)的操作的存在；并且上下文切换开销大（由于需要保存寄存器和其他状态，以及kernel crossings）。但这些是线程工具包实现的问题，而非线程自身的问题。 // TODO: 什么是上下文切换，并且为什么开销大&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id="control-flow"&gt;Control flow
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Criticism: 线程是有限制性的控制流。它鼓励程序员对控制流进行过于线性的思考，可能会排除使用更有效的控制流模式。&lt;br&gt;
+复杂的控制流模式在实践中是很少见的，并且在不同类型的系统中都需要得到处理。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id="synchronization"&gt;Synchronization
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Criticism: 线程同步机制很重 // TODO: 什么是线程同步？我的理解应该是说，加锁保证同步&lt;br&gt;
+事件系统认为合作多任务模式&amp;quot;免费&amp;quot;地为它们提供了同步机制，运行时系统无需处理互斥、等待队列等等。但是仅仅是在单处理器上实现，而现在大多是多处理器。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id="state-management"&gt;State Management
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Criticism: 线程堆栈不是管理实时状态的一种有效方式。线程系统通常面临着堆栈溢出的风险和在大堆栈上浪费虚拟地址空间之间的权衡&lt;br&gt;
+作者手动解决&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id="scheduling"&gt;Scheduling
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;Criticism: 线程提供的虚拟处理器模型使运行时系统过于泛化，使其无法做出最佳调度决策 // TODO: 啥意思？&lt;br&gt;
+事件系统能够在应用层面上调度事件的交付。因此，应用程序可以执行最短的剩余完成时间调度，有利于某些请求流，或执行其他优化。也有一些证据表明，通过连续运行几个相同类型的事件，事件允许更好的代码定位[9]。然而，Lauer-Needham二元性表明，我们可以将同样的调度技巧应用于合作调度的线程。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h3 id="conclusion"&gt;Conclusion
+&lt;/h3&gt;&lt;p&gt;上述论点表明，在高并发性方面，线程的性能至少与事件一样好，而且事件在质量上没有实质性的优势。&lt;br&gt;
+可扩展的用户级线程的缺失为事件风格提供了最大的推动力，但我们已经表明，这一缺陷是现有实现的一个伪命题，而不是线程抽象的一个基本属性。&lt;br&gt;
+（作者认为，上面列举的问题都不是线程本身的锅！都是实现方式造成的！EventDriven和Threads能达到同样的效果！）&lt;/p&gt;
+&lt;h2 id="the-case-for-threads"&gt;The Case for Threads
+&lt;/h2&gt;&lt;p&gt;对于高并发服务器，线程是更合理的抽象。原因有二：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;并发请求之间，很大程度上是彼此独立的。&lt;/li&gt;
+&lt;li&gt;处理请求的代码是顺序的。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="control-flow-1"&gt;Control flow
+&lt;/h3&gt;&lt;p&gt;基于事件的系统，往往会混淆应用程序的事件流，因为不同环节之间实际是通过“事件”连接的。Coder需要记住并且匹配event和环节，并且不便于调试。&lt;br&gt;
+而线程模型表达控制流的方式更自然（线性处理）了，并且线程堆栈封装了足够的信息来进行调试。&lt;/p&gt;
+&lt;h3 id="exception-handling-and-state-lifetime"&gt;Exception Handling and State Lifetime
+&lt;/h3&gt;&lt;p&gt;在线程系统中，在异常和正常终止后清理任务状态更简单，因为线程堆栈自然会跟踪该任务的活动状态。&lt;br&gt;
+在事件系统中，任务状态通常是堆分配的。在正确的时间释放这个状态是非常困难的，因为应用程序控制流中的分支(特别是在错误条件下)可能会导致错过释放步骤。 // ?&lt;/p&gt;
+&lt;h2 id="compiler-support-for-threads"&gt;Compiler Support for Threads
+&lt;/h2&gt;&lt;p&gt;编译器和系统紧密结合, 实现更好的安全性和性能!&lt;/p&gt;
+&lt;h3 id="动态堆栈增长"&gt;动态堆栈增长
+&lt;/h3&gt;&lt;p&gt;运行时调整堆栈大小，避免固定大小堆带来的溢出风险和内存浪费。通过编译器分析来得到所需堆栈空间的上限及增长点。&lt;/p&gt;
+&lt;h3 id="实时状态管理"&gt;实时状态管理
+&lt;/h3&gt;&lt;p&gt;清除不必要的状态(state)，检测阻塞调用中持有大量实例的情况等等。&lt;/p&gt;
+&lt;h3 id="同步"&gt;同步
+&lt;/h3&gt;&lt;p&gt;编译器警告数据竞争处来减少错误的发生。&lt;/p&gt;
+&lt;h2 id="conclusion-1"&gt;Conclusion
+&lt;/h2&gt;&lt;p&gt;线程模型能够达到和事件驱动几乎一样的性能效果，并且模型更简单，更易于编译器分析，因此 Threads 是一个更好的编程模型。&lt;/p&gt;
+&lt;h1 id="ref"&gt;Ref
+&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;ref: &lt;a class="link" href="http://capriccio.cs.berkeley.edu/pubs/threads-hotos-2003.pdf" target="_blank" rel="noopener"
+&gt;Why events are a bad idea&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;</description></item><item><title>事件驱动 or 面向过程</title><link>https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/</link><pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/</guid><description>&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/funny_compare.png"
+width="1400"
+height="770"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/funny_compare_hu_4cdf0406c8c108c8.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/funny_compare_hu_1d43c3679bcdf975.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="181"
+data-flex-basis="436px"
+&gt;&lt;/p&gt;
+&lt;h1 id="背景"&gt;背景
+&lt;/h1&gt;&lt;p&gt;业务中碰到一个场景，服务需要处理一个Job，分为几个阶段：Pre Do After。实现业务逻辑有两种比较常见的模式:&lt;/p&gt;
+&lt;p&gt;线程池
+&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Procedure.png"
+width="959"
+height="192"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Procedure_hu_e90b1bc0403cfc4e.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Procedure_hu_9b5ded020d55e0e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="499"
+data-flex-basis="1198px"
+&gt;&lt;/p&gt;
+&lt;p&gt;事件驱动
+&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/EventDrivenBack.png"
+width="815"
+height="137"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/EventDrivenBack_hu_ab9aa5ce39888c5d.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/EventDrivenBack_hu_ba012bb012ca3651.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="594"
+data-flex-basis="1427px"
+&gt;&lt;/p&gt;
+&lt;p&gt;那这两种模式孰优孰劣？看看前人的见解：&lt;/p&gt;
+&lt;h1 id="eventdriven-oriented-or-procedure-oriented"&gt;EventDriven-oriented or Procedure-oriented
+&lt;/h1&gt;&lt;h2 id="who-are-they"&gt;Who are they
+&lt;/h2&gt;&lt;h3 id="event-driven"&gt;Event Driven
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/EventDriven-workers.png"
+width="390"
+height="176"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/EventDriven-workers_hu_c11e05b94e24b167.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/EventDriven-workers_hu_2d520c7c66ba93a8.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="221"
+data-flex-basis="531px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;相对&lt;/strong&gt;较小的进程数量，进程之间进行显式消息通信。针对于事件驱动，有多种实现形式，例如观察者模式或者发布订阅模式等。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;1. Small number of (relatively static) big processes
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;2. Explicit set of message channels
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;3. Limited amount of direct sharing of data in memory
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;观察者模式&lt;br&gt;
+&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Observer.png"
+width="493"
+height="526"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Observer_hu_8df7b65a1e4b6ca5.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Observer_hu_f5cab1a05046fa24.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="93"
+data-flex-basis="224px"
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;发布订阅模式
+&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Publisher-Subscriber.png"
+width="640"
+height="344"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Publisher-Subscriber_hu_f105db320ffec191.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Publisher-Subscriber_hu_9983713b7f1be770.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="186"
+data-flex-basis="446px"
+&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;它的特点是事件的产生者并不关心具体的处理逻辑，每个环节的workers都能够专注于自己的工作&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;事件驱动的优点：
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;1. 解耦：事件发布者、订阅者解耦，其中一个环节的变化，不会影响其他环境的进行
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;2. 异步：各个环节通过事件关联，所以服务间不会block。带来执行的可调度性，资源分配的动态性
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;3. 灵活：在服务间增加一些适配器（如日志、认证、版本、限流、降级、熔断等）相当容易
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;4. 独立：服务间的吞吐也被解开了，各个服务可以专注于自己的实现，按照自己的处理速度处理
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;5. 缓冲：利用 Broker 或队列的方式还可以达到把抖动的吞吐量变成均匀的吞吐量，这就是所谓的“削峰”，这对后端系统是个不错的保护
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="procedure-oriented"&gt;Procedure-oriented
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Procedure.png"
+width="959"
+height="192"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Procedure_hu_e90b1bc0403cfc4e.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/Procedure_hu_9b5ded020d55e0e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="499"
+data-flex-basis="1198px"
+&gt;&lt;/p&gt;
+&lt;p&gt;大量快速变化的小进程和基于共享数据的进程同步机制&lt;br&gt;
+它的特点是一次请求从一而终，由单一的线程（进程）执行&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;1. Large number of very small processes
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;2. Rapid creation and deletion of processes
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;3. Communication by means of direct sharing of
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;data in memory
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;面向过程的优点：
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;1. 架构简单明了，易于实现
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;2. 各环节在在同一线程/进程内完成，易于追踪(debug)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;3. 实时性强，任务从一而终
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="the-duality-mapping"&gt;The Duality Mapping
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/MessageEqualsThread.png"
+width="776"
+height="477"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/MessageEqualsThread_hu_6a944a6313417065.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/MessageEqualsThread_hu_5f038677b6f137b8.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="162"
+data-flex-basis="390px"
+&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;On&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;Duality&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;Operating&lt;/span&gt; &lt;span class="n"&gt;System&lt;/span&gt; &lt;span class="n"&gt;Structures&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;1.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;two&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;duals&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;That&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;program&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;subsystem&lt;/span&gt; &lt;span class="n"&gt;constructed&lt;/span&gt; &lt;span class="n"&gt;strictly&lt;/span&gt; &lt;span class="n"&gt;according&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;primitives&lt;/span&gt; &lt;span class="n"&gt;defined&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;one&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;mapped&lt;/span&gt; &lt;span class="n"&gt;directly&lt;/span&gt; &lt;span class="n"&gt;into&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;dual&lt;/span&gt; &lt;span class="n"&gt;program&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;subsystem&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;fits&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;2.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;dual&lt;/span&gt; &lt;span class="n"&gt;programs&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;subsystems&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;logically&lt;/span&gt; &lt;span class="n"&gt;identical&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;They&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;also&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;made&lt;/span&gt; &lt;span class="n"&gt;textually&lt;/span&gt; &lt;span class="n"&gt;very&lt;/span&gt; &lt;span class="n"&gt;similar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;differing&lt;/span&gt; &lt;span class="n"&gt;only&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;non&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;essential&lt;/span&gt; &lt;span class="n"&gt;details&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;3.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;performance&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;program&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;subsystem&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;one&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;reflected&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt; &lt;span class="n"&gt;queue&lt;/span&gt; &lt;span class="n"&gt;lengths&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;waiting&lt;/span&gt; &lt;span class="n"&gt;times&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;service&lt;/span&gt; &lt;span class="n"&gt;rates&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;identical&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt; &lt;span class="n"&gt;dual&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;given&lt;/span&gt; &lt;span class="n"&gt;identical&lt;/span&gt; &lt;span class="n"&gt;scheduling&lt;/span&gt; &lt;span class="n"&gt;strategies&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Furthermore&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;primitive&lt;/span&gt; &lt;span class="n"&gt;operations&lt;/span&gt; &lt;span class="n"&gt;provided&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;operating&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;one&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;made&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;efficient&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;their&lt;/span&gt; &lt;span class="n"&gt;duals&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;1.&lt;/span&gt; &lt;span class="err"&gt;两类模型互为对偶，两者可以互相转换。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;2.&lt;/span&gt; &lt;span class="err"&gt;逻辑上两者彼此相似，甚至可以在文本上表现得非常相似，除了非必要的细节上。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;3.&lt;/span&gt; &lt;span class="err"&gt;在相同的调度策略下，两类模型的性能可以一样高（根据队列长度、等待时间、处理速度等方面观测）。除此之外，一个模型提供的基本操作可以使其效率和另一个模型一样高。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="event-driven-simpler-concurrency-model"&gt;Event Driven: simpler concurrency model
+&lt;/h3&gt;&lt;details&gt;
+&lt;summary&gt;原文&lt;/summary&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Messages and message identifiers. A message is a data structure meant for sending information from one process to another; it typically contains a small, fixed area for data which is passed by value and space for a pointer to larger data structures which must be passed by reference. A message identifier is a handle by which a particular message can be identified.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Message channels and message ports. A message channel is an abstract structure which identifies the destination of a message. A message port is queue capable of holding messages of a certain class or type which might be received by a particular process. Each message channel must be bound to a particular message port before is can be used. A message port, however, may have more than one message channel bound to it.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Four message transmission operations:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 1. SendMessage[messageChannel, messageBody] returns [messageId]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; This operation simply queues a new message on the port bound to the the messageChannel named as parameter.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; The messageld returned is used as parameter to the following operation.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 2. AwaitReply(messageId] returns [messageBody]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; The operation causes the process to wait for a reply to a specific message previously sent via SendMessage.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 3. WaitForMessage[set of messagePort] returns [messageBody, messageld, messagePort]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; This operation allows a process to wait for a new (unsolicited) message on any one of the message ports named in the &amp;#39;parameter.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; The message which is first on the queue is returned, along with a message identifier for future reference and an indication of the port from which that message came.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 4. SendReply[messageId, messageBody]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; This operation sends a reply to the particular message identified by the message identifier.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;SKIP FIGURE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;In this process, the kind of service requested is a function of which port the requesting message arrives on. It may or may not involve making requests of still other processes and/or sending a reply back to the requestor. It may also result in some circumstance, such as the exhaustion of a resource, which prevents further requests from being considered. These remain queued on their port until later, when the process is willing to listen on that port again.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Note that if a whole system is built according to this style, then the sole means of interaction among the components of that system is by means of the message facility. Each process can operate in its own address space without interference from the others. Because of the serial way in which requests are handled, there is never any need to protect the state information of a process from multiple, simultaneous access and updating.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/details&gt;
+&lt;h4 id="一些概念的定义"&gt;一些概念的定义：
+&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;Messages: 数据结构，用于进程之间传递信息。&lt;br&gt;
+Message identifiers: 消息 id&lt;br&gt;
+Message channels: 消息目的地&lt;br&gt;
+Message ports: 接收端口&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;SendMessage [messageChannel, messageBody] returns [messageId]&lt;br&gt;
+AwaitReply [messageId] returns [messageBody]
+WaitForMessage [set of messagePort] returns [messageBody, messageld, messagePort]
+SendReply [messageId, messageBody]&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/MessageDefinition.png"
+width="777"
+height="236"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/MessageDefinition_hu_cda856c528e6f3a8.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/MessageDefinition_hu_16a9549f1d611b2e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="329"
+data-flex-basis="790px"
+&gt;&lt;/p&gt;
+&lt;h4 id="运行公式"&gt;运行公式
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;begin m: messageBody;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; i: messageld;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; p: portid;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; s: set of portid;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ... -local data and state information for this process
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; initialize;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; do forever;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; [m, i, p] &amp;lt;- WaitForMessage[s];
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; case p of
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; port1 =&amp;gt;...; -algorithm for port1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; port2 =&amp;gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; if resourceExhausted then
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; s &amp;lt;- s - port2;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; SendReply[i, reply];
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ...; -algorithm for port2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; portk =&amp;gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; s &amp;lt;- s + port2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ...; -algorithm for portk
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; endcase;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; endloop;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;end.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="procedure-oriented-simpler--natural-programming-style"&gt;Procedure-oriented: simpler &amp;amp; natural programming style
+&lt;/h3&gt;&lt;details&gt;
+&lt;summary&gt;原文&lt;/summary&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;1.&lt;/span&gt; &lt;span class="n"&gt;Procedures&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;piece&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;Mesa&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="n"&gt;containing&lt;/span&gt; &lt;span class="n"&gt;algorithms&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;local&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;parameters&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;It&lt;/span&gt; &lt;span class="n"&gt;always&lt;/span&gt; &lt;span class="n"&gt;operates&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;scope&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;Mesa&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;may&lt;/span&gt; &lt;span class="n"&gt;access&lt;/span&gt; &lt;span class="n"&gt;any&lt;/span&gt; &lt;span class="n"&gt;global&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="n"&gt;declared&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;well&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;any&lt;/span&gt; &lt;span class="n"&gt;containing&lt;/span&gt; &lt;span class="n"&gt;procedures&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;2.&lt;/span&gt; &lt;span class="n"&gt;Procedure&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;facilities&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;synchronous&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;asynchronous&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;synchronous&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;mechanism&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;just&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;ordinary&lt;/span&gt; &lt;span class="n"&gt;Mesa&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;statement&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;may&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;very&lt;/span&gt; &lt;span class="n"&gt;much&lt;/span&gt; &lt;span class="n"&gt;like&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="n"&gt;calls&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Algol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Pascal&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;asynchronous&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;mechanism&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;represented&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;FORK&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;statements&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;defmed&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;follows&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;processld&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;FORK&lt;/span&gt; &lt;span class="n"&gt;procedureName&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;parameterList&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;statement&lt;/span&gt; &lt;span class="n"&gt;starts&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;executing&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt; &lt;span class="n"&gt;own&lt;/span&gt; &lt;span class="n"&gt;parameters&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;operates&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt; &lt;span class="n"&gt;declaration&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;just&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;had&lt;/span&gt; &lt;span class="n"&gt;been&lt;/span&gt; &lt;span class="n"&gt;called&lt;/span&gt; &lt;span class="n"&gt;synchronously&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;but&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;has&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt; &lt;span class="n"&gt;own&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;state&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;calling&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;continues&lt;/span&gt; &lt;span class="n"&gt;executing&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;statement&lt;/span&gt; &lt;span class="n"&gt;following&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;FORK&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;identifier&lt;/span&gt; &lt;span class="n"&gt;returned&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;FORK&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;used&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt; &lt;span class="n"&gt;statement&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;resultList&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;processld&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;statement&lt;/span&gt; &lt;span class="n"&gt;causes&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;executing&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;synchronize&lt;/span&gt; &lt;span class="n"&gt;itself&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;termination&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;named&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;identifier&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;retrieved&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;returned&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;calling&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;they&lt;/span&gt; &lt;span class="n"&gt;had&lt;/span&gt; &lt;span class="n"&gt;been&lt;/span&gt; &lt;span class="n"&gt;returned&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;ordinary&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;JOlNed&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt; &lt;span class="n"&gt;destroyed&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;execution&lt;/span&gt; &lt;span class="n"&gt;continues&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;JOlNing&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;statement&lt;/span&gt; &lt;span class="n"&gt;following&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;3.&lt;/span&gt; &lt;span class="n"&gt;Modules&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;monitors&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;primitive&lt;/span&gt; &lt;span class="n"&gt;Mesa&lt;/span&gt; &lt;span class="n"&gt;unit&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;compilation&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;consists&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;collection&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;procedures&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;scope&lt;/span&gt; &lt;span class="n"&gt;rules&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;language&lt;/span&gt; &lt;span class="n"&gt;determine&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;these&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;procedures&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;accessible&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;callable&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;outside&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;special&lt;/span&gt; &lt;span class="n"&gt;kind&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;Mesa&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;has&lt;/span&gt; &lt;span class="n"&gt;associated&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;prevent&lt;/span&gt; &lt;span class="n"&gt;more&lt;/span&gt; &lt;span class="n"&gt;than&lt;/span&gt; &lt;span class="n"&gt;one&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;executing&lt;/span&gt; &lt;span class="n"&gt;inside&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;at&lt;/span&gt; &lt;span class="n"&gt;any&lt;/span&gt; &lt;span class="n"&gt;one&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;It&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;based&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;very&lt;/span&gt; &lt;span class="n"&gt;similar&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;mechanism&lt;/span&gt; &lt;span class="n"&gt;described&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;Hoare&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;4.&lt;/span&gt; &lt;span class="n"&gt;Module&lt;/span&gt; &lt;span class="n"&gt;instantiation&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Modules&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;including&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;modules&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;may&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;instantiated&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;Mesa&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;means&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;NEW&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;START&lt;/span&gt; &lt;span class="n"&gt;statements&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;These&lt;/span&gt; &lt;span class="n"&gt;cause&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;holding&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;provide&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;binding&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;external&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;references&lt;/span&gt; &lt;span class="n"&gt;within&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;procedures&lt;/span&gt; &lt;span class="n"&gt;declared&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;modules&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;activate&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;initialization&lt;/span&gt; &lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="mf"&gt;5.&lt;/span&gt; &lt;span class="n"&gt;Condition&lt;/span&gt; &lt;span class="n"&gt;variables&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Condition&lt;/span&gt; &lt;span class="n"&gt;variables&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;part&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;Hoare&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s monitor mechanism an provide more flexible synchronization among events than mutual exclusion facility of the monitor lock or the process termination facility of the JOIN statement. In our model, a condition variable, must be contained within a monitor, has associated with it a queue of processes, and has two operations defined on it:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;WAIT&lt;/span&gt; &lt;span class="n"&gt;conditionVariable&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;causes&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;executing&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;release&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;suspend&lt;/span&gt; &lt;span class="n"&gt;execution&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;join&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;queue&lt;/span&gt; &lt;span class="n"&gt;associated&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;condition&lt;/span&gt; &lt;span class="n"&gt;variable&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;SIGNAL&lt;/span&gt; &lt;span class="n"&gt;condition&lt;/span&gt; &lt;span class="n"&gt;Variable&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt; &lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="n"&gt;causes&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;has&lt;/span&gt; &lt;span class="n"&gt;previously&lt;/span&gt; &lt;span class="n"&gt;WAITed&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;condition&lt;/span&gt; &lt;span class="n"&gt;variable&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;resume&lt;/span&gt; &lt;span class="n"&gt;execution&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt; &lt;span class="n"&gt;statement&lt;/span&gt; &lt;span class="n"&gt;when&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;able&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;reclaim&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;Note&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;because&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;FORK&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;operations&lt;/span&gt; &lt;span class="n"&gt;apply&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;procedures&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;already&lt;/span&gt; &lt;span class="n"&gt;declared&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;bound&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;right&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;these&lt;/span&gt; &lt;span class="n"&gt;operations&lt;/span&gt; &lt;span class="n"&gt;take&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;same&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;magnitude&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;execute&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="n"&gt;simple&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;calls&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;returns&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Thus&lt;/span&gt; &lt;span class="n"&gt;processes&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;very&lt;/span&gt; &lt;span class="n"&gt;lightweight&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;created&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;destroyed&lt;/span&gt; &lt;span class="n"&gt;very&lt;/span&gt; &lt;span class="n"&gt;frequently&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Module&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;instantiation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;hand&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;more&lt;/span&gt; &lt;span class="n"&gt;cumbersome&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;usually&lt;/span&gt; &lt;span class="n"&gt;done&lt;/span&gt; &lt;span class="n"&gt;statically&lt;/span&gt; &lt;span class="n"&gt;before&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;started&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Note&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;canonical&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="n"&gt;has&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="n"&gt;deletion&lt;/span&gt; &lt;span class="n"&gt;facility&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;SKIP&lt;/span&gt; &lt;span class="n"&gt;FIGURE&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;attribute&lt;/span&gt; &lt;span class="n"&gt;ENTRY&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;used&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;distinguish&lt;/span&gt; &lt;span class="n"&gt;procedures&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;called&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;outside&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;thus&lt;/span&gt; &lt;span class="n"&gt;seizing&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;lock&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;those&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;declared&lt;/span&gt; &lt;span class="n"&gt;purely&lt;/span&gt; &lt;span class="n"&gt;internal&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Any&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;procedures&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="n"&gt;may&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;course&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;procedures&lt;/span&gt; &lt;span class="n"&gt;declared&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;modules&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt; &lt;span class="n"&gt;services&lt;/span&gt; &lt;span class="n"&gt;before&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Within&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;condition&lt;/span&gt; &lt;span class="n"&gt;variables&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;used&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;control&lt;/span&gt; &lt;span class="n"&gt;waiting&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;circumstances&lt;/span&gt; &lt;span class="n"&gt;such&lt;/span&gt; &lt;span class="n"&gt;as&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;availability&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;resources&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;These&lt;/span&gt; &lt;span class="n"&gt;are&lt;/span&gt; &lt;span class="n"&gt;used&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;standard&lt;/span&gt; &lt;span class="n"&gt;resource&lt;/span&gt; &lt;span class="n"&gt;manager&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;tp&lt;/span&gt; &lt;span class="n"&gt;control&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;access&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;representing&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;particular&lt;/span&gt; &lt;span class="n"&gt;kind&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;service&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;If&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;whole&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;built&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;this&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;then&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;sole&lt;/span&gt; &lt;span class="n"&gt;means&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;interaction&lt;/span&gt; &lt;span class="n"&gt;among&lt;/span&gt; &lt;span class="n"&gt;its&lt;/span&gt; &lt;span class="n"&gt;components&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;procedural&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Processes&lt;/span&gt; &lt;span class="n"&gt;move&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="n"&gt;one&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;another&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="n"&gt;means&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;procedure&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt; &lt;span class="n"&gt;facility&lt;/span&gt; &lt;span class="n"&gt;across&lt;/span&gt; &lt;span class="n"&gt;module&lt;/span&gt; &lt;span class="n"&gt;boundaries&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;they&lt;/span&gt; &lt;span class="n"&gt;use&lt;/span&gt; &lt;span class="n"&gt;asynchronous&lt;/span&gt; &lt;span class="n"&gt;calls&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;stimulate&lt;/span&gt; &lt;span class="n"&gt;concurrent&lt;/span&gt; &lt;span class="n"&gt;activity&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;They&lt;/span&gt; &lt;span class="n"&gt;depend&lt;/span&gt; &lt;span class="n"&gt;upon&lt;/span&gt; &lt;span class="n"&gt;monitor&lt;/span&gt; &lt;span class="n"&gt;locks&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;condition&lt;/span&gt; &lt;span class="n"&gt;variables&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;keep&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;way&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Thus&lt;/span&gt; &lt;span class="n"&gt;no&lt;/span&gt; &lt;span class="n"&gt;process&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;associated&lt;/span&gt; &lt;span class="n"&gt;with&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;single&lt;/span&gt; &lt;span class="n"&gt;address&lt;/span&gt; &lt;span class="n"&gt;space&lt;/span&gt; &lt;span class="n"&gt;unless&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;space&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;whole&lt;/span&gt; &lt;span class="n"&gt;system&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/details&gt;
+&lt;h4 id="一些概念的定义-1"&gt;一些概念的定义
+&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;Procedure&lt;br&gt;
+Procedure call facilities, synchronous and asynchronous&lt;br&gt;
+&amp;ndash; (asynchronous):&lt;br&gt;
+&amp;mdash;- processld &amp;lt;- FORK procedureName[parameterList]&lt;br&gt;
+&amp;mdash;- [resultList] &amp;lt;- JOIN processld&lt;br&gt;
+Modules: consists of a collection of procedures and data&lt;br&gt;
+Monitors: 监控锁防止多进程在其中执行&lt;br&gt;
+Module instantiation: 实例化&lt;br&gt;
+Condition variables:&lt;br&gt;
+&amp;ndash; WAIT condition Variable&lt;br&gt;
+&amp;ndash; SIGNAL condition Variable&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h4 id="运行公式-1"&gt;运行公式
+&lt;/h4&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ResourceManager: MONITOR =
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; C: CONDITION;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; resourceExhausted: BOOLEAN;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ... -global data and state information for this process
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; proc1: ENTRY PROCEDURE[...] =
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ...; -algorithm for prod
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; proc2: ENTRY PROCEDURE[...] RETURNS[...] =
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; BEGIN
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; IF resourceExhausted THEN WAIT c;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; •••;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; RETURN[results];
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; •••;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; END; -algorithm for proc2
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; procL: ENTRY PROCEDURE[...] =
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; BEGIN
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; resourceExhausted &amp;lt;- FALSE;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; SIGNAL C;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ...;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; END; -algorithm for procL endloop;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; endloop;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; initialize;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;END
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="the-duality-mapping-1"&gt;The Duality Mapping
+&lt;/h3&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Processes, CreateProcess&lt;/td&gt;
+&lt;td&gt;Monitors, NEW/START&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Message Channels&lt;/td&gt;
+&lt;td&gt;External Procedure identifiers&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Message Ports&lt;/td&gt;
+&lt;td&gt;ENTRY procedure identifier&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SendMessage; AwaitReply (immediate)&lt;/td&gt;
+&lt;td&gt;simple procedure call&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SendMessage; AwaitReply (delayed)&lt;/td&gt;
+&lt;td&gt;fork;join&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SendReply&lt;/td&gt;
+&lt;td&gt;RETURN (from procedure)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;main loop of standard resource manager, WaitForMessage statement, case statement&lt;/td&gt;
+&lt;td&gt;monitor lock, ENTRY attribute&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;arms of the case statement&lt;/td&gt;
+&lt;td&gt;ENTRY procedure declaration&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;selective waiting for messages&lt;/td&gt;
+&lt;td&gt;condition variables, WAIT, SIGNAL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingServers.png"
+width="912"
+height="465"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingServers_hu_a6817f47d7805267.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingServers_hu_18767011346240d2.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="196"
+data-flex-basis="470px"
+&gt;
+&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingClients.png"
+width="885"
+height="458"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingClients_hu_1f6a53dc96926f4f.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingClients_hu_b98f4620001e6896.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="193"
+data-flex-basis="463px"
+&gt;
+&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingCodes.png"
+width="913"
+height="473"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingCodes_hu_cd284acfa380824b.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingCodes_hu_3172d61bf18f7dd5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="193"
+data-flex-basis="463px"
+&gt;&lt;/p&gt;
+&lt;h4 id="番外"&gt;番外
+&lt;/h4&gt;&lt;p&gt;在之后的另一篇文章，Why Events Are A Bad Idea 里面，作者的解释性对比&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;event handlers&lt;/td&gt;
+&lt;td&gt;monitors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;events accepted by a handler&lt;/td&gt;
+&lt;td&gt;functions exported by a module&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SendMessage、AwaitReply&lt;/td&gt;
+&lt;td&gt;procedure call, or fork/join&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SendReply&lt;/td&gt;
+&lt;td&gt;return from procedure&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;waiting for messages&lt;/td&gt;
+&lt;td&gt;waiting on condition variables&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="性能"&gt;性能
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;程序本身执行时间
+&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingCodes.png"
+width="913"
+height="473"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingCodes_hu_cd284acfa380824b.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/DualityMappingCodes_hu_3172d61bf18f7dd5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="193"
+data-flex-basis="463px"
+&gt;&lt;/li&gt;
+&lt;li&gt;调用系统操作开销（可以理解为调用第三方开销？）
+&lt;img src="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/SystemCall.png"
+width="519"
+height="247"
+srcset="https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/SystemCall_hu_d8dd1674f2902b85.png 480w, https://MyLoveES.github.io/p/%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8-or-%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B/SystemCall_hu_de6d54ff6c69bf88.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="210"
+data-flex-basis="504px"
+&gt;&lt;/li&gt;
+&lt;li&gt;队列等待时间（反映的是阻塞、资源竞争、调度策略）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;二元性变换使构成系统的程序主体不受影响。因此，所有的算法将以相同的速度计算，并且在每个数据结构中存储相同数量的信息。在每个系统中执行的代码数量相同。将执行相同数量的加法、乘法、比较和字符串操作。因此，如果基本的处理器特性没有改变，那么这些特性将需要相同数量的计算能力，并且系统性能的这个组件将保持不变。同样，对于系统调用开销和队列阻塞等待，两者会付出同样的代价。&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;原文&lt;/summary&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The duality transformation leaves the main bodies of the programs comprising the system untouched. Thus the algorithms will all compute at the same speed, and the same amount of information will be stored in each data structure. The same amount of client code will be executed in each of the dual systems. The same number of additions, multiplications, comparisons, -and string operations will be performed. Therefore if basic processor characteristics are unchanged, then these will take precisely the same amount of computing power, and this component of the system performance will remain unchanged.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;The other component affecting the speed of execution of a single program is the time it takes to execute each of the primitive system operations it calls. We assert without proof that the facilities of each of our two canonical models can be made to execute as efficiently as the corresponding facilities of the other model. I.e.,
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Sending a message, with its inherent need to allocate a message block and manipulate a queue and its possibility of forcing a context (process) switch, is a computation of the same complexity as that of calling or FOR King to an ENTRY procedure, which involves the same need to allocate, queue, and force a context switch.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Leaving a monitor, with the possibility of having to unqueue a waiting process and re-enter it, is an operation of the same complexity as that of waiting for new messages.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Process switching can be made equally fast in either system, and for similar machine architectures this means saving the same amount of state information. The same is true for the scheduling and dispatching of processes at the &amp;#39;microscopic&amp;#39; level.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;14
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ON THE DUALITY OF OPERATING SYSTEM STRUCTURES
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Virtual memory and paging or swapping can even be used with equal effectiveness in either model.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/details&gt;
+&lt;h2 id="but-who-is-better-"&gt;But, who is better ?
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;ref: &lt;a class="link" href="https://www.cc.gatech.edu/classes/AY2010/cs4210_fall/papers/ousterhout-threads.pdf" target="_blank" rel="noopener"
+&gt;Why Threads Are a Bad Idea&lt;/a&gt;
+ref: &lt;a class="link" href="http://capriccio.cs.berkeley.edu/pubs/threads-hotos-2003.pdf" target="_blank" rel="noopener"
+&gt;Why events are a bad idea&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h1 id="ref"&gt;Ref
+&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;ref: &lt;a class="link" href="https://courses.cs.vt.edu/~cs5204/fall07-gback/papers/p3-lauer.pdf" target="_blank" rel="noopener"
+&gt;On the Duality of Operating System Structures&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;</description></item></channel></rss>

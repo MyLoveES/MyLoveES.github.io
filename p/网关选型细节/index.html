@@ -1,0 +1,340 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="1.\u00a0海选 Nginx，Openresty、Apisix、Kong、Zuul、Zuul2、Spring Cloud Gateway Nginx（淘汰）：功能不够丰富，且开发不便（需求自定义组件开发时, 需要+Lua）。应作为流量网关，而非API网关。 OpenResty（淘汰）：Nginx + Lua。是一种从Nginx扩展各种功能、插件的思路，Kong、Apisix皆基于此，我们没必要从它开始手动实现。 Kong（淘汰）：OpenResty + Lua，同样存在开发不便的问题。存储采用postgresql。对比来看，apisix其实是更优选（国产友好，性能更好，功能也更丰富）。 Zuul（淘汰）：上一代产品，基于BIO，性能不好。已有替代产物 - Zuul2、Spring Cloud Gateway。 2. 决赛圈：Spring Cloud Gateway、Zuul2、APISIX 我们的需求：\n与当前技术栈的适配（Spring Cloud、Nacos 等） 协议转换（http → rpc 等） 路由 限流 负载均衡 熔断 监控 auth 安全 服务发现 插件开发 动态路由 性能：Apisix > Zuul2 ≈ Spring Cloud Gateway 3. 结论 首先从成熟度来看，Zuul2的资料较少，很多还是停留在Zuul1阶段。在Zuul2和Spring Cloud Gateway同属Java开发的情况下，更倾向于Spring。因此之后的比较主要发生在Spring Cloud Gateway和APISIX之间。\n比较来看，apisix优势是性能更好，功能更丰富。劣势是开发语言不匹配，之后开发维护学习成本比较高。而且对于nacos目前也只是实验性，并不完全成熟稳定。除此之外，需要etcd支持。\nSpring Cloud Gateway虽性能稍劣，但技术栈匹配，后期开发难度较小。并且与当前使用的基础设施更契合，能够省却维护新的基础设施组件的成本。因此最终选择Spring Cloud Gateway作为API网关。\nSpring Cloud Gateway(Java) https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 1.\u00a0Spring 全家桶成员：✓ 2. http > rpc: x 3. 路由 提供 Route Predicate: 包含 Time、Cookie、Header、Host、Method、Path、Query、RemoteAddr、XForwarded Remote Addr https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories Filters：request、response、oauth2、cache request https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gatewayfilter-factories 4. 限流\u00a0redis - 令牌桶 https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-requestratelimiter-gatewayfilter-factory\u00a05. 负载均衡 weight route: https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-weight-route-predicate-factory 6. 熔断(By status code / ) circuit breaker: https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#spring-cloud-circuitbreaker-filter-factory 可以将错误信息回调 7. 监控 Prometheus https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-gateway-metrics-filter 8. auth / security / 插件开发 等通过各类Filter可以实现 11. 服务发现：nacos / eureka 13. 动态路由：可通过监听nacos & 代码更新 Zuul2(Java) https://github.com/Netflix/zuul/wiki/Getting-Started-2.0\nsample: https://github.com/dashprateek/zuul2-sample\nhttps://github.com/csh0711/zuul-2-sample\n"><title>网关选型细节</title><link rel=canonical href=https://MyLoveES.github.io/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="网关选型细节"><meta property='og:description' content="1.\u00a0海选 Nginx，Openresty、Apisix、Kong、Zuul、Zuul2、Spring Cloud Gateway Nginx（淘汰）：功能不够丰富，且开发不便（需求自定义组件开发时, 需要+Lua）。应作为流量网关，而非API网关。 OpenResty（淘汰）：Nginx + Lua。是一种从Nginx扩展各种功能、插件的思路，Kong、Apisix皆基于此，我们没必要从它开始手动实现。 Kong（淘汰）：OpenResty + Lua，同样存在开发不便的问题。存储采用postgresql。对比来看，apisix其实是更优选（国产友好，性能更好，功能也更丰富）。 Zuul（淘汰）：上一代产品，基于BIO，性能不好。已有替代产物 - Zuul2、Spring Cloud Gateway。 2. 决赛圈：Spring Cloud Gateway、Zuul2、APISIX 我们的需求：\n与当前技术栈的适配（Spring Cloud、Nacos 等） 协议转换（http → rpc 等） 路由 限流 负载均衡 熔断 监控 auth 安全 服务发现 插件开发 动态路由 性能：Apisix > Zuul2 ≈ Spring Cloud Gateway 3. 结论 首先从成熟度来看，Zuul2的资料较少，很多还是停留在Zuul1阶段。在Zuul2和Spring Cloud Gateway同属Java开发的情况下，更倾向于Spring。因此之后的比较主要发生在Spring Cloud Gateway和APISIX之间。\n比较来看，apisix优势是性能更好，功能更丰富。劣势是开发语言不匹配，之后开发维护学习成本比较高。而且对于nacos目前也只是实验性，并不完全成熟稳定。除此之外，需要etcd支持。\nSpring Cloud Gateway虽性能稍劣，但技术栈匹配，后期开发难度较小。并且与当前使用的基础设施更契合，能够省却维护新的基础设施组件的成本。因此最终选择Spring Cloud Gateway作为API网关。\nSpring Cloud Gateway(Java) https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 1.\u00a0Spring 全家桶成员：✓ 2. http > rpc: x 3. 路由 提供 Route Predicate: 包含 Time、Cookie、Header、Host、Method、Path、Query、RemoteAddr、XForwarded Remote Addr https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories Filters：request、response、oauth2、cache request https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gatewayfilter-factories 4. 限流\u00a0redis - 令牌桶 https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-requestratelimiter-gatewayfilter-factory\u00a05. 负载均衡 weight route: https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-weight-route-predicate-factory 6. 熔断(By status code / ) circuit breaker: https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#spring-cloud-circuitbreaker-filter-factory 可以将错误信息回调 7. 监控 Prometheus https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-gateway-metrics-filter 8. auth / security / 插件开发 等通过各类Filter可以实现 11. 服务发现：nacos / eureka 13. 动态路由：可通过监听nacos & 代码更新 Zuul2(Java) https://github.com/Netflix/zuul/wiki/Getting-Started-2.0\nsample: https://github.com/dashprateek/zuul2-sample\nhttps://github.com/csh0711/zuul-2-sample\n"><meta property='og:url' content='https://MyLoveES.github.io/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='架构'><meta property='article:tag' content='网关'><meta property='article:published_time' content='2022-03-10T00:00:00+00:00'><meta property='article:modified_time' content='2022-03-10T00:00:00+00:00'><meta name=twitter:title content="网关选型细节"><meta name=twitter:description content="1.\u00a0海选 Nginx，Openresty、Apisix、Kong、Zuul、Zuul2、Spring Cloud Gateway Nginx（淘汰）：功能不够丰富，且开发不便（需求自定义组件开发时, 需要+Lua）。应作为流量网关，而非API网关。 OpenResty（淘汰）：Nginx + Lua。是一种从Nginx扩展各种功能、插件的思路，Kong、Apisix皆基于此，我们没必要从它开始手动实现。 Kong（淘汰）：OpenResty + Lua，同样存在开发不便的问题。存储采用postgresql。对比来看，apisix其实是更优选（国产友好，性能更好，功能也更丰富）。 Zuul（淘汰）：上一代产品，基于BIO，性能不好。已有替代产物 - Zuul2、Spring Cloud Gateway。 2. 决赛圈：Spring Cloud Gateway、Zuul2、APISIX 我们的需求：\n与当前技术栈的适配（Spring Cloud、Nacos 等） 协议转换（http → rpc 等） 路由 限流 负载均衡 熔断 监控 auth 安全 服务发现 插件开发 动态路由 性能：Apisix > Zuul2 ≈ Spring Cloud Gateway 3. 结论 首先从成熟度来看，Zuul2的资料较少，很多还是停留在Zuul1阶段。在Zuul2和Spring Cloud Gateway同属Java开发的情况下，更倾向于Spring。因此之后的比较主要发生在Spring Cloud Gateway和APISIX之间。\n比较来看，apisix优势是性能更好，功能更丰富。劣势是开发语言不匹配，之后开发维护学习成本比较高。而且对于nacos目前也只是实验性，并不完全成熟稳定。除此之外，需要etcd支持。\nSpring Cloud Gateway虽性能稍劣，但技术栈匹配，后期开发难度较小。并且与当前使用的基础设施更契合，能够省却维护新的基础设施组件的成本。因此最终选择Spring Cloud Gateway作为API网关。\nSpring Cloud Gateway(Java) https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 1.\u00a0Spring 全家桶成员：✓ 2. http > rpc: x 3. 路由 提供 Route Predicate: 包含 Time、Cookie、Header、Host、Method、Path、Query、RemoteAddr、XForwarded Remote Addr https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories Filters：request、response、oauth2、cache request https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gatewayfilter-factories 4. 限流\u00a0redis - 令牌桶 https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-requestratelimiter-gatewayfilter-factory\u00a05. 负载均衡 weight route: https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-weight-route-predicate-factory 6. 熔断(By status code / ) circuit breaker: https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#spring-cloud-circuitbreaker-filter-factory 可以将错误信息回调 7. 监控 Prometheus https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-gateway-metrics-filter 8. auth / security / 插件开发 等通过各类Filter可以实现 11. 服务发现：nacos / eureka 13. 动态路由：可通过监听nacos & 代码更新 Zuul2(Java) https://github.com/Netflix/zuul/wiki/Getting-Started-2.0\nsample: https://github.com/dashprateek/zuul2-sample\nhttps://github.com/csh0711/zuul-2-sample\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#1-海选>1.  海选</a><ol><li><a href=#nginxopenrestyapisixkongzuulzuul2spring-cloud-gateway>Nginx，Openresty、Apisix、Kong、Zuul、Zuul2、Spring Cloud Gateway</a></li></ol></li><li><a href=#2-决赛圈spring-cloud-gatewayzuul2apisix>2. 决赛圈：Spring Cloud Gateway、Zuul2、APISIX</a></li><li><a href=#3-结论>3. 结论</a><ol><li><a href=#spring-cloud-gatewayjava>Spring Cloud Gateway(Java)</a></li><li><a href=#zuul2java>Zuul2(Java)</a></li><li><a href=#apisixopenresty--lua>APISIX(OpenResty + Lua)</a></li></ol></li><li><a href=#番外>番外</a><ol><li><a href=#对dubbo集成>对dubbo集成</a><ol><li><a href=#apisix>APISIX</a></li><li><a href=#spring-cloud-gateway>Spring Cloud Gateway</a></li></ol></li><li><a href=#自定义auth插件开发>自定义auth（插件开发）</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/>网关选型细节</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Mar 10, 2022</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>4 minute read</time></div></footer></div></header><section class=article-content><h2 id=1-海选>1.  海选</h2><h3 id=nginxopenrestyapisixkongzuulzuul2spring-cloud-gateway>Nginx，Openresty、Apisix、Kong、Zuul、Zuul2、Spring Cloud Gateway</h3><ul><li>Nginx（淘汰）：功能不够丰富，且开发不便（需求自定义组件开发时, 需要+Lua）。应作为流量网关，而非API网关。</li><li>OpenResty（淘汰）：Nginx + Lua。是一种从Nginx扩展各种功能、插件的思路，Kong、Apisix皆基于此，我们没必要从它开始手动实现。</li><li>Kong（淘汰）：OpenResty + Lua，同样存在开发不便的问题。存储采用postgresql。对比来看，apisix其实是更优选（国产友好，性能更好，功能也更丰富）。</li><li>Zuul（淘汰）：上一代产品，基于BIO，性能不好。已有替代产物 - Zuul2、Spring Cloud Gateway。</li></ul><h2 id=2-决赛圈spring-cloud-gatewayzuul2apisix>2. 决赛圈：Spring Cloud Gateway、Zuul2、APISIX</h2><p>我们的需求：</p><ol><li>与当前技术栈的适配（Spring Cloud、Nacos 等）</li><li>协议转换（http → rpc 等）</li><li>路由</li><li>限流</li><li>负载均衡</li><li>熔断</li><li>监控</li><li>auth</li><li>安全</li><li>服务发现</li><li>插件开发</li><li>动态路由</li><li>性能：Apisix > Zuul2 ≈ Spring Cloud Gateway</li></ol><h2 id=3-结论>3. 结论</h2><p>首先从成熟度来看，Zuul2的资料较少，很多还是停留在Zuul1阶段。在Zuul2和Spring Cloud Gateway同属Java开发的情况下，更倾向于Spring。因此之后的比较主要发生在Spring Cloud Gateway和APISIX之间。<br>比较来看，apisix优势是性能更好，功能更丰富。劣势是开发语言不匹配，之后开发维护学习成本比较高。而且对于nacos目前也只是实验性，并不完全成熟稳定。除此之外，需要etcd支持。<br>Spring Cloud Gateway虽性能稍劣，但技术栈匹配，后期开发难度较小。并且与当前使用的基础设施更契合，能够省却维护新的基础设施组件的成本。因此最终选择Spring Cloud Gateway作为API网关。</p><h3 id=spring-cloud-gatewayjava>Spring Cloud Gateway(Java)</h3><p><a class=link href=https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/ target=_blank rel=noopener>https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>1. Spring 全家桶成员：✓
+</span></span><span class=line><span class=cl>2. http &gt; rpc: x
+</span></span><span class=line><span class=cl>3. 路由
+</span></span><span class=line><span class=cl>    提供 Route Predicate: 包含 Time、Cookie、Header、Host、Method、Path、Query、RemoteAddr、XForwarded Remote Addr
+</span></span><span class=line><span class=cl>    https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gateway-request-predicates-factories
+</span></span><span class=line><span class=cl>   
+</span></span><span class=line><span class=cl>    Filters：request、response、oauth2、cache request
+</span></span><span class=line><span class=cl>    https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#gatewayfilter-factories
+</span></span><span class=line><span class=cl>4. 限流 
+</span></span><span class=line><span class=cl>    redis - 令牌桶 https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-requestratelimiter-gatewayfilter-factory    
+</span></span><span class=line><span class=cl>5. 负载均衡
+</span></span><span class=line><span class=cl>    weight route: https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-weight-route-predicate-factory
+</span></span><span class=line><span class=cl>6. 熔断(By status code / )
+</span></span><span class=line><span class=cl>    circuit breaker: https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#spring-cloud-circuitbreaker-filter-factory
+</span></span><span class=line><span class=cl>    可以将错误信息回调
+</span></span><span class=line><span class=cl>7. 监控 Prometheus
+</span></span><span class=line><span class=cl>    https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/#the-gateway-metrics-filter
+</span></span><span class=line><span class=cl>8. auth / security / 插件开发 等通过各类Filter可以实现
+</span></span><span class=line><span class=cl>11. 服务发现：nacos / eureka
+</span></span><span class=line><span class=cl>13. 动态路由：可通过监听nacos &amp; 代码更新
+</span></span></code></pre></td></tr></table></div></div><h3 id=zuul2java>Zuul2(Java)</h3><p><a class=link href=https://github.com/Netflix/zuul/wiki/Getting-Started-2.0 target=_blank rel=noopener>https://github.com/Netflix/zuul/wiki/Getting-Started-2.0</a><br><img src=/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/Zuul2_DES.png width=872 height=721 srcset="/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/Zuul2_DES_hu_e2a5f07a895753e8.png 480w, /p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/Zuul2_DES_hu_5a242ec09cbae553.png 1024w" loading=lazy class=gallery-image data-flex-grow=120 data-flex-basis=290px>
+sample: <a class=link href=https://github.com/dashprateek/zuul2-sample target=_blank rel=noopener>https://github.com/dashprateek/zuul2-sample</a><br>        <a class=link href=https://github.com/csh0711/zuul-2-sample target=_blank rel=noopener>https://github.com/csh0711/zuul-2-sample</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=mf>1.</span><span class=n>SpringCloud</span> <span class=err>不兼容</span><span class=n>Zuul2</span>
+</span></span><span class=line><span class=cl><span class=mf>2.</span><span class=n>http</span> <span class=err>转</span> <span class=n>rpc</span><span class=p>:</span> <span class=n>x</span>
+</span></span><span class=line><span class=cl><span class=mf>3.</span><span class=err>路由</span><span class=p>:</span> <span class=err>✓</span>
+</span></span><span class=line><span class=cl><span class=mf>4.</span><span class=err>限流</span><span class=p>:</span> <span class=err>✓</span>
+</span></span><span class=line><span class=cl>   <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>github</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>Netflix</span><span class=o>/</span><span class=n>zuul</span><span class=o>/</span><span class=n>wiki</span><span class=o>/</span><span class=n>Core</span><span class=o>-</span><span class=n>Features</span><span class=c1>#origin-concurrency-protection</span>
+</span></span><span class=line><span class=cl>   <span class=err>整体限流：</span><span class=nb>max</span><span class=o>-</span><span class=n>requests</span> 
+</span></span><span class=line><span class=cl>   <span class=n>Per</span> <span class=n>server</span><span class=err>：</span><span class=n>MaxConnectionsPerHost</span>
+</span></span><span class=line><span class=cl>   <span class=n>If</span> <span class=n>an</span> <span class=n>origin</span> <span class=n>exceeds</span> <span class=n>overall</span> <span class=n>concurrency</span> <span class=ow>or</span> <span class=n>per</span><span class=o>-</span><span class=n>host</span> <span class=n>concurrency</span><span class=p>,</span> <span class=n>Zuul</span> <span class=n>will</span> <span class=k>return</span> <span class=n>a</span> <span class=mi>503</span> <span class=n>to</span> <span class=n>the</span> <span class=n>client</span><span class=o>.</span>
+</span></span><span class=line><span class=cl><span class=mf>5.</span><span class=err>负载均衡</span><span class=p>:</span> <span class=err>✓</span>
+</span></span><span class=line><span class=cl>    <span class=n>roundrobin</span><span class=p>(</span><span class=err>轮询</span><span class=p>)</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>github</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>Netflix</span><span class=o>/</span><span class=n>ribbon</span><span class=o>/</span><span class=n>wiki</span><span class=o>/</span><span class=n>Working</span><span class=o>-</span><span class=n>with</span><span class=o>-</span><span class=nb>load</span><span class=o>-</span><span class=n>balancers</span><span class=c1>#roundrobinrule</span>
+</span></span><span class=line><span class=cl>    <span class=n>AvailabilityFilteringRule</span><span class=p>(</span><span class=err>可用性过滤</span><span class=p>)</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>github</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>Netflix</span><span class=o>/</span><span class=n>ribbon</span><span class=o>/</span><span class=n>wiki</span><span class=o>/</span><span class=n>Working</span><span class=o>-</span><span class=n>with</span><span class=o>-</span><span class=nb>load</span><span class=o>-</span><span class=n>balancers</span><span class=c1>#availabilityfilteringrule</span>
+</span></span><span class=line><span class=cl>    <span class=n>WeightedResponseTimeRule</span><span class=p>(</span><span class=err>根据响应时间加权重</span><span class=p>)</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>github</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>Netflix</span><span class=o>/</span><span class=n>ribbon</span><span class=o>/</span><span class=n>wiki</span><span class=o>/</span><span class=n>Working</span><span class=o>-</span><span class=n>with</span><span class=o>-</span><span class=nb>load</span><span class=o>-</span><span class=n>balancers</span><span class=c1>#weightedresponsetimerule</span>
+</span></span><span class=line><span class=cl><span class=mf>6.</span> <span class=err>熔断（自定义）</span><span class=p>:</span> <span class=err>✓</span>
+</span></span><span class=line><span class=cl>     <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>www</span><span class=o>.</span><span class=n>javadoc</span><span class=o>.</span><span class=n>io</span><span class=o>/</span><span class=n>doc</span><span class=o>/</span><span class=n>org</span><span class=o>.</span><span class=n>springframework</span><span class=o>.</span><span class=n>cloud</span><span class=o>/</span><span class=n>spring</span><span class=o>-</span><span class=n>cloud</span><span class=o>-</span><span class=n>netflix</span><span class=o>-</span><span class=n>zuul</span><span class=o>/</span><span class=mf>2.0</span><span class=o>.</span><span class=mf>3.</span><span class=n>RELEASE</span><span class=o>/</span><span class=n>org</span><span class=o>/</span><span class=n>springframework</span><span class=o>/</span><span class=n>cloud</span><span class=o>/</span><span class=n>netflix</span><span class=o>/</span><span class=n>zuul</span><span class=o>/</span><span class=n>filters</span><span class=o>/</span><span class=n>route</span><span class=o>/</span><span class=n>FallbackProvider</span><span class=o>.</span><span class=n>html</span>
+</span></span><span class=line><span class=cl>     <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>www</span><span class=o>.</span><span class=n>baeldung</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>spring</span><span class=o>-</span><span class=n>zuul</span><span class=o>-</span><span class=n>fallback</span><span class=o>-</span><span class=n>route</span>
+</span></span><span class=line><span class=cl><span class=mf>7.</span><span class=err>监控</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>      <span class=n>prometheus</span><span class=err>、</span><span class=n>Statsd</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>zuul</span><span class=o>-</span><span class=n>ci</span><span class=o>.</span><span class=n>org</span><span class=o>/</span><span class=n>docs</span><span class=o>/</span><span class=n>zuul</span><span class=o>/</span><span class=n>latest</span><span class=o>/</span><span class=n>monitoring</span><span class=o>.</span><span class=n>html</span>
+</span></span><span class=line><span class=cl><span class=mf>8.</span><span class=n>auth</span><span class=err>、安全</span><span class=p>:</span> <span class=err>✓</span>
+</span></span><span class=line><span class=cl><span class=mf>11.</span> <span class=err>服务发现</span><span class=p>:</span> <span class=err>✓</span>
+</span></span><span class=line><span class=cl>      <span class=err>静态配置</span> <span class=o>/</span> <span class=n>eureka</span>
+</span></span><span class=line><span class=cl><span class=mf>12.</span><span class=err>插件开发</span><span class=p>:</span> <span class=n>Java</span>
+</span></span><span class=line><span class=cl><span class=mf>13.</span><span class=err>数据存储</span><span class=p>:</span> <span class=n>JPA</span> <span class=o>/</span> <span class=n>redis</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=apisixopenresty--lua>APISIX(OpenResty + Lua)</h3><p><a class=link href=https://apisix.apache.org/docs/apisix/getting-started target=_blank rel=noopener>https://apisix.apache.org/docs/apisix/getting-started</a><br><img src=/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/APISIX_DES.png width=2328 height=996 srcset="/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/APISIX_DES_hu_7a2d99fcc064383b.png 480w, /p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/APISIX_DES_hu_84c15dec61435b27.png 1024w" loading=lazy class=gallery-image data-flex-grow=233 data-flex-basis=560px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>1.Nginx + Lua: x
+</span></span><span class=line><span class=cl>2.支持rpc: ✓
+</span></span><span class=line><span class=cl>   grpc: https://apisix.apache.org/zh/docs/apisix/plugins/grpc-transcode
+</span></span><span class=line><span class=cl>   dubbo: https://apisix.apache.org/zh/docs/apisix/plugins/dubbo-proxy
+</span></span><span class=line><span class=cl>3.路由: ✓
+</span></span><span class=line><span class=cl>4.限流: ✓
+</span></span><span class=line><span class=cl>   limit-req: 限制请求速度的插件，使用的是漏桶算法。https://apisix.apache.org/zh/docs/apisix/plugins/limit-req
+</span></span><span class=line><span class=cl>   limit-conn: 限制并发请求（或并发连接）插件。https://apisix.apache.org/zh/docs/apisix/plugins/limit-conn
+</span></span><span class=line><span class=cl>   limit-count: 在指定的时间范围内，限制总的请求个数。并且在 HTTP 响应头中返回剩余可以请求的个数。https://apisix.apache.org/zh/docs/apisix/plugins/limit-count
+</span></span><span class=line><span class=cl>5.负载均衡: ✓
+</span></span><span class=line><span class=cl>    策略：chash(一致性hash)，roundrobin(轮询)，priority，least_conn(最少连接数)，ewma(指数加权移动平均法)
+</span></span><span class=line><span class=cl>    https://github.com/apache/apisix/tree/master/apisix/balancer
+</span></span><span class=line><span class=cl>6.熔断（backoff）:✓  https://apisix.apache.org/zh/docs/apisix/plugins/api-breaker/
+</span></span><span class=line><span class=cl>7.监控: ✓
+</span></span><span class=line><span class=cl>    prometheus: https://apisix.apache.org/zh/docs/apisix/plugins/prometheus/
+</span></span><span class=line><span class=cl>    zipkin: https://apisix.apache.org/zh/docs/apisix/plugins/zipkin
+</span></span><span class=line><span class=cl>    skywalking: https://apisix.apache.org/zh/docs/apisix/plugins/skywalking
+</span></span><span class=line><span class=cl>    node-status: https://apisix.apache.org/zh/docs/apisix/plugins/node-status
+</span></span><span class=line><span class=cl>    datadog: https://apisix.apache.org/zh/docs/apisix/plugins/datadog
+</span></span><span class=line><span class=cl>8.auth: ✓
+</span></span><span class=line><span class=cl>    key-auth(k-v): https://apisix.apache.org/zh/docs/apisix/plugins/key-auth
+</span></span><span class=line><span class=cl>    jwt-auth: https://apisix.apache.org/zh/docs/apisix/plugins/jwt-auth
+</span></span><span class=line><span class=cl>    basic-auth: https://apisix.apache.org/zh/docs/apisix/plugins/basic-auth
+</span></span><span class=line><span class=cl>    authz-keycloak: https://apisix.apache.org/zh/docs/apisix/plugins/authz-keycloak
+</span></span><span class=line><span class=cl>    wolf-rbac:  https://apisix.apache.org/zh/docs/apisix/plugins/wolf-rbac
+</span></span><span class=line><span class=cl>    openid-connect: https://apisix.apache.org/zh/docs/apisix/plugins/openid-connect
+</span></span><span class=line><span class=cl>    hmac-auth: https://apisix.apache.org/zh/docs/apisix/plugins/hmac-auth
+</span></span><span class=line><span class=cl>    authz-casbin: https://apisix.apache.org/zh/docs/apisix/plugins/authz-casbin
+</span></span><span class=line><span class=cl>    ldap-auth: https://apisix.apache.org/zh/docs/apisix/plugins/ldap-auth
+</span></span><span class=line><span class=cl>    opa: https://apisix.apache.org/zh/docs/apisix/plugins/opa
+</span></span><span class=line><span class=cl>    forward-auth: https://apisix.apache.org/zh/docs/apisix/plugins/forward-auth
+</span></span><span class=line><span class=cl>9.安全: ✓
+</span></span><span class=line><span class=cl>    cors: https://apisix.apache.org/zh/docs/apisix/plugins/cors
+</span></span><span class=line><span class=cl>    uri-blocker: 指定block_rules，拦截请求 https://apisix.apache.org/zh/docs/apisix/plugins/uri-blocker
+</span></span><span class=line><span class=cl>    ip-restriction: ip 黑白名单 https://apisix.apache.org/zh/docs/apisix/plugins/ip-restriction
+</span></span><span class=line><span class=cl>    ua-restriction: User-Agent 黑白名单 https://apisix.apache.org/zh/docs/apisix/plugins/ua-restriction
+</span></span><span class=line><span class=cl>    referer-restriction: referer 黑白名单 https://apisix.apache.org/zh/docs/apisix/plugins/referer-restriction
+</span></span><span class=line><span class=cl>    consumer-restriction: 自定义 https://apisix.apache.org/zh/docs/apisix/plugins/consumer-restriction
+</span></span><span class=line><span class=cl>10.log: ✓
+</span></span><span class=line><span class=cl>    http / skywalking / tcp / kafka / rocketmq / udp / Syslog / log-rotate / error-log-logger / sls-logger / google-cloud / splunk-hec
+</span></span><span class=line><span class=cl>11.服务发现: ✓
+</span></span><span class=line><span class=cl>    DNS
+</span></span><span class=line><span class=cl>    consul_kv
+</span></span><span class=line><span class=cl>    nacos(实验性)
+</span></span><span class=line><span class=cl>    eureka
+</span></span><span class=line><span class=cl>12.插件开发: ✓
+</span></span><span class=line><span class=cl>    lua: https://apisix.apache.org/zh/docs/apisix/plugin-develop
+</span></span><span class=line><span class=cl>    external plugin:  
+</span></span><span class=line><span class=cl>        java: https://apisix.apache.org/zh/docs/apisix/external-plugin
+</span></span><span class=line><span class=cl>        go:  https://apisix.apache.org/docs/go-plugin-runner/getting-started/
+</span></span><span class=line><span class=cl>        python: https://apisix.apache.org/docs/python-plugin-runner/getting-started/
+</span></span><span class=line><span class=cl>13.数据存储/动态路由：etcd
+</span></span></code></pre></td></tr></table></div></div><h2 id=番外>番外</h2><h3 id=对dubbo集成>对dubbo集成</h3><h4 id=apisix>APISIX</h4><p><a class=link href=https://apisix.apache.org/zh/docs/apisix/plugins/dubbo-proxy/ target=_blank rel=noopener>https://apisix.apache.org/zh/docs/apisix/plugins/dubbo-proxy/</a><br><a class=link href=https://apisix.apache.org/zh/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/ target=_blank rel=noopener>https://apisix.apache.org/zh/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/</a>
+<img src=/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/dubbo-02.png width=858 height=1057 srcset="/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/dubbo-02_hu_966e1bc526a581dd.png 480w, /p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/dubbo-02_hu_ed7ff46551365453.png 1024w" loading=lazy class=gallery-image data-flex-grow=81 data-flex-basis=194px></p><blockquote><p>dubbo-proxy 插件允许将 HTTP 请求代理到 dubbo，但是有所限制：参数和返回值都必须要是 Map&lt;String, Object></p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>curl http://127.0.0.1:9080/apisix/admin/upstreams/1  -H &#39;X-API-KEY: edd1c9f034335f136f87ad84b625c8f1&#39; -X PUT -d &#39;
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    &#34;nodes&#34;: {
+</span></span><span class=line><span class=cl>        &#34;127.0.0.1:20880&#34;: 1
+</span></span><span class=line><span class=cl>    },
+</span></span><span class=line><span class=cl>    &#34;type&#34;: &#34;roundrobin&#34;
+</span></span><span class=line><span class=cl>}&#39;
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>curl http://127.0.0.1:9080/apisix/admin/routes/1  -H &#39;X-API-KEY: edd1c9f034335f136f87ad84b625c8f1&#39; -X PUT -d &#39;
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    &#34;uris&#34;: [
+</span></span><span class=line><span class=cl>        &#34;/hello&#34;
+</span></span><span class=line><span class=cl>    ],
+</span></span><span class=line><span class=cl>    &#34;plugins&#34;: {
+</span></span><span class=line><span class=cl>        &#34;dubbo-proxy&#34;: {
+</span></span><span class=line><span class=cl>            &#34;service_name&#34;: &#34;org.apache.dubbo.sample.tengine.DemoService&#34;,
+</span></span><span class=line><span class=cl>            &#34;service_version&#34;: &#34;0.0.0&#34;,
+</span></span><span class=line><span class=cl>            &#34;method&#34;: &#34;tengineDubbo&#34;
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>    },
+</span></span><span class=line><span class=cl>    &#34;upstream_id&#34;: 1
+</span></span><span class=line><span class=cl>}&#39;
+</span></span></code></pre></td></tr></table></div></div><p>如果要满足复杂场景，需要在服务中额外增加一个HTTP TO DUBBO的service进行处理。通过 HTTP Request Body 描述要调用的 Service 和 Method 以及对应参数，再利用 Java 的反射机制实现目标方法的调用。最后将返回值序列化为 JSON，并写入到 HTTP Response Body 中.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>public class DubboInvocationParameter {
+</span></span><span class=line><span class=cl>    private String type;
+</span></span><span class=line><span class=cl>    private String value;
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>public class DubboInvocation {
+</span></span><span class=line><span class=cl>    private String service;
+</span></span><span class=line><span class=cl>    private String method;
+</span></span><span class=line><span class=cl>    private DubboInvocationParameter[] parameters;
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>public interface HTTP2DubboService {
+</span></span><span class=line><span class=cl>    Map&lt;String, Object&gt; invoke(Map&lt;String, Object&gt; context)  throws Exception;
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>@Component
+</span></span><span class=line><span class=cl>public class HTTP2DubboServiceImpl implements HTTP2DubboService {
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    @Autowired
+</span></span><span class=line><span class=cl>    private ApplicationContext appContext;
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>    @Override
+</span></span><span class=line><span class=cl>    public Map&lt;String, Object&gt; invoke(Map&lt;String, Object&gt; context) throws Exception {
+</span></span><span class=line><span class=cl>        DubboInvocation invocation = JSONObject.parseObject((byte[]) context.get(&#34;body&#34;), DubboInvocation.class);
+</span></span><span class=line><span class=cl>        Object[] args = new Object[invocation.getParameters().size()];
+</span></span><span class=line><span class=cl>        for (int i = 0; i &lt; args.length; i++) {
+</span></span><span class=line><span class=cl>            DubboInvocationParameter parameter = invocation.getParameters().get(i);
+</span></span><span class=line><span class=cl>            args[i] = JSONObject.parseObject(parameter.getValue(), Class.forName(parameter.getType()));
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>        Object svc = appContext.getBean(Class.forName(invocation.getService()));
+</span></span><span class=line><span class=cl>        Object result = svc.getClass().getMethod(invocation.getMethod()).invoke(args);
+</span></span><span class=line><span class=cl>        Map&lt;String, Object&gt; httpResponse = new HashMap&lt;&gt;();
+</span></span><span class=line><span class=cl>        httpResponse.put(&#34;status&#34;, 200);
+</span></span><span class=line><span class=cl>        httpResponse.put(&#34;body&#34;, JSONObject.toJSONString(result));
+</span></span><span class=line><span class=cl>        return httpResponse;
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h4 id=spring-cloud-gateway>Spring Cloud Gateway</h4><p><a class=link href=https://www.cnblogs.com/zlt2000/p/13201326.html target=_blank rel=noopener>https://www.cnblogs.com/zlt2000/p/13201326.html</a><br><img src=/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/dubbo-3.png width=859 height=775 srcset="/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/dubbo-3_hu_a70f049cad82ac9f.png 480w, /p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B%E7%BB%86%E8%8A%82/dubbo-3_hu_8f64971b34ccd670.png 1024w" loading=lazy class=gallery-image data-flex-grow=110 data-flex-basis=266px></p><blockquote><p>由于SpringCloudGateway不支持Http到RPC协议的转换，因此需要引入"web"层来作http→rpc。有两种实现方式</p></blockquote><ul><li><ol><li>通过web层来转换http → rpc</li></ol></li><li><ol start=2><li>通过dubbo rest承接http</li></ol></li></ul><h3 id=自定义auth插件开发>自定义auth（插件开发）</h3><blockquote><p>apisix: <a class=link href=https://apisix.apache.org/zh/blog/2021/09/07/how-to-use-apisix-auth/ target=_blank rel=noopener>https://apisix.apache.org/zh/blog/2021/09/07/how-to-use-apisix-auth/</a>
+spring cloud gateway: preFilter</p></blockquote></section><footer class=article-footer><section class=article-tags><a href=/tags/%E6%9E%B6%E6%9E%84/>架构</a>
+<a href=/tags/%E7%BD%91%E5%85%B3/>网关</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/%E7%BD%91%E5%85%B3%E9%80%89%E5%9E%8B/><div class=article-details><h2 class=article-title>网关选型</h2></div></a></article><article><a href=/p/why-reactor/><div class=article-details><h2 class=article-title>Why Reactor</h2></div></a></article><article><a href=/p/callback-or-messagequeue/><div class=article-details><h2 class=article-title>Callback Or MessageQueue</h2></div></a></article><article><a href=/p/seda-the-staged-event-driven-architecture/><div class=article-details><h2 class=article-title>Seda - The Staged Event-Driven Architecture</h2></div></a></article><article><a href=/p/why-events-are-a-bad-idea/><div class=article-details><h2 class=article-title>Why events are a bad idea</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

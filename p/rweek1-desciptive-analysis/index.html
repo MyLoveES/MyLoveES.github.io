@@ -1,0 +1,980 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content='本篇主要讲了利用R语言进行数据简单处理分析，和图表的绘制。\nR: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\ninstall and import libraries\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 # install.packages ("readxl") # install.packages ("psych") # install.packages ("car") # install.packages ("gpairs") # install.packages ("grid") # install.packages ("lattice") # install.packages ("corrplot") # install.packages ("gplots") library("readxl") library("psych") library("car") library("gpairs") library("grid") library("lattice") library("corrplot") library("gplots") 一、Data 1. vectors 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 # 导入数据 > store.df <- read.csv("Data_Descriptive.csv", stringsAsFactors=TRUE) > str(store.df) &#39;data.frame&#39;:\t2080 obs. of 10 variables: $ storeNum: int 101 101 101 101 101 101 101 101 101 101 ... $ Year : int 1 1 1 1 1 1 1 1 1 1 ... $ Week : int 1 2 3 4 5 6 7 8 9 10 ... $ p1sales : int 127 137 156 117 138 115 116 106 116 145 ... $ p2sales : int 106 105 97 106 100 127 90 126 94 91 ... $ p1price : num 2.29 2.49 2.99 2.99 2.49 2.79 2.99 2.99 2.29 2.49 ... $ p2price : num 2.29 2.49 2.99 3.19 2.59 2.49 3.19 2.29 2.29 2.99 ... $ p1prom : int 0 0 1 0 0 0 0 0 0 0 ... $ p2prom : int 0 0 0 0 1 0 0 0 0 0 ... $ country : Factor w/ 7 levels "AU","BR","CN",..: 7 7 7 7 7 7 7 7 7 7 ... # 从上面结果可以看出，csv中一共有2080个观察值（行），10个变量（列）。 # 其中country是factor类型的，一共有7个level。 2. Summarize a single variable 2.1 Discrete variables 1 2 3 > table(store.df$p1price) 2.19 2.29 2.49 2.79 2.99 395 444 423 443 375 注⚠️：table() 函数 用来创建频数表（Frequency Table）的函数。它可以用于统计一组数据中各个值出现的次数，并将结果以表格的形式呈现。 它也可以提供多维的结果，比如：\n'><title>R[week1] Desciptive Analysis</title><link rel=canonical href=https://MyLoveES.github.io/p/rweek1-desciptive-analysis/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="R[week1] Desciptive Analysis"><meta property='og:description' content='本篇主要讲了利用R语言进行数据简单处理分析，和图表的绘制。\nR: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\ninstall and import libraries\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 # install.packages ("readxl") # install.packages ("psych") # install.packages ("car") # install.packages ("gpairs") # install.packages ("grid") # install.packages ("lattice") # install.packages ("corrplot") # install.packages ("gplots") library("readxl") library("psych") library("car") library("gpairs") library("grid") library("lattice") library("corrplot") library("gplots") 一、Data 1. vectors 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 # 导入数据 > store.df <- read.csv("Data_Descriptive.csv", stringsAsFactors=TRUE) > str(store.df) &#39;data.frame&#39;:\t2080 obs. of 10 variables: $ storeNum: int 101 101 101 101 101 101 101 101 101 101 ... $ Year : int 1 1 1 1 1 1 1 1 1 1 ... $ Week : int 1 2 3 4 5 6 7 8 9 10 ... $ p1sales : int 127 137 156 117 138 115 116 106 116 145 ... $ p2sales : int 106 105 97 106 100 127 90 126 94 91 ... $ p1price : num 2.29 2.49 2.99 2.99 2.49 2.79 2.99 2.99 2.29 2.49 ... $ p2price : num 2.29 2.49 2.99 3.19 2.59 2.49 3.19 2.29 2.29 2.99 ... $ p1prom : int 0 0 1 0 0 0 0 0 0 0 ... $ p2prom : int 0 0 0 0 1 0 0 0 0 0 ... $ country : Factor w/ 7 levels "AU","BR","CN",..: 7 7 7 7 7 7 7 7 7 7 ... # 从上面结果可以看出，csv中一共有2080个观察值（行），10个变量（列）。 # 其中country是factor类型的，一共有7个level。 2. Summarize a single variable 2.1 Discrete variables 1 2 3 > table(store.df$p1price) 2.19 2.29 2.49 2.79 2.99 395 444 423 443 375 注⚠️：table() 函数 用来创建频数表（Frequency Table）的函数。它可以用于统计一组数据中各个值出现的次数，并将结果以表格的形式呈现。 它也可以提供多维的结果，比如：\n'><meta property='og:url' content='https://MyLoveES.github.io/p/rweek1-desciptive-analysis/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='R语言'><meta property='article:tag' content='数据分析'><meta property='article:tag' content='描述性分析'><meta property='article:published_time' content='2024-03-13T00:00:00+00:00'><meta property='article:modified_time' content='2024-03-13T00:00:00+00:00'><meta name=twitter:title content="R[week1] Desciptive Analysis"><meta name=twitter:description content='本篇主要讲了利用R语言进行数据简单处理分析，和图表的绘制。\nR: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\ninstall and import libraries\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 # install.packages ("readxl") # install.packages ("psych") # install.packages ("car") # install.packages ("gpairs") # install.packages ("grid") # install.packages ("lattice") # install.packages ("corrplot") # install.packages ("gplots") library("readxl") library("psych") library("car") library("gpairs") library("grid") library("lattice") library("corrplot") library("gplots") 一、Data 1. vectors 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 # 导入数据 > store.df <- read.csv("Data_Descriptive.csv", stringsAsFactors=TRUE) > str(store.df) &#39;data.frame&#39;:\t2080 obs. of 10 variables: $ storeNum: int 101 101 101 101 101 101 101 101 101 101 ... $ Year : int 1 1 1 1 1 1 1 1 1 1 ... $ Week : int 1 2 3 4 5 6 7 8 9 10 ... $ p1sales : int 127 137 156 117 138 115 116 106 116 145 ... $ p2sales : int 106 105 97 106 100 127 90 126 94 91 ... $ p1price : num 2.29 2.49 2.99 2.99 2.49 2.79 2.99 2.99 2.29 2.49 ... $ p2price : num 2.29 2.49 2.99 3.19 2.59 2.49 3.19 2.29 2.29 2.99 ... $ p1prom : int 0 0 1 0 0 0 0 0 0 0 ... $ p2prom : int 0 0 0 0 1 0 0 0 0 0 ... $ country : Factor w/ 7 levels "AU","BR","CN",..: 7 7 7 7 7 7 7 7 7 7 ... # 从上面结果可以看出，csv中一共有2080个观察值（行），10个变量（列）。 # 其中country是factor类型的，一共有7个level。 2. Summarize a single variable 2.1 Discrete variables 1 2 3 > table(store.df$p1price) 2.19 2.29 2.49 2.79 2.99 395 444 423 443 375 注⚠️：table() 函数 用来创建频数表（Frequency Table）的函数。它可以用于统计一组数据中各个值出现的次数，并将结果以表格的形式呈现。 它也可以提供多维的结果，比如：\n'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#1-vectors>1. vectors</a></li><li><a href=#2-summarize-a-single-variable>2. Summarize a single variable</a><ol><li><a href=#21-discrete-variables>2.1 Discrete variables</a></li><li><a href=#22-continuous-variables>2.2 Continuous variables</a></li><li><a href=#iqrinterquartile-range>IQR（Interquartile Range）：</a></li><li><a href=#madmedian-absolute-deviation>MAD（Median Absolute Deviation）：</a></li><li><a href=#iqr-和-mad-相比>IQR 和 MAD 相比：</a></li></ol></li><li><a href=#3-summarize-data-frames>3 Summarize data frames</a><ol><li><a href=#31-summary>3.1 summary()</a></li><li><a href=#第一四分位数1st-qu><strong>第一四分位数（1st Qu）</strong></a></li><li><a href=#第三四分位数3rd-qu><strong>第三四分位数（3rd Qu）</strong></a></li></ol></li><li><a href=#32-describe>3.2 describe()</a><ol><li><ol><li><a href=#trimmed>trimmed</a></li><li><a href=#mad>mad</a></li><li><a href=#skewness偏度>Skewness（偏度）</a></li><li><a href=#kurtosis峰度>Kurtosis（峰度）</a></li><li><a href=#se>se</a></li></ol></li></ol></li><li><a href=#检查数据集的通用方法>检查数据集的通用方法</a><ol><li><ol><li><a href=#番外-trimmmed-and-skewed>番外 Trimmmed And Skewed</a></li></ol></li></ol></li><li><a href=#33-apply>3.3 apply()</a></li><li><a href=#4-single-variable-visualisation>4. Single variable visualisation</a><ol><li><a href=#41-histograms-柱状图>4.1 Histograms 柱状图</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%95%99%E7%A8%8B/>教程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/rweek1-desciptive-analysis/>R[week1] Desciptive Analysis</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Mar 13, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>18 minute read</time></div></footer></div></header><section class=article-content><p>本篇主要讲了利用R语言进行数据简单处理分析，和图表的绘制。</p><blockquote><p>R: 4.3.2 (2023-10-31)<br>R studio: 2023.12.1+402 (2023.12.1+402)</p></blockquote><blockquote><p>install and import libraries</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># install.packages (&#34;readxl&#34;)
+</span></span><span class=line><span class=cl># install.packages (&#34;psych&#34;)
+</span></span><span class=line><span class=cl># install.packages (&#34;car&#34;)
+</span></span><span class=line><span class=cl># install.packages (&#34;gpairs&#34;)
+</span></span><span class=line><span class=cl># install.packages (&#34;grid&#34;)
+</span></span><span class=line><span class=cl># install.packages (&#34;lattice&#34;)
+</span></span><span class=line><span class=cl># install.packages (&#34;corrplot&#34;)
+</span></span><span class=line><span class=cl># install.packages (&#34;gplots&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>library(&#34;readxl&#34;)
+</span></span><span class=line><span class=cl>library(&#34;psych&#34;)
+</span></span><span class=line><span class=cl>library(&#34;car&#34;)
+</span></span><span class=line><span class=cl>library(&#34;gpairs&#34;)
+</span></span><span class=line><span class=cl>library(&#34;grid&#34;)
+</span></span><span class=line><span class=cl>library(&#34;lattice&#34;)
+</span></span><span class=line><span class=cl>library(&#34;corrplot&#34;)
+</span></span><span class=line><span class=cl>library(&#34;gplots&#34;)
+</span></span></code></pre></td></tr></table></div></div><h1 id=一data>一、Data</h1><h2 id=1-vectors>1. vectors</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># 导入数据</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>store</span><span class=o>.</span><span class=n>df</span> <span class=o>&lt;-</span> <span class=n>read</span><span class=o>.</span><span class=n>csv</span><span class=p>(</span><span class=s2>&#34;Data_Descriptive.csv&#34;</span><span class=p>,</span> <span class=n>stringsAsFactors</span><span class=o>=</span><span class=n>TRUE</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>str</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;data.frame&#39;</span><span class=p>:</span>	<span class=mi>2080</span> <span class=n>obs</span><span class=o>.</span> <span class=n>of</span>  <span class=mi>10</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>storeNum</span><span class=p>:</span> <span class=ne>int</span>  <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Year</span>    <span class=p>:</span> <span class=ne>int</span>  <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Week</span>    <span class=p>:</span> <span class=ne>int</span>  <span class=mi>1</span> <span class=mi>2</span> <span class=mi>3</span> <span class=mi>4</span> <span class=mi>5</span> <span class=mi>6</span> <span class=mi>7</span> <span class=mi>8</span> <span class=mi>9</span> <span class=mi>10</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p1sales</span> <span class=p>:</span> <span class=ne>int</span>  <span class=mi>127</span> <span class=mi>137</span> <span class=mi>156</span> <span class=mi>117</span> <span class=mi>138</span> <span class=mi>115</span> <span class=mi>116</span> <span class=mi>106</span> <span class=mi>116</span> <span class=mi>145</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p2sales</span> <span class=p>:</span> <span class=ne>int</span>  <span class=mi>106</span> <span class=mi>105</span> <span class=mi>97</span> <span class=mi>106</span> <span class=mi>100</span> <span class=mi>127</span> <span class=mi>90</span> <span class=mi>126</span> <span class=mi>94</span> <span class=mi>91</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p1price</span> <span class=p>:</span> <span class=n>num</span>  <span class=mf>2.29</span> <span class=mf>2.49</span> <span class=mf>2.99</span> <span class=mf>2.99</span> <span class=mf>2.49</span> <span class=mf>2.79</span> <span class=mf>2.99</span> <span class=mf>2.99</span> <span class=mf>2.29</span> <span class=mf>2.49</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p2price</span> <span class=p>:</span> <span class=n>num</span>  <span class=mf>2.29</span> <span class=mf>2.49</span> <span class=mf>2.99</span> <span class=mf>3.19</span> <span class=mf>2.59</span> <span class=mf>2.49</span> <span class=mf>3.19</span> <span class=mf>2.29</span> <span class=mf>2.29</span> <span class=mf>2.99</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p1prom</span>  <span class=p>:</span> <span class=ne>int</span>  <span class=mi>0</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p2prom</span>  <span class=p>:</span> <span class=ne>int</span>  <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>country</span> <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>7</span> <span class=n>levels</span> <span class=s2>&#34;AU&#34;</span><span class=p>,</span><span class=s2>&#34;BR&#34;</span><span class=p>,</span><span class=s2>&#34;CN&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 从上面结果可以看出，csv中一共有2080个观察值（行），10个变量（列）。</span>
+</span></span><span class=line><span class=cl><span class=c1># 其中country是factor类型的，一共有7个level。</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=2-summarize-a-single-variable>2. Summarize a single variable</h2><h3 id=21-discrete-variables>2.1 Discrete variables</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; table(store.df$p1price)
+</span></span><span class=line><span class=cl>2.19 2.29 2.49 2.79 2.99 
+</span></span><span class=line><span class=cl> 395  444  423  443  375
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注⚠️：table() 函数<br>用来创建频数表（Frequency Table）的函数。它可以用于统计一组数据中各个值出现的次数，并将结果以表格的形式呈现。<br>它也可以提供多维的结果，比如：</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; df &lt;- data.frame(
+</span></span><span class=line><span class=cl>+   gender = c(&#34;Male&#34;, &#34;Female&#34;, &#34;Female&#34;, &#34;Male&#34;, &#34;Male&#34;, &#34;Female&#34;, &#34;Male&#34;, &#34;Female&#34;, &#34;Female&#34;, &#34;Male&#34;),
+</span></span><span class=line><span class=cl>+   age_group = c(&#34;Young&#34;, &#34;Young&#34;, &#34;Old&#34;, &#34;Young&#34;, &#34;Old&#34;, &#34;Young&#34;, &#34;Old&#34;, &#34;Old&#34;, &#34;Young&#34;, &#34;Young&#34;)
+</span></span><span class=line><span class=cl>+ )
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 创建多维频数表
+</span></span><span class=line><span class=cl>&gt; table(df$gender, df$age_group)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       Young Old
+</span></span><span class=line><span class=cl>Female     3   2
+</span></span><span class=line><span class=cl>Male       4   1
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>除table()外，还有其他类似的函数以及功能：</p></blockquote><div class=table-wrapper><table><thead><tr><th>函数</th><th>描述</th></tr></thead><tbody><tr><td>prop.table()</td><td>计算表格中每个单元格的比例。</td></tr><tr><td>xtabs()</td><td>创建频数表，支持多维数据和公式语法。</td></tr><tr><td>addmargins()</td><td>向表格中添加边际总计。</td></tr><tr><td>ftable()</td><td>创建扁平的表格，更容易查看和理解。</td></tr><tr><td>summary()</td><td>通常用于摘要统计，显示每个因子变量的数量，以及数值型变量的摘要统计量。</td></tr><tr><td>dplyr::count()</td><td>计算数据框中每个类别的频数，并返回包含频数的数据框。</td></tr><tr><td>psych::describe()</td><td>生成包含多个统计指标的摘要统计信息，如均值、标准差、最小值、最大值等。</td></tr></tbody></table></div><p>题外话结束，继续前面的数据分析</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; p1.table &lt;- table(store.df$p1price) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; p1.table
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>2.19 2.29 2.49 2.79 2.99 
+</span></span><span class=line><span class=cl> 395  444  423  443  375
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># talbe()返回的是一个table类型的结果
+</span></span><span class=line><span class=cl>&gt; str(p1.table)
+</span></span><span class=line><span class=cl> &#39;table&#39; int [1:5(1d)] 395 444 423 443 375
+</span></span><span class=line><span class=cl> - attr(*, &#34;dimnames&#34;)=List of 1
+</span></span><span class=line><span class=cl>  ..$ : chr [1:5] &#34;2.19&#34; &#34;2.29&#34; &#34;2.49&#34; &#34;2.79&#34; ...
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 转为图
+</span></span><span class=line><span class=cl>&gt; plot(p1.table)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image plot1.png %}</p><blockquote><p>注⚠️：plot()函数</p></blockquote><blockquote><p>用于创建各种类型的图形的基本函数之一。它可以用于绘制散点图、线图、柱状图、箱线图等等。后面会有更多的用法，就不在此处列举了。<br>plot()会自适应地采用一种图表来展示数据，但我们同样可以根据需要调整。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 二维table，获取每个价位上的促销频数
+</span></span><span class=line><span class=cl>&gt; table(store.df$p1price, store.df$p1prom)
+</span></span><span class=line><span class=cl>      
+</span></span><span class=line><span class=cl>         0   1
+</span></span><span class=line><span class=cl>  2.19 354  41
+</span></span><span class=line><span class=cl>  2.29 398  46
+</span></span><span class=line><span class=cl>  2.49 381  42
+</span></span><span class=line><span class=cl>  2.79 396  47
+</span></span><span class=line><span class=cl>  2.99 343  32
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 计算product 1在每个price上的促销比例[prod1/(prod1+prod2)]
+</span></span><span class=line><span class=cl>&gt; p1.table2 &lt;- table(store.df$p1price, store.df$p1prom) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; p1.table2[ ,2] / (p1.table2[ ,1] + p1.table2[ ,2])
+</span></span><span class=line><span class=cl>      2.19       2.29       2.49       2.79       2.99 
+</span></span><span class=line><span class=cl>0.10379747 0.10360360 0.09929078 0.10609481 0.08533333
+</span></span></code></pre></td></tr></table></div></div><h3 id=22-continuous-variables>2.2 Continuous variables</h3><blockquote><p>注⚠️：Continuous variables VS Discrete variable</p></blockquote><blockquote><p>连续变量，指的是可以在一个范围内取任意值的变量，而不是一组离散的值。这种变量可以在某个范围内连续地取值，可以是任何数值。<br>比如一个人的身高、体重、年龄等就是连续变量。因为身高、体重、年龄都可以在一个范围内取任何实数值，而不仅仅是某些特定的离散数值。另外，温度、时间等也是连续变量，因为它们可以在一个连续的范围内取任何值。</p></blockquote><blockquote><p>离散变量，是指只能取有限个数值的变量。<br>比如一个班级中学生的人数、一个箱子中的球的个数等都是离散变量，因为它们只能取整数值，而不能取连续的任意数值。</p></blockquote><p>对于连续变量，根据其分布来总结数据更有帮助。最常见的方法是使用数学函数来描述数据的范围、中心、集中或分散的程度，以及可能感兴趣的具体点(如第90百分位):</p><div class=table-wrapper><table><thead><tr><th>Describe</th><th>Function</th><th>Value</th></tr></thead><tbody><tr><td>Extremes[极值]</td><td>min(x)</td><td>Min</td></tr><tr><td></td><td>max(x)</td><td>Max</td></tr><tr><td>Central trendency[中心趋势]</td><td>mean(x)</td><td>Arithmetic mean</td></tr><tr><td></td><td>median(x)</td><td>Mid</td></tr><tr><td>Dispersion[离散度]</td><td>var(x)</td><td>Variance around the mean</td></tr><tr><td></td><td>sd(x)</td><td>Standard deviaion(sqrt(var(x)))</td></tr><tr><td></td><td>IQR(x)</td><td>Interquartile range, 75th-25th percentile</td></tr><tr><td></td><td>mad(x)</td><td>Median absolute deviation</td></tr><tr><td>Points[观察值/数据点]</td><td>quantile(x, probs=c(&mldr;))</td><td>Percentiles</td></tr></tbody></table></div><blockquote><p>方差 var(x)<br>描述数据分布离散程度的一种统计量。它衡量了数据集中每个数据点与数据集平均值之间的差异程度</p></blockquote><blockquote><p>标准差 sd(x)<br>方差的平方根</p></blockquote><blockquote><p>IQR(x)<br>是统计学中用于度量数据分布的差异性的一种方法。它是第三四分位数（Q3）与第一四分位数（Q1）之间的距离，通常用来描述数据的离散程度。与方差和标准差不同，IQR不受极端值（离群值）的影响，因此在某些情况下，IQR更适合用来度量数据的离散程度。<br>IQR的优势在于它提供了一个对数据集的中间50%数据的度量，而不受极端值的影响。这使得它在处理偏斜或包含极端值的数据集时更为稳健。在描述偏态分布或存在离群值的数据时，IQR通常比标准差更具有代表性。<br>在统计学和数据分析中，通常会将IQR与箱线图结合使用。箱线图显示了数据的四分位数范围以及任何离群值的存在，这使得可以直观地了解数据的分布情况，并且可以通过比较不同组的箱线图来识别任何差异。</p></blockquote><blockquote><p>mad(x)<br>同IQR，简单比较一下这两者：</p></blockquote><div style=background-color:#f0f0f0;padding:10px><h3 id=iqrinterquartile-range>IQR（Interquartile Range）：</h3><blockquote><p><strong>定义</strong>：IQR是数据集中第三四分位数（Q3）和第一四分位数（Q1）之间的距离。<br><strong>计算方法</strong>：IQR = Q3 - Q1，其中Q3是数据集中75th百分位数，Q1是数据集中25th百分位数。<br><strong>用途</strong>：IQR通常用于识别数据中的离群值，因为它提供了数据中间50%的范围，并且对于偏斜分布的数据比标准差更鲁棒。</p></blockquote><h3 id=madmedian-absolute-deviation>MAD（Median Absolute Deviation）：</h3><blockquote><p><strong>定义</strong>：MAD是数据点与数据集中位数的绝对偏差的中位数。<br><strong>计算方法</strong>：首先计算每个数据点与数据集中位数的绝对偏差，然后取这些绝对偏差的中位数。<br><strong>用途</strong>：MAD也用于度量数据的离散程度，并且在处理离群值时更具有鲁棒性，因为它不受极端值的影响，类似于IQR。</p></blockquote><h3 id=iqr-和-mad-相比>IQR 和 MAD 相比：</h3><blockquote><p><strong>计算方法</strong>：IQR是基于四分位数计算的，而MAD是基于中位数计算的。
+<strong>鲁棒性</strong>：IQR和MAD都是鲁棒的统计量，对异常值的影响较小，但在某些情况下，MAD可能更为鲁棒，特别是当数据集包含大量离群值时。
+<strong>解释</strong>：IQR更容易解释，因为它代表了数据集中间50%的范围，而MAD则表示数据点与中位数的典型偏差。
+<strong>常见用途</strong>：IQR和MAD在异常值检测和数据分析中都很常见，但在不同的背景下可能有不同的应用场景。</p></blockquote></div><blockquote><p>quantile(x, probs=c(&mldr;))<br>通常用于计算数据集 x 的分位数。其中 probs 参数是一个包含所需分位数的百分比的向量。</p></blockquote><blockquote><p>x：包含数据的向量或数据框。<br>probs：一个包含所需分位数的百分比的向量，例如，probs = c(0.25, 0.5, 0.75) 表示计算第一四分位数（25th百分位数）、中位数（50th百分位数）、第三四分位数（75th百分位数）。</p></blockquote><blockquote><p>返回值：返回一个包含计算得到的分位数的向量，其顺序与 probs 中指定的顺序相对应。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 创建一个示例数据集
+</span></span><span class=line><span class=cl>&gt; data &lt;- c(10, 15, 20, 25, 30, 35, 40, 45, 50)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 计算第一四分位数、中位数、第三四分位数
+</span></span><span class=line><span class=cl>&gt; quantiles &lt;- quantile(data, probs = c(0.25, 0.5, 0.75))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 打印结果
+</span></span><span class=line><span class=cl>&gt; print(quantiles)
+</span></span><span class=line><span class=cl>25% 50% 75% 
+</span></span><span class=line><span class=cl> 20  30  40
+</span></span></code></pre></td></tr></table></div></div><p>题外话结束。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>min</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mi>73</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>max</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mi>263</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>mean</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1prom</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mf>0.1</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>median</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p2sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mi>96</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=k>var</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mf>805.0044</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>sd</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mf>28.3726</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>IQR</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mi>37</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>mad</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mf>26.6868</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>quantile</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span> <span class=n>probs</span> <span class=o>=</span> <span class=n>c</span><span class=p>(</span><span class=mf>0.25</span><span class=p>,</span> <span class=mf>0.5</span><span class=p>,</span> <span class=mf>0.75</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=mi>25</span><span class=o>%</span> <span class=mi>50</span><span class=o>%</span> <span class=mi>75</span><span class=o>%</span> 
+</span></span><span class=line><span class=cl><span class=mi>113</span> <span class=mi>129</span> <span class=mi>150</span> 
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>For skewed and asymmetric distributions that are common in marketing, such as unit sales or household income, the arithmetic mean() and standard deviation sd() may be misleading; in those cases, the median() and the interquartile range IQR() (the range of the middle 50% of data) are often used to summarize a distribution.</p></blockquote><blockquote><p>对于市场营销中常见的倾斜和不对称分布，例如单位销售或家庭收入，算术平均值()和标准差sd()可能会产生误导;在这些情况下，中位数()和四分位数间距IQR()(中间50%数据的范围)通常用于总结分布。</p></blockquote><div style=background-color:#f0f0f0;padding:10px><blockquote><p>因为在偏斜和不对称分布的情况下，数据中可能存在极端值（离群值），这些值对于算术平均值和标准差的影响较大，导致这两个统计量可能不太准确地反映整体数据的特征。</p></blockquote><blockquote><ol><li>算术平均值的问题： 偏斜分布中的极端值会对平均值产生较大的影响，使其偏离数据集的中心趋势。这导致平均值可能不再是数据的典型中心度量。</li></ol></blockquote><blockquote><ol start=2><li>标准差的问题： 标准差对极端值非常敏感，因为它是基于平方差的，这会放大离群值的影响。这样，标准差可能高估了数据的真实分散程度。</li></ol></blockquote><blockquote><p>相比之下，中位数是数据集中的中间值，不受极端值的影响，因此更能反映数据的中心趋势。四分位数间距（IQR）是数据中间50%的范围，它也对离群值具有一定的鲁棒性，因此更适合在偏斜分布中度量数据的分散程度。</p></blockquote><blockquote><p>综合起来，为了更准确地摘要和理解偏斜分布的数据特征，使用中位数和四分位数间距通常是更合适的选择。这样的度量方法更具有鲁棒性，能够提供更稳健、不受极端值干扰的数据摘要。</p></blockquote></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; quantile(store.df$p1sales, probs = c(0.05, 0.95)) # central 90% data
+</span></span><span class=line><span class=cl> 5% 95% 
+</span></span><span class=line><span class=cl> 93 184 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; quantile(store.df$p1sales, probs = 0:10/10)
+</span></span><span class=line><span class=cl>   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
+</span></span><span class=line><span class=cl> 73.0 100.0 109.0 117.0 122.6 129.0 136.0 145.0 156.0 171.0 263.0o
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; quantile(store.df$p1sales, probs = seq(from=0, to=1, by=0.1))
+</span></span><span class=line><span class=cl>   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
+</span></span><span class=line><span class=cl> 73.0 100.0 109.0 117.0 122.6 129.0 136.0 145.0 156.0 171.0 263.0
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>Suppose we wanted a summary of the sales for product 1 and product 2 based on their median and interquartile range. We might assemble these summary statistics into a data frame that is easier to read than the one-line- at-a-time output above. We create a data frame to hold our summary statistics. We name the columns and rows and fill in the cells with function values:</p></blockquote><blockquote><p>假设我们想根据产品1和产品2的中位数和四分位数范围汇总它们的销售额。我们可以将这些汇总统计信息组合成一个数据帧，这样比上面的一行一行的输出更容易阅读。我们创建一个数据框架来保存汇总统计数据。我们为列和行命名，并用函数值填充单元格:</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>mysummary.df &lt;- data.frame(matrix(NA, nrow=2, ncol=2)) # 2 by 2 empty matrix 
+</span></span><span class=line><span class=cl>names(mysummary.df) &lt;- c(&#34;Median Sales&#34;, &#34;IQR&#34;) # name columns 
+</span></span><span class=line><span class=cl>rownames(mysummary.df) &lt;- c(&#34;Product 1&#34;, &#34;Product 2&#34;) # name rows 
+</span></span><span class=line><span class=cl>mysummary.df[&#34;Product 1&#34;, &#34;Median Sales&#34;] &lt;- median(store.df$p1sales) 
+</span></span><span class=line><span class=cl>mysummary.df[&#34;Product 2&#34;, &#34;Median Sales&#34;] &lt;- median(store.df$p2sales) 
+</span></span><span class=line><span class=cl>mysummary.df[&#34;Product 1&#34;, &#34;IQR&#34;] &lt;- IQR(store.df$p1sales) 
+</span></span><span class=line><span class=cl>mysummary.df[&#34;Product 2&#34;, &#34;IQR&#34;] &lt;- IQR(store.df$p2sales)
+</span></span><span class=line><span class=cl>mysummary.df
+</span></span></code></pre></td></tr></table></div></div><h2 id=3-summarize-data-frames>3 Summarize data frames</h2><h3 id=31-summary>3.1 summary()</h3><p>有事没事，summary一下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; summary(store.df)
+</span></span><span class=line><span class=cl>    storeNum          Year          Week          p1sales       p2sales         p1price         p2price         p1prom        p2prom       country 
+</span></span><span class=line><span class=cl> Min.   :101.0   Min.   :1.0   Min.   : 1.00   Min.   : 73   Min.   : 51.0   Min.   :2.190   Min.   :2.29   Min.   :0.0   Min.   :0.0000   AU:104  
+</span></span><span class=line><span class=cl> 1st Qu.:105.8   1st Qu.:1.0   1st Qu.:13.75   1st Qu.:113   1st Qu.: 84.0   1st Qu.:2.290   1st Qu.:2.49   1st Qu.:0.0   1st Qu.:0.0000   BR:208  
+</span></span><span class=line><span class=cl> Median :110.5   Median :1.5   Median :26.50   Median :129   Median : 96.0   Median :2.490   Median :2.59   Median :0.0   Median :0.0000   CN:208  
+</span></span><span class=line><span class=cl> Mean   :110.5   Mean   :1.5   Mean   :26.50   Mean   :133   Mean   :100.2   Mean   :2.544   Mean   :2.70   Mean   :0.1   Mean   :0.1385   DE:520  
+</span></span><span class=line><span class=cl> 3rd Qu.:115.2   3rd Qu.:2.0   3rd Qu.:39.25   3rd Qu.:150   3rd Qu.:113.0   3rd Qu.:2.790   3rd Qu.:2.99   3rd Qu.:0.0   3rd Qu.:0.0000   GB:312  
+</span></span><span class=line><span class=cl> Max.   :120.0   Max.   :2.0   Max.   :52.00   Max.   :263   Max.   :225.0   Max.   :2.990   Max.   :3.19   Max.   :1.0   Max.   :1.0000   JP:416  
+</span></span><span class=line><span class=cl>                                                                                                                                           US:312  
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary(store.df$Year)
+</span></span><span class=line><span class=cl>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+</span></span><span class=line><span class=cl>    1.0     1.0     1.5     1.5     2.0     2.0 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary(store.df, digits = 2) # 保留小数点后两位
+</span></span><span class=line><span class=cl>    storeNum        Year          Week       p1sales       p2sales       p1price       p2price        p1prom        p2prom     country 
+</span></span><span class=line><span class=cl> Min.   :101   Min.   :1.0   Min.   : 1   Min.   : 73   Min.   : 51   Min.   :2.2   Min.   :2.3   Min.   :0.0   Min.   :0.00   AU:104  
+</span></span><span class=line><span class=cl> 1st Qu.:106   1st Qu.:1.0   1st Qu.:14   1st Qu.:113   1st Qu.: 84   1st Qu.:2.3   1st Qu.:2.5   1st Qu.:0.0   1st Qu.:0.00   BR:208  
+</span></span><span class=line><span class=cl> Median :110   Median :1.5   Median :26   Median :129   Median : 96   Median :2.5   Median :2.6   Median :0.0   Median :0.00   CN:208  
+</span></span><span class=line><span class=cl> Mean   :110   Mean   :1.5   Mean   :26   Mean   :133   Mean   :100   Mean   :2.5   Mean   :2.7   Mean   :0.1   Mean   :0.14   DE:520  
+</span></span><span class=line><span class=cl> 3rd Qu.:115   3rd Qu.:2.0   3rd Qu.:39   3rd Qu.:150   3rd Qu.:113   3rd Qu.:2.8   3rd Qu.:3.0   3rd Qu.:0.0   3rd Qu.:0.00   GB:312  
+</span></span><span class=line><span class=cl> Max.   :120   Max.   :2.0   Max.   :52   Max.   :263   Max.   :225   Max.   :3.0   Max.   :3.2   Max.   :1.0   Max.   :1.00   JP:416  
+</span></span><span class=line><span class=cl>                                                                                                                               US:312
+</span></span></code></pre></td></tr></table></div></div><div style=background-color:#f0f0f0;padding:10px><blockquote><p>在统计学中，&ldquo;1st Qu&rdquo; 和 &ldquo;3rd Qu&rdquo; 分别代表第一四分位数和第三四分位数。四分位数是将数据集分为四等份的值，它们用于描述数据分布的位置和分散程度。</p></blockquote><h3 id=第一四分位数1st-qu><strong>第一四分位数（1st Qu）</strong></h3><blockquote><p>是数据集中所有数值排序后第25%位置的值，也就是数据中的较小的四分之一。</p></blockquote><h3 id=第三四分位数3rd-qu><strong>第三四分位数（3rd Qu）</strong></h3><blockquote><p>是数据集中所有数值排序后第75%位置的值，也就是数据中的较大的四分之三。</p></blockquote></div><h2 id=32-describe>3.2 describe()</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>library</span><span class=p>(</span><span class=n>psych</span><span class=p>)</span> <span class=c1># install if needed </span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>describe</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>         <span class=n>vars</span>    <span class=n>n</span>   <span class=n>mean</span>    <span class=n>sd</span> <span class=n>median</span> <span class=n>trimmed</span>   <span class=n>mad</span>    <span class=nb>min</span>    <span class=nb>max</span> <span class=nb>range</span>  <span class=n>skew</span> <span class=n>kurtosis</span>   <span class=n>se</span>
+</span></span><span class=line><span class=cl><span class=n>storeNum</span>    <span class=mi>1</span> <span class=mi>2080</span> <span class=mf>110.50</span>  <span class=mf>5.77</span> <span class=mf>110.50</span>  <span class=mf>110.50</span>  <span class=mf>7.41</span> <span class=mf>101.00</span> <span class=mf>120.00</span>  <span class=mf>19.0</span>  <span class=mf>0.00</span>    <span class=o>-</span><span class=mf>1.21</span> <span class=mf>0.13</span>
+</span></span><span class=line><span class=cl><span class=n>Year</span>        <span class=mi>2</span> <span class=mi>2080</span>   <span class=mf>1.50</span>  <span class=mf>0.50</span>   <span class=mf>1.50</span>    <span class=mf>1.50</span>  <span class=mf>0.74</span>   <span class=mf>1.00</span>   <span class=mf>2.00</span>   <span class=mf>1.0</span>  <span class=mf>0.00</span>    <span class=o>-</span><span class=mf>2.00</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>Week</span>        <span class=mi>3</span> <span class=mi>2080</span>  <span class=mf>26.50</span> <span class=mf>15.01</span>  <span class=mf>26.50</span>   <span class=mf>26.50</span> <span class=mf>19.27</span>   <span class=mf>1.00</span>  <span class=mf>52.00</span>  <span class=mf>51.0</span>  <span class=mf>0.00</span>    <span class=o>-</span><span class=mf>1.20</span> <span class=mf>0.33</span>
+</span></span><span class=line><span class=cl><span class=n>p1sales</span>     <span class=mi>4</span> <span class=mi>2080</span> <span class=mf>133.05</span> <span class=mf>28.37</span> <span class=mf>129.00</span>  <span class=mf>131.08</span> <span class=mf>26.69</span>  <span class=mf>73.00</span> <span class=mf>263.00</span> <span class=mf>190.0</span>  <span class=mf>0.74</span>     <span class=mf>0.66</span> <span class=mf>0.62</span>
+</span></span><span class=line><span class=cl><span class=n>p2sales</span>     <span class=mi>5</span> <span class=mi>2080</span> <span class=mf>100.16</span> <span class=mf>24.42</span>  <span class=mf>96.00</span>   <span class=mf>98.05</span> <span class=mf>22.24</span>  <span class=mf>51.00</span> <span class=mf>225.00</span> <span class=mf>174.0</span>  <span class=mf>0.99</span>     <span class=mf>1.51</span> <span class=mf>0.54</span>
+</span></span><span class=line><span class=cl><span class=n>p1price</span>     <span class=mi>6</span> <span class=mi>2080</span>   <span class=mf>2.54</span>  <span class=mf>0.29</span>   <span class=mf>2.49</span>    <span class=mf>2.53</span>  <span class=mf>0.44</span>   <span class=mf>2.19</span>   <span class=mf>2.99</span>   <span class=mf>0.8</span>  <span class=mf>0.28</span>    <span class=o>-</span><span class=mf>1.44</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p2price</span>     <span class=mi>7</span> <span class=mi>2080</span>   <span class=mf>2.70</span>  <span class=mf>0.33</span>   <span class=mf>2.59</span>    <span class=mf>2.69</span>  <span class=mf>0.44</span>   <span class=mf>2.29</span>   <span class=mf>3.19</span>   <span class=mf>0.9</span>  <span class=mf>0.32</span>    <span class=o>-</span><span class=mf>1.40</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p1prom</span>      <span class=mi>8</span> <span class=mi>2080</span>   <span class=mf>0.10</span>  <span class=mf>0.30</span>   <span class=mf>0.00</span>    <span class=mf>0.00</span>  <span class=mf>0.00</span>   <span class=mf>0.00</span>   <span class=mf>1.00</span>   <span class=mf>1.0</span>  <span class=mf>2.66</span>     <span class=mf>5.10</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p2prom</span>      <span class=mi>9</span> <span class=mi>2080</span>   <span class=mf>0.14</span>  <span class=mf>0.35</span>   <span class=mf>0.00</span>    <span class=mf>0.05</span>  <span class=mf>0.00</span>   <span class=mf>0.00</span>   <span class=mf>1.00</span>   <span class=mf>1.0</span>  <span class=mf>2.09</span>     <span class=mf>2.38</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>country</span><span class=o>*</span>   <span class=mi>10</span> <span class=mi>2080</span>   <span class=mf>4.55</span>  <span class=mf>1.72</span>   <span class=mf>4.50</span>    <span class=mf>4.62</span>  <span class=mf>2.22</span>   <span class=mf>1.00</span>   <span class=mf>7.00</span>   <span class=mf>6.0</span> <span class=o>-</span><span class=mf>0.29</span>    <span class=o>-</span><span class=mf>0.81</span> <span class=mf>0.04</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># vars: 方差</span>
+</span></span><span class=line><span class=cl><span class=c1># n: 观测数量（样本数量）</span>
+</span></span><span class=line><span class=cl><span class=c1># mean: 均值</span>
+</span></span><span class=line><span class=cl><span class=c1># sd: 标准差</span>
+</span></span><span class=line><span class=cl><span class=c1># median: 中位数</span>
+</span></span><span class=line><span class=cl><span class=c1># trimmed: 修剪均值（去除异常值后的均值）</span>
+</span></span><span class=line><span class=cl><span class=c1># mad: 中位数绝对偏差（Median Absolute Deviation）</span>
+</span></span><span class=line><span class=cl><span class=c1># min: 最小值</span>
+</span></span><span class=line><span class=cl><span class=c1># max: 最大值</span>
+</span></span><span class=line><span class=cl><span class=c1># range: 范围（最大值与最小值的差）</span>
+</span></span><span class=line><span class=cl><span class=c1># skew: 偏度（Skewness，衡量分布偏斜程度）</span>
+</span></span><span class=line><span class=cl><span class=c1># kurtosis: 峰度（Kurtosis，衡量分布的尖峰程度）</span>
+</span></span><span class=line><span class=cl><span class=c1># se: 标准误差（Standard Error，均值的估计标准差）</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>describe</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>[,</span><span class=n>c</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>:</span><span class=mi>9</span><span class=p>)])</span>
+</span></span><span class=line><span class=cl>        <span class=n>vars</span>    <span class=n>n</span>   <span class=n>mean</span>    <span class=n>sd</span> <span class=n>median</span> <span class=n>trimmed</span>   <span class=n>mad</span>   <span class=nb>min</span>    <span class=nb>max</span> <span class=nb>range</span> <span class=n>skew</span> <span class=n>kurtosis</span>   <span class=n>se</span>
+</span></span><span class=line><span class=cl><span class=n>Year</span>       <span class=mi>1</span> <span class=mi>2080</span>   <span class=mf>1.50</span>  <span class=mf>0.50</span>   <span class=mf>1.50</span>    <span class=mf>1.50</span>  <span class=mf>0.74</span>  <span class=mf>1.00</span>   <span class=mf>2.00</span>   <span class=mf>1.0</span> <span class=mf>0.00</span>    <span class=o>-</span><span class=mf>2.00</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p1sales</span>    <span class=mi>2</span> <span class=mi>2080</span> <span class=mf>133.05</span> <span class=mf>28.37</span> <span class=mf>129.00</span>  <span class=mf>131.08</span> <span class=mf>26.69</span> <span class=mf>73.00</span> <span class=mf>263.00</span> <span class=mf>190.0</span> <span class=mf>0.74</span>     <span class=mf>0.66</span> <span class=mf>0.62</span>
+</span></span><span class=line><span class=cl><span class=n>p2sales</span>    <span class=mi>3</span> <span class=mi>2080</span> <span class=mf>100.16</span> <span class=mf>24.42</span>  <span class=mf>96.00</span>   <span class=mf>98.05</span> <span class=mf>22.24</span> <span class=mf>51.00</span> <span class=mf>225.00</span> <span class=mf>174.0</span> <span class=mf>0.99</span>     <span class=mf>1.51</span> <span class=mf>0.54</span>
+</span></span><span class=line><span class=cl><span class=n>p1price</span>    <span class=mi>4</span> <span class=mi>2080</span>   <span class=mf>2.54</span>  <span class=mf>0.29</span>   <span class=mf>2.49</span>    <span class=mf>2.53</span>  <span class=mf>0.44</span>  <span class=mf>2.19</span>   <span class=mf>2.99</span>   <span class=mf>0.8</span> <span class=mf>0.28</span>    <span class=o>-</span><span class=mf>1.44</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p2price</span>    <span class=mi>5</span> <span class=mi>2080</span>   <span class=mf>2.70</span>  <span class=mf>0.33</span>   <span class=mf>2.59</span>    <span class=mf>2.69</span>  <span class=mf>0.44</span>  <span class=mf>2.29</span>   <span class=mf>3.19</span>   <span class=mf>0.9</span> <span class=mf>0.32</span>    <span class=o>-</span><span class=mf>1.40</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p1prom</span>     <span class=mi>6</span> <span class=mi>2080</span>   <span class=mf>0.10</span>  <span class=mf>0.30</span>   <span class=mf>0.00</span>    <span class=mf>0.00</span>  <span class=mf>0.00</span>  <span class=mf>0.00</span>   <span class=mf>1.00</span>   <span class=mf>1.0</span> <span class=mf>2.66</span>     <span class=mf>5.10</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p2prom</span>     <span class=mi>7</span> <span class=mi>2080</span>   <span class=mf>0.14</span>  <span class=mf>0.35</span>   <span class=mf>0.00</span>    <span class=mf>0.05</span>  <span class=mf>0.00</span>  <span class=mf>0.00</span>   <span class=mf>1.00</span>   <span class=mf>1.0</span> <span class=mf>2.09</span>     <span class=mf>2.38</span> <span class=mf>0.01</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=trimmed>trimmed</h4><blockquote><p>trimmed 是指去除了数据中一定比例的极端值（通常是尾部的极端值）后计算得到的均值。修剪均值（trimmed mean）是一种对均值的修正，旨在减少极端值对均值的影响，从而更好地反映数据的中心趋势。</p></blockquote><blockquote><p>通常情况下，修剪均值的计算方式是将数据集中的一定比例的最小值和最大值去掉，然后计算剩余数据的算术平均值。这个比例可以根据实际情况而定，常见的修剪比例包括去掉5%、10%甚至更多的极端值。</p></blockquote><blockquote><p>修剪均值适用于数据集中存在明显的极端值或异常值的情况。与简单的算术平均值相比，修剪均值更加稳健，因为它对异常值的影响更小，更能够反映数据的典型中心位置。然而，需要注意的是，修剪均值可能会导致一定程度上的信息损失，尤其是当数据中的极端值具有特殊意义或重要性时。</p></blockquote><h4 id=mad>mad</h4><blockquote><p>MAD（Median Absolute Deviation，中位数绝对偏差）是一种用于衡量数据集散布度的统计量，它衡量了数据点与数据集中位数之间的典型偏差。</p></blockquote><blockquote><p>具体而言，MAD是数据集中所有数据点与数据集中位数的绝对偏差的中位数。</p></blockquote><blockquote><p>MAD相对于标准差的优势在于它对极端值（离群值）具有较强的鲁棒性。因为MAD是基于绝对偏差的中位数计算的，它不受极端值的影响，更能够准确地描述数据的离散程度，尤其是在存在离群值的情况下。</p></blockquote><blockquote><p>MAD常用于金融领域和其他领域的数据分析中，特别是在需要考虑数据的异常值对结果的影响时。</p></blockquote><h4 id=skewness偏度>Skewness（偏度）</h4><blockquote><p>是描述数据分布形态偏斜程度的统计量。它衡量了数据分布相对于其平均值的不对称性，即数据集在平均值两侧的分布是否对称。</p></blockquote><blockquote><p>正偏（Positive Skewness）：数据分布向右偏移，尾部向右延伸，即数据集右侧的尾部较长，平均值右侧的数据点较多，形成一个长尾。正偏分布意味着数据集中存在较多较大的值。</p></blockquote><blockquote><p>负偏（Negative Skewness）：数据分布向左偏移，尾部向左延伸，即数据集左侧的尾部较长，平均值左侧的数据点较多，形成一个长尾。负偏分布意味着数据集中存在较多较小的值。</p></blockquote><blockquote><p>偏度为0表示数据分布相对对称，大于0表示正偏，小于0表示负偏。偏度的绝对值越大，偏斜程度越明显。</p></blockquote><blockquote><p>偏度是了解数据分布形态的重要指标，特别是在做数据分析和模型建立时，它可以帮助我们判断数据集是否需要进行对称化处理，以满足建模的假设条件。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>对称化处理是指通过某种方法或技术使数据分布更加对称的过程。在统计学和数据分析中，对称化处理通常用于调整数据的分布形态，使其更接近对称分布，以满足统计方法或模型的假设条件。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>常见的对称化处理方法包括：
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>1. 对数转换（Log Transformation）：对数转换是通过取数据的对数来减小数据的偏度。这种转换通常用于处理右偏分布的数据，将其转换为更接近对称分布的形式。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>2. 方根转换（Square Root Transformation）：方根转换是通过取数据的平方根来减小数据的偏度。类似于对数转换，它也可以用于调整右偏分布的数据。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>3. 幂转换（Power Transformation）：幂转换是通过取数据的某个幂次方来调整数据的分布形态。常见的幂次方包括0.5（平方根转换）、0.33、0.25等，具体选择取决于数据的分布特征。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>4. 标准化（Standardization）：标准化是将数据转换为均值为0，标准差为1的标准正态分布。虽然标准化不会改变数据的分布形态，但它可以将数据转换为具有固定均值和方差的形式，有助于在一些情况下比较不同尺度的变量。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>对称化处理的目的是使数据更符合统计模型的假设，例如线性模型对数据的正态性假设。通过对数据进行对称化处理，可以提高统计分析的准确性和稳健性，并提高模型的拟合效果。
+</span></span></code></pre></td></tr></table></div></div><h4 id=kurtosis峰度>Kurtosis（峰度）</h4><blockquote><p>是描述数据分布峰态（尖峰程度）的统计量。它衡量了数据分布中数据点在均值附近聚集的程度，即数据集的尖峰度。</p></blockquote><blockquote><p>正峰（Positive Kurtosis）：数据分布的峰态较高且尖锐，尾部较长。正峰分布表明数据集中的数据点在均值附近聚集得更为密集，同时存在更多的极端值，尾部更长。</p></blockquote><blockquote><p>负峰（Negative Kurtosis）：数据分布的峰态较低且平缓，尾部较短。负峰分布表明数据集中的数据点分布更为扁平，相对更加分散。</p></blockquote><blockquote><p>正常的峰度为3。大于3的峰度表示分布尖峭（尖峰），而小于3的峰度表示分布平缓（扁平）。与偏度一样，峰度也是了解数据分布形态的重要指标，特别是在建模时需要考虑数据集的峰态特征。</p></blockquote><h4 id=se>se</h4><blockquote><p>se 代表的是标准误差（Standard Error）。标准误差是对样本统计量的抽样分布的离散程度进行估计的一种度量，用于衡量样本统计量与总体参数之间的差异。</p></blockquote><blockquote><p>在统计学中，标准误差通常用于估计样本统计量的抽样分布的离散程度，例如样本均值的标准误差用于估计样本均值的抽样分布的离散程度。标准误差越小，表示样本统计量更接近于总体参数的真值；标准误差越大，表示样本统计量与总体参数之间的差异越大。</p></blockquote><blockquote><p>标准误差的应用非常广泛，特别是在统计推断和假设检验中，它常用于计算置信区间、假设检验的统计量（如 t 统计量、z 统计量）</p></blockquote><h2 id=检查数据集的通用方法>检查数据集的通用方法</h2><ol><li>read.csv 读取数据</li><li>转换为data frame，给定合适的名称</li><li>通过dim()检查是否是预期的行数和列数</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; dim(store.df)
+</span></span><span class=line><span class=cl>[1] 2080   10
+</span></span></code></pre></td></tr></table></div></div><ol start=4><li>使用head()、tail()检查前几行和末尾几行，确保开头标题行和末尾空白行没有包含在内</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; head(store.df)
+</span></span><span class=line><span class=cl>  storeNum Year Week p1sales p2sales p1price p2price p1prom p2prom country
+</span></span><span class=line><span class=cl>1      101    1    1     127     106    2.29    2.29      0      0      US
+</span></span><span class=line><span class=cl>2      101    1    2     137     105    2.49    2.49      0      0      US
+</span></span><span class=line><span class=cl>3      101    1    3     156      97    2.99    2.99      1      0      US
+</span></span><span class=line><span class=cl>4      101    1    4     117     106    2.99    3.19      0      0      US
+</span></span><span class=line><span class=cl>5      101    1    5     138     100    2.49    2.59      0      1      US
+</span></span><span class=line><span class=cl>6      101    1    6     115     127    2.79    2.49      0      0      US
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; tail(store.df)
+</span></span><span class=line><span class=cl>     storeNum Year Week p1sales p2sales p1price p2price p1prom p2prom country
+</span></span><span class=line><span class=cl>2075      120    2   47     140     104    2.49    2.59      0      0      CN
+</span></span><span class=line><span class=cl>2076      120    2   48     150      88    2.49    2.99      0      0      CN
+</span></span><span class=line><span class=cl>2077      120    2   49     121      97    2.49    2.59      0      0      CN
+</span></span><span class=line><span class=cl>2078      120    2   50      91     124    2.99    2.29      0      0      CN
+</span></span><span class=line><span class=cl>2079      120    2   51      83     115    2.99    2.29      0      0      CN
+</span></span><span class=line><span class=cl>2080      120    2   52     136      99    2.49    2.49      0      0      CN
+</span></span></code></pre></td></tr></table></div></div><ol start=5><li>使用Some()随机检查几行</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; some(store.df)
+</span></span><span class=line><span class=cl>     storeNum Year Week p1sales p2sales p1price p2price p1prom p2prom country
+</span></span><span class=line><span class=cl>324       104    1   12     112      99    2.29    2.29      0      0      DE
+</span></span><span class=line><span class=cl>644       107    1   20     131      92    2.49    2.59      0      0      DE
+</span></span><span class=line><span class=cl>1032      110    2   44     211      70    2.19    3.19      0      1      GB
+</span></span><span class=line><span class=cl>1183      112    1   39     155      80    2.29    2.59      1      0      BR
+</span></span><span class=line><span class=cl>1274      113    1   26     121     117    2.29    2.29      0      0      BR
+</span></span><span class=line><span class=cl>1518      115    2   10     157      82    2.49    3.19      0      0      JP
+</span></span><span class=line><span class=cl>1525      115    2   17     167      72    2.49    3.19      0      0      JP
+</span></span><span class=line><span class=cl>1565      116    1    5     186      63    2.19    3.19      0      0      JP
+</span></span><span class=line><span class=cl>1974      119    2   50     144     111    2.99    3.19      0      0      CN
+</span></span><span class=line><span class=cl>2036      120    2    8     125     103    2.79    2.99      0      0      CN
+</span></span></code></pre></td></tr></table></div></div><ol start=6><li>str()检查data frame架构，确保变量的类型和值是合适的，尤其是factor</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>str</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;data.frame&#39;</span><span class=p>:</span>	<span class=mi>2080</span> <span class=n>obs</span><span class=o>.</span> <span class=n>of</span>  <span class=mi>10</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>storeNum</span><span class=p>:</span> <span class=ne>int</span>  <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=mi>101</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Year</span>    <span class=p>:</span> <span class=ne>int</span>  <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>Week</span>    <span class=p>:</span> <span class=ne>int</span>  <span class=mi>1</span> <span class=mi>2</span> <span class=mi>3</span> <span class=mi>4</span> <span class=mi>5</span> <span class=mi>6</span> <span class=mi>7</span> <span class=mi>8</span> <span class=mi>9</span> <span class=mi>10</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p1sales</span> <span class=p>:</span> <span class=ne>int</span>  <span class=mi>127</span> <span class=mi>137</span> <span class=mi>156</span> <span class=mi>117</span> <span class=mi>138</span> <span class=mi>115</span> <span class=mi>116</span> <span class=mi>106</span> <span class=mi>116</span> <span class=mi>145</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p2sales</span> <span class=p>:</span> <span class=ne>int</span>  <span class=mi>106</span> <span class=mi>105</span> <span class=mi>97</span> <span class=mi>106</span> <span class=mi>100</span> <span class=mi>127</span> <span class=mi>90</span> <span class=mi>126</span> <span class=mi>94</span> <span class=mi>91</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p1price</span> <span class=p>:</span> <span class=n>num</span>  <span class=mf>2.29</span> <span class=mf>2.49</span> <span class=mf>2.99</span> <span class=mf>2.99</span> <span class=mf>2.49</span> <span class=mf>2.79</span> <span class=mf>2.99</span> <span class=mf>2.99</span> <span class=mf>2.29</span> <span class=mf>2.49</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p2price</span> <span class=p>:</span> <span class=n>num</span>  <span class=mf>2.29</span> <span class=mf>2.49</span> <span class=mf>2.99</span> <span class=mf>3.19</span> <span class=mf>2.59</span> <span class=mf>2.49</span> <span class=mf>3.19</span> <span class=mf>2.29</span> <span class=mf>2.29</span> <span class=mf>2.99</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p1prom</span>  <span class=p>:</span> <span class=ne>int</span>  <span class=mi>0</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>p2prom</span>  <span class=p>:</span> <span class=ne>int</span>  <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>country</span> <span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>7</span> <span class=n>levels</span> <span class=s2>&#34;AU&#34;</span><span class=p>,</span><span class=s2>&#34;BR&#34;</span><span class=p>,</span><span class=s2>&#34;CN&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=mi>7</span> <span class=o>...</span>
+</span></span></code></pre></td></tr></table></div></div><p>7.summary()查看预期外的值，尤其是Min/Max</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; summary(store.df)
+</span></span><span class=line><span class=cl>    storeNum          Year          Week          p1sales       p2sales         p1price         p2price         p1prom        p2prom       country 
+</span></span><span class=line><span class=cl> Min.   :101.0   Min.   :1.0   Min.   : 1.00   Min.   : 73   Min.   : 51.0   Min.   :2.190   Min.   :2.29   Min.   :0.0   Min.   :0.0000   AU:104  
+</span></span><span class=line><span class=cl> 1st Qu.:105.8   1st Qu.:1.0   1st Qu.:13.75   1st Qu.:113   1st Qu.: 84.0   1st Qu.:2.290   1st Qu.:2.49   1st Qu.:0.0   1st Qu.:0.0000   BR:208  
+</span></span><span class=line><span class=cl> Median :110.5   Median :1.5   Median :26.50   Median :129   Median : 96.0   Median :2.490   Median :2.59   Median :0.0   Median :0.0000   CN:208  
+</span></span><span class=line><span class=cl> Mean   :110.5   Mean   :1.5   Mean   :26.50   Mean   :133   Mean   :100.2   Mean   :2.544   Mean   :2.70   Mean   :0.1   Mean   :0.1385   DE:520  
+</span></span><span class=line><span class=cl> 3rd Qu.:115.2   3rd Qu.:2.0   3rd Qu.:39.25   3rd Qu.:150   3rd Qu.:113.0   3rd Qu.:2.790   3rd Qu.:2.99   3rd Qu.:0.0   3rd Qu.:0.0000   GB:312  
+</span></span><span class=line><span class=cl> Max.   :120.0   Max.   :2.0   Max.   :52.00   Max.   :263   Max.   :225.0   Max.   :2.990   Max.   :3.19   Max.   :1.0   Max.   :1.0000   JP:416  
+</span></span><span class=line><span class=cl>                                                                                                                                           US:312
+</span></span></code></pre></td></tr></table></div></div><ol start=8><li>describe()查看各个item的n是否相同，并且检查trimmed和skew</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>describe</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>         <span class=n>vars</span>    <span class=n>n</span>   <span class=n>mean</span>    <span class=n>sd</span> <span class=n>median</span> <span class=n>trimmed</span>   <span class=n>mad</span>    <span class=nb>min</span>    <span class=nb>max</span> <span class=nb>range</span>  <span class=n>skew</span> <span class=n>kurtosis</span>   <span class=n>se</span>
+</span></span><span class=line><span class=cl><span class=n>storeNum</span>    <span class=mi>1</span> <span class=mi>2080</span> <span class=mf>110.50</span>  <span class=mf>5.77</span> <span class=mf>110.50</span>  <span class=mf>110.50</span>  <span class=mf>7.41</span> <span class=mf>101.00</span> <span class=mf>120.00</span>  <span class=mf>19.0</span>  <span class=mf>0.00</span>    <span class=o>-</span><span class=mf>1.21</span> <span class=mf>0.13</span>
+</span></span><span class=line><span class=cl><span class=n>Year</span>        <span class=mi>2</span> <span class=mi>2080</span>   <span class=mf>1.50</span>  <span class=mf>0.50</span>   <span class=mf>1.50</span>    <span class=mf>1.50</span>  <span class=mf>0.74</span>   <span class=mf>1.00</span>   <span class=mf>2.00</span>   <span class=mf>1.0</span>  <span class=mf>0.00</span>    <span class=o>-</span><span class=mf>2.00</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>Week</span>        <span class=mi>3</span> <span class=mi>2080</span>  <span class=mf>26.50</span> <span class=mf>15.01</span>  <span class=mf>26.50</span>   <span class=mf>26.50</span> <span class=mf>19.27</span>   <span class=mf>1.00</span>  <span class=mf>52.00</span>  <span class=mf>51.0</span>  <span class=mf>0.00</span>    <span class=o>-</span><span class=mf>1.20</span> <span class=mf>0.33</span>
+</span></span><span class=line><span class=cl><span class=n>p1sales</span>     <span class=mi>4</span> <span class=mi>2080</span> <span class=mf>133.05</span> <span class=mf>28.37</span> <span class=mf>129.00</span>  <span class=mf>131.08</span> <span class=mf>26.69</span>  <span class=mf>73.00</span> <span class=mf>263.00</span> <span class=mf>190.0</span>  <span class=mf>0.74</span>     <span class=mf>0.66</span> <span class=mf>0.62</span>
+</span></span><span class=line><span class=cl><span class=n>p2sales</span>     <span class=mi>5</span> <span class=mi>2080</span> <span class=mf>100.16</span> <span class=mf>24.42</span>  <span class=mf>96.00</span>   <span class=mf>98.05</span> <span class=mf>22.24</span>  <span class=mf>51.00</span> <span class=mf>225.00</span> <span class=mf>174.0</span>  <span class=mf>0.99</span>     <span class=mf>1.51</span> <span class=mf>0.54</span>
+</span></span><span class=line><span class=cl><span class=n>p1price</span>     <span class=mi>6</span> <span class=mi>2080</span>   <span class=mf>2.54</span>  <span class=mf>0.29</span>   <span class=mf>2.49</span>    <span class=mf>2.53</span>  <span class=mf>0.44</span>   <span class=mf>2.19</span>   <span class=mf>2.99</span>   <span class=mf>0.8</span>  <span class=mf>0.28</span>    <span class=o>-</span><span class=mf>1.44</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p2price</span>     <span class=mi>7</span> <span class=mi>2080</span>   <span class=mf>2.70</span>  <span class=mf>0.33</span>   <span class=mf>2.59</span>    <span class=mf>2.69</span>  <span class=mf>0.44</span>   <span class=mf>2.29</span>   <span class=mf>3.19</span>   <span class=mf>0.9</span>  <span class=mf>0.32</span>    <span class=o>-</span><span class=mf>1.40</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p1prom</span>      <span class=mi>8</span> <span class=mi>2080</span>   <span class=mf>0.10</span>  <span class=mf>0.30</span>   <span class=mf>0.00</span>    <span class=mf>0.00</span>  <span class=mf>0.00</span>   <span class=mf>0.00</span>   <span class=mf>1.00</span>   <span class=mf>1.0</span>  <span class=mf>2.66</span>     <span class=mf>5.10</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>p2prom</span>      <span class=mi>9</span> <span class=mi>2080</span>   <span class=mf>0.14</span>  <span class=mf>0.35</span>   <span class=mf>0.00</span>    <span class=mf>0.05</span>  <span class=mf>0.00</span>   <span class=mf>0.00</span>   <span class=mf>1.00</span>   <span class=mf>1.0</span>  <span class=mf>2.09</span>     <span class=mf>2.38</span> <span class=mf>0.01</span>
+</span></span><span class=line><span class=cl><span class=n>country</span><span class=o>*</span>   <span class=mi>10</span> <span class=mi>2080</span>   <span class=mf>4.55</span>  <span class=mf>1.72</span>   <span class=mf>4.50</span>    <span class=mf>4.62</span>  <span class=mf>2.22</span>   <span class=mf>1.00</span>   <span class=mf>7.00</span>   <span class=mf>6.0</span> <span class=o>-</span><span class=mf>0.29</span>    <span class=o>-</span><span class=mf>0.81</span> <span class=mf>0.04</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=番外-trimmmed-and-skewed>番外 Trimmmed And Skewed</h4><blockquote><p><strong>Trimmed</strong></p></blockquote><p>当数据集中存在极端值时，修剪均值可以更准确地反映数据的中心趋势。让我们通过一个具体的例子来说明这一点。</p><p>假设我们有一个包含10个观测值的数据集：</p>\[ \{2, 3, 4, 5, 6, 7, 8, 9, 10, 100\} \]<p>这个数据集中有一个明显的极端值100。让我们计算一下这个数据集的简单算术平均值和修剪均值，并比较它们对数据中心趋势的反映。</p><p>首先，计算简单算术平均值：</p>$$
+\text{Mean} = \frac{2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 100}{10} = 15.4
+$$<p>接下来，我们计算修剪均值，剔除最大和最小的10%的观测值（即剔除一个极端值100）：</p>$$
+\text{Trimmed Mean} = \frac{3 + 4 + 5 + 6 + 7 + 8 + 9 + 10}{8} = 6.875
+$$<p>从计算结果可以看出，简单算术平均值受到极端值100的影响，导致平均值达到了15.4，不够准确地反映了数据的中心趋势。而修剪均值剔除了极端值100后，得到的修剪均值为6.875，更接近数据的中心位置。</p><p>因此，通过比较简单算术平均值和修剪均值，我们可以更准确地了解数据的中心趋势，尤其是在数据集中存在极端值的情况下。</p><blockquote><p><strong>Skewed</strong></p></blockquote><p>当数据集中存在极端值时，数据的分布可能会偏斜（skewed），修剪均值可以在一定程度上减少极端值对数据的影响，从而改善数据分布的偏斜情况。</p><p>让我们继续使用上面的例子来说明修剪均值如何影响数据分布的偏斜情况。我们已经计算了简单算术平均值和修剪均值，现在我们将计算数据集的偏度（skewness），以了解修剪均值如何影响数据分布的偏斜性。</p><p>在R语言中，我们可以使用 <code>psych</code> 包中的 <code>describe()</code> 函数来计算数据集的偏度。让我们来进行计算：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=c1># 安装并加载 psych 包</span>
+</span></span><span class=line><span class=cl><span class=nf>install.packages</span><span class=p>(</span><span class=s>&#34;psych&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>library</span><span class=p>(</span><span class=n>psych</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 创建数据集</span>
+</span></span><span class=line><span class=cl><span class=n>data</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>2</span><span class=p>,</span> <span class=m>3</span><span class=p>,</span> <span class=m>4</span><span class=p>,</span> <span class=m>5</span><span class=p>,</span> <span class=m>6</span><span class=p>,</span> <span class=m>7</span><span class=p>,</span> <span class=m>8</span><span class=p>,</span> <span class=m>9</span><span class=p>,</span> <span class=m>10</span><span class=p>,</span> <span class=m>100</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 计算数据集的偏度</span>
+</span></span><span class=line><span class=cl><span class=nf>describe</span><span class=p>(</span><span class=n>data</span><span class=p>)</span><span class=o>$</span><span class=n>skew</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这个例子中，数据集的偏度为4.07，这表明数据集是右偏（右偏的偏度值大于0）。右偏分布意味着数据集的尾部向右延伸，即数据集中存在极端值或较大的值。</p><p>现在，我们剔除极端值100，并重新计算数据集的偏度：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=c1># 剔除极端值并重新计算偏度</span>
+</span></span><span class=line><span class=cl><span class=n>trimmed_data</span> <span class=o>&lt;-</span> <span class=n>data[data</span> <span class=o>&lt;</span> <span class=m>100</span><span class=n>]</span>
+</span></span><span class=line><span class=cl><span class=nf>describe</span><span class=p>(</span><span class=n>trimmed_data</span><span class=p>)</span><span class=o>$</span><span class=n>skew</span>
+</span></span></code></pre></td></tr></table></div></div><p>剔除极端值后，修剪后的数据集的偏度为0.32。与原始数据集相比，修剪后的数据集的偏度更接近于0，表明修剪均值有助于减少数据分布的偏斜性，使数据更接近于对称分布。</p><p>因此，通过计算修剪均值和观察数据集的偏度，我们可以更好地理解极端值对数据分布的影响，以及修剪均值对于改善数据分布的偏斜性的作用。</p><h2 id=33-apply>3.3 apply()</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>apply(x = DATA, MARGIN = MARGIN, FUN = FUNCTION)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>apply(store.df[2:9], MARGIN = 1, FUN = mean)
+</span></span><span class=line><span class=cl>apply(store.df[2:9], MARGIN = 2, FUN = mean)
+</span></span><span class=line><span class=cl>apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)
+</span></span></code></pre></td></tr></table></div></div><p>在 <code>apply()</code> 函数中，<code>MARGIN</code> 参数指定了函数应该沿着哪个维度（行或列）应用。<code>MARGIN</code> 参数可以取以下值：</p><ul><li><code>MARGIN = 1</code>：对每一行应用函数。</li><li><code>MARGIN = 2</code>：对每一列应用函数。</li><li><code>MARGIN = c(1, 2)</code>：同时对每一行和每一列应用函数。</li></ul><p>在给定的例子中，我们使用了 <code>apply()</code> 函数来对数据集 <code>store.df</code> 中的子集进行函数的应用，子集包含列索引为2到9的数据。具体解释如下：</p><ol><li><p><code>apply(store.df[2:9], MARGIN = 1, FUN = mean)</code>：
+这句代码意味着对数据集 <code>store.df</code> 中的每一行（沿着行的方向）的列索引为2到9的数据应用 <code>mean()</code> 函数，计算每一行的平均值。</p></li><li><p><code>apply(store.df[2:9], MARGIN = 2, FUN = mean)</code>：
+这句代码意味着对数据集 <code>store.df</code> 中的每一列（沿着列的方向）的行索引为2到9的数据应用 <code>mean()</code> 函数，计算每一列的平均值。</p></li><li><p><code>apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)</code>：
+这句代码意味着同时对数据集 <code>store.df</code> 中的每一行和每一列的行列交叉点（即所有的单元格）的数据应用 <code>mean()</code> 函数，计算所有行和列的平均值。</p></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; apply(store.df[ 2:9], MARGIN = 2, FUN = mean)
+</span></span><span class=line><span class=cl>       Year        Week     p1sales     p2sales     p1price     p2price      p1prom      p2prom 
+</span></span><span class=line><span class=cl>  1.5000000  26.5000000 133.0485577 100.1567308   2.5443750   2.6995192   0.1000000   0.1384615 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; apply(store.df[ , 2:9], 2, sum)
+</span></span><span class=line><span class=cl>    Year     Week  p1sales  p2sales  p1price  p2price   p1prom   p2prom 
+</span></span><span class=line><span class=cl>  3120.0  55120.0 276741.0 208326.0   5292.3   5615.0    208.0    288.0 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; apply(store.df[ , 2:9], 2, sd)
+</span></span><span class=line><span class=cl>      Year       Week    p1sales    p2sales    p1price    p2price     p1prom     p2prom 
+</span></span><span class=line><span class=cl> 0.5001202 15.0119401 28.3725990 24.4241905  0.2948819  0.3292181  0.3000721  0.3454668
+</span></span></code></pre></td></tr></table></div></div><h2 id=4-single-variable-visualisation>4. Single variable visualisation</h2><h3 id=41-histograms-柱状图>4.1 Histograms 柱状图</h3><blockquote><p>hist()</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>hist(store.df$p1sales)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image hist1.png %}</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 添加标题、x轴y轴说明
+</span></span><span class=line><span class=cl>hist(store.df$p1sales,
+</span></span><span class=line><span class=cl>     main = &#34;Product 1 Weekly Sales Frequencies, All Stores&#34;, 
+</span></span><span class=line><span class=cl>     xlab = &#34;Product 1 Sales (Units)&#34;,
+</span></span><span class=line><span class=cl>     ylab = &#34;Count&#34;)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image hist2.png %}</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>hist(store.df$p1sales,
+</span></span><span class=line><span class=cl>     main = &#34;Product 1 Weekly Sales Frequencies, All Stores&#34;, xlab = &#34;Product 1 Sales (Units)&#34;,
+</span></span><span class=line><span class=cl>     ylab = &#34;Count&#34;,
+</span></span><span class=line><span class=cl>     breaks = 30, # more columns
+</span></span><span class=line><span class=cl>     col = &#34;lightblue&#34; # colore the bars
+</span></span><span class=line><span class=cl>)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image hist3.png %}</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>hist(store.df$p1sales,
+</span></span><span class=line><span class=cl>     main = &#34;Product 1 Weekly Sales Frequencies, All Stores&#34;, xlab = &#34;Product 1 Sales (Units)&#34;,
+</span></span><span class=line><span class=cl>     ylab = &#34;Count&#34;,
+</span></span><span class=line><span class=cl>     breaks = 30,
+</span></span><span class=line><span class=cl>     col = &#34;lightblue&#34;,
+</span></span><span class=line><span class=cl>     freq = FALSE, # means plot density, not counts
+</span></span><span class=line><span class=cl>     xaxt=&#34;n&#34; # means x-axis tick mark is set to &#34;none&#34;
+</span></span><span class=line><span class=cl>)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image hist4.png %}</p><blockquote><p>freq</p></blockquote><p>freq 参数用于控制直方图的纵轴显示的是频数（counts）还是密度（density）。当 freq 设置为 TRUE 时，默认值，纵轴显示的是频数，即每个分箱内数据的数量；当 freq 设置为 FALSE 时，纵轴显示的是密度，即每个分箱内数据的概率密度。</p><p>概率密度是概率论中用于描述连续随机变量的概率分布的概念。它在数学上是一个非负实值函数，通常用于描述某个随机变量落在某个区间内的概率。</p><p>对于一个连续随机变量，它可能取无穷多个可能的取值，因此我们不能像离散随机变量那样直接计算某个特定值的概率。相反，我们通常关注某个区间内的概率，这个区间越小，计算的概率越准确。概率密度函数（Probability Density Function，PDF）就是用来描述随机变量在某个区间内的概率密度的函数。</p><p>在数学上，对于一个连续随机变量 X，其概率密度函数 f(x) 满足以下两个性质：</p><ol><li>非负性：对于所有的 x，有 f(x) ≥ 0。</li><li>总面积为1：整个定义域内的概率密度函数的积分等于1，即 ∫f(x)dx = 1。<br>因此，概率密度函数描述了随机变量落在某个区间内的概率密度，而不是具体的概率值。要计算某个区间内的概率，我们需要对概率密度函数在该区间上进行积分。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>概率密度和频数之间的关系涉及到连续随机变量和离散随机变量的概率分布。下面分别讨论它们的关系：
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>1. 连续随机变量的概率密度和频数的关系：
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>对于连续随机变量，概率密度函数（PDF）描述了随机变量落在某个区间内的概率密度，而不是具体的概率值。概率密度函数在某个区间上的值越大，表示该区间内的数据更加密集，概率密度更高。
+</span></span><span class=line><span class=cl>直方图是用于表示连续随机变量的分布的一种常用方法。在直方图中，将数据分成多个等宽的分箱，并统计每个分箱内数据的频数，然后通过归一化处理，得到每个分箱内的频率（即频数除以样本总数），从而得到一个近似的概率密度分布。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>2. 离散随机变量的概率密度和频数的关系：
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>对于离散随机变量，概率质量函数（PMF）描述了随机变量取某个特定值的概率。每个可能的取值都有一个概率。
+</span></span><span class=line><span class=cl>直方图同样可以用于表示离散随机变量的分布。在直方图中，每个柱子代表了随机变量取某个特定值的频数，频数表示了该值在样本中出现的次数。由于离散随机变量的取值是有限的，因此直方图中的柱子通常对应于每个可能的取值，每个柱子的高度表示了该值的频率。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>总的来说，概率密度和频数都是用于描述随机变量的分布情况的概念，但在连续随机变量和离散随机变量的情境下有所不同。在连续情况下，我们使用概率密度函数描述概率分布，而在离散情况下，我们使用概率质量函数或频数来描述分布。
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>归一化</p></blockquote><p>归一化是一种数学或统计方法，用于将数据转换为统一的尺度或范围，以便进行比较、分析或处理。在不同的领域中，归一化可能具有不同的含义和方法，但其基本目标是将数据转换为标准形式，消除尺度差异或使数据具有特定的性质。</p><p>在统计学和机器学习中，归一化通常指的是将数据按照一定规则进行缩放，使其落入特定的范围或分布。这有助于提高模型的稳定性和收敛速度，以及降低不同特征之间的影响。</p><p>常见的归一化方法包括：</p><ol><li><p><strong>最小-最大缩放（Min-Max Scaling）</strong>：将数据线性缩放到指定的范围（通常是 [0, 1]），公式为：<br></p>$$
+x_{\text{norm}} = \frac{x - \text{min}(x)}{\text{max}(x) - \text{min}(x)}
+$$</li><li><p><strong>Z-Score 标准化（Z-Score Normalization）</strong>：也称为标准化，将数据转换为均值为 0、标准差为 1 的正态分布，公式为：</p>$$
+x_{\text{norm}} = \frac{x - \mu}{\sigma}
+$$</li><li><p><strong>小数定标标准化（Decimal Scaling）</strong>：将数据除以一个适当的基数（例如 10 的幂），使得数据的绝对值最大不超过 1。</p></li></ol><p>归一化可以确保数据在不同特征之间具有可比性，并且有助于提高模型的性能和稳定性。</p><blockquote><p>axis()</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># side=1 x轴; side=2 y轴; at=sqp() 修改间隔
+</span></span><span class=line><span class=cl>axis(side = 1, at=seq(60, 300, by=20)) # add &#34;60&#34;, &#34;80&#34;, ...
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image hist5.png %}</p><blockquote><p>lines()</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>lines(density(store.df$p1sales, bw=10), # &#34;bw=...&#34; adjusts the smoothing
+</span></span><span class=line><span class=cl>      type=&#34;l&#34;, col = &#34;darkred&#34;, lwd=2) # lwd=line width
+</span></span></code></pre></td></tr></table></div></div><p>这是对 <code>density</code> 函数的调用，用于创建概率密度估计图（Kernel Density Estimation，KDE）。以下是其中的各个参数的解释：</p><ul><li><p><code>density(store.df$p1sales, bw=10)</code>：这部分调用了 <code>density</code> 函数，对 <code>store.df$p1sales</code> 列进行概率密度估计。<code>bw=10</code> 指定了带宽参数，控制了估计的平滑程度。带宽越大，估计的曲线越平滑，带宽越小，曲线越精细。这里的 <code>bw=10</code> 表示带宽为 10。</p></li><li><p><code>type="l"</code>：这个参数指定了要绘制的图形类型。<code>"l"</code> 表示绘制一条折线图。折线图将估计的密度曲线作为折线绘制。</p></li><li><p><code>col="darkred"</code>：这个参数指定了绘制的折线的颜色。<code>"darkred"</code> 表示深红色。</p></li><li><p><code>lwd=2</code>：这个参数指定了绘制的折线的线宽。<code>lwd=2</code> 表示线宽为 2 像素。</p></li></ul><p>{% asset_image hist6.png %}</p><blockquote><p>type</p></blockquote><p>type 参数用于指定绘图的类型，除了 &ldquo;l&rdquo;（折线图）之外，常用的取值还有：</p><ul><li>&ldquo;p&rdquo;：绘制散点图，即仅绘制数据点而不连接它们。</li><li>&ldquo;b&rdquo;：绘制数据点并将它们连接成线段，从而形成折线图。与 &ldquo;l&rdquo; 类似，但是在每个数据点处绘制一个大点。</li><li>&ldquo;o&rdquo;：与 &ldquo;b&rdquo; 类似，但在每个数据点处绘制一个小圆圈，而不是大点。</li><li>&ldquo;h&rdquo;：绘制直方图，即垂直的线条用于表示频率。</li><li>&ldquo;s&rdquo;：绘制阶梯图，即通过垂直和水平线段连接每个数据点，从而形成阶梯状的图形。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>lines(density(store.df$p1sales, bw=10), # &#34;bw=...&#34; adjusts the smoothing
+</span></span><span class=line><span class=cl>      type=&#34;o&#34;, col = &#34;darkred&#34;, lwd=2) # lwd=line width
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image hist7.png %}</p><h1 id=二week1-code>二、week1 code</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># install.packages (&#34;readxl&#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1># install.packages (&#34;psych&#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1># install.packages (&#34;car&#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1># install.packages (&#34;gpairs&#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1># install.packages (&#34;grid&#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1># install.packages (&#34;lattice&#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1># install.packages (&#34;corrplot&#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1># install.packages (&#34;gplots&#34;)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;readxl&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;psych&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;car&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;gpairs&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;grid&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;lattice&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;corrplot&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=s2>&#34;gplots&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 获取当前已加载文件的目录</span>
+</span></span><span class=line><span class=cl><span class=n>file_dir</span> <span class=o>&lt;-</span> <span class=n>dirname</span><span class=p>(</span><span class=n>parent</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span><span class=o>$</span><span class=n>ofile</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>file_dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 将工作目录设置为当前已加载文件的目录</span>
+</span></span><span class=line><span class=cl><span class=n>setwd</span><span class=p>(</span><span class=n>file_dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>store</span><span class=o>.</span><span class=n>df</span> <span class=o>&lt;-</span> <span class=n>read</span><span class=o>.</span><span class=n>csv</span><span class=p>(</span><span class=s2>&#34;Data_Descriptive.csv&#34;</span><span class=p>,</span> <span class=n>stringsAsFactors</span><span class=o>=</span><span class=n>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>str</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>table</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1price</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>p1</span><span class=o>.</span><span class=n>table</span> <span class=o>&lt;-</span> <span class=n>table</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1price</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>p1</span><span class=o>.</span><span class=n>table</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>str</span><span class=p>(</span><span class=n>p1</span><span class=o>.</span><span class=n>table</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>plot</span><span class=p>(</span><span class=n>p1</span><span class=o>.</span><span class=n>table</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>table</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1price</span><span class=p>,</span> <span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1prom</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>p1</span><span class=o>.</span><span class=n>table2</span> <span class=o>&lt;-</span> <span class=n>table</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1price</span><span class=p>,</span> <span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1prom</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>p1</span><span class=o>.</span><span class=n>table2</span><span class=p>[</span> <span class=p>,</span><span class=mi>2</span><span class=p>]</span> <span class=o>/</span> <span class=p>(</span><span class=n>p1</span><span class=o>.</span><span class=n>table2</span><span class=p>[</span> <span class=p>,</span><span class=mi>1</span><span class=p>]</span> <span class=o>+</span> <span class=n>p1</span><span class=o>.</span><span class=n>table2</span><span class=p>[</span> <span class=p>,</span><span class=mi>2</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>plot</span><span class=p>(</span><span class=n>p1</span><span class=o>.</span><span class=n>table2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>min</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>max</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>mean</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1prom</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>median</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p2sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>var</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>sd</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>IQR</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>mad</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>quantile</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span> <span class=n>probs</span> <span class=o>=</span> <span class=n>c</span><span class=p>(</span><span class=mf>0.25</span><span class=p>,</span> <span class=mf>0.5</span><span class=p>,</span> <span class=mf>0.75</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>quantile</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span> <span class=n>probs</span> <span class=o>=</span> <span class=n>c</span><span class=p>(</span><span class=mf>0.05</span><span class=p>,</span> <span class=mf>0.95</span><span class=p>))</span> <span class=c1># central 90% data</span>
+</span></span><span class=line><span class=cl><span class=n>quantile</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span> <span class=n>probs</span> <span class=o>=</span> <span class=mi>0</span><span class=p>:</span><span class=mi>10</span><span class=o>/</span><span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>quantile</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span> <span class=n>probs</span> <span class=o>=</span> <span class=n>seq</span><span class=p>(</span><span class=n>from</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=n>to</span><span class=o>=</span><span class=mi>1</span><span class=p>,</span> <span class=n>by</span><span class=o>=</span><span class=mf>0.1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>mysummary</span><span class=o>.</span><span class=n>df</span> <span class=o>&lt;-</span> <span class=n>data</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=n>matrix</span><span class=p>(</span><span class=n>NA</span><span class=p>,</span> <span class=n>nrow</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span> <span class=n>ncol</span><span class=o>=</span><span class=mi>2</span><span class=p>))</span> <span class=c1># 2 by 2 empty matrix </span>
+</span></span><span class=line><span class=cl><span class=n>names</span><span class=p>(</span><span class=n>mysummary</span><span class=o>.</span><span class=n>df</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=s2>&#34;Median Sales&#34;</span><span class=p>,</span> <span class=s2>&#34;IQR&#34;</span><span class=p>)</span> <span class=c1># name columns </span>
+</span></span><span class=line><span class=cl><span class=n>rownames</span><span class=p>(</span><span class=n>mysummary</span><span class=o>.</span><span class=n>df</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=s2>&#34;Product 1&#34;</span><span class=p>,</span> <span class=s2>&#34;Product 2&#34;</span><span class=p>)</span> <span class=c1># name rows </span>
+</span></span><span class=line><span class=cl><span class=n>mysummary</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=s2>&#34;Product 1&#34;</span><span class=p>,</span> <span class=s2>&#34;Median Sales&#34;</span><span class=p>]</span> <span class=o>&lt;-</span> <span class=n>median</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>mysummary</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=s2>&#34;Product 2&#34;</span><span class=p>,</span> <span class=s2>&#34;Median Sales&#34;</span><span class=p>]</span> <span class=o>&lt;-</span> <span class=n>median</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p2sales</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>mysummary</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=s2>&#34;Product 1&#34;</span><span class=p>,</span> <span class=s2>&#34;IQR&#34;</span><span class=p>]</span> <span class=o>&lt;-</span> <span class=n>IQR</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>mysummary</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=s2>&#34;Product 2&#34;</span><span class=p>,</span> <span class=s2>&#34;IQR&#34;</span><span class=p>]</span> <span class=o>&lt;-</span> <span class=n>IQR</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p2sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>mysummary</span><span class=o>.</span><span class=n>df</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>summary</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>summary</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>Year</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>summary</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>,</span> <span class=n>digits</span> <span class=o>=</span> <span class=mi>2</span><span class=p>)</span> <span class=c1># 保留小数点后两位</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>library</span><span class=p>(</span><span class=n>psych</span><span class=p>)</span> <span class=c1># install if needed </span>
+</span></span><span class=line><span class=cl><span class=n>describe</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>describe</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>[,</span><span class=n>c</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>:</span><span class=mi>9</span><span class=p>)])</span>
+</span></span><span class=line><span class=cl><span class=n>dim</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>head</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>tail</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>some</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>str</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>summary</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>describe</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>apply</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>[</span> <span class=mi>2</span><span class=p>:</span><span class=mi>9</span><span class=p>],</span> <span class=n>MARGIN</span> <span class=o>=</span> <span class=mi>2</span><span class=p>,</span> <span class=n>FUN</span> <span class=o>=</span> <span class=n>mean</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>apply</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>[</span> <span class=p>,</span> <span class=mi>2</span><span class=p>:</span><span class=mi>9</span><span class=p>],</span> <span class=mi>2</span><span class=p>,</span> <span class=n>sum</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>apply</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>[</span> <span class=p>,</span> <span class=mi>2</span><span class=p>:</span><span class=mi>9</span><span class=p>],</span> <span class=mi>2</span><span class=p>,</span> <span class=n>sd</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>hist</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 添加标题、x轴y轴说明</span>
+</span></span><span class=line><span class=cl><span class=n>hist</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>main</span> <span class=o>=</span> <span class=s2>&#34;Product 1 Weekly Sales Frequencies, All Stores&#34;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>     <span class=n>xlab</span> <span class=o>=</span> <span class=s2>&#34;Product 1 Sales (Units)&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>ylab</span> <span class=o>=</span> <span class=s2>&#34;Count&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>colors</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>hist</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>main</span> <span class=o>=</span> <span class=s2>&#34;Product 1 Weekly Sales Frequencies, All Stores&#34;</span><span class=p>,</span> <span class=n>xlab</span> <span class=o>=</span> <span class=s2>&#34;Product 1 Sales (Units)&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>ylab</span> <span class=o>=</span> <span class=s2>&#34;Count&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>breaks</span> <span class=o>=</span> <span class=mi>30</span><span class=p>,</span> <span class=c1># more columns</span>
+</span></span><span class=line><span class=cl>     <span class=n>col</span> <span class=o>=</span> <span class=s2>&#34;lightblue&#34;</span> <span class=c1># colore the bars</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>hist</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>main</span> <span class=o>=</span> <span class=s2>&#34;Product 1 Weekly Sales Frequencies, All Stores&#34;</span><span class=p>,</span> <span class=n>xlab</span> <span class=o>=</span> <span class=s2>&#34;Product 1 Sales (Units)&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>ylab</span> <span class=o>=</span> <span class=s2>&#34;Count&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>breaks</span> <span class=o>=</span> <span class=mi>30</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>col</span> <span class=o>=</span> <span class=s2>&#34;lightblue&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>freq</span> <span class=o>=</span> <span class=n>FALSE</span><span class=p>,</span> <span class=c1># means plot density, not counts</span>
+</span></span><span class=line><span class=cl>     <span class=n>xaxt</span><span class=o>=</span><span class=s2>&#34;n&#34;</span> <span class=c1># means x-axis tick mark is set to &#34;none&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>hist</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>main</span> <span class=o>=</span> <span class=s2>&#34;Product 1 Weekly Sales Frequencies, All Stores&#34;</span><span class=p>,</span> <span class=n>xlab</span> <span class=o>=</span> <span class=s2>&#34;Product 1 Sales (Units)&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>ylab</span> <span class=o>=</span> <span class=s2>&#34;Count&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>breaks</span> <span class=o>=</span> <span class=mi>30</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>col</span> <span class=o>=</span> <span class=s2>&#34;lightblue&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>     <span class=n>freq</span> <span class=o>=</span> <span class=n>FALSE</span><span class=p>,</span> <span class=c1># means plot density, not counts</span>
+</span></span><span class=line><span class=cl>     <span class=n>xaxt</span><span class=o>=</span><span class=s2>&#34;n&#34;</span> <span class=c1># means x-axis tick mark is set to &#34;none&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># side=1 x轴; side=2 y轴; at=sqp() 修改间隔</span>
+</span></span><span class=line><span class=cl><span class=n>axis</span><span class=p>(</span><span class=n>side</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span> <span class=n>at</span><span class=o>=</span><span class=n>seq</span><span class=p>(</span><span class=mi>60</span><span class=p>,</span> <span class=mi>300</span><span class=p>,</span> <span class=n>by</span><span class=o>=</span><span class=mi>20</span><span class=p>))</span> <span class=c1># add &#34;60&#34;, &#34;80&#34;, ...</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>lines</span><span class=p>(</span><span class=n>density</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span> <span class=n>bw</span><span class=o>=</span><span class=mi>10</span><span class=p>),</span> <span class=c1># &#34;bw=...&#34; adjusts the smoothing</span>
+</span></span><span class=line><span class=cl>      <span class=n>type</span><span class=o>=</span><span class=s2>&#34;l&#34;</span><span class=p>,</span> <span class=n>col</span> <span class=o>=</span> <span class=s2>&#34;darkred&#34;</span><span class=p>,</span> <span class=n>lwd</span><span class=o>=</span><span class=mi>2</span><span class=p>)</span> <span class=c1># lwd=line width</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>lines</span><span class=p>(</span><span class=n>density</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>p1sales</span><span class=p>,</span> <span class=n>bw</span><span class=o>=</span><span class=mi>10</span><span class=p>),</span> <span class=c1># &#34;bw=...&#34; adjusts the smoothing</span>
+</span></span><span class=line><span class=cl>      <span class=n>type</span><span class=o>=</span><span class=s2>&#34;o&#34;</span><span class=p>,</span> <span class=n>col</span> <span class=o>=</span> <span class=s2>&#34;darkred&#34;</span><span class=p>,</span> <span class=n>lwd</span><span class=o>=</span><span class=mi>2</span><span class=p>)</span> <span class=c1># lwd=line width</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/tags/r%E8%AF%AD%E8%A8%80/>R语言</a>
+<a href=/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/>数据分析</a>
+<a href=/tags/%E6%8F%8F%E8%BF%B0%E6%80%A7%E5%88%86%E6%9E%90/>描述性分析</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".main-article");renderMathInElement(e,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/rweek9-managing-resource-trade-offs-ii-code/><div class=article-details><h2 class=article-title>R[week9] Managing Resource Trade-Offs II Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs-code/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs</h2></div></a></article><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-code-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage code II</h2></div></a></article><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-lecture-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage lecture II</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

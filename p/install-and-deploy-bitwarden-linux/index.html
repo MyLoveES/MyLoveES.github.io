@@ -1,0 +1,418 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content='云服务器安装 bitwarden 官方文档 Install and Deploy - Linux 创建bitwarden本地用户和目录（SKIP） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 1. Create a bitwarden user: sudo adduser bitwarden 2. Set password for bitwarden user (strong password): sudo passwd bitwarden 3. Create a docker group (if it doesn’t already exist): sudo groupadd docker 4. Add the bitwarden user to the docker group: sudo usermod -aG docker bitwarden 5. Create a bitwarden directory: sudo mkdir /opt/bitwarden 6. Set permissions for the /opt/bitwarden directory: sudo chmod -R 700 /opt/bitwarden 7. Set the bitwarden user ownership of the /opt/bitwarden directory: sudo chown -R bitwarden:bitwarden /opt/bitwarden 安装 1. Download the Bitwarden installation script (bitwarden.sh) to your machine: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 curl -Lso bitwarden.sh https://go.btwrdn.co/bw-sh && chmod 700 bitwarden.sh 全文： #!/usr/bin/env bash set -e cat << "EOF" _ _ _ _ | |__ (_) |___ ____ _ _ __ __| | ___ _ __ | &#39;_ \\| | __\\ \\ /\\ / / _` | &#39;__/ _` |/ _ \\ &#39;_ \\ | |_) | | |_ \\ V V / (_| | | | (_| | __/ | | | |_.__/|_|\\__| \\_/\\_/ \\__,_|_| \\__,_|\\___|_| |_| EOF cat << EOF Open source password management solutions Copyright 2015-$(date +&#39;%Y&#39;), 8bit Solutions LLC https://bitwarden.com, https://github.com/bitwarden =================================================== EOF # Setup DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" SCRIPT_NAME=$(basename "$0") SCRIPT_PATH="$DIR/$SCRIPT_NAME" OUTPUT="$DIR/bwdata" if [ $# -eq 2 ] then OUTPUT=$2 fi SCRIPTS_DIR="$OUTPUT/scripts" GITHUB_BASE_URL="https://raw.githubusercontent.com/bitwarden/server/master" # Please do not create pull requests modifying the version numbers. COREVERSION="1.45.2" WEBVERSION="2.25.0" KEYCONNECTORVERSION="1.0.0" echo "bitwarden.sh version $COREVERSION" docker --version docker-compose --version echo "" # Functions function downloadSelf() { if curl -s -w "http_code %{http_code}" -o $SCRIPT_PATH.1 $GITHUB_BASE_URL/scripts/bitwarden.sh | grep -q "^http_code 20[0-9]" then mv $SCRIPT_PATH.1 $SCRIPT_PATH chmod u+x $SCRIPT_PATH else rm -f $SCRIPT_PATH.1 fi } function downloadRunFile() { if [ ! -d "$SCRIPTS_DIR" ] then mkdir $SCRIPTS_DIR fi curl -s -o $SCRIPTS_DIR/run.sh $GITHUB_BASE_URL/scripts/run.sh chmod u+x $SCRIPTS_DIR/run.sh rm -f $SCRIPTS_DIR/install.sh } function checkOutputDirExists() { if [ ! -d "$OUTPUT" ] then echo "Cannot find a Bitwarden installation at $OUTPUT." exit 1 fi } function checkOutputDirNotExists() { if [ -d "$OUTPUT/docker" ] then echo "Looks like Bitwarden is already installed at $OUTPUT." exit 1 fi } function listCommands() { cat << EOT Available commands: install start restart stop update updatedb updaterun updateself updateconf renewcert rebuild help See more at https://bitwarden.com/help/article/install-on-premise/#script-commands-reference EOT } # Commands case $1 in "install") checkOutputDirNotExists mkdir -p $OUTPUT downloadRunFile $SCRIPTS_DIR/run.sh install $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "start" | "restart") checkOutputDirExists $SCRIPTS_DIR/run.sh restart $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "update") checkOutputDirExists downloadRunFile $SCRIPTS_DIR/run.sh update $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "rebuild") checkOutputDirExists $SCRIPTS_DIR/run.sh rebuild $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updateconf") checkOutputDirExists $SCRIPTS_DIR/run.sh updateconf $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updatedb") checkOutputDirExists $SCRIPTS_DIR/run.sh updatedb $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "stop") checkOutputDirExists $SCRIPTS_DIR/run.sh stop $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "renewcert") checkOutputDirExists $SCRIPTS_DIR/run.sh renewcert $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updaterun") checkOutputDirExists downloadRunFile ;; "updateself") downloadSelf && echo "Updated self." && exit ;; "help") listCommands ;; *) echo "No command found." echo listCommands esac 2. Run the installer script. A ./bwdata directory will be created relative to the location of bitwarden.sh. 1 ./bitwarden.sh install 3. Complete the prompts in the installer Enter the domain name for your Bitwarden instance:\nTypically, this value should be the configured DNS record.\n'><title>Install and deploy bitwarden - Linux</title><link rel=canonical href=https://MyLoveES.github.io/p/install-and-deploy-bitwarden-linux/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="Install and deploy bitwarden - Linux"><meta property='og:description' content='云服务器安装 bitwarden 官方文档 Install and Deploy - Linux 创建bitwarden本地用户和目录（SKIP） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 1. Create a bitwarden user: sudo adduser bitwarden 2. Set password for bitwarden user (strong password): sudo passwd bitwarden 3. Create a docker group (if it doesn’t already exist): sudo groupadd docker 4. Add the bitwarden user to the docker group: sudo usermod -aG docker bitwarden 5. Create a bitwarden directory: sudo mkdir /opt/bitwarden 6. Set permissions for the /opt/bitwarden directory: sudo chmod -R 700 /opt/bitwarden 7. Set the bitwarden user ownership of the /opt/bitwarden directory: sudo chown -R bitwarden:bitwarden /opt/bitwarden 安装 1. Download the Bitwarden installation script (bitwarden.sh) to your machine: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 curl -Lso bitwarden.sh https://go.btwrdn.co/bw-sh && chmod 700 bitwarden.sh 全文： #!/usr/bin/env bash set -e cat << "EOF" _ _ _ _ | |__ (_) |___ ____ _ _ __ __| | ___ _ __ | &#39;_ \\| | __\\ \\ /\\ / / _` | &#39;__/ _` |/ _ \\ &#39;_ \\ | |_) | | |_ \\ V V / (_| | | | (_| | __/ | | | |_.__/|_|\\__| \\_/\\_/ \\__,_|_| \\__,_|\\___|_| |_| EOF cat << EOF Open source password management solutions Copyright 2015-$(date +&#39;%Y&#39;), 8bit Solutions LLC https://bitwarden.com, https://github.com/bitwarden =================================================== EOF # Setup DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" SCRIPT_NAME=$(basename "$0") SCRIPT_PATH="$DIR/$SCRIPT_NAME" OUTPUT="$DIR/bwdata" if [ $# -eq 2 ] then OUTPUT=$2 fi SCRIPTS_DIR="$OUTPUT/scripts" GITHUB_BASE_URL="https://raw.githubusercontent.com/bitwarden/server/master" # Please do not create pull requests modifying the version numbers. COREVERSION="1.45.2" WEBVERSION="2.25.0" KEYCONNECTORVERSION="1.0.0" echo "bitwarden.sh version $COREVERSION" docker --version docker-compose --version echo "" # Functions function downloadSelf() { if curl -s -w "http_code %{http_code}" -o $SCRIPT_PATH.1 $GITHUB_BASE_URL/scripts/bitwarden.sh | grep -q "^http_code 20[0-9]" then mv $SCRIPT_PATH.1 $SCRIPT_PATH chmod u+x $SCRIPT_PATH else rm -f $SCRIPT_PATH.1 fi } function downloadRunFile() { if [ ! -d "$SCRIPTS_DIR" ] then mkdir $SCRIPTS_DIR fi curl -s -o $SCRIPTS_DIR/run.sh $GITHUB_BASE_URL/scripts/run.sh chmod u+x $SCRIPTS_DIR/run.sh rm -f $SCRIPTS_DIR/install.sh } function checkOutputDirExists() { if [ ! -d "$OUTPUT" ] then echo "Cannot find a Bitwarden installation at $OUTPUT." exit 1 fi } function checkOutputDirNotExists() { if [ -d "$OUTPUT/docker" ] then echo "Looks like Bitwarden is already installed at $OUTPUT." exit 1 fi } function listCommands() { cat << EOT Available commands: install start restart stop update updatedb updaterun updateself updateconf renewcert rebuild help See more at https://bitwarden.com/help/article/install-on-premise/#script-commands-reference EOT } # Commands case $1 in "install") checkOutputDirNotExists mkdir -p $OUTPUT downloadRunFile $SCRIPTS_DIR/run.sh install $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "start" | "restart") checkOutputDirExists $SCRIPTS_DIR/run.sh restart $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "update") checkOutputDirExists downloadRunFile $SCRIPTS_DIR/run.sh update $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "rebuild") checkOutputDirExists $SCRIPTS_DIR/run.sh rebuild $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updateconf") checkOutputDirExists $SCRIPTS_DIR/run.sh updateconf $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updatedb") checkOutputDirExists $SCRIPTS_DIR/run.sh updatedb $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "stop") checkOutputDirExists $SCRIPTS_DIR/run.sh stop $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "renewcert") checkOutputDirExists $SCRIPTS_DIR/run.sh renewcert $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updaterun") checkOutputDirExists downloadRunFile ;; "updateself") downloadSelf && echo "Updated self." && exit ;; "help") listCommands ;; *) echo "No command found." echo listCommands esac 2. Run the installer script. A ./bwdata directory will be created relative to the location of bitwarden.sh. 1 ./bitwarden.sh install 3. Complete the prompts in the installer Enter the domain name for your Bitwarden instance:\nTypically, this value should be the configured DNS record.\n'><meta property='og:url' content='https://MyLoveES.github.io/p/install-and-deploy-bitwarden-linux/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='服务器'><meta property='article:tag' content='自托管'><meta property='article:tag' content='Bitwarden'><meta property='article:tag' content='密码管理'><meta property='article:published_time' content='2022-01-28T00:00:00+00:00'><meta property='article:modified_time' content='2022-01-28T00:00:00+00:00'><meta name=twitter:title content="Install and deploy bitwarden - Linux"><meta name=twitter:description content='云服务器安装 bitwarden 官方文档 Install and Deploy - Linux 创建bitwarden本地用户和目录（SKIP） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 1. Create a bitwarden user: sudo adduser bitwarden 2. Set password for bitwarden user (strong password): sudo passwd bitwarden 3. Create a docker group (if it doesn’t already exist): sudo groupadd docker 4. Add the bitwarden user to the docker group: sudo usermod -aG docker bitwarden 5. Create a bitwarden directory: sudo mkdir /opt/bitwarden 6. Set permissions for the /opt/bitwarden directory: sudo chmod -R 700 /opt/bitwarden 7. Set the bitwarden user ownership of the /opt/bitwarden directory: sudo chown -R bitwarden:bitwarden /opt/bitwarden 安装 1. Download the Bitwarden installation script (bitwarden.sh) to your machine: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 curl -Lso bitwarden.sh https://go.btwrdn.co/bw-sh && chmod 700 bitwarden.sh 全文： #!/usr/bin/env bash set -e cat << "EOF" _ _ _ _ | |__ (_) |___ ____ _ _ __ __| | ___ _ __ | &#39;_ \\| | __\\ \\ /\\ / / _` | &#39;__/ _` |/ _ \\ &#39;_ \\ | |_) | | |_ \\ V V / (_| | | | (_| | __/ | | | |_.__/|_|\\__| \\_/\\_/ \\__,_|_| \\__,_|\\___|_| |_| EOF cat << EOF Open source password management solutions Copyright 2015-$(date +&#39;%Y&#39;), 8bit Solutions LLC https://bitwarden.com, https://github.com/bitwarden =================================================== EOF # Setup DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" SCRIPT_NAME=$(basename "$0") SCRIPT_PATH="$DIR/$SCRIPT_NAME" OUTPUT="$DIR/bwdata" if [ $# -eq 2 ] then OUTPUT=$2 fi SCRIPTS_DIR="$OUTPUT/scripts" GITHUB_BASE_URL="https://raw.githubusercontent.com/bitwarden/server/master" # Please do not create pull requests modifying the version numbers. COREVERSION="1.45.2" WEBVERSION="2.25.0" KEYCONNECTORVERSION="1.0.0" echo "bitwarden.sh version $COREVERSION" docker --version docker-compose --version echo "" # Functions function downloadSelf() { if curl -s -w "http_code %{http_code}" -o $SCRIPT_PATH.1 $GITHUB_BASE_URL/scripts/bitwarden.sh | grep -q "^http_code 20[0-9]" then mv $SCRIPT_PATH.1 $SCRIPT_PATH chmod u+x $SCRIPT_PATH else rm -f $SCRIPT_PATH.1 fi } function downloadRunFile() { if [ ! -d "$SCRIPTS_DIR" ] then mkdir $SCRIPTS_DIR fi curl -s -o $SCRIPTS_DIR/run.sh $GITHUB_BASE_URL/scripts/run.sh chmod u+x $SCRIPTS_DIR/run.sh rm -f $SCRIPTS_DIR/install.sh } function checkOutputDirExists() { if [ ! -d "$OUTPUT" ] then echo "Cannot find a Bitwarden installation at $OUTPUT." exit 1 fi } function checkOutputDirNotExists() { if [ -d "$OUTPUT/docker" ] then echo "Looks like Bitwarden is already installed at $OUTPUT." exit 1 fi } function listCommands() { cat << EOT Available commands: install start restart stop update updatedb updaterun updateself updateconf renewcert rebuild help See more at https://bitwarden.com/help/article/install-on-premise/#script-commands-reference EOT } # Commands case $1 in "install") checkOutputDirNotExists mkdir -p $OUTPUT downloadRunFile $SCRIPTS_DIR/run.sh install $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "start" | "restart") checkOutputDirExists $SCRIPTS_DIR/run.sh restart $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "update") checkOutputDirExists downloadRunFile $SCRIPTS_DIR/run.sh update $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "rebuild") checkOutputDirExists $SCRIPTS_DIR/run.sh rebuild $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updateconf") checkOutputDirExists $SCRIPTS_DIR/run.sh updateconf $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updatedb") checkOutputDirExists $SCRIPTS_DIR/run.sh updatedb $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "stop") checkOutputDirExists $SCRIPTS_DIR/run.sh stop $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "renewcert") checkOutputDirExists $SCRIPTS_DIR/run.sh renewcert $OUTPUT $COREVERSION $WEBVERSION $KEYCONNECTORVERSION ;; "updaterun") checkOutputDirExists downloadRunFile ;; "updateself") downloadSelf && echo "Updated self." && exit ;; "help") listCommands ;; *) echo "No command found." echo listCommands esac 2. Run the installer script. A ./bwdata directory will be created relative to the location of bitwarden.sh. 1 ./bitwarden.sh install 3. Complete the prompts in the installer Enter the domain name for your Bitwarden instance:\nTypically, this value should be the configured DNS record.\n'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#官方文档-install-and-deploy---linux>官方文档 Install and Deploy - Linux</a></li><li><a href=#创建bitwarden本地用户和目录skip>创建<code>bitwarden</code>本地用户和目录（SKIP）</a></li><li><a href=#安装>安装</a><ol><li><a href=#1-download-the-bitwarden-installation-script-bitwardensh-to-your-machine>1. Download the Bitwarden installation script (bitwarden.sh) to your machine:</a></li><li><a href=#2-run-the-installer-script-a-bwdata-directory-will-be-created-relative-to-the-location-of-bitwardensh>2. Run the installer script. A ./bwdata directory will be created relative to the location of bitwarden.sh.</a></li><li><a href=#3-complete-the-prompts-in-the-installer>3. Complete the prompts in the installer</a></li><li><a href=#4-post-install-configuration>4. Post-Install Configuration</a></li><li><a href=#5-installation-file>5. Installation File</a></li><li><a href=#start-bitwarden>Start Bitwarden</a></li></ol></li><li><a href=#script-commands-reference>Script Commands Reference</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/install-and-deploy-bitwarden-linux/>Install and deploy bitwarden - Linux</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Jan 28, 2022</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>6 minute read</time></div></footer></div></header><section class=article-content><h1 id=云服务器安装-bitwarden>云服务器安装 bitwarden</h1><h2 id=官方文档-install-and-deploy---linux><a class=link href=https://bitwarden.com/help/install-on-premise-linux/#docker-post-installation-linux-only target=_blank rel=noopener>官方文档 Install and Deploy - Linux</a></h2><h2 id=创建bitwarden本地用户和目录skip>创建<code>bitwarden</code>本地用户和目录（SKIP）</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>1. Create a bitwarden user:
+</span></span><span class=line><span class=cl>sudo adduser bitwarden
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>2. Set password for bitwarden user (strong password):
+</span></span><span class=line><span class=cl>sudo passwd bitwarden
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>3. Create a docker group (if it doesn’t already exist):
+</span></span><span class=line><span class=cl>sudo groupadd docker
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>4. Add the bitwarden user to the docker group:
+</span></span><span class=line><span class=cl>sudo usermod -aG docker bitwarden
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>5. Create a bitwarden directory:
+</span></span><span class=line><span class=cl>sudo mkdir /opt/bitwarden
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>6. Set permissions for the /opt/bitwarden directory:
+</span></span><span class=line><span class=cl>sudo chmod -R 700 /opt/bitwarden
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>7. Set the bitwarden user ownership of the /opt/bitwarden directory:
+</span></span><span class=line><span class=cl>sudo chown -R bitwarden:bitwarden /opt/bitwarden
+</span></span></code></pre></td></tr></table></div></div><h2 id=安装>安装</h2><h3 id=1-download-the-bitwarden-installation-script-bitwardensh-to-your-machine>1. Download the Bitwarden installation script (bitwarden.sh) to your machine:</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl -Lso bitwarden.sh https://go.btwrdn.co/bw-sh <span class=o>&amp;&amp;</span> chmod <span class=m>700</span> bitwarden.sh
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>全文：
+</span></span><span class=line><span class=cl><span class=c1>#!/usr/bin/env bash</span>
+</span></span><span class=line><span class=cl><span class=nb>set</span> -e
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>cat &lt;&lt; <span class=s2>&#34;EOF&#34;</span>
+</span></span><span class=line><span class=cl> _     _ _                         _
+</span></span><span class=line><span class=cl><span class=p>|</span> <span class=p>|</span>__ <span class=o>(</span>_<span class=o>)</span> <span class=p>|</span>___      ____ _ _ __ __<span class=p>|</span> <span class=p>|</span> ___ _ __
+</span></span><span class=line><span class=cl><span class=p>|</span> <span class=s1>&#39;_ \| | __\ \ /\ / / _` | &#39;</span>__/ _<span class=sb>`</span> <span class=p>|</span>/ _ <span class=se>\ </span><span class=s1>&#39;_ \
+</span></span></span><span class=line><span class=cl><span class=s1>| |_) | | |_ \ V  V / (_| | | | (_| |  __/ | | |
+</span></span></span><span class=line><span class=cl><span class=s1>|_.__/|_|\__| \_/\_/ \__,_|_|  \__,_|\___|_| |_|
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>EOF
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>cat &lt;&lt; EOF
+</span></span></span><span class=line><span class=cl><span class=s1>Open source password management solutions
+</span></span></span><span class=line><span class=cl><span class=s1>Copyright 2015-$(date +&#39;</span>%Y<span class=err>&#39;</span><span class=o>)</span>, 8bit Solutions LLC
+</span></span><span class=line><span class=cl>https://bitwarden.com, https://github.com/bitwarden
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>===================================================</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>EOF
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Setup</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>DIR</span><span class=o>=</span><span class=s2>&#34;</span><span class=k>$(</span> <span class=nb>cd</span> <span class=s2>&#34;</span><span class=k>$(</span> dirname <span class=s2>&#34;</span><span class=si>${</span><span class=nv>BASH_SOURCE</span><span class=p>[0]</span><span class=si>}</span><span class=s2>&#34;</span> <span class=k>)</span><span class=s2>&#34;</span> <span class=o>&amp;&amp;</span> <span class=nb>pwd</span> <span class=k>)</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>SCRIPT_NAME</span><span class=o>=</span><span class=k>$(</span>basename <span class=s2>&#34;</span><span class=nv>$0</span><span class=s2>&#34;</span><span class=k>)</span>
+</span></span><span class=line><span class=cl><span class=nv>SCRIPT_PATH</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$DIR</span><span class=s2>/</span><span class=nv>$SCRIPT_NAME</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>OUTPUT</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$DIR</span><span class=s2>/bwdata&#34;</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=o>[</span> <span class=nv>$#</span> -eq <span class=m>2</span> <span class=o>]</span>
+</span></span><span class=line><span class=cl><span class=k>then</span>
+</span></span><span class=line><span class=cl>    <span class=nv>OUTPUT</span><span class=o>=</span><span class=nv>$2</span>
+</span></span><span class=line><span class=cl><span class=k>fi</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nv>SCRIPTS_DIR</span><span class=o>=</span><span class=s2>&#34;</span><span class=nv>$OUTPUT</span><span class=s2>/scripts&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>GITHUB_BASE_URL</span><span class=o>=</span><span class=s2>&#34;https://raw.githubusercontent.com/bitwarden/server/master&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Please do not create pull requests modifying the version numbers.</span>
+</span></span><span class=line><span class=cl><span class=nv>COREVERSION</span><span class=o>=</span><span class=s2>&#34;1.45.2&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>WEBVERSION</span><span class=o>=</span><span class=s2>&#34;2.25.0&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>KEYCONNECTORVERSION</span><span class=o>=</span><span class=s2>&#34;1.0.0&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;bitwarden.sh version </span><span class=nv>$COREVERSION</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>docker --version
+</span></span><span class=line><span class=cl>docker-compose --version
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Functions</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> downloadSelf<span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> curl -s -w <span class=s2>&#34;http_code %{http_code}&#34;</span> -o <span class=nv>$SCRIPT_PATH</span>.1 <span class=nv>$GITHUB_BASE_URL</span>/scripts/bitwarden.sh <span class=p>|</span> grep -q <span class=s2>&#34;^http_code 20[0-9]&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>then</span>
+</span></span><span class=line><span class=cl>        mv <span class=nv>$SCRIPT_PATH</span>.1 <span class=nv>$SCRIPT_PATH</span>
+</span></span><span class=line><span class=cl>        chmod u+x <span class=nv>$SCRIPT_PATH</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span>
+</span></span><span class=line><span class=cl>        rm -f <span class=nv>$SCRIPT_PATH</span>.1
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> downloadRunFile<span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> ! -d <span class=s2>&#34;</span><span class=nv>$SCRIPTS_DIR</span><span class=s2>&#34;</span> <span class=o>]</span>
+</span></span><span class=line><span class=cl>    <span class=k>then</span>
+</span></span><span class=line><span class=cl>        mkdir <span class=nv>$SCRIPTS_DIR</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl>    curl -s -o <span class=nv>$SCRIPTS_DIR</span>/run.sh <span class=nv>$GITHUB_BASE_URL</span>/scripts/run.sh
+</span></span><span class=line><span class=cl>    chmod u+x <span class=nv>$SCRIPTS_DIR</span>/run.sh
+</span></span><span class=line><span class=cl>    rm -f <span class=nv>$SCRIPTS_DIR</span>/install.sh
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> checkOutputDirExists<span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> ! -d <span class=s2>&#34;</span><span class=nv>$OUTPUT</span><span class=s2>&#34;</span> <span class=o>]</span>
+</span></span><span class=line><span class=cl>    <span class=k>then</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span> <span class=s2>&#34;Cannot find a Bitwarden installation at </span><span class=nv>$OUTPUT</span><span class=s2>.&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=nb>exit</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> checkOutputDirNotExists<span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>[</span> -d <span class=s2>&#34;</span><span class=nv>$OUTPUT</span><span class=s2>/docker&#34;</span> <span class=o>]</span>
+</span></span><span class=line><span class=cl>    <span class=k>then</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span> <span class=s2>&#34;Looks like Bitwarden is already installed at </span><span class=nv>$OUTPUT</span><span class=s2>.&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=nb>exit</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>function</span> listCommands<span class=o>()</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>cat <span class=s>&lt;&lt; EOT
+</span></span></span><span class=line><span class=cl><span class=s>Available commands:
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>install
+</span></span></span><span class=line><span class=cl><span class=s>start
+</span></span></span><span class=line><span class=cl><span class=s>restart
+</span></span></span><span class=line><span class=cl><span class=s>stop
+</span></span></span><span class=line><span class=cl><span class=s>update
+</span></span></span><span class=line><span class=cl><span class=s>updatedb
+</span></span></span><span class=line><span class=cl><span class=s>updaterun
+</span></span></span><span class=line><span class=cl><span class=s>updateself
+</span></span></span><span class=line><span class=cl><span class=s>updateconf
+</span></span></span><span class=line><span class=cl><span class=s>renewcert
+</span></span></span><span class=line><span class=cl><span class=s>rebuild
+</span></span></span><span class=line><span class=cl><span class=s>help
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>See more at https://bitwarden.com/help/article/install-on-premise/#script-commands-reference
+</span></span></span><span class=line><span class=cl><span class=s>
+</span></span></span><span class=line><span class=cl><span class=s>EOT</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Commands</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>case</span> <span class=nv>$1</span> in
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;install&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirNotExists
+</span></span><span class=line><span class=cl>        mkdir -p <span class=nv>$OUTPUT</span>
+</span></span><span class=line><span class=cl>        downloadRunFile
+</span></span><span class=line><span class=cl>        <span class=nv>$SCRIPTS_DIR</span>/run.sh install <span class=nv>$OUTPUT</span> <span class=nv>$COREVERSION</span> <span class=nv>$WEBVERSION</span> <span class=nv>$KEYCONNECTORVERSION</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;start&#34;</span> <span class=p>|</span> <span class=s2>&#34;restart&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirExists
+</span></span><span class=line><span class=cl>        <span class=nv>$SCRIPTS_DIR</span>/run.sh restart <span class=nv>$OUTPUT</span> <span class=nv>$COREVERSION</span> <span class=nv>$WEBVERSION</span> <span class=nv>$KEYCONNECTORVERSION</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;update&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirExists
+</span></span><span class=line><span class=cl>        downloadRunFile
+</span></span><span class=line><span class=cl>        <span class=nv>$SCRIPTS_DIR</span>/run.sh update <span class=nv>$OUTPUT</span> <span class=nv>$COREVERSION</span> <span class=nv>$WEBVERSION</span> <span class=nv>$KEYCONNECTORVERSION</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;rebuild&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirExists
+</span></span><span class=line><span class=cl>        <span class=nv>$SCRIPTS_DIR</span>/run.sh rebuild <span class=nv>$OUTPUT</span> <span class=nv>$COREVERSION</span> <span class=nv>$WEBVERSION</span> <span class=nv>$KEYCONNECTORVERSION</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;updateconf&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirExists
+</span></span><span class=line><span class=cl>        <span class=nv>$SCRIPTS_DIR</span>/run.sh updateconf <span class=nv>$OUTPUT</span> <span class=nv>$COREVERSION</span> <span class=nv>$WEBVERSION</span> <span class=nv>$KEYCONNECTORVERSION</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;updatedb&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirExists
+</span></span><span class=line><span class=cl>        <span class=nv>$SCRIPTS_DIR</span>/run.sh updatedb <span class=nv>$OUTPUT</span> <span class=nv>$COREVERSION</span> <span class=nv>$WEBVERSION</span> <span class=nv>$KEYCONNECTORVERSION</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;stop&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirExists
+</span></span><span class=line><span class=cl>        <span class=nv>$SCRIPTS_DIR</span>/run.sh stop <span class=nv>$OUTPUT</span> <span class=nv>$COREVERSION</span> <span class=nv>$WEBVERSION</span> <span class=nv>$KEYCONNECTORVERSION</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;renewcert&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirExists
+</span></span><span class=line><span class=cl>        <span class=nv>$SCRIPTS_DIR</span>/run.sh renewcert <span class=nv>$OUTPUT</span> <span class=nv>$COREVERSION</span> <span class=nv>$WEBVERSION</span> <span class=nv>$KEYCONNECTORVERSION</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;updaterun&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        checkOutputDirExists
+</span></span><span class=line><span class=cl>        downloadRunFile
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;updateself&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        downloadSelf <span class=o>&amp;&amp;</span> <span class=nb>echo</span> <span class=s2>&#34;Updated self.&#34;</span> <span class=o>&amp;&amp;</span> <span class=nb>exit</span>
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;help&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        listCommands
+</span></span><span class=line><span class=cl>        <span class=p>;;</span>
+</span></span><span class=line><span class=cl>    *<span class=o>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span> <span class=s2>&#34;No command found.&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=nb>echo</span>
+</span></span><span class=line><span class=cl>        listCommands
+</span></span><span class=line><span class=cl><span class=k>esac</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=2-run-the-installer-script-a-bwdata-directory-will-be-created-relative-to-the-location-of-bitwardensh>2. Run the installer script. A ./bwdata directory will be created relative to the location of bitwarden.sh.</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>./bitwarden.sh install
+</span></span></code></pre></td></tr></table></div></div><h3 id=3-complete-the-prompts-in-the-installer>3. Complete the prompts in the installer</h3><ul><li><p>Enter the domain name for your Bitwarden instance:<br>Typically, this value should be the configured DNS record.</p></li><li><p>Do you want to use Let&rsquo;s Encrypt to generate a free SSL certificate? (y/n):<br>Specify y to generate a trusted SSL certificate using Let&rsquo;s Encrypt. You will be prompted to enter an email address for expiration reminders from Let&rsquo;s Encrypt. For more information, see Certificate Options.
+Alternatively, specify n and use the Do you have a SSL certificate to use? option.</p></li><li><p>Enter your installation id:<br>Retrieve an installation id using a valid email at <a class=link href=https://bitwarden.com/host target=_blank rel=noopener>https://bitwarden.com/host</a>. For more information, see What are my installation id and installation key used for?.</p></li><li><p>Enter your installation key:<br>Retrieve an installation key using a valid email at <a class=link href=https://bitwarden.com/host target=_blank rel=noopener>https://bitwarden.com/host</a>. For more information, see What are my installation id and installation key used for?.</p></li><li><p>Do you have a SSL certificate to use? (y/n):<br>If you already have your own SSL certificate, specify y and place the necessary files in the ./bwdata/ssl/your.domain directory. You will be asked whether it is a trusted SSL certificate (y/n). For more information, see Certificate Options.</p><p>Alternatively, specify n and use the self-signed SSL certificate? option, which is only recommended for testing purposes.</p></li><li><p>Do you want to generate a self-signed SSL certificate? (y/n):<br>Specify y to have Bitwarden generate a self-signed certificate for you. This option is only recommended for testing. For more information, see Certificate Options.</p><p>If you specify n, your instance will not use an SSL certificate and you will be required to front your installation with a HTTPS proxy, or else Bitwarden applications will not function properly.</p></li></ul><h3 id=4-post-install-configuration>4. Post-Install Configuration</h3><ul><li>Environment Variables</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>globalSettings__mail__smtp__host=&lt;placeholder&gt;
+</span></span><span class=line><span class=cl>globalSettings__mail__smtp__port=&lt;placeholder&gt;
+</span></span><span class=line><span class=cl>globalSettings__mail__smtp__ssl=&lt;placeholder&gt;
+</span></span><span class=line><span class=cl>globalSettings__mail__smtp__username=&lt;placeholder&gt;
+</span></span><span class=line><span class=cl>globalSettings__mail__smtp__password=&lt;placeholder&gt;
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>adminSettings__admins=
+</span></span><span class=line><span class=cl>...
+</span></span></code></pre></td></tr></table></div></div><p>Replacing <code>globalSettings__mail__smtp...=</code> placeholdesr will configure the SMTP Mail Server that will be used to send verification emails to new users and invitations to Organizations. Adding an email address to <code>adminSettings__admins=</code> will provision access to the Admin Portal.</p><p>After editing <code>global.override.env</code>, run the following command to apply your changes:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>./bitwarden.sh restart
+</span></span></code></pre></td></tr></table></div></div><h3 id=5-installation-file>5. Installation File</h3><p>The Bitwarden installation script uses settings in <code>./bwdata/config.yml</code> to generate the necessary assets for installation. Some installation scenarios (e.g. installations behind a proxy with alternate ports) may require adjustments to <code>config.yml</code> that were not provided during standard installation.</p><p>Edit <code>config.yml</code> as necessary and apply your changes by running:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>./bitwarden.sh rebuild
+</span></span></code></pre></td></tr></table></div></div><h3 id=start-bitwarden>Start Bitwarden</h3><p>Once you&rsquo;ve completed all previous steps, start your Bitwarden instance:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>./bitwarden.sh start
+</span></span></code></pre></td></tr></table></div></div><p>The first time you start Bitwarden it may take some time as it downloads all of the images from Docker Hub.</p><p>Verify that all containers are running correctly:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>docker ps
+</span></span></code></pre></td></tr></table></div></div><p>Congratulations! Bitwarden is now up and running at <code>https://your.domain.com</code>. Visit the web vault in your web browser to confirm that it&rsquo;s working.</p><p>You may now register a new account and log in. You will need to have configured <code>smtp</code> environment variables (see <a class=link href=#environment-variable>Environment Variables</a>) in order to verify the email for your new account.</p><h2 id=script-commands-reference>Script Commands Reference</h2><p>The Bitwarden installation script (<code>bitwarden.sh</code> or <code>bitwarden.ps1</code>) has the following commands available:</p><p>PowerShell users will run the commands with a prefixed <code>-</code> (switch). For example <code>.\bitwarden.ps1 -start</code>.</p><div class=table-wrapper><table><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody><tr><td>install</td><td>Start the installer.</td></tr><tr><td>start</td><td>Start all containers.</td></tr><tr><td>restart</td><td>Restart all containers (same as start).</td></tr><tr><td>stop</td><td>Stop all containers.</td></tr><tr><td>update</td><td>Update all containers and the database.</td></tr><tr><td>updatedb</td><td>Update/initialize the database.</td></tr><tr><td>updateself</td><td>Update this main script.</td></tr><tr><td>updateconf</td><td>Update all containers without restarting the running instance.</td></tr><tr><td>renewcert</td><td>Renew certificates.</td></tr><tr><td>rebuild</td><td>Rebuild generated installation assets from <code>config.yml</code>.</td></tr><tr><td>help</td><td>List all commands.</td></tr></tbody></table></div></section><footer class=article-footer><section class=article-tags><a href=/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/>服务器</a>
+<a href=/tags/%E8%87%AA%E6%89%98%E7%AE%A1/>自托管</a>
+<a href=/tags/bitwarden/>Bitwarden</a>
+<a href=/tags/%E5%AF%86%E7%A0%81%E7%AE%A1%E7%90%86/>密码管理</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/disconas-immich/><div class=article-details><h2 class=article-title>DiscoNAS Immich</h2></div></a></article><article><a href=/p/disconas-media-library/><div class=article-details><h2 class=article-title>DiscoNAS Media Library</h2></div></a></article><article><a href=/p/install-and-deploy-chevereto-linux/><div class=article-details><h2 class=article-title>Install and deploy Chevereto - Linux</h2></div></a></article><article><a href=/p/event-loop/><div class=article-details><h2 class=article-title>Event Loop</h2></div></a></article><article><a href=/p/why-reactor/><div class=article-details><h2 class=article-title>Why Reactor</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NVIDIA on Kunkka</title><link>https://MyLoveES.github.io/tags/nvidia/</link><description>Recent content in NVIDIA on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 10 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/nvidia/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux - NVIDIA 造成 kernel crash</title><link>https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/</link><pubDate>Sun, 10 Jul 2022 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/</guid><description>&lt;p&gt;(没有查到根本原因)&lt;/p&gt;
+&lt;h1 id="背景"&gt;背景
+&lt;/h1&gt;&lt;p&gt;服务运行中，发现服务器频繁不定时重启。发现是kernel crash造成的。&lt;br&gt;
+查看 /var/crash/ 下的log，发现&lt;br&gt;
+&lt;code&gt;BUG: unable to handle kernel paging request at xxxxxxx&lt;/code&gt;&lt;/p&gt;
+&lt;h1 id="分析vmcore"&gt;分析vmcore
+&lt;/h1&gt;&lt;h2 id="环境"&gt;环境
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;crash工具&lt;/li&gt;
+&lt;li&gt;崩溃转储文件(vmcore)&lt;/li&gt;
+&lt;li&gt;发生崩溃的内核映像文件(vmlinux)，包含调试内核所需调试信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;需要安装：kernel-debuginfo kernel-debuginfo-common&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;yum install crash
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;wget http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-common-x86_64-`uname -r`.rpm
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;wget http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-`uname -r`.rpm
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;rpm -ivh *.rpm
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装完成后，在/lib/debug/lib/modules找到vmlinux内核映像文件&lt;/p&gt;
+&lt;h2 id="vmcore-dmesgtxt"&gt;vmcore-dmesg.txt
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore-dmesg.png"
+width="1920"
+height="836"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore-dmesg_hu_2355dea8ceb88248.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore-dmesg_hu_dc6a23abe28d9755.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="229"
+data-flex-basis="551px"
+&gt;&lt;/p&gt;
+&lt;h2 id="vmcore"&gt;vmcore
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;crash&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;lib&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;modules&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;3.10&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;957.&lt;/span&gt;&lt;span class="n"&gt;el7&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x86_64&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;vmlinux&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;crash&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mf"&gt;127.0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2020&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;04&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;04&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;14&lt;/span&gt;\&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;\&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;vmcore&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore.png"
+width="1294"
+height="1110"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore_hu_d0e6c698f5aff2e2.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/vmcore_hu_95f5a1ce120b9338.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="116"
+data-flex-basis="279px"
+&gt;&lt;/p&gt;
+&lt;p&gt;执行 bt&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-bt.png"
+width="876"
+height="804"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-bt_hu_6315db0c08ddedc9.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-bt_hu_4731a6655ce77015.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="108"
+data-flex-basis="261px"
+&gt;&lt;/p&gt;
+&lt;p&gt;执行 sym&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-sym.png"
+width="1442"
+height="96"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-sym_hu_40a54ccc0fbb17b5.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/crash-sym_hu_47254bc34deb0784.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1502"
+data-flex-basis="3605px"
+&gt;&lt;/p&gt;
+&lt;h1 id="nvidia-smi-查看显卡信息"&gt;nvidia-smi 查看显卡信息
+&lt;/h1&gt;&lt;p&gt;nvidia-smi gpu fan 显示 error&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-smi-err.png"
+width="868"
+height="940"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-smi-err_hu_ee6cc3ddc6e40069.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-smi-err_hu_6d9b6afb63ee2cb9.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="92"
+data-flex-basis="221px"
+&gt;&lt;/p&gt;
+&lt;p&gt;nvidia-smi -q&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q.png"
+width="870"
+height="974"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q_hu_424bc11631ee0e64.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q_hu_2a280a353ee40dd0.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="89"
+data-flex-basis="214px"
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q-2.png"
+width="778"
+height="744"
+srcset="https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q-2_hu_ef0fa14085d5f11e.png 480w, https://MyLoveES.github.io/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/nvidia-q-2_hu_a35fdd92fc14fea5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="104"
+data-flex-basis="250px"
+&gt;&lt;/p&gt;</description></item></channel></rss>

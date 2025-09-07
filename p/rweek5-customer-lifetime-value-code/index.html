@@ -1,0 +1,1496 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content=" R: 4.3.2 (2023-10-31) R studio: 2023.12.1+402 (2023.12.1+402)\n1. Customer Lifetime Value (CLV) 1.1 The Marketing Problem 我们需要了解我们的客户，或者知道某个特定的客户是否与我们的组织相关。因此：\n我们想知道客户为组织创造了多少价值。 我们想知道生成的价值将如何演变。 我们希望根据价值对客户进行细分。 这样我们就可以针对不同的客户群体执行特定的操作。 1.2 Customer Lifetime Value (CLV) 解决业务问题的技术是理解客户的价值。我们有很多方法来了解客户的价值。其中最相关的之一是客户生命周期价值（CLV）。\n创建一个仅包含固定酸度大于或等于8的葡萄酒的数据框。 创建一个仅包含品质为7的葡萄酒的数据框。 创建一个仅包含2列（pH和品质）的数据框。 创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照pH的升序排序。 创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照品质的降序排序。 创建一个仅包含没有柠檬酸的葡萄酒的数据框，并按照品质的降序排序。 创建一个红葡萄酒数据集的版本，其中包含一个额外的列，该列包含酒精含量乘以密度。 创建一个总结红葡萄酒数据集中每个变量的数据框。CLV 是企业与客户整个关系中获得的所有价值的预测。所有客户生成的价值称为客户权益，用于评估公司。\n主要概念。影响客户价值的因素很多，在 CLV 计算中必须考虑其中的一些：\n现金流：客户与组织的关系期间对组织产生的收入的净现值。 生命周期：与组织的关系持续的时间。 维护成本：确保每位客户的收入流量的相关成本。 风险成本：与客户相关的风险。 获取成本：获取新客户所需的成本和努力。 保留成本：保留新客户所需的成本和努力。 推荐价值：客户在其影响范围内对公司收入的推荐影响。 细分改进：客户信息在改进客户细分模型中的价值。 CLV\n$$ CLV = \\sum_{t=0}^{T} \\frac{(p_t - c_t) r_t}{(1 + i)^t} - AC $$其中，\n$p_t$ 表示时间 $t$ 客户支付的价格， $c_t$ 表示时间 $t$ 的客户服务直接成本， $i$ 表示公司的折现率或资金成本。 $r$ 表示客户在时间 $t$ 返回购买或保持活跃的概率， $AC$ 表示获取客户的成本， $T$ 表示用于估算客户生命周期价值（CLV）的时间范围。 A simplification\n"><title>R[week5] Customer Lifetime Value code</title><link rel=canonical href=https://MyLoveES.github.io/p/rweek5-customer-lifetime-value-code/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="R[week5] Customer Lifetime Value code"><meta property='og:description' content=" R: 4.3.2 (2023-10-31) R studio: 2023.12.1+402 (2023.12.1+402)\n1. Customer Lifetime Value (CLV) 1.1 The Marketing Problem 我们需要了解我们的客户，或者知道某个特定的客户是否与我们的组织相关。因此：\n我们想知道客户为组织创造了多少价值。 我们想知道生成的价值将如何演变。 我们希望根据价值对客户进行细分。 这样我们就可以针对不同的客户群体执行特定的操作。 1.2 Customer Lifetime Value (CLV) 解决业务问题的技术是理解客户的价值。我们有很多方法来了解客户的价值。其中最相关的之一是客户生命周期价值（CLV）。\n创建一个仅包含固定酸度大于或等于8的葡萄酒的数据框。 创建一个仅包含品质为7的葡萄酒的数据框。 创建一个仅包含2列（pH和品质）的数据框。 创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照pH的升序排序。 创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照品质的降序排序。 创建一个仅包含没有柠檬酸的葡萄酒的数据框，并按照品质的降序排序。 创建一个红葡萄酒数据集的版本，其中包含一个额外的列，该列包含酒精含量乘以密度。 创建一个总结红葡萄酒数据集中每个变量的数据框。CLV 是企业与客户整个关系中获得的所有价值的预测。所有客户生成的价值称为客户权益，用于评估公司。\n主要概念。影响客户价值的因素很多，在 CLV 计算中必须考虑其中的一些：\n现金流：客户与组织的关系期间对组织产生的收入的净现值。 生命周期：与组织的关系持续的时间。 维护成本：确保每位客户的收入流量的相关成本。 风险成本：与客户相关的风险。 获取成本：获取新客户所需的成本和努力。 保留成本：保留新客户所需的成本和努力。 推荐价值：客户在其影响范围内对公司收入的推荐影响。 细分改进：客户信息在改进客户细分模型中的价值。 CLV\n$$ CLV = \\sum_{t=0}^{T} \\frac{(p_t - c_t) r_t}{(1 + i)^t} - AC $$其中，\n$p_t$ 表示时间 $t$ 客户支付的价格， $c_t$ 表示时间 $t$ 的客户服务直接成本， $i$ 表示公司的折现率或资金成本。 $r$ 表示客户在时间 $t$ 返回购买或保持活跃的概率， $AC$ 表示获取客户的成本， $T$ 表示用于估算客户生命周期价值（CLV）的时间范围。 A simplification\n"><meta property='og:url' content='https://MyLoveES.github.io/p/rweek5-customer-lifetime-value-code/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='R语言'><meta property='article:tag' content='数据分析'><meta property='article:tag' content='CLV'><meta property='article:published_time' content='2024-03-27T00:00:00+00:00'><meta property='article:modified_time' content='2024-03-27T00:00:00+00:00'><meta name=twitter:title content="R[week5] Customer Lifetime Value code"><meta name=twitter:description content=" R: 4.3.2 (2023-10-31) R studio: 2023.12.1+402 (2023.12.1+402)\n1. Customer Lifetime Value (CLV) 1.1 The Marketing Problem 我们需要了解我们的客户，或者知道某个特定的客户是否与我们的组织相关。因此：\n我们想知道客户为组织创造了多少价值。 我们想知道生成的价值将如何演变。 我们希望根据价值对客户进行细分。 这样我们就可以针对不同的客户群体执行特定的操作。 1.2 Customer Lifetime Value (CLV) 解决业务问题的技术是理解客户的价值。我们有很多方法来了解客户的价值。其中最相关的之一是客户生命周期价值（CLV）。\n创建一个仅包含固定酸度大于或等于8的葡萄酒的数据框。 创建一个仅包含品质为7的葡萄酒的数据框。 创建一个仅包含2列（pH和品质）的数据框。 创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照pH的升序排序。 创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照品质的降序排序。 创建一个仅包含没有柠檬酸的葡萄酒的数据框，并按照品质的降序排序。 创建一个红葡萄酒数据集的版本，其中包含一个额外的列，该列包含酒精含量乘以密度。 创建一个总结红葡萄酒数据集中每个变量的数据框。CLV 是企业与客户整个关系中获得的所有价值的预测。所有客户生成的价值称为客户权益，用于评估公司。\n主要概念。影响客户价值的因素很多，在 CLV 计算中必须考虑其中的一些：\n现金流：客户与组织的关系期间对组织产生的收入的净现值。 生命周期：与组织的关系持续的时间。 维护成本：确保每位客户的收入流量的相关成本。 风险成本：与客户相关的风险。 获取成本：获取新客户所需的成本和努力。 保留成本：保留新客户所需的成本和努力。 推荐价值：客户在其影响范围内对公司收入的推荐影响。 细分改进：客户信息在改进客户细分模型中的价值。 CLV\n$$ CLV = \\sum_{t=0}^{T} \\frac{(p_t - c_t) r_t}{(1 + i)^t} - AC $$其中，\n$p_t$ 表示时间 $t$ 客户支付的价格， $c_t$ 表示时间 $t$ 的客户服务直接成本， $i$ 表示公司的折现率或资金成本。 $r$ 表示客户在时间 $t$ 返回购买或保持活跃的概率， $AC$ 表示获取客户的成本， $T$ 表示用于估算客户生命周期价值（CLV）的时间范围。 A simplification\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#11-the-marketing-problem>1.1 The Marketing Problem</a></li><li><a href=#12-customer-lifetime-value-clv>1.2 Customer Lifetime Value (CLV)</a></li><li><a href=#13-implementation-process-and-use-cases>1.3 Implementation Process and Use Cases</a></li><li><a href=#14-arpuarpa-as-clv-approximation>1.4 ARPU/ARPA as CLV approximation</a></li><li><a href=#15-how-to-implement-clv-in-r>1.5 How to implement CLV in R</a><ol><li><a href=#151-exploratory-data-analysis>1.5.1 Exploratory Data Analysis</a></li><li><a href=#152-calculate-clv>1.5.2 Calculate CLV</a></li></ol></li><li><a href=#16-exercise>1.6 Exercise:</a></li></ol><ol><li><a href=#21-manipulate-cases>2.1 Manipulate cases</a></li><li><a href=#22-manipulate-variables>2.2 Manipulate variables</a></li><li><a href=#23-summarise-cases>2.3 Summarise cases</a></li><li><a href=#24-group-cases>2.4 Group cases</a></li><li><a href=#25-管道操作符->2.5 管道操作符 %>%</a></li><li><a href=#26-excercise>2.6 Excercise</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%95%99%E7%A8%8B/>教程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/rweek5-customer-lifetime-value-code/>R[week5] Customer Lifetime Value code</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Mar 27, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>35 minute read</time></div></footer></div></header><section class=article-content><blockquote><p>R: 4.3.2 (2023-10-31)
+R studio: 2023.12.1+402 (2023.12.1+402)</p></blockquote><h1 id=1-customer-lifetime-value-clv>1. Customer Lifetime Value (CLV)</h1><h2 id=11-the-marketing-problem>1.1 The Marketing Problem</h2><p>我们需要了解我们的客户，或者知道某个特定的客户是否与我们的组织相关。因此：</p><ul><li>我们想知道客户为组织创造了多少价值。</li><li>我们想知道生成的价值将如何演变。</li><li>我们希望根据价值对客户进行细分。
+这样我们就可以针对不同的客户群体执行特定的操作。</li></ul><h2 id=12-customer-lifetime-value-clv>1.2 Customer Lifetime Value (CLV)</h2><p>解决业务问题的技术是理解客户的价值。我们有很多方法来了解客户的价值。其中最相关的之一是客户生命周期价值（CLV）。</p><p>创建一个仅包含固定酸度大于或等于8的葡萄酒的数据框。
+创建一个仅包含品质为7的葡萄酒的数据框。
+创建一个仅包含2列（pH和品质）的数据框。
+创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照pH的升序排序。
+创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照品质的降序排序。
+创建一个仅包含没有柠檬酸的葡萄酒的数据框，并按照品质的降序排序。
+创建一个红葡萄酒数据集的版本，其中包含一个额外的列，该列包含酒精含量乘以密度。
+创建一个总结红葡萄酒数据集中每个变量的数据框。CLV 是企业与客户整个关系中获得的所有价值的预测。所有客户生成的价值称为客户权益，用于评估公司。</p><p>主要概念。影响客户价值的因素很多，在 CLV 计算中必须考虑其中的一些：</p><ul><li>现金流：客户与组织的关系期间对组织产生的收入的净现值。</li><li>生命周期：与组织的关系持续的时间。</li><li>维护成本：确保每位客户的收入流量的相关成本。</li><li>风险成本：与客户相关的风险。</li><li>获取成本：获取新客户所需的成本和努力。</li><li>保留成本：保留新客户所需的成本和努力。</li><li>推荐价值：客户在其影响范围内对公司收入的推荐影响。</li><li>细分改进：客户信息在改进客户细分模型中的价值。</li></ul><blockquote><p>CLV</p></blockquote>$$
+CLV = \sum_{t=0}^{T} \frac{(p_t - c_t) r_t}{(1 + i)^t} - AC
+$$<p>其中，</p><ul><li>$p_t$ 表示时间 $t$ 客户支付的价格，</li><li>$c_t$ 表示时间 $t$ 的客户服务直接成本，</li><li>$i$ 表示公司的折现率或资金成本。</li><li>$r$ 表示客户在时间 $t$ 返回购买或保持活跃的概率，</li><li>$AC$ 表示获取客户的成本，</li><li>$T$ 表示用于估算客户生命周期价值（CLV）的时间范围。</li></ul><blockquote><p>A simplification</p></blockquote><p>让我们假设 $ p $ 和 $ c $ 是常数值，而 $ r $ 是随时间递减的函数，那么公式如下所示：</p>$$
+CLV = \sum_{t=0}^{\infty} \frac{m \cdot r^t}{(1 + i)^t} - AC = m \cdot \left( \frac{r}{1 + i - r} \right) - AC
+$$<p>其中，$ p - c = m $ 表示利润，$ r $ 表示保留率，$ i $ 表示折现率。</p><p>最终考虑：</p><ul><li>通常，我们会为公式中的每个概念拥有一个数据集。</li><li>我们需要估计其余的数值。</li><li>因此，重要的是要记住：我们对未来的预测能力受到我们过去经验的限制。</li></ul><h2 id=13-implementation-process-and-use-cases>1.3 Implementation Process and Use Cases</h2><p>实施过程如下所示：</p><ul><li>讨论 CLV 是否适合作为我们业务的指标</li><li>辨别和理解数据源和元数据</li><li>提取、转换、清理和加载数据</li><li>选择 CLV 方法</li><li>分析结果并调整参数</li><li>展示并解释结果</li></ul><p>CLV常用于：</p><ul><li>基于CLV制定市场战略</li><li>基于CLV的客户细分</li><li>跨段落进行预测和客户演变分析</li><li>基于CLV创建不同的沟通、服务和忠诚计划</li><li>唤醒“非活跃”客户</li><li>估算公司的价值（在收购情况下，例如初创公司）</li></ul><h2 id=14-arpuarpa-as-clv-approximation>1.4 ARPU/ARPA as CLV approximation</h2><p>平均用户收入（ARPU）或平均账户收入（ARPA）可用于计算历史CLV。 过程如下：</p><ul><li>计算每位客户每月的平均收入（即总收入/客户加入的月份数）</li><li>将它们相加</li><li>乘以12或24以获得一年或两年的CLV。</li></ul><p>练习：假设Josep和Laura是您唯一的客户，他们的购买情况如下：</p><div class=table-wrapper><table><thead><tr><th>Customer Name</th><th>Purchase Date</th><th>Amount</th></tr></thead><tbody><tr><td>Josep</td><td>Jan 1, 2023</td><td>$150</td></tr><tr><td>Josep</td><td>May 1, 2023</td><td>$45</td></tr><tr><td>Josep</td><td>May 15, 2023</td><td>$50</td></tr><tr><td>Laura</td><td>Jun 15, 2023</td><td>$100</td></tr><tr><td>Laura</td><td>Jun 15, 2023</td><td>$75</td></tr><tr><td>Laura</td><td>Jun 30, 2023</td><td>$100</td></tr></tbody></table></div><p>假设今天是2023年7月1日。</p><p>Josep的平均每月收入是 (150 + 50 + 100) / 6 = 50，</p><p>Laura的平均每月收入是 (45 + 75 + 100) / 2 = 110。</p><p>将这两个数字相加，得到每位客户的平均月收入为 160 / 2 = 80。要找到12个月或24个月的CLV，将该数字乘以12或24。</p><p>ARPU方法的好处是计算简单，但它没有考虑到客户行为的变化。</p><h2 id=15-how-to-implement-clv-in-r>1.5 How to implement CLV in R</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; CLV.df &lt;- read_excel(&#34;Data_CLV.xlsx&#34;, sheet = &#34;Ex2&#34;) 
+</span></span><span class=line><span class=cl>                                                                                          
+</span></span><span class=line><span class=cl>&gt; CLV.df
+</span></span><span class=line><span class=cl># A tibble: 7 × 6
+</span></span><span class=line><span class=cl>      t active     p     c     i     r
+</span></span><span class=line><span class=cl>  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+</span></span><span class=line><span class=cl>1     1    200   375    20  0.01 0.91 
+</span></span><span class=line><span class=cl>2     2    165   375    20  0.01 0.825
+</span></span><span class=line><span class=cl>3     3    150   375    20  0.01 0.75 
+</span></span><span class=line><span class=cl>4     4    176   375    20  0.01 0.88 
+</span></span><span class=line><span class=cl>5     5    178   375    20  0.01 0.89 
+</span></span><span class=line><span class=cl>6     6    150   375    20  0.01 0.75 
+</span></span><span class=line><span class=cl>7     7    135   375    20  0.01 0.675
+</span></span></code></pre></td></tr></table></div></div><ul><li><p><strong>t</strong>：表示时间，通常表示观察期的长度或预测的时间段。它可以以天、月、年等为单位。</p></li><li><p><strong>active</strong>：表示客户是否活跃。在 CLV 模型中，通常将客户分为活跃客户和不活跃客户，根据他们在观察期内的购买行为或者活动频率进行分类。</p></li><li><p><strong>p</strong>：表示客户购买或者消费的总额。它是客户在观察期内购买的产品或服务的总额度，也称为客户价值。</p></li><li><p><strong>c</strong>：表示客户获取或者留存的成本。这包括了获取新客户的营销成本、维护现有客户的成本以及服务客户的成本等。</p></li><li><p><strong>i</strong>：表示折现率或贴现率。在 CLV 模型中，通常使用折现率来考虑时间价值的概念，即未来收入的现值。</p></li><li><p><strong>r</strong>：表示留存率。它是指客户在一段时间内继续购买产品或服务的概率，通常作为客户流失的相反概率。</p></li></ul><h3 id=151-exploratory-data-analysis>1.5.1 Exploratory Data Analysis</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; summary(CLV.df)
+</span></span><span class=line><span class=cl>       t           active            p             c            i              r         
+</span></span><span class=line><span class=cl> Min.   :1.0   Min.   :135.0   Min.   :375   Min.   :20   Min.   :0.01   Min.   :0.6750  
+</span></span><span class=line><span class=cl> 1st Qu.:2.5   1st Qu.:150.0   1st Qu.:375   1st Qu.:20   1st Qu.:0.01   1st Qu.:0.7500  
+</span></span><span class=line><span class=cl> Median :4.0   Median :165.0   Median :375   Median :20   Median :0.01   Median :0.8250  
+</span></span><span class=line><span class=cl> Mean   :4.0   Mean   :164.9   Mean   :375   Mean   :20   Mean   :0.01   Mean   :0.8114  
+</span></span><span class=line><span class=cl> 3rd Qu.:5.5   3rd Qu.:177.0   3rd Qu.:375   3rd Qu.:20   3rd Qu.:0.01   3rd Qu.:0.8850  
+</span></span><span class=line><span class=cl> Max.   :7.0   Max.   :200.0   Max.   :375   Max.   :20   Max.   :0.01   Max.   :0.9100
+</span></span></code></pre></td></tr></table></div></div><p>摘要显示价格和成本是恒定的。活跃客户的范围是[135,200]。保留率的范围是[0.83,1.11]。</p><p>客户演变。我们可以创建一条折线图来了解客户数量的变化情况。 ggplot() 用于构建初始绘图对象，并几乎总是紧跟着 + 添加组件到图中。</p><blockquote><p>Active Customer Evolution</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ggplot(CLV.df, aes(x = t, y = active)) +
+</span></span><span class=line><span class=cl>  geom_line() + ylab(&#34;Customer&#34;) +
+</span></span><span class=line><span class=cl>  xlab(&#34;Period&#34;) + ggtitle(&#34;Active Customer Evolution&#34;)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image week5_code_1.png %}</p><blockquote><p>Retention Ratio Evolution</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ggplot(CLV.df, aes(x = t, y = r)) + geom_line() + ylab(&#34;Customer&#34;) + xlab(&#34;Period&#34;) +
+</span></span><span class=line><span class=cl>  ggtitle(&#34;Retention Ratio Evolution&#34;)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image week5_code_2.png %}</p><p>问题：我们观察到了什么？由于一些变量是恒定的，CLV只取决于客户数量。图表与之前的类似。</p><h3 id=152-calculate-clv>1.5.2 Calculate CLV</h3><p>现在，我们可以计算（历史）CLV。首先，我们创建一个新的列，其中包含每个时期的CLV：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; CLV.df$CLV &lt;- (CLV.df$p-CLV.df$c)*CLV.df$r^CLV.df$t/(1+CLV.df$i)^CLV.df$t 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; CLV.df
+</span></span><span class=line><span class=cl># A tibble: 7 × 7
+</span></span><span class=line><span class=cl>      t active     p     c     i     r   CLV
+</span></span><span class=line><span class=cl>  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+</span></span><span class=line><span class=cl>1     1    200   375    20  0.01 0.91  320. 
+</span></span><span class=line><span class=cl>2     2    165   375    20  0.01 0.825 237. 
+</span></span><span class=line><span class=cl>3     3    150   375    20  0.01 0.75  145. 
+</span></span><span class=line><span class=cl>4     4    176   375    20  0.01 0.88  205. 
+</span></span><span class=line><span class=cl>5     5    178   375    20  0.01 0.89  189. 
+</span></span><span class=line><span class=cl>6     6    150   375    20  0.01 0.75   59.5
+</span></span><span class=line><span class=cl>7     7    135   375    20  0.01 0.675  21.1
+</span></span></code></pre></td></tr></table></div></div><p>CLV演变。现在我们创建一个图表来看看CLV的变化：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ggplot(CLV.df, aes(x = t, y = CLV)) + geom_line() + ggtitle(&#34;CLV evolution&#34;) + ylab(&#34;CLV&#34;) + xlab(&#34;Period&#34;)
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>CLV evolution</p></blockquote><p>{% asset_image week5_code_3.png %}</p><p>问题：我们观察到了什么？由于一些变量是恒定的，CLV只取决于客户数量。图表与之前的类似。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; CLV &lt;- apply(CLV.df, 2, sum) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; CLV[7]
+</span></span><span class=line><span class=cl>     CLV 
+</span></span><span class=line><span class=cl>1175.932
+</span></span></code></pre></td></tr></table></div></div><p>问题：这个值代表什么意思？CLV值代表了客户的生命周期价值，即客户在其与公司的整个关系中为公司带来的预期收益总和。这个值可以帮助公司评估客户的重要性，并为营销策略和资源分配提供指导。</p><h2 id=16-exercise>1.6 Exercise:</h2><p>如果保留率恒定为0.80会发生什么呢？</p><ul><li>解决方案</li></ul><p>首先，我们可以添加一个新的列：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>CLV.df$CLV2 &lt;- (CLV.df$p - CLV.df$c) * 0.8 / (1 + CLV.df$i)^(CLV.df$t - 1)
+</span></span></code></pre></td></tr></table></div></div><p>然后，我们可以创建一个新的图表：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ggplot(CLV.df, aes(x = t, y = CLV2)) + geom_line() + ylab(&#34;CLV2&#34;) + xlab(&#34;Period&#34;) + labs(title = &#34;CLV 2 Evolution&#34;)
+</span></span></code></pre></td></tr></table></div></div><p>{% asset_image week5_code_4.png %}</p><p>最后，我们可以计算CLV值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; CLV &lt;- apply(CLV.df, 2, sum) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; CLV[7]
+</span></span><span class=line><span class=cl>     CLV 
+</span></span><span class=line><span class=cl>1175.932 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; CLV[8]
+</span></span><span class=line><span class=cl>    CLV2 
+</span></span><span class=line><span class=cl>1929.915 
+</span></span></code></pre></td></tr></table></div></div><p>CLV[7] 代表了我们在分析中所考虑的时间段内的 CLV 值，通常表示了一个时间段的结束。例如，如果我们在分析中考虑的是过去一年的数据，则 CLV[7] 就表示了过去一年的客户生命周期价值。</p><p>CLV[8] 则代表了在 CLV[7] 时间段之后的 CLV 值，通常表示了一个新的时间段的开始。例如，如果我们想要预测未来一年的客户生命周期价值，则 CLV[8] 就表示了未来一年的预期 CLV 值。</p><h1 id=2-data-manipulation>2 Data Manipulation</h1><p>需要安装dplyr包。获取dplyr的最简单方法是安装tidyverse：<code>install.packages("tidyverse")</code>。
+tidyverse是一组设计用于数据科学的R包。所有的包都共享一个基础设计理念、语法和数据结构。核心tidyverse包括以下几个：</p><ul><li>ggplot2是一个用于声明性创建图形的系统。</li><li>dplyr提供数据操作的语法，提供一组一致的动词，解决最常见的数据操作挑战。</li><li>tidyr提供了一组函数，帮助您将数据整理成整洁的形式。整洁的数据是具有一致形式的数据：简言之，每个变量都放在一列中，每列都是一个变量。</li><li>readr提供了一种快速友好的方式来读取矩形数据（例如csv、tsv和fwf）</li><li>stringr提供了一组连贯的函数，旨在使处理字符串变得尽可能简单。</li><li>forcats提供了一组有用的工具，解决了因子（分类变量）的常见问题</li><li>purr</li><li>tibble</li></ul><p>或者，只安装dplyr：<code>install.packages("dplyr", dependencies=TRUE)</code>。Dependencies = TRUE将安装此包所需的依赖项。</p><p>让我们加载包和数据集。mtcars数据集随dplyr包一起提供。我们可以使用这些包来探索数据。</p><p><a class=link href=https://rstudio-pubs-static.s3.amazonaws.com/61800_faea93548c6b49cc91cd0c5ef5059894.html target=_blank rel=noopener>mtcars</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>head</span><span class=p>(</span><span class=n>mtcars</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>                   <span class=n>mpg</span> <span class=n>cyl</span> <span class=n>disp</span>  <span class=n>hp</span> <span class=n>drat</span>    <span class=n>wt</span>  <span class=n>qsec</span> <span class=n>vs</span> <span class=n>am</span> <span class=n>gear</span>
+</span></span><span class=line><span class=cl><span class=n>Mazda</span> <span class=n>RX4</span>         <span class=mf>21.0</span>   <span class=mi>6</span>  <span class=mi>160</span> <span class=mi>110</span> <span class=mf>3.90</span> <span class=mf>2.620</span> <span class=mf>16.46</span>  <span class=mi>0</span>  <span class=mi>1</span>    <span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=n>Mazda</span> <span class=n>RX4</span> <span class=n>Wag</span>     <span class=mf>21.0</span>   <span class=mi>6</span>  <span class=mi>160</span> <span class=mi>110</span> <span class=mf>3.90</span> <span class=mf>2.875</span> <span class=mf>17.02</span>  <span class=mi>0</span>  <span class=mi>1</span>    <span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=n>Datsun</span> <span class=mi>710</span>        <span class=mf>22.8</span>   <span class=mi>4</span>  <span class=mi>108</span>  <span class=mi>93</span> <span class=mf>3.85</span> <span class=mf>2.320</span> <span class=mf>18.61</span>  <span class=mi>1</span>  <span class=mi>1</span>    <span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=n>Hornet</span> <span class=mi>4</span> <span class=n>Drive</span>    <span class=mf>21.4</span>   <span class=mi>6</span>  <span class=mi>258</span> <span class=mi>110</span> <span class=mf>3.08</span> <span class=mf>3.215</span> <span class=mf>19.44</span>  <span class=mi>1</span>  <span class=mi>0</span>    <span class=mi>3</span>
+</span></span><span class=line><span class=cl><span class=n>Hornet</span> <span class=n>Sportabout</span> <span class=mf>18.7</span>   <span class=mi>8</span>  <span class=mi>360</span> <span class=mi>175</span> <span class=mf>3.15</span> <span class=mf>3.440</span> <span class=mf>17.02</span>  <span class=mi>0</span>  <span class=mi>0</span>    <span class=mi>3</span>
+</span></span><span class=line><span class=cl><span class=n>Valiant</span>           <span class=mf>18.1</span>   <span class=mi>6</span>  <span class=mi>225</span> <span class=mi>105</span> <span class=mf>2.76</span> <span class=mf>3.460</span> <span class=mf>20.22</span>  <span class=mi>1</span>  <span class=mi>0</span>    <span class=mi>3</span>
+</span></span><span class=line><span class=cl>                  <span class=n>carb</span>
+</span></span><span class=line><span class=cl><span class=n>Mazda</span> <span class=n>RX4</span>            <span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=n>Mazda</span> <span class=n>RX4</span> <span class=n>Wag</span>        <span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=n>Datsun</span> <span class=mi>710</span>           <span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=n>Hornet</span> <span class=mi>4</span> <span class=n>Drive</span>       <span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=n>Hornet</span> <span class=n>Sportabout</span>    <span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=n>Valiant</span>              <span class=mi>1</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>str</span><span class=p>(</span><span class=n>mtcars</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;data.frame&#39;</span><span class=p>:</span>	<span class=mi>32</span> <span class=n>obs</span><span class=o>.</span> <span class=n>of</span>  <span class=mi>11</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>mpg</span> <span class=p>:</span> <span class=n>num</span>  <span class=mi>21</span> <span class=mi>21</span> <span class=mf>22.8</span> <span class=mf>21.4</span> <span class=mf>18.7</span> <span class=mf>18.1</span> <span class=mf>14.3</span> <span class=mf>24.4</span> <span class=mf>22.8</span> <span class=mf>19.2</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>cyl</span> <span class=p>:</span> <span class=n>num</span>  <span class=mi>6</span> <span class=mi>6</span> <span class=mi>4</span> <span class=mi>6</span> <span class=mi>8</span> <span class=mi>6</span> <span class=mi>8</span> <span class=mi>4</span> <span class=mi>4</span> <span class=mi>6</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>disp</span><span class=p>:</span> <span class=n>num</span>  <span class=mi>160</span> <span class=mi>160</span> <span class=mi>108</span> <span class=mi>258</span> <span class=mi>360</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>hp</span>  <span class=p>:</span> <span class=n>num</span>  <span class=mi>110</span> <span class=mi>110</span> <span class=mi>93</span> <span class=mi>110</span> <span class=mi>175</span> <span class=mi>105</span> <span class=mi>245</span> <span class=mi>62</span> <span class=mi>95</span> <span class=mi>123</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>drat</span><span class=p>:</span> <span class=n>num</span>  <span class=mf>3.9</span> <span class=mf>3.9</span> <span class=mf>3.85</span> <span class=mf>3.08</span> <span class=mf>3.15</span> <span class=mf>2.76</span> <span class=mf>3.21</span> <span class=mf>3.69</span> <span class=mf>3.92</span> <span class=mf>3.92</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>wt</span>  <span class=p>:</span> <span class=n>num</span>  <span class=mf>2.62</span> <span class=mf>2.88</span> <span class=mf>2.32</span> <span class=mf>3.21</span> <span class=mf>3.44</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>qsec</span><span class=p>:</span> <span class=n>num</span>  <span class=mf>16.5</span> <span class=mi>17</span> <span class=mf>18.6</span> <span class=mf>19.4</span> <span class=mi>17</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>vs</span>  <span class=p>:</span> <span class=n>num</span>  <span class=mi>0</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>am</span>  <span class=p>:</span> <span class=n>num</span>  <span class=mi>1</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=mi>0</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>gear</span><span class=p>:</span> <span class=n>num</span>  <span class=mi>4</span> <span class=mi>4</span> <span class=mi>4</span> <span class=mi>3</span> <span class=mi>3</span> <span class=mi>3</span> <span class=mi>3</span> <span class=mi>4</span> <span class=mi>4</span> <span class=mi>4</span> <span class=o>...</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>carb</span><span class=p>:</span> <span class=n>num</span>  <span class=mi>4</span> <span class=mi>4</span> <span class=mi>1</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>1</span> <span class=mi>4</span> <span class=mi>2</span> <span class=mi>2</span> <span class=mi>4</span> <span class=o>...</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=21-manipulate-cases>2.1 Manipulate cases</h2><ul><li>filter() 函数根据其值选择案例。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; filter(mtcars, gear == 4) # 过滤器可与所有标准逻辑运算符一起使用
+</span></span><span class=line><span class=cl>                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+</span></span><span class=line><span class=cl>Mazda RX4 Wag  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+</span></span><span class=line><span class=cl>Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+</span></span><span class=line><span class=cl>Merc 240D      24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 230       22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 280       19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+</span></span><span class=line><span class=cl>Merc 280C      17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+</span></span><span class=line><span class=cl>Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+</span></span><span class=line><span class=cl>Honda Civic    30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+</span></span><span class=line><span class=cl>Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+</span></span><span class=line><span class=cl>Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+</span></span><span class=line><span class=cl>Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; filter(mtcars, gear == 3 | gear == 4) # 即 &gt;、&lt;、=&gt;、&lt;=、!=、==
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+</span></span><span class=line><span class=cl>Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+</span></span><span class=line><span class=cl>Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+</span></span><span class=line><span class=cl>Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+</span></span><span class=line><span class=cl>Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+</span></span><span class=line><span class=cl>Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+</span></span><span class=line><span class=cl>Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+</span></span><span class=line><span class=cl>Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+</span></span><span class=line><span class=cl>Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+</span></span><span class=line><span class=cl>Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+</span></span><span class=line><span class=cl>Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+</span></span><span class=line><span class=cl>Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+</span></span><span class=line><span class=cl>Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+</span></span><span class=line><span class=cl>Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+</span></span><span class=line><span class=cl>Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+</span></span><span class=line><span class=cl>Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+</span></span><span class=line><span class=cl>AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+</span></span><span class=line><span class=cl>Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+</span></span><span class=line><span class=cl>Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+</span></span><span class=line><span class=cl>Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+</span></span><span class=line><span class=cl>Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; filter(mtcars, mpg &gt; 21)
+</span></span><span class=line><span class=cl>                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+</span></span><span class=line><span class=cl>Hornet 4 Drive 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+</span></span><span class=line><span class=cl>Merc 240D      24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 230       22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+</span></span><span class=line><span class=cl>Fiat 128       32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+</span></span><span class=line><span class=cl>Honda Civic    30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+</span></span><span class=line><span class=cl>Toyota Corolla 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+</span></span><span class=line><span class=cl>Toyota Corona  21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+</span></span><span class=line><span class=cl>Fiat X1-9      27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+</span></span><span class=line><span class=cl>Porsche 914-2  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+</span></span><span class=line><span class=cl>Lotus Europa   30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+</span></span><span class=line><span class=cl>Volvo 142E     21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+</span></span></code></pre></td></tr></table></div></div><ul><li>arrange() 函数按照选定列的值对数据框的行进行排序。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; arrange(mtcars, gear)
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+</span></span><span class=line><span class=cl>Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+</span></span><span class=line><span class=cl>Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+</span></span><span class=line><span class=cl>Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+</span></span><span class=line><span class=cl>Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+</span></span><span class=line><span class=cl>Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+</span></span><span class=line><span class=cl>Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+</span></span><span class=line><span class=cl>Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+</span></span><span class=line><span class=cl>Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+</span></span><span class=line><span class=cl>Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+</span></span><span class=line><span class=cl>AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+</span></span><span class=line><span class=cl>Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+</span></span><span class=line><span class=cl>Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+</span></span><span class=line><span class=cl>Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+</span></span><span class=line><span class=cl>Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+</span></span><span class=line><span class=cl>Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+</span></span><span class=line><span class=cl>Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+</span></span><span class=line><span class=cl>Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+</span></span><span class=line><span class=cl>Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+</span></span><span class=line><span class=cl>Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+</span></span><span class=line><span class=cl>Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+</span></span><span class=line><span class=cl>Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+</span></span><span class=line><span class=cl>Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+</span></span><span class=line><span class=cl>Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+</span></span><span class=line><span class=cl>Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+</span></span><span class=line><span class=cl>Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; arrange(mtcars, gear, mpg)
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+</span></span><span class=line><span class=cl>Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+</span></span><span class=line><span class=cl>Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+</span></span><span class=line><span class=cl>Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+</span></span><span class=line><span class=cl>Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+</span></span><span class=line><span class=cl>AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+</span></span><span class=line><span class=cl>Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+</span></span><span class=line><span class=cl>Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+</span></span><span class=line><span class=cl>Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+</span></span><span class=line><span class=cl>Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+</span></span><span class=line><span class=cl>Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+</span></span><span class=line><span class=cl>Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+</span></span><span class=line><span class=cl>Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+</span></span><span class=line><span class=cl>Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+</span></span><span class=line><span class=cl>Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+</span></span><span class=line><span class=cl>Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+</span></span><span class=line><span class=cl>Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+</span></span><span class=line><span class=cl>Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+</span></span><span class=line><span class=cl>Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+</span></span><span class=line><span class=cl>Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+</span></span><span class=line><span class=cl>Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+</span></span><span class=line><span class=cl>Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+</span></span><span class=line><span class=cl>Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+</span></span><span class=line><span class=cl>Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+</span></span><span class=line><span class=cl>Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+</span></span><span class=line><span class=cl>Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+</span></span><span class=line><span class=cl>Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; arrange(mtcars, desc(mpg)) # desc 以降序排序
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+</span></span><span class=line><span class=cl>Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+</span></span><span class=line><span class=cl>Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+</span></span><span class=line><span class=cl>Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+</span></span><span class=line><span class=cl>Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+</span></span><span class=line><span class=cl>Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+</span></span><span class=line><span class=cl>Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+</span></span><span class=line><span class=cl>Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+</span></span><span class=line><span class=cl>Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+</span></span><span class=line><span class=cl>Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+</span></span><span class=line><span class=cl>Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
+</span></span><span class=line><span class=cl>Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+</span></span><span class=line><span class=cl>Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+</span></span><span class=line><span class=cl>Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+</span></span><span class=line><span class=cl>Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+</span></span><span class=line><span class=cl>Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+</span></span><span class=line><span class=cl>Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+</span></span><span class=line><span class=cl>Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+</span></span><span class=line><span class=cl>Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+</span></span><span class=line><span class=cl>Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+</span></span><span class=line><span class=cl>Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+</span></span><span class=line><span class=cl>Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+</span></span><span class=line><span class=cl>Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+</span></span><span class=line><span class=cl>AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+</span></span><span class=line><span class=cl>Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+</span></span><span class=line><span class=cl>Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+</span></span><span class=line><span class=cl>Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+</span></span><span class=line><span class=cl>Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+</span></span><span class=line><span class=cl>Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+</span></span></code></pre></td></tr></table></div></div><h2 id=22-manipulate-variables>2.2 Manipulate variables</h2><ul><li>select() 函数根据变量名选择变量。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; select(mtcars, gear, mpg, hp)
+</span></span><span class=line><span class=cl>                    gear  mpg  hp
+</span></span><span class=line><span class=cl>Mazda RX4              4 21.0 110
+</span></span><span class=line><span class=cl>Mazda RX4 Wag          4 21.0 110
+</span></span><span class=line><span class=cl>Datsun 710             4 22.8  93
+</span></span><span class=line><span class=cl>Hornet 4 Drive         3 21.4 110
+</span></span><span class=line><span class=cl>Hornet Sportabout      3 18.7 175
+</span></span><span class=line><span class=cl>Valiant                3 18.1 105
+</span></span><span class=line><span class=cl>Duster 360             3 14.3 245
+</span></span><span class=line><span class=cl>Merc 240D              4 24.4  62
+</span></span><span class=line><span class=cl>Merc 230               4 22.8  95
+</span></span><span class=line><span class=cl>Merc 280               4 19.2 123
+</span></span><span class=line><span class=cl>Merc 280C              4 17.8 123
+</span></span><span class=line><span class=cl>Merc 450SE             3 16.4 180
+</span></span><span class=line><span class=cl>Merc 450SL             3 17.3 180
+</span></span><span class=line><span class=cl>Merc 450SLC            3 15.2 180
+</span></span><span class=line><span class=cl>Cadillac Fleetwood     3 10.4 205
+</span></span><span class=line><span class=cl>Lincoln Continental    3 10.4 215
+</span></span><span class=line><span class=cl>Chrysler Imperial      3 14.7 230
+</span></span><span class=line><span class=cl>Fiat 128               4 32.4  66
+</span></span><span class=line><span class=cl>Honda Civic            4 30.4  52
+</span></span><span class=line><span class=cl>Toyota Corolla         4 33.9  65
+</span></span><span class=line><span class=cl>Toyota Corona          3 21.5  97
+</span></span><span class=line><span class=cl>Dodge Challenger       3 15.5 150
+</span></span><span class=line><span class=cl>AMC Javelin            3 15.2 150
+</span></span><span class=line><span class=cl>Camaro Z28             3 13.3 245
+</span></span><span class=line><span class=cl>Pontiac Firebird       3 19.2 175
+</span></span><span class=line><span class=cl>Fiat X1-9              4 27.3  66
+</span></span><span class=line><span class=cl>Porsche 914-2          5 26.0  91
+</span></span><span class=line><span class=cl>Lotus Europa           5 30.4 113
+</span></span><span class=line><span class=cl>Ford Pantera L         5 15.8 264
+</span></span><span class=line><span class=cl>Ferrari Dino           5 19.7 175
+</span></span><span class=line><span class=cl>Maserati Bora          5 15.0 335
+</span></span><span class=line><span class=cl>Volvo 142E             4 21.4 109
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; select(mtcars, -drat) # - 符号表示删除变量/列
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Mazda RX4           21.0   6 160.0 110 2.620 16.46  0  1    4    4
+</span></span><span class=line><span class=cl>Mazda RX4 Wag       21.0   6 160.0 110 2.875 17.02  0  1    4    4
+</span></span><span class=line><span class=cl>Datsun 710          22.8   4 108.0  93 2.320 18.61  1  1    4    1
+</span></span><span class=line><span class=cl>Hornet 4 Drive      21.4   6 258.0 110 3.215 19.44  1  0    3    1
+</span></span><span class=line><span class=cl>Hornet Sportabout   18.7   8 360.0 175 3.440 17.02  0  0    3    2
+</span></span><span class=line><span class=cl>Valiant             18.1   6 225.0 105 3.460 20.22  1  0    3    1
+</span></span><span class=line><span class=cl>Duster 360          14.3   8 360.0 245 3.570 15.84  0  0    3    4
+</span></span><span class=line><span class=cl>Merc 240D           24.4   4 146.7  62 3.190 20.00  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 230            22.8   4 140.8  95 3.150 22.90  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 280            19.2   6 167.6 123 3.440 18.30  1  0    4    4
+</span></span><span class=line><span class=cl>Merc 280C           17.8   6 167.6 123 3.440 18.90  1  0    4    4
+</span></span><span class=line><span class=cl>Merc 450SE          16.4   8 275.8 180 4.070 17.40  0  0    3    3
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.730 17.60  0  0    3    3
+</span></span><span class=line><span class=cl>Merc 450SLC         15.2   8 275.8 180 3.780 18.00  0  0    3    3
+</span></span><span class=line><span class=cl>Cadillac Fleetwood  10.4   8 472.0 205 5.250 17.98  0  0    3    4
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 5.424 17.82  0  0    3    4
+</span></span><span class=line><span class=cl>Chrysler Imperial   14.7   8 440.0 230 5.345 17.42  0  0    3    4
+</span></span><span class=line><span class=cl>Fiat 128            32.4   4  78.7  66 2.200 19.47  1  1    4    1
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 1.615 18.52  1  1    4    2
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 1.835 19.90  1  1    4    1
+</span></span><span class=line><span class=cl>Toyota Corona       21.5   4 120.1  97 2.465 20.01  1  0    3    1
+</span></span><span class=line><span class=cl>Dodge Challenger    15.5   8 318.0 150 3.520 16.87  0  0    3    2
+</span></span><span class=line><span class=cl>AMC Javelin         15.2   8 304.0 150 3.435 17.30  0  0    3    2
+</span></span><span class=line><span class=cl>Camaro Z28          13.3   8 350.0 245 3.840 15.41  0  0    3    4
+</span></span><span class=line><span class=cl>Pontiac Firebird    19.2   8 400.0 175 3.845 17.05  0  0    3    2
+</span></span><span class=line><span class=cl>Fiat X1-9           27.3   4  79.0  66 1.935 18.90  1  1    4    1
+</span></span><span class=line><span class=cl>Porsche 914-2       26.0   4 120.3  91 2.140 16.70  0  1    5    2
+</span></span><span class=line><span class=cl>Lotus Europa        30.4   4  95.1 113 1.513 16.90  1  1    5    2
+</span></span><span class=line><span class=cl>Ford Pantera L      15.8   8 351.0 264 3.170 14.50  0  1    5    4
+</span></span><span class=line><span class=cl>Ferrari Dino        19.7   6 145.0 175 2.770 15.50  0  1    5    6
+</span></span><span class=line><span class=cl>Maserati Bora       15.0   8 301.0 335 3.570 14.60  0  1    5    8
+</span></span><span class=line><span class=cl>Volvo 142E          21.4   4 121.0 109 2.780 18.60  1  1    4    2
+</span></span></code></pre></td></tr></table></div></div><ul><li>slice() 函数根据行号选择特定的行。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; slice(mtcars, 1:3)
+</span></span><span class=line><span class=cl>               mpg cyl disp  hp drat    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Mazda RX4     21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+</span></span><span class=line><span class=cl>Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+</span></span><span class=line><span class=cl>Datsun 710    22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+</span></span></code></pre></td></tr></table></div></div><ul><li>sample_n() 和 sample_frac() 函数选择随机行：</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; sample_n(mtcars, 5) # 选择的行数
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+</span></span><span class=line><span class=cl>Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; sample_frac(mtcars, .1) # 选择的行数占总行数的比例
+</span></span><span class=line><span class=cl>                mpg cyl  disp hp drat    wt qsec vs am gear carb
+</span></span><span class=line><span class=cl>Merc 230       22.8   4 140.8 95 3.92 3.150 22.9  1  0    4    2
+</span></span><span class=line><span class=cl>Merc 240D      24.4   4 146.7 62 3.69 3.190 20.0  1  0    4    2
+</span></span><span class=line><span class=cl>Toyota Corolla 33.9   4  71.1 65 4.22 1.835 19.9  1  1    4    1
+</span></span></code></pre></td></tr></table></div></div><ul><li>mutate() 函数添加新变量，这些变量是现有变量的函数。</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; mutate(mtcars, wt_mpg = wt * mpg)
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb  wt_mpg
+</span></span><span class=line><span class=cl>Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4 55.0200
+</span></span><span class=line><span class=cl>Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4 60.3750
+</span></span><span class=line><span class=cl>Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1 52.8960
+</span></span><span class=line><span class=cl>Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1 68.8010
+</span></span><span class=line><span class=cl>Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2 64.3280
+</span></span><span class=line><span class=cl>Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1 62.6260
+</span></span><span class=line><span class=cl>Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4 51.0510
+</span></span><span class=line><span class=cl>Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2 77.8360
+</span></span><span class=line><span class=cl>Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2 71.8200
+</span></span><span class=line><span class=cl>Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4 66.0480
+</span></span><span class=line><span class=cl>Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4 61.2320
+</span></span><span class=line><span class=cl>Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3 66.7480
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3 64.5290
+</span></span><span class=line><span class=cl>Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3 57.4560
+</span></span><span class=line><span class=cl>Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4 54.6000
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4 56.4096
+</span></span><span class=line><span class=cl>Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4 78.5715
+</span></span><span class=line><span class=cl>Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1 71.2800
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2 49.0960
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1 62.2065
+</span></span><span class=line><span class=cl>Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1 52.9975
+</span></span><span class=line><span class=cl>Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2 54.5600
+</span></span><span class=line><span class=cl>AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2 52.2120
+</span></span><span class=line><span class=cl>Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4 51.0720
+</span></span><span class=line><span class=cl>Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2 73.8240
+</span></span><span class=line><span class=cl>Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1 52.8255
+</span></span><span class=line><span class=cl>Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2 55.6400
+</span></span><span class=line><span class=cl>Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2 45.9952
+</span></span><span class=line><span class=cl>Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4 50.0860
+</span></span><span class=line><span class=cl>Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6 54.5690
+</span></span><span class=line><span class=cl>Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8 53.5500
+</span></span><span class=line><span class=cl>Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2 59.4920
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; mutate(mtcars, mpg_mean = mean(mpg), mpg_diff_mean = mpg - mpg_mean)
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb mpg_mean mpg_diff_mean
+</span></span><span class=line><span class=cl>Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4 20.09062      0.909375
+</span></span><span class=line><span class=cl>Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4 20.09062      0.909375
+</span></span><span class=line><span class=cl>Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1 20.09062      2.709375
+</span></span><span class=line><span class=cl>Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1 20.09062      1.309375
+</span></span><span class=line><span class=cl>Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2 20.09062     -1.390625
+</span></span><span class=line><span class=cl>Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1 20.09062     -1.990625
+</span></span><span class=line><span class=cl>Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4 20.09062     -5.790625
+</span></span><span class=line><span class=cl>Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2 20.09062      4.309375
+</span></span><span class=line><span class=cl>Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2 20.09062      2.709375
+</span></span><span class=line><span class=cl>Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4 20.09062     -0.890625
+</span></span><span class=line><span class=cl>Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4 20.09062     -2.290625
+</span></span><span class=line><span class=cl>Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3 20.09062     -3.690625
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3 20.09062     -2.790625
+</span></span><span class=line><span class=cl>Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3 20.09062     -4.890625
+</span></span><span class=line><span class=cl>Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4 20.09062     -9.690625
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4 20.09062     -9.690625
+</span></span><span class=line><span class=cl>Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4 20.09062     -5.390625
+</span></span><span class=line><span class=cl>Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1 20.09062     12.309375
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2 20.09062     10.309375
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1 20.09062     13.809375
+</span></span><span class=line><span class=cl>Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1 20.09062      1.409375
+</span></span><span class=line><span class=cl>Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2 20.09062     -4.590625
+</span></span><span class=line><span class=cl>AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2 20.09062     -4.890625
+</span></span><span class=line><span class=cl>Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4 20.09062     -6.790625
+</span></span><span class=line><span class=cl>Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2 20.09062     -0.890625
+</span></span><span class=line><span class=cl>Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1 20.09062      7.209375
+</span></span><span class=line><span class=cl>Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2 20.09062      5.909375
+</span></span><span class=line><span class=cl>Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2 20.09062     10.309375
+</span></span><span class=line><span class=cl>Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4 20.09062     -4.290625
+</span></span><span class=line><span class=cl>Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6 20.09062     -0.390625
+</span></span><span class=line><span class=cl>Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8 20.09062     -5.090625
+</span></span><span class=line><span class=cl>Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2 20.09062      1.309375
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; mutate(mtcars, mpg_mean_diff = mpg - mean(mpg))
+</span></span><span class=line><span class=cl>                     mpg cyl  disp  hp drat    wt  qsec vs am gear carb mpg_mean_diff
+</span></span><span class=line><span class=cl>Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4      0.909375
+</span></span><span class=line><span class=cl>Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4      0.909375
+</span></span><span class=line><span class=cl>Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1      2.709375
+</span></span><span class=line><span class=cl>Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1      1.309375
+</span></span><span class=line><span class=cl>Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2     -1.390625
+</span></span><span class=line><span class=cl>Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1     -1.990625
+</span></span><span class=line><span class=cl>Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4     -5.790625
+</span></span><span class=line><span class=cl>Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2      4.309375
+</span></span><span class=line><span class=cl>Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2      2.709375
+</span></span><span class=line><span class=cl>Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4     -0.890625
+</span></span><span class=line><span class=cl>Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4     -2.290625
+</span></span><span class=line><span class=cl>Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3     -3.690625
+</span></span><span class=line><span class=cl>Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3     -2.790625
+</span></span><span class=line><span class=cl>Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3     -4.890625
+</span></span><span class=line><span class=cl>Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4     -9.690625
+</span></span><span class=line><span class=cl>Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4     -9.690625
+</span></span><span class=line><span class=cl>Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4     -5.390625
+</span></span><span class=line><span class=cl>Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1     12.309375
+</span></span><span class=line><span class=cl>Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2     10.309375
+</span></span><span class=line><span class=cl>Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1     13.809375
+</span></span><span class=line><span class=cl>Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1      1.409375
+</span></span><span class=line><span class=cl>Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2     -4.590625
+</span></span><span class=line><span class=cl>AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2     -4.890625
+</span></span><span class=line><span class=cl>Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4     -6.790625
+</span></span><span class=line><span class=cl>Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2     -0.890625
+</span></span><span class=line><span class=cl>Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1      7.209375
+</span></span><span class=line><span class=cl>Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2      5.909375
+</span></span><span class=line><span class=cl>Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2     10.309375
+</span></span><span class=line><span class=cl>Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4     -4.290625
+</span></span><span class=line><span class=cl>Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6     -0.390625
+</span></span><span class=line><span class=cl>Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8     -5.090625
+</span></span><span class=line><span class=cl>Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2      1.309375
+</span></span></code></pre></td></tr></table></div></div><h2 id=23-summarise-cases>2.3 Summarise cases</h2><p>summarise() 函数创建一个新的数据框。它将有一行总结所有观察结果，并包含每个您指定的摘要统计量的一个列。如果有分组变量，它将为每个分组变量的组合创建一行。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; summarise(mtcars, sd(disp))
+</span></span><span class=line><span class=cl>  sd(disp)
+</span></span><span class=line><span class=cl>1 123.9387
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summarise(mtcars, median(mpg), mean(mpg), max(mpg), min(mpg))
+</span></span><span class=line><span class=cl>  median(mpg) mean(mpg) max(mpg) min(mpg)
+</span></span><span class=line><span class=cl>1        19.2  20.09062     33.9     10.4
+</span></span></code></pre></td></tr></table></div></div><h2 id=24-group-cases>2.4 Group cases</h2><p>使用 group_by() 函数创建表的一个“分组”副本。dplyr函数将分别处理每个“组”，然后将结果组合起来。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; group_by(mtcars, cyl)
+</span></span><span class=line><span class=cl># A tibble: 32 × 11
+</span></span><span class=line><span class=cl># Groups:   cyl [3]
+</span></span><span class=line><span class=cl>     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+</span></span><span class=line><span class=cl>   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+</span></span><span class=line><span class=cl> 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+</span></span><span class=line><span class=cl> 2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+</span></span><span class=line><span class=cl> 3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+</span></span><span class=line><span class=cl> 4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+</span></span><span class=line><span class=cl> 5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+</span></span><span class=line><span class=cl> 6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+</span></span><span class=line><span class=cl> 7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+</span></span><span class=line><span class=cl> 8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+</span></span><span class=line><span class=cl> 9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+</span></span><span class=line><span class=cl>10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+</span></span><span class=line><span class=cl># ℹ 22 more rows
+</span></span><span class=line><span class=cl># ℹ Use `print(n = ...)` to see more rows
+</span></span></code></pre></td></tr></table></div></div><h2 id=25-管道操作符->2.5 管道操作符 %>%</h2><p>允许您将一个函数的输出直接发送到下一个函数的输入。使用管道操作符时，请记住以下几点：</p><ol><li>第一个参数始终是一个数据框。</li><li>后续参数指定对数据框要执行的操作。</li><li>参数的顺序将返回一个新的数据框（除非您通过分配操作（如使用“&lt;-”）对第一个参数中的数据框进行了更改）。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; mtcars %&gt;% # take dataframe, then
+</span></span><span class=line><span class=cl>+   group_by(gear) %&gt;% # group it by gear, then
+</span></span><span class=line><span class=cl>+   summarise(mean(mpg)) # summarise the mean mpg for each level o .... [TRUNCATED] 
+</span></span><span class=line><span class=cl># A tibble: 3 × 2
+</span></span><span class=line><span class=cl>   gear `mean(mpg)`
+</span></span><span class=line><span class=cl>  &lt;dbl&gt;       &lt;dbl&gt;
+</span></span><span class=line><span class=cl>1     3        16.1
+</span></span><span class=line><span class=cl>2     4        24.5
+</span></span><span class=line><span class=cl>3     5        21.4
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; mtcars %&gt;%
+</span></span><span class=line><span class=cl>+   filter(mpg &gt; 21) %&gt;% select(gear, mpg, hp) %&gt;% arrange(gear)
+</span></span><span class=line><span class=cl>               gear  mpg  hp
+</span></span><span class=line><span class=cl>Hornet 4 Drive    3 21.4 110
+</span></span><span class=line><span class=cl>Toyota Corona     3 21.5  97
+</span></span><span class=line><span class=cl>Datsun 710        4 22.8  93
+</span></span><span class=line><span class=cl>Merc 240D         4 24.4  62
+</span></span><span class=line><span class=cl>Merc 230          4 22.8  95
+</span></span><span class=line><span class=cl>Fiat 128          4 32.4  66
+</span></span><span class=line><span class=cl>Honda Civic       4 30.4  52
+</span></span><span class=line><span class=cl>Toyota Corolla    4 33.9  65
+</span></span><span class=line><span class=cl>Fiat X1-9         4 27.3  66
+</span></span><span class=line><span class=cl>Volvo 142E        4 21.4 109
+</span></span><span class=line><span class=cl>Porsche 914-2     5 26.0  91
+</span></span><span class=line><span class=cl>Lotus Europa      5 30.4 113
+</span></span></code></pre></td></tr></table></div></div><p>如果您想要使用这个较小版本的数据创建一个新的对象，可以通过为它指定一个新名称来实现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; mtcars_mpg &lt;- mtcars %&gt;% filter(mpg &gt; 21) %&gt;% select(gear, mpg, hp) %&gt;% arrange(gear)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; mtcars_mpg
+</span></span><span class=line><span class=cl>               gear  mpg  hp
+</span></span><span class=line><span class=cl>Hornet 4 Drive    3 21.4 110
+</span></span><span class=line><span class=cl>Toyota Corona     3 21.5  97
+</span></span><span class=line><span class=cl>Datsun 710        4 22.8  93
+</span></span><span class=line><span class=cl>Merc 240D         4 24.4  62
+</span></span><span class=line><span class=cl>Merc 230          4 22.8  95
+</span></span><span class=line><span class=cl>Fiat 128          4 32.4  66
+</span></span><span class=line><span class=cl>Honda Civic       4 30.4  52
+</span></span><span class=line><span class=cl>Toyota Corolla    4 33.9  65
+</span></span><span class=line><span class=cl>Fiat X1-9         4 27.3  66
+</span></span><span class=line><span class=cl>Volvo 142E        4 21.4 109
+</span></span><span class=line><span class=cl>Porsche 914-2     5 26.0  91
+</span></span><span class=line><span class=cl>Lotus Europa      5 30.4 113
+</span></span></code></pre></td></tr></table></div></div><h2 id=26-excercise>2.6 Excercise</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; redwine &lt;- read.csv(&#34;Data_redwine.csv&#34;, header=TRUE) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; head(redwine)
+</span></span><span class=line><span class=cl>  fixed.acidity volatile.acidity citric.acid residual.sugar chlorides free.sulfur.dioxide total.sulfur.dioxide density   pH sulphates alcohol quality
+</span></span><span class=line><span class=cl>1           7.4             0.70        0.00            1.9     0.076                  11                   34  0.9978 3.51      0.56     9.4       5
+</span></span><span class=line><span class=cl>2           7.8             0.88        0.00            2.6     0.098                  25                   67  0.9968 3.20      0.68     9.8       5
+</span></span><span class=line><span class=cl>3           7.8             0.76        0.04            2.3     0.092                  15                   54  0.9970 3.26      0.65     9.8       5
+</span></span><span class=line><span class=cl>4          11.2             0.28        0.56            1.9     0.075                  17                   60  0.9980 3.16      0.58     9.8       6
+</span></span><span class=line><span class=cl>5           7.4             0.70        0.00            1.9     0.076                  11                   34  0.9978 3.51      0.56     9.4       5
+</span></span><span class=line><span class=cl>6           7.4             0.66        0.00            1.8     0.075                  13                   40  0.9978 3.51      0.56     9.4       5
+</span></span></code></pre></td></tr></table></div></div><ol><li>创建一个仅包含固定酸度大于或等于8的葡萄酒的数据框。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; wines_fixed_acidity_8_or_greater &lt;- redwine %&gt;%
+</span></span><span class=line><span class=cl>+   filter(fixed.acidity &gt;= 8)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; wines_fixed_acidity_8_or_greater
+</span></span><span class=line><span class=cl>   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides free.sulfur.dioxide total.sulfur.dioxide density   pH sulphates alcohol quality
+</span></span><span class=line><span class=cl>1           11.2            0.280        0.56            1.9     0.075                  17                   60 0.99800 3.16      0.58     9.8       6
+</span></span><span class=line><span class=cl>2            8.9            0.620        0.18            3.8     0.176                  52                  145 0.99860 3.16      0.88     9.2       5
+</span></span><span class=line><span class=cl>3            8.9            0.620        0.19            3.9     0.170                  51                  148 0.99860 3.17      0.93     9.2       5
+</span></span><span class=line><span class=cl>4            8.5            0.280        0.56            1.8     0.092                  35                  103 0.99690 3.30      0.75    10.5       7
+</span></span><span class=line><span class=cl>5            8.1            0.560        0.28            1.7     0.368                  16                   56 0.99680 3.11      1.28     9.3       5
+</span></span><span class=line><span class=cl>6            8.9            0.220        0.48            1.8     0.077                  29                   60 0.99680 3.39      0.53     9.4       6
+</span></span><span class=line><span class=cl>7            8.5            0.490        0.11            2.3     0.084                   9                   67 0.99680 3.17      0.53     9.4       5
+</span></span><span class=line><span class=cl>8            8.3            0.655        0.12            2.3     0.083                  15                  113 0.99660 3.17      0.66     9.8       5
+</span></span><span class=line><span class=cl>3          12.0            0.380        0.56            2.1     0.093                   6                   24 0.99925 3.14      0.71    10.9       6
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>创建一个仅包含品质为7的葡萄酒的数据框。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; # 使用filter函数筛选品质为7的葡萄酒
+</span></span><span class=line><span class=cl>&gt; redwine_quality_7 &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>+   filter(quality == 7)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; # 显示新数据框的前几行
+</span></span><span class=line><span class=cl>&gt; head(redwine_quality_7)
+</span></span><span class=line><span class=cl>  fixed.acidity volatile.acidity citric.acid residual.sugar chlorides free.sulfur.dioxide total.sulfur.dioxide density   pH sulphates alcohol quality
+</span></span><span class=line><span class=cl>1           7.3             0.65        0.00            1.2     0.065                  15                   21  0.9946 3.39      0.47    10.0       7
+</span></span><span class=line><span class=cl>2           7.8             0.58        0.02            2.0     0.073                   9                   18  0.9968 3.36      0.57     9.5       7
+</span></span><span class=line><span class=cl>3           8.5             0.28        0.56            1.8     0.092                  35                  103  0.9969 3.30      0.75    10.5       7
+</span></span><span class=line><span class=cl>4           8.1             0.38        0.28            2.1     0.066                  13                   30  0.9968 3.23      0.73     9.7       7
+</span></span><span class=line><span class=cl>5           7.5             0.52        0.16            1.9     0.085                  12                   35  0.9968 3.38      0.62     9.5       7
+</span></span><span class=line><span class=cl>6           8.0             0.59        0.16            1.8     0.065                   3                   16  0.9962 3.42      0.92    10.5       7
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li>创建一个仅包含2列（pH和品质）的数据框。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 使用select函数选择指定的两列
+</span></span><span class=line><span class=cl>redwine_selected_columns &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>  select(pH, quality)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 显示新数据框的前几行
+</span></span><span class=line><span class=cl>head(redwine_selected_columns)
+</span></span></code></pre></td></tr></table></div></div><ol start=4><li>创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照pH的升序排序。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; # 使用select函数选择指定的两列，然后使用arrange函数按照pH的升序排序
+</span></span><span class=line><span class=cl>&gt; redwine_selected_and_sorted &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>+   select(pH, quality) %&gt;%
+</span></span><span class=line><span class=cl>+   arrange(pH)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; # 显示新数据框的前几行
+</span></span><span class=line><span class=cl>&gt; head(redwine_selected_and_sorted)
+</span></span><span class=line><span class=cl>    pH quality
+</span></span><span class=line><span class=cl>1 2.74       4
+</span></span><span class=line><span class=cl>2 2.86       6
+</span></span><span class=line><span class=cl>3 2.87       6
+</span></span><span class=line><span class=cl>4 2.88       8
+</span></span><span class=line><span class=cl>5 2.89       5
+</span></span><span class=line><span class=cl>6 2.89       5
+</span></span></code></pre></td></tr></table></div></div><ol start=5><li>创建一个仅包含2列（pH和品质）的数据框，其中葡萄酒按照品质的降序排序。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; # 使用select函数选择指定的两列，然后使用arrange函数按照品质的降序排序
+</span></span><span class=line><span class=cl>&gt; redwine_selected_and_sorted &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>+   select(pH, quality) %&gt;%
+</span></span><span class=line><span class=cl>+   arrange(desc(quality))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; # 显示新数据框的前几行
+</span></span><span class=line><span class=cl>&gt; head(redwine_selected_and_sorted)
+</span></span><span class=line><span class=cl>    pH quality
+</span></span><span class=line><span class=cl>1 3.35       8
+</span></span><span class=line><span class=cl>2 3.23       8
+</span></span><span class=line><span class=cl>3 3.56       8
+</span></span><span class=line><span class=cl>4 2.88       8
+</span></span><span class=line><span class=cl>5 3.22       8
+</span></span><span class=line><span class=cl>6 3.15       8
+</span></span></code></pre></td></tr></table></div></div><ol start=6><li>创建一个仅包含没有柠檬酸的葡萄酒的数据框，并按照品质的降序排序。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; # 使用filter函数筛选没有柠檬酸的葡萄酒，然后使用arrange函数按照品质的降序排序
+</span></span><span class=line><span class=cl>&gt; redwine_no_citric_acid &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>+   filter(citric.acid == 0) %&gt;%
+</span></span><span class=line><span class=cl>+   arrange(desc(quality))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; # 显示新数据框的前几行
+</span></span><span class=line><span class=cl>&gt; head(redwine_no_citric_acid)
+</span></span><span class=line><span class=cl>  fixed.acidity volatile.acidity citric.acid residual.sugar chlorides free.sulfur.dioxide total.sulfur.dioxide density   pH sulphates alcohol quality
+</span></span><span class=line><span class=cl>1           7.3            0.650           0            1.2     0.065                  15                   21 0.99460 3.39      0.47    10.0       7
+</span></span><span class=line><span class=cl>2           5.1            0.585           0            1.7     0.044                  14                   86 0.99264 3.56      0.94    12.9       7
+</span></span><span class=line><span class=cl>3           4.9            0.420           0            2.1     0.048                  16                   42 0.99154 3.71      0.74    14.0       7
+</span></span><span class=line><span class=cl>4           5.6            0.660           0            2.2     0.087                   3                   11 0.99378 3.71      0.63    12.8       7
+</span></span><span class=line><span class=cl>5           5.6            0.660           0            2.2     0.087                   3                   11 0.99378 3.71      0.63    12.8       7
+</span></span><span class=line><span class=cl>6           7.8            0.645           0            2.0     0.082                   8                   16 0.99640 3.38      0.59     9.8       6
+</span></span></code></pre></td></tr></table></div></div><ol start=7><li>创建一个红葡萄酒数据集的版本，其中包含一个额外的列，该列包含酒精含量乘以密度。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 使用mutate函数创建一个新列，该列为酒精含量乘以密度
+</span></span><span class=line><span class=cl>redwine_with_extra_column &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>  mutate(alcohol_density = alcohol * density)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 显示新数据框的前几行
+</span></span><span class=line><span class=cl>head(redwine_with_extra_column)
+</span></span></code></pre></td></tr></table></div></div><ol start=8><li>创建一个总结红葡萄酒数据集中每个变量的数据框。</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; # 使用summary函数对红葡萄酒数据集进行总结
+</span></span><span class=line><span class=cl>&gt; redwine_summary &lt;- summary(redwine)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; # 显示总结结果
+</span></span><span class=line><span class=cl>&gt; redwine_summary
+</span></span><span class=line><span class=cl> fixed.acidity    volatile.acidity  citric.acid     residual.sugar     chlorides       free.sulfur.dioxide total.sulfur.dioxide    density             pH          sulphates         alcohol         quality     
+</span></span><span class=line><span class=cl> Min.   : 4.600   Min.   :0.1200   Min.   :0.0000   Min.   : 1.200   Min.   :0.01200   Min.   : 1.00       Min.   :  6.00       Min.   :0.9906   Min.   :2.740   Min.   :0.3300   Min.   : 8.40   Min.   :3.000  
+</span></span><span class=line><span class=cl> 1st Qu.: 7.400   1st Qu.:0.4000   1st Qu.:0.1200   1st Qu.: 2.000   1st Qu.:0.07200   1st Qu.: 7.00       1st Qu.: 23.00       1st Qu.:0.9964   1st Qu.:3.190   1st Qu.:0.5600   1st Qu.: 9.50   1st Qu.:5.000  
+</span></span><span class=line><span class=cl> Median : 8.300   Median :0.5200   Median :0.2800   Median : 2.300   Median :0.08100   Median :13.00       Median : 39.00       Median :0.9973   Median :3.300   Median :0.6200   Median : 9.90   Median :5.000  
+</span></span><span class=line><span class=cl> Mean   : 8.729   Mean   :0.5283   Mean   :0.2946   Mean   : 2.579   Mean   :0.09037   Mean   :15.17       Mean   : 48.33       Mean   :0.9973   Mean   :3.299   Mean   :0.6685   Mean   :10.24   Mean   :5.594  
+</span></span><span class=line><span class=cl> 3rd Qu.: 9.800   3rd Qu.:0.6350   3rd Qu.:0.4700   3rd Qu.: 2.700   3rd Qu.:0.09300   3rd Qu.:20.25       3rd Qu.: 64.25       3rd Qu.:0.9984   3rd Qu.:3.400   3rd Qu.:0.7400   3rd Qu.:10.80   3rd Qu.:6.000  
+</span></span><span class=line><span class=cl> Max.   :15.900   Max.   :1.3300   Max.   :1.0000   Max.   :15.500   Max.   :0.61100   Max.   :68.00       Max.   :165.00       Max.   :1.0032   Max.   :3.900   Max.   :2.0000   Max.   :14.90   Max.   :8.000 
+</span></span></code></pre></td></tr></table></div></div><h1 id=3-code>3. Code</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>library(&#34;readxl&#34;) # used for report compilation and table display 
+</span></span><span class=line><span class=cl>library(&#34;ggplot2&#34;) # confusion matrix
+</span></span><span class=line><span class=cl>library(&#34;dplyr&#34;) # confusion matrix
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 获取当前已加载文件的目录
+</span></span><span class=line><span class=cl>file_dir &lt;- dirname(parent.frame(2)$ofile)
+</span></span><span class=line><span class=cl>print(file_dir)
+</span></span><span class=line><span class=cl># 将工作目录设置为当前已加载文件的目录
+</span></span><span class=line><span class=cl>setwd(file_dir)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>CLV.df &lt;- read_excel(&#34;Data_CLV.xlsx&#34;, sheet = &#34;Ex2&#34;) 
+</span></span><span class=line><span class=cl>CLV.df
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>summary(CLV.df)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ggplot(CLV.df, aes(x = t, y = active)) +
+</span></span><span class=line><span class=cl>  geom_line() + ylab(&#34;Customer&#34;) +
+</span></span><span class=line><span class=cl>  xlab(&#34;Period&#34;) + ggtitle(&#34;Active Customer Evolution&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ggplot(CLV.df, aes(x = t, y = r)) + geom_line() + ylab(&#34;Customer&#34;) + xlab(&#34;Period&#34;) +
+</span></span><span class=line><span class=cl>  ggtitle(&#34;Retention Ratio Evolution&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>CLV.df$CLV &lt;- (CLV.df$p-CLV.df$c)*CLV.df$r^CLV.df$t/(1+CLV.df$i)^CLV.df$t 
+</span></span><span class=line><span class=cl>CLV.df
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ggplot(CLV.df, aes(x = t, y = CLV)) + geom_line() + ggtitle(&#34;CLV evolution&#34;) + ylab(&#34;CLV&#34;) + xlab(&#34;Period&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>CLV &lt;- apply(CLV.df, 2, sum) 
+</span></span><span class=line><span class=cl>CLV[7]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>CLV.df$CLV2 &lt;- (CLV.df$p - CLV.df$c) * 0.8 / (1 + CLV.df$i)^(CLV.df$t - 1)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ggplot(CLV.df, aes(x = t, y = CLV2)) + geom_line() + ylab(&#34;CLV2&#34;) + xlab(&#34;Period&#34;) + labs(title = &#34;CLV 2 Evolution&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>CLV &lt;- apply(CLV.df, 2, sum) 
+</span></span><span class=line><span class=cl>CLV[7]
+</span></span><span class=line><span class=cl>CLV[8]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>head(mtcars) 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>str(mtcars)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>filter(mtcars, gear == 4) # 过滤器可与所有标准逻辑运算符一起使用
+</span></span><span class=line><span class=cl>filter(mtcars, gear == 3 | gear == 4) # 即 &gt;、&lt;、=&gt;、&lt;=、!=、==
+</span></span><span class=line><span class=cl>filter(mtcars, mpg &gt; 21)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>arrange(mtcars, gear)
+</span></span><span class=line><span class=cl>arrange(mtcars, gear, mpg)
+</span></span><span class=line><span class=cl>arrange(mtcars, desc(mpg)) # desc 以降序排序
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>select(mtcars, gear, mpg, hp)
+</span></span><span class=line><span class=cl>select(mtcars, -drat) # - 符号表示删除变量/列
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>slice(mtcars, 1:3)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>sample_n(mtcars, 5) # 选择的行数
+</span></span><span class=line><span class=cl>sample_frac(mtcars, .1) # 选择的行数占总行数的比例
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mutate(mtcars, wt_mpg = wt * mpg)
+</span></span><span class=line><span class=cl>mutate(mtcars, mpg_mean = mean(mpg), mpg_diff_mean = mpg - mpg_mean)
+</span></span><span class=line><span class=cl>mutate(mtcars, mpg_mean_diff = mpg - mean(mpg))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>summarise(mtcars, sd(disp))
+</span></span><span class=line><span class=cl>summarise(mtcars, median(mpg), mean(mpg), max(mpg), min(mpg))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>group_by(mtcars, cyl)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mtcars %&gt;% # take dataframe, then
+</span></span><span class=line><span class=cl>  group_by(gear) %&gt;% # group it by gear, then
+</span></span><span class=line><span class=cl>  summarise(mean(mpg)) # summarise the mean mpg for each level of gear
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mtcars %&gt;%
+</span></span><span class=line><span class=cl>  filter(mpg &gt; 21) %&gt;% select(gear, mpg, hp) %&gt;% arrange(gear)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mtcars_mpg &lt;- mtcars %&gt;% filter(mpg &gt; 21) %&gt;% select(gear, mpg, hp) %&gt;% arrange(gear)
+</span></span><span class=line><span class=cl>mtcars_mpg
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># Excercise
+</span></span><span class=line><span class=cl>redwine &lt;- read.csv(&#34;Data_redwine.csv&#34;, header=TRUE) 
+</span></span><span class=line><span class=cl>head(redwine)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>wines_fixed_acidity_8_or_greater &lt;- redwine %&gt;%
+</span></span><span class=line><span class=cl>  filter(fixed.acidity &gt;= 8)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>wines_fixed_acidity_8_or_greater
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 使用filter函数筛选品质为7的葡萄酒
+</span></span><span class=line><span class=cl>redwine_quality_7 &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>  filter(quality == 7)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 显示新数据框的前几行
+</span></span><span class=line><span class=cl>head(redwine_quality_7)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 使用select函数选择指定的两列，然后使用arrange函数按照pH的升序排序
+</span></span><span class=line><span class=cl>redwine_selected_and_sorted &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>  select(pH, quality) %&gt;%
+</span></span><span class=line><span class=cl>  arrange(pH)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 显示新数据框的前几行
+</span></span><span class=line><span class=cl>head(redwine_selected_and_sorted)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 使用select函数选择指定的两列，然后使用arrange函数按照品质的降序排序
+</span></span><span class=line><span class=cl>redwine_selected_and_sorted &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>  select(pH, quality) %&gt;%
+</span></span><span class=line><span class=cl>  arrange(desc(quality))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 显示新数据框的前几行
+</span></span><span class=line><span class=cl>head(redwine_selected_and_sorted)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 使用filter函数筛选没有柠檬酸的葡萄酒，然后使用arrange函数按照品质的降序排序
+</span></span><span class=line><span class=cl>redwine_no_citric_acid &lt;- redwine %&gt;% 
+</span></span><span class=line><span class=cl>  filter(citric.acid == 0) %&gt;%
+</span></span><span class=line><span class=cl>  arrange(desc(quality))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 显示新数据框的前几行
+</span></span><span class=line><span class=cl>head(redwine_no_citric_acid)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 使用summary函数对红葡萄酒数据集进行总结
+</span></span><span class=line><span class=cl>redwine_summary &lt;- summary(redwine)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 显示总结结果
+</span></span><span class=line><span class=cl>redwine_summary
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/tags/r%E8%AF%AD%E8%A8%80/>R语言</a>
+<a href=/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/>数据分析</a>
+<a href=/tags/clv/>CLV</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".main-article");renderMathInElement(e,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/rweek5-customer-lifetime-value-lecture/><div class=article-details><h2 class=article-title>R[week5] Customer Lifetime Value Lecture</h2></div></a></article><article><a href=/p/rweek9-managing-resource-trade-offs-ii-code/><div class=article-details><h2 class=article-title>R[week9] Managing Resource Trade-Offs II Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs-code/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs</h2></div></a></article><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-code-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage code II</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

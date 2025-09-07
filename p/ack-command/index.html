@@ -1,0 +1,1159 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Name ack - grep-like text finder 类grep的文本搜索\nSYNOPSIS ack [options] PATTERN [FILE&mldr;] // 查文本 ack -f [options] [DIRECTORY&mldr;] // 搜文件 DESCRIPTION ack 被设计为程序员的 grep 的替代品。\nack 在输入文件或目录中搜索与给定模式匹配的行。默认情况下， ack 打印匹配的行。如果没有给出 FILE 或 DIRECTORY，则将搜索当前目录。\nAck 还可以列出将要搜索的文件，而无需实际搜索它们，以让您利用 ack 的文件类型过滤功能。\nFILE SELECTION 如果没有指定文件进行搜索，无论是在命令行上还是使用 -x 选项通过管道输入，ack 都会深入到子目录中选择文件进行搜索。\n-x Read the list of files to search from STDIN.\nack 对它搜索的文件很智能。它基于文件的扩展名以及在某些情况下文件的内容了解某些文件类型。可以使用 &ndash;type 选项进行这些选择。\nexample: ack &ndash;type=python\n在没有文件选择的情况下，ack 搜索没有被 &ndash;ignore-dir 和 &ndash;ignore-file 选项明确排除的常规文件，这些文件要么存在于 ackrc 文件中，要么存在于命令行中。\n"><title>Ack command</title><link rel=canonical href=https://MyLoveES.github.io/p/ack-command/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="Ack command"><meta property='og:description' content="Name ack - grep-like text finder 类grep的文本搜索\nSYNOPSIS ack [options] PATTERN [FILE&mldr;] // 查文本 ack -f [options] [DIRECTORY&mldr;] // 搜文件 DESCRIPTION ack 被设计为程序员的 grep 的替代品。\nack 在输入文件或目录中搜索与给定模式匹配的行。默认情况下， ack 打印匹配的行。如果没有给出 FILE 或 DIRECTORY，则将搜索当前目录。\nAck 还可以列出将要搜索的文件，而无需实际搜索它们，以让您利用 ack 的文件类型过滤功能。\nFILE SELECTION 如果没有指定文件进行搜索，无论是在命令行上还是使用 -x 选项通过管道输入，ack 都会深入到子目录中选择文件进行搜索。\n-x Read the list of files to search from STDIN.\nack 对它搜索的文件很智能。它基于文件的扩展名以及在某些情况下文件的内容了解某些文件类型。可以使用 &ndash;type 选项进行这些选择。\nexample: ack &ndash;type=python\n在没有文件选择的情况下，ack 搜索没有被 &ndash;ignore-dir 和 &ndash;ignore-file 选项明确排除的常规文件，这些文件要么存在于 ackrc 文件中，要么存在于命令行中。\n"><meta property='og:url' content='https://MyLoveES.github.io/p/ack-command/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Linux'><meta property='article:tag' content='ack'><meta property='article:tag' content='工具'><meta property='article:published_time' content='2022-04-14T00:00:00+00:00'><meta property='article:modified_time' content='2022-04-14T00:00:00+00:00'><meta name=twitter:title content="Ack command"><meta name=twitter:description content="Name ack - grep-like text finder 类grep的文本搜索\nSYNOPSIS ack [options] PATTERN [FILE&mldr;] // 查文本 ack -f [options] [DIRECTORY&mldr;] // 搜文件 DESCRIPTION ack 被设计为程序员的 grep 的替代品。\nack 在输入文件或目录中搜索与给定模式匹配的行。默认情况下， ack 打印匹配的行。如果没有给出 FILE 或 DIRECTORY，则将搜索当前目录。\nAck 还可以列出将要搜索的文件，而无需实际搜索它们，以让您利用 ack 的文件类型过滤功能。\nFILE SELECTION 如果没有指定文件进行搜索，无论是在命令行上还是使用 -x 选项通过管道输入，ack 都会深入到子目录中选择文件进行搜索。\n-x Read the list of files to search from STDIN.\nack 对它搜索的文件很智能。它基于文件的扩展名以及在某些情况下文件的内容了解某些文件类型。可以使用 &ndash;type 选项进行这些选择。\nexample: ack &ndash;type=python\n在没有文件选择的情况下，ack 搜索没有被 &ndash;ignore-dir 和 &ndash;ignore-file 选项明确排除的常规文件，这些文件要么存在于 ackrc 文件中，要么存在于命令行中。\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#name>Name</a></li><li><a href=#synopsis>SYNOPSIS</a></li><li><a href=#description>DESCRIPTION</a></li><li><a href=#file-selection>FILE SELECTION</a></li><li><a href=#directory-selection>DIRECTORY SELECTION</a></li><li><a href=#matching-in-a-range-of-lines>MATCHING IN A RANGE OF LINES</a></li><li><a href=#options>OPTIONS</a><ol><li><a href=#-a-num-after-contextnum>-A NUM, &ndash;after-context=NUM</a></li><li><a href=#-b-num-before-contextnum>-B NUM, &ndash;before-context=NUM</a></li><li><a href=#nobreak>&ndash;[no]break</a></li><li><a href=#-c-num-contextnum>-C [NUM], &ndash;context[=NUM]</a></li><li><a href=#-c-count>-c, &ndash;count</a></li><li><a href=#nocolor-nocolour>&ndash;[no]color, &ndash;[no]colour</a></li><li><a href=#color-filenamecolor>&ndash;color-filename=color</a></li><li><a href=#color-matchcolor>&ndash;color-match=color</a></li><li><a href=#color-colnocolor>&ndash;color-colno=color</a></li><li><a href=#color-linenocolor>&ndash;color-lineno=color</a></li><li><a href=#nocolumn>&ndash;[no]column</a></li><li><a href=#create-ackrc>&ndash;create-ackrc</a></li><li><a href=#dump>&ndash;dump</a></li><li><a href=#noenv>&ndash;[no]env</a></li><li><a href=#flush>&ndash;flush</a></li><li><a href=#-f>-f</a></li></ol></li><li><a href=#ackrc-location-semantics>ACKRC LOCATION SEMANTICS</a></li><li><a href=#附录a---ack-dump>附录A - ack dump</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/ack-command/>Ack command</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Apr 14, 2022</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>16 minute read</time></div></footer></div></header><section class=article-content><h2 id=name>Name</h2><p>ack - grep-like text finder 类grep的文本搜索</p><h2 id=synopsis>SYNOPSIS</h2><ul><li>ack [options] PATTERN [FILE&mldr;] // 查文本</li><li>ack -f [options] [DIRECTORY&mldr;] // 搜文件</li></ul><h2 id=description>DESCRIPTION</h2><p>ack 被设计为程序员的 grep 的替代品。</p><p>ack 在输入文件或目录中搜索与给定模式匹配的行。默认情况下， ack 打印匹配的行。如果没有给出 FILE 或 DIRECTORY，则将搜索当前目录。</p><p>Ack 还可以列出将要搜索的文件，而无需实际搜索它们，以让您利用 ack 的文件类型过滤功能。</p><h2 id=file-selection>FILE SELECTION</h2><p>如果没有指定文件进行搜索，无论是在命令行上还是使用 -x 选项通过管道输入，ack 都会深入到子目录中选择文件进行搜索。</p><blockquote><p>-x Read the list of files to search from STDIN.</p></blockquote><p>ack 对它搜索的文件很智能。它基于文件的扩展名以及在某些情况下文件的内容了解某些文件类型。可以使用 &ndash;type 选项进行这些选择。</p><blockquote><p>example: ack &ndash;type=python</p></blockquote><p>在没有文件选择的情况下，ack 搜索没有被 &ndash;ignore-dir 和 &ndash;ignore-file 选项明确排除的常规文件，这些文件要么存在于 ackrc 文件中，要么存在于命令行中。</p><p>ack 的默认选项忽略某些文件和目录。这些包括：</p><ul><li>备份文件：匹配 #*# 或以 ~ 结尾的文件。</li><li>Coredumps：与核心匹配的文件。\d+</li><li>版本控制目录，如 .svn 和 .git。</li></ul><p>使用 &ndash;dump 选项运行 ack 以查看设置了哪些设置。<br>但是，ack 总是搜索命令行中给出的文件，不管是什么类型。如果你告诉 ack 在 coredump 中搜索，它会在 coredump 中搜索。</p><h2 id=directory-selection>DIRECTORY SELECTION</h2><p>Ack通过指定的起始目录的目录树递归。如果没有指定目录，则使用当前工作目录。但是，它将忽略许多版本控制系统使用的影子目录，以及Perl MakeMaker系统使用的构建目录。你可以使用——[no]ignore-dir选项从这个列表中添加或删除一个目录。该选项可以重复添加/删除忽略列表中的多个目录。</p><p>有关未搜索的目录的完整列表，请运行 ack &ndash;dump。</p><h2 id=matching-in-a-range-of-lines>MATCHING IN A RANGE OF LINES</h2><p>&ndash;range-start 和 &ndash;range-end 选项允许您指定要在每个文件中搜索的行范围。<br>假设您有以下文件，称为 testfile：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    # This function calls print on &#34;foo&#34;.
+</span></span><span class=line><span class=cl>    sub foo {
+</span></span><span class=line><span class=cl>        print &#39;foo&#39;;
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>    my $print = 1;
+</span></span><span class=line><span class=cl>    sub bar {
+</span></span><span class=line><span class=cl>        print &#39;bar&#39;;
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>    my $task = &#39;print&#39;;
+</span></span></code></pre></td></tr></table></div></div><p>调用 ack print 会给我们五个匹配项：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    $ ack print testfile
+</span></span><span class=line><span class=cl>    # This function calls print on &#34;foo&#34;.
+</span></span><span class=line><span class=cl>        print &#39;foo&#39;;
+</span></span><span class=line><span class=cl>    my $print = 1;
+</span></span><span class=line><span class=cl>        print &#39;bar&#39;;
+</span></span><span class=line><span class=cl>    my $task = &#39;print&#39;;\
+</span></span></code></pre></td></tr></table></div></div><p>如果我们只想在子程序中搜索 print 怎么办？我们可以指定要 ack 搜索的行的范围。范围以匹配模式 ^sub \w+ 的行开始，并以匹配 ^} 的行结束。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>  $ ack --range-start=&#39;^sub \w+&#39; --range-end=&#39;^}&#39; print testfile
+</span></span><span class=line><span class=cl>        print &#39;foo&#39;;
+</span></span><span class=line><span class=cl>        print &#39;bar&#39;;
+</span></span></code></pre></td></tr></table></div></div><p>请注意， ack 搜索了两个范围的行。下面的清单显示了哪些行在范围内，哪些行不在范围内。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    Out # This function calls print on &#34;foo&#34;.
+</span></span><span class=line><span class=cl>    In  sub foo {
+</span></span><span class=line><span class=cl>    In      print &#39;foo&#39;;
+</span></span><span class=line><span class=cl>    In  }
+</span></span><span class=line><span class=cl>    Out my $print = 1;
+</span></span><span class=line><span class=cl>    In  sub bar {
+</span></span><span class=line><span class=cl>    In      print &#39;bar&#39;;
+</span></span><span class=line><span class=cl>    In  }
+</span></span><span class=line><span class=cl>    Out my $task = &#39;print&#39;;
+</span></span></code></pre></td></tr></table></div></div><p>不必同时指定 &ndash;range-start 和 &ndash;range-end。 如果省略&ndash;range-start，则范围从文件中的第一行开始，即匹配&ndash;range-end的第一行。类似地，如果省略 &ndash;range-end，则范围从匹配 &ndash;range-start 的第一行到文件末尾。
+例如，如果你想搜索所有 HTML 文件直到 <body>的第一个实例，你可以这样做</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    ack foo --range-end=&#39;&lt;body&gt;&#39;
+</span></span></code></pre></td></tr></table></div></div><p>或者搜索 Perl 的 <code>__DATA__</code> 或 <code>__END__</code> 标记，你可以这样做</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    ack pattern --range-end=&#39;^__(END|DATA)__&#39;
+</span></span></code></pre></td></tr></table></div></div><p>范围可以在同一行开始和停止。例如:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    --range-start=&#39;&lt;title&gt;&#39; --range-end=&#39;&lt;/title&gt;&#39;
+</span></span></code></pre></td></tr></table></div></div><p>将匹配该行作为范围的开始和结束，形成单行范围。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>   &lt;title&gt;Page title&lt;/title&gt; 
+</span></span></code></pre></td></tr></table></div></div><p>请注意，&ndash;range-start 和 &ndash;range-end 中的模式不受 -i、-w 和 -Q 等选项的影响，这些选项会修改被匹配的主模式的行为。</p><p>同样，范围仅影响查找匹配项的位置。 ack 中的其他所有内容都以相同的方式工作。对范围使用 -c 选项将计算出现在这些范围内的所有匹配项。 -l 显示在某个范围内匹配的文件，-L 选项显示在某个范围内没有匹配的文件。</p><p>用于否定匹配的 -v 选项也适用于该范围内。要在 HTML 文件的“<head>”部分中查看与“google”不匹配的行，您可以执行以下操作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    ack google -v --html --range-start=&#39;&lt;head&#39; --range-end=&#39;&lt;/head&gt;&#39;
+</span></span></code></pre></td></tr></table></div></div><p>指定要搜索的范围不会影响匹配项的显示方式。匹配的上下文仍然是相同的，并且使用上下文选项的工作方式相同，即使上下文行超出范围，也会显示匹配的上下文行。同样， &ndash;passthru 将显示文件中的所有行，但仅显示范围内的行的匹配项。</p><h2 id=options>OPTIONS</h2><p>`### &ndash;ackrc
+指定要在所有其他文件之后加载的 ackrc 文件；请参阅 <a class=link href=#ackrc-location-semantics>&ldquo;ACKRC LOCATION SEMANTICS&rdquo;</a>.</p><h3 id=-a-num-after-contextnum>-A NUM, &ndash;after-context=NUM</h3><p>在匹配行之后打印 NUM 行。</p><h3 id=-b-num-before-contextnum>-B NUM, &ndash;before-context=NUM</h3><p>在匹配行之前打印 NUM 行。</p><h3 id=nobreak>&ndash;[no]break</h3><p>打印来自不同文件的结果之间的中断。交互使用时默认开启。</p><h3 id=-c-num-contextnum>-C [NUM], &ndash;context[=NUM]</h3><p>在匹配行周围打印 NUM 行（默认 2）上下文。您可以指定零行上下文来覆盖 ackrc 中指定的另一个上下文。</p><h3 id=-c-count>-c, &ndash;count</h3><p>抑制正常输出； 而是打印每个输入文件的匹配行数。 如果 -l 生效，它只会显示每个文件的行数匹配的行数。 如果没有 -l，某些行数可能为零。
+如果结合 -h (&ndash;no-filename) ack 只输出一个总数。</p><h3 id=nocolor-nocolour>&ndash;[no]color, &ndash;[no]colour</h3><p>&ndash;color 突出显示匹配的文本。 &ndash;nocolor 抑制颜色。 除非输出被重定向，否则默认情况下这是打开的。<br>在 Windows 上，此选项默认关闭，除非安装了 Win32::Console::ANSI 模块或使用了 ACK_PAGER_COLOR 环境变量。</p><h3 id=color-filenamecolor>&ndash;color-filename=color</h3><p>设置用于文件名的颜色。</p><h3 id=color-matchcolor>&ndash;color-match=color</h3><p>设置用于匹配的颜色。</p><h3 id=color-colnocolor>&ndash;color-colno=color</h3><p>设置用于列号的颜色。</p><h3 id=color-linenocolor>&ndash;color-lineno=color</h3><p>设置用于行号的颜色。</p><h3 id=nocolumn>&ndash;[no]column</h3><p>显示第一个匹配的列号。这对于可以将光标放在给定位置的编辑器很有帮助。</p><h3 id=create-ackrc>&ndash;create-ackrc</h3><p>将默认 ack 选项转储到标准输出。当您想要自定义默认值时，这很有用。</p><h3 id=dump>&ndash;dump</h3><p>将加载的选项列表及其来源写入标准输出。方便调试。</p><h3 id=noenv>&ndash;[no]env</h3><p>&ndash;noenv 禁用所有环境处理。不读取 .ackrc 并忽略所有环境变量。默认情况下，ack 会考虑环境中的 .ackrc 和设置。</p><h3 id=flush>&ndash;flush</h3><p>&ndash;flush 立即刷新输出。默认情况下这是关闭的，除非 ack 以交互方式运行（当输出到管道或文件时）。</p><h3 id=-f>-f</h3><p>打印将要搜索的文件，而不实际进行任何搜索。不得指定 PATTERN，否则将被视为搜索路径。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span><span class=lnt>200
+</span><span class=lnt>201
+</span><span class=lnt>202
+</span><span class=lnt>203
+</span><span class=lnt>204
+</span><span class=lnt>205
+</span><span class=lnt>206
+</span><span class=lnt>207
+</span><span class=lnt>208
+</span><span class=lnt>209
+</span><span class=lnt>210
+</span><span class=lnt>211
+</span><span class=lnt>212
+</span><span class=lnt>213
+</span><span class=lnt>214
+</span><span class=lnt>215
+</span><span class=lnt>216
+</span><span class=lnt>217
+</span><span class=lnt>218
+</span><span class=lnt>219
+</span><span class=lnt>220
+</span><span class=lnt>221
+</span><span class=lnt>222
+</span><span class=lnt>223
+</span><span class=lnt>224
+</span><span class=lnt>225
+</span><span class=lnt>226
+</span><span class=lnt>227
+</span><span class=lnt>228
+</span><span class=lnt>229
+</span><span class=lnt>230
+</span><span class=lnt>231
+</span><span class=lnt>232
+</span><span class=lnt>233
+</span><span class=lnt>234
+</span><span class=lnt>235
+</span><span class=lnt>236
+</span><span class=lnt>237
+</span><span class=lnt>238
+</span><span class=lnt>239
+</span><span class=lnt>240
+</span><span class=lnt>241
+</span><span class=lnt>242
+</span><span class=lnt>243
+</span><span class=lnt>244
+</span><span class=lnt>245
+</span><span class=lnt>246
+</span><span class=lnt>247
+</span><span class=lnt>248
+</span><span class=lnt>249
+</span><span class=lnt>250
+</span><span class=lnt>251
+</span><span class=lnt>252
+</span><span class=lnt>253
+</span><span class=lnt>254
+</span><span class=lnt>255
+</span><span class=lnt>256
+</span><span class=lnt>257
+</span><span class=lnt>258
+</span><span class=lnt>259
+</span><span class=lnt>260
+</span><span class=lnt>261
+</span><span class=lnt>262
+</span><span class=lnt>263
+</span><span class=lnt>264
+</span><span class=lnt>265
+</span><span class=lnt>266
+</span><span class=lnt>267
+</span><span class=lnt>268
+</span><span class=lnt>269
+</span><span class=lnt>270
+</span><span class=lnt>271
+</span><span class=lnt>272
+</span><span class=lnt>273
+</span><span class=lnt>274
+</span><span class=lnt>275
+</span><span class=lnt>276
+</span><span class=lnt>277
+</span><span class=lnt>278
+</span><span class=lnt>279
+</span><span class=lnt>280
+</span><span class=lnt>281
+</span><span class=lnt>282
+</span><span class=lnt>283
+</span><span class=lnt>284
+</span><span class=lnt>285
+</span><span class=lnt>286
+</span><span class=lnt>287
+</span><span class=lnt>288
+</span><span class=lnt>289
+</span><span class=lnt>290
+</span><span class=lnt>291
+</span><span class=lnt>292
+</span><span class=lnt>293
+</span><span class=lnt>294
+</span><span class=lnt>295
+</span><span class=lnt>296
+</span><span class=lnt>297
+</span><span class=lnt>298
+</span><span class=lnt>299
+</span><span class=lnt>300
+</span><span class=lnt>301
+</span><span class=lnt>302
+</span><span class=lnt>303
+</span><span class=lnt>304
+</span><span class=lnt>305
+</span><span class=lnt>306
+</span><span class=lnt>307
+</span><span class=lnt>308
+</span><span class=lnt>309
+</span><span class=lnt>310
+</span><span class=lnt>311
+</span><span class=lnt>312
+</span><span class=lnt>313
+</span><span class=lnt>314
+</span><span class=lnt>315
+</span><span class=lnt>316
+</span><span class=lnt>317
+</span><span class=lnt>318
+</span><span class=lnt>319
+</span><span class=lnt>320
+</span><span class=lnt>321
+</span><span class=lnt>322
+</span><span class=lnt>323
+</span><span class=lnt>324
+</span><span class=lnt>325
+</span><span class=lnt>326
+</span><span class=lnt>327
+</span><span class=lnt>328
+</span><span class=lnt>329
+</span><span class=lnt>330
+</span><span class=lnt>331
+</span><span class=lnt>332
+</span><span class=lnt>333
+</span><span class=lnt>334
+</span><span class=lnt>335
+</span><span class=lnt>336
+</span><span class=lnt>337
+</span><span class=lnt>338
+</span><span class=lnt>339
+</span><span class=lnt>340
+</span><span class=lnt>341
+</span><span class=lnt>342
+</span><span class=lnt>343
+</span><span class=lnt>344
+</span><span class=lnt>345
+</span><span class=lnt>346
+</span><span class=lnt>347
+</span><span class=lnt>348
+</span><span class=lnt>349
+</span><span class=lnt>350
+</span><span class=lnt>351
+</span><span class=lnt>352
+</span><span class=lnt>353
+</span><span class=lnt>354
+</span><span class=lnt>355
+</span><span class=lnt>356
+</span><span class=lnt>357
+</span><span class=lnt>358
+</span><span class=lnt>359
+</span><span class=lnt>360
+</span><span class=lnt>361
+</span><span class=lnt>362
+</span><span class=lnt>363
+</span><span class=lnt>364
+</span><span class=lnt>365
+</span><span class=lnt>366
+</span><span class=lnt>367
+</span><span class=lnt>368
+</span><span class=lnt>369
+</span><span class=lnt>370
+</span><span class=lnt>371
+</span><span class=lnt>372
+</span><span class=lnt>373
+</span><span class=lnt>374
+</span><span class=lnt>375
+</span><span class=lnt>376
+</span><span class=lnt>377
+</span><span class=lnt>378
+</span><span class=lnt>379
+</span><span class=lnt>380
+</span><span class=lnt>381
+</span><span class=lnt>382
+</span><span class=lnt>383
+</span><span class=lnt>384
+</span><span class=lnt>385
+</span><span class=lnt>386
+</span><span class=lnt>387
+</span><span class=lnt>388
+</span><span class=lnt>389
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl>       <span class=o>--</span><span class=n>ackrc</span>
+</span></span><span class=line><span class=cl>           <span class=n>Specifies</span> <span class=n>an</span> <span class=n>ackrc</span> <span class=n>file</span> <span class=n>to</span> <span class=nb>load</span> <span class=n>after</span> <span class=n>all</span> <span class=n>others</span><span class=p>;</span> <span class=n>see</span> <span class=s2>&#34;ACKRC LOCATION SEMANTICS&#34;</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>A</span> <span class=n>NUM</span><span class=p>,</span> <span class=o>--</span><span class=n>after</span><span class=o>-</span><span class=n>context</span><span class=o>=</span><span class=n>NUM</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>NUM</span> <span class=n>lines</span> <span class=n>of</span> <span class=n>trailing</span> <span class=n>context</span> <span class=n>after</span> <span class=n>matching</span> <span class=n>lines</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>B</span> <span class=n>NUM</span><span class=p>,</span> <span class=o>--</span><span class=n>before</span><span class=o>-</span><span class=n>context</span><span class=o>=</span><span class=n>NUM</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>NUM</span> <span class=n>lines</span> <span class=n>of</span> <span class=n>leading</span> <span class=n>context</span> <span class=n>before</span> <span class=n>matching</span> <span class=n>lines</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=k>break</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>a</span> <span class=k>break</span> <span class=n>between</span> <span class=n>results</span> <span class=n>from</span> <span class=n>different</span> <span class=n>files</span><span class=o>.</span> <span class=n>On</span> <span class=n>by</span> <span class=n>default</span> <span class=n>when</span> <span class=n>used</span>
+</span></span><span class=line><span class=cl>           <span class=n>interactively</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>C</span> <span class=p>[</span><span class=n>NUM</span><span class=p>],</span> <span class=o>--</span><span class=n>context</span><span class=p>[</span><span class=o>=</span><span class=n>NUM</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>NUM</span> <span class=n>lines</span> <span class=p>(</span><span class=n>default</span> <span class=mi>2</span><span class=p>)</span> <span class=n>of</span> <span class=n>context</span> <span class=n>around</span> <span class=n>matching</span> <span class=n>lines</span><span class=o>.</span>  <span class=n>You</span> <span class=n>can</span> <span class=n>specify</span> <span class=n>zero</span>
+</span></span><span class=line><span class=cl>           <span class=n>lines</span> <span class=n>of</span> <span class=n>context</span> <span class=n>to</span> <span class=n>override</span> <span class=n>another</span> <span class=n>context</span> <span class=n>specified</span> <span class=ow>in</span> <span class=n>an</span> <span class=n>ackrc</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>c</span><span class=p>,</span> <span class=o>--</span><span class=n>count</span>
+</span></span><span class=line><span class=cl>           <span class=n>Suppress</span> <span class=n>normal</span> <span class=n>output</span><span class=p>;</span> <span class=n>instead</span> <span class=nb>print</span> <span class=n>a</span> <span class=n>count</span> <span class=n>of</span> <span class=n>matching</span> <span class=n>lines</span> <span class=k>for</span> <span class=n>each</span> <span class=n>input</span>
+</span></span><span class=line><span class=cl>           <span class=n>file</span><span class=o>.</span>  <span class=n>If</span> <span class=o>-</span><span class=n>l</span> <span class=n>is</span> <span class=ow>in</span> <span class=n>effect</span><span class=p>,</span> <span class=n>it</span> <span class=n>will</span> <span class=n>only</span> <span class=n>show</span> <span class=n>the</span> <span class=n>number</span> <span class=n>of</span> <span class=n>lines</span> <span class=k>for</span> <span class=n>each</span> <span class=n>file</span> <span class=n>that</span>
+</span></span><span class=line><span class=cl>           <span class=n>has</span> <span class=n>lines</span> <span class=n>matching</span><span class=o>.</span>  <span class=n>Without</span> <span class=o>-</span><span class=n>l</span><span class=p>,</span> <span class=n>some</span> <span class=n>line</span> <span class=n>counts</span> <span class=n>may</span> <span class=n>be</span> <span class=n>zeroes</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>If</span> <span class=n>combined</span> <span class=n>with</span> <span class=o>-</span><span class=n>h</span> <span class=p>(</span><span class=o>--</span><span class=n>no</span><span class=o>-</span><span class=n>filename</span><span class=p>)</span> <span class=n>ack</span> <span class=n>outputs</span> <span class=n>only</span> <span class=n>one</span> <span class=n>total</span> <span class=n>count</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>color</span><span class=p>,</span> <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>colour</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>color</span> <span class=n>highlights</span> <span class=n>the</span> <span class=n>matching</span> <span class=n>text</span><span class=o>.</span>  <span class=o>--</span><span class=n>nocolor</span> <span class=n>suppresses</span> <span class=n>the</span> <span class=n>color</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>on</span>
+</span></span><span class=line><span class=cl>           <span class=n>by</span> <span class=n>default</span> <span class=n>unless</span> <span class=n>the</span> <span class=n>output</span> <span class=n>is</span> <span class=n>redirected</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>On</span> <span class=n>Windows</span><span class=p>,</span> <span class=n>this</span> <span class=n>option</span> <span class=n>is</span> <span class=n>off</span> <span class=n>by</span> <span class=n>default</span> <span class=n>unless</span> <span class=n>the</span> <span class=n>Win32</span><span class=p>::</span><span class=n>Console</span><span class=p>::</span><span class=n>ANSI</span> <span class=n>module</span> <span class=n>is</span>
+</span></span><span class=line><span class=cl>           <span class=n>installed</span> <span class=ow>or</span> <span class=n>the</span> <span class=s2>&#34;ACK_PAGER_COLOR&#34;</span> <span class=n>environment</span> <span class=n>variable</span> <span class=n>is</span> <span class=n>used</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>color</span><span class=o>-</span><span class=n>filename</span><span class=o>=</span><span class=n>color</span>
+</span></span><span class=line><span class=cl>           <span class=n>Sets</span> <span class=n>the</span> <span class=n>color</span> <span class=n>to</span> <span class=n>be</span> <span class=n>used</span> <span class=k>for</span> <span class=n>filenames</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>color</span><span class=o>-</span><span class=n>match</span><span class=o>=</span><span class=n>color</span>
+</span></span><span class=line><span class=cl>           <span class=n>Sets</span> <span class=n>the</span> <span class=n>color</span> <span class=n>to</span> <span class=n>be</span> <span class=n>used</span> <span class=k>for</span> <span class=n>matches</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>color</span><span class=o>-</span><span class=n>colno</span><span class=o>=</span><span class=n>color</span>
+</span></span><span class=line><span class=cl>           <span class=n>Sets</span> <span class=n>the</span> <span class=n>color</span> <span class=n>to</span> <span class=n>be</span> <span class=n>used</span> <span class=k>for</span> <span class=n>column</span> <span class=n>numbers</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>color</span><span class=o>-</span><span class=n>lineno</span><span class=o>=</span><span class=n>color</span>
+</span></span><span class=line><span class=cl>           <span class=n>Sets</span> <span class=n>the</span> <span class=n>color</span> <span class=n>to</span> <span class=n>be</span> <span class=n>used</span> <span class=k>for</span> <span class=n>line</span> <span class=n>numbers</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>column</span>
+</span></span><span class=line><span class=cl>           <span class=n>Show</span> <span class=n>the</span> <span class=n>column</span> <span class=n>number</span> <span class=n>of</span> <span class=n>the</span> <span class=n>first</span> <span class=n>match</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>helpful</span> <span class=k>for</span> <span class=n>editors</span> <span class=n>that</span> <span class=n>can</span>
+</span></span><span class=line><span class=cl>           <span class=n>place</span> <span class=n>your</span> <span class=n>cursor</span> <span class=n>at</span> <span class=n>a</span> <span class=n>given</span> <span class=n>position</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>create</span><span class=o>-</span><span class=n>ackrc</span>
+</span></span><span class=line><span class=cl>           <span class=n>Dumps</span> <span class=n>the</span> <span class=n>default</span> <span class=n>ack</span> <span class=n>options</span> <span class=n>to</span> <span class=n>standard</span> <span class=n>output</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>useful</span> <span class=k>for</span> <span class=n>when</span> <span class=n>you</span> <span class=n>want</span>
+</span></span><span class=line><span class=cl>           <span class=n>to</span> <span class=n>customize</span> <span class=n>the</span> <span class=n>defaults</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>dump</span>
+</span></span><span class=line><span class=cl>           <span class=n>Writes</span> <span class=n>the</span> <span class=n>list</span> <span class=n>of</span> <span class=n>options</span> <span class=n>loaded</span> <span class=ow>and</span> <span class=n>where</span> <span class=n>they</span> <span class=n>came</span> <span class=n>from</span> <span class=n>to</span> <span class=n>standard</span> <span class=n>output</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>           <span class=n>Handy</span> <span class=k>for</span> <span class=n>debugging</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>env</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>noenv</span> <span class=n>disables</span> <span class=n>all</span> <span class=n>environment</span> <span class=n>processing</span><span class=o>.</span> <span class=n>No</span> <span class=o>.</span><span class=n>ackrc</span> <span class=n>is</span> <span class=n>read</span> <span class=ow>and</span> <span class=n>all</span> <span class=n>environment</span>
+</span></span><span class=line><span class=cl>           <span class=n>variables</span> <span class=n>are</span> <span class=n>ignored</span><span class=o>.</span> <span class=n>By</span> <span class=n>default</span><span class=p>,</span> <span class=n>ack</span> <span class=n>considers</span> <span class=o>.</span><span class=n>ackrc</span> <span class=ow>and</span> <span class=n>settings</span> <span class=ow>in</span> <span class=n>the</span>
+</span></span><span class=line><span class=cl>           <span class=n>environment</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>flush</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>flush</span> <span class=n>flushes</span> <span class=n>output</span> <span class=n>immediately</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>off</span> <span class=n>by</span> <span class=n>default</span> <span class=n>unless</span> <span class=n>ack</span> <span class=n>is</span> <span class=n>running</span>
+</span></span><span class=line><span class=cl>           <span class=n>interactively</span> <span class=p>(</span><span class=n>when</span> <span class=n>output</span> <span class=n>goes</span> <span class=n>to</span> <span class=n>a</span> <span class=n>pipe</span> <span class=ow>or</span> <span class=n>file</span><span class=p>)</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>f</span>  <span class=n>Only</span> <span class=nb>print</span> <span class=n>the</span> <span class=n>files</span> <span class=n>that</span> <span class=n>would</span> <span class=n>be</span> <span class=n>searched</span><span class=p>,</span> <span class=n>without</span> <span class=n>actually</span> <span class=n>doing</span> <span class=n>any</span> <span class=n>searching</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>           <span class=n>PATTERN</span> <span class=n>must</span> <span class=ow>not</span> <span class=n>be</span> <span class=n>specified</span><span class=p>,</span> <span class=ow>or</span> <span class=n>it</span> <span class=n>will</span> <span class=n>be</span> <span class=n>taken</span> <span class=n>as</span> <span class=n>a</span> <span class=n>path</span> <span class=n>to</span> <span class=n>search</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>files</span><span class=o>-</span><span class=n>from</span><span class=o>=</span><span class=n>FILE</span>
+</span></span><span class=line><span class=cl>           <span class=n>The</span> <span class=n>list</span> <span class=n>of</span> <span class=n>files</span> <span class=n>to</span> <span class=n>be</span> <span class=n>searched</span> <span class=n>is</span> <span class=n>specified</span> <span class=ow>in</span> <span class=n>FILE</span><span class=o>.</span>  <span class=n>The</span> <span class=n>list</span> <span class=n>of</span> <span class=n>files</span> <span class=n>are</span>
+</span></span><span class=line><span class=cl>           <span class=n>separated</span> <span class=n>by</span> <span class=n>newlines</span><span class=o>.</span>  <span class=n>If</span> <span class=n>FILE</span> <span class=n>is</span> <span class=s2>&#34;-&#34;</span><span class=p>,</span> <span class=n>the</span> <span class=n>list</span> <span class=n>is</span> <span class=n>loaded</span> <span class=n>from</span> <span class=n>standard</span> <span class=n>input</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>Note</span> <span class=n>that</span> <span class=n>the</span> <span class=n>list</span> <span class=n>of</span> <span class=n>files</span> <span class=n>is</span> <span class=ow>not</span> <span class=n>filtered</span> <span class=ow>in</span> <span class=n>any</span> <span class=n>way</span><span class=o>.</span>  <span class=n>If</span> <span class=n>you</span> <span class=n>add</span> <span class=s2>&#34;--type=html&#34;</span>
+</span></span><span class=line><span class=cl>           <span class=ow>in</span> <span class=n>addition</span> <span class=n>to</span> <span class=s2>&#34;--files-from&#34;</span><span class=p>,</span> <span class=n>the</span> <span class=s2>&#34;--type&#34;</span> <span class=n>will</span> <span class=n>be</span> <span class=n>ignored</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>filter</span>
+</span></span><span class=line><span class=cl>           <span class=n>Forces</span> <span class=n>ack</span> <span class=n>to</span> <span class=n>act</span> <span class=n>as</span> <span class=k>if</span> <span class=n>it</span> <span class=n>were</span> <span class=n>receiving</span> <span class=n>input</span> <span class=n>via</span> <span class=n>a</span> <span class=n>pipe</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>follow</span>
+</span></span><span class=line><span class=cl>           <span class=n>Follow</span> <span class=ow>or</span> <span class=n>don</span><span class=s1>&#39;t follow symlinks, other than whatever starting files or directories</span>
+</span></span><span class=line><span class=cl>           <span class=n>were</span> <span class=n>specified</span> <span class=n>on</span> <span class=n>the</span> <span class=n>command</span> <span class=n>line</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>           
+</span></span><span class=line><span class=cl>           <span class=n>This</span> <span class=n>is</span> <span class=n>off</span> <span class=n>by</span> <span class=n>default</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>g</span> <span class=n>PATTERN</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>searchable</span> <span class=n>files</span> <span class=n>where</span> <span class=n>the</span> <span class=n>relative</span> <span class=n>path</span> <span class=o>+</span> <span class=n>filename</span> <span class=n>matches</span> <span class=n>PATTERN</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>Note</span> <span class=n>that</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=n>ack</span> <span class=o>-</span><span class=n>g</span> <span class=n>foo</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>is</span> <span class=n>exactly</span> <span class=n>the</span> <span class=n>same</span> <span class=n>as</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=n>ack</span> <span class=o>-</span><span class=n>f</span> <span class=o>|</span> <span class=n>ack</span> <span class=n>foo</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>This</span> <span class=n>means</span> <span class=n>that</span> <span class=n>just</span> <span class=n>as</span> <span class=n>ack</span> <span class=n>will</span> <span class=ow>not</span> <span class=n>search</span><span class=p>,</span> <span class=k>for</span> <span class=n>example</span><span class=p>,</span> <span class=o>.</span><span class=n>jpg</span> <span class=n>files</span><span class=p>,</span> <span class=s2>&#34;-g&#34;</span> <span class=n>will</span> <span class=ow>not</span>
+</span></span><span class=line><span class=cl>           <span class=n>list</span> <span class=o>.</span><span class=n>jpg</span> <span class=n>files</span> <span class=n>either</span><span class=o>.</span>  <span class=n>ack</span> <span class=n>is</span> <span class=ow>not</span> <span class=n>intended</span> <span class=n>to</span> <span class=n>be</span> <span class=n>a</span> <span class=n>general</span><span class=o>-</span><span class=n>purpose</span> <span class=n>file</span> <span class=n>finder</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>Note</span> <span class=n>also</span> <span class=n>that</span> <span class=k>if</span> <span class=n>you</span> <span class=n>have</span> <span class=s2>&#34;-i&#34;</span> <span class=ow>in</span> <span class=n>your</span> <span class=o>.</span><span class=n>ackrc</span> <span class=n>that</span> <span class=n>the</span> <span class=n>filenames</span> <span class=n>to</span> <span class=n>be</span> <span class=n>matched</span>
+</span></span><span class=line><span class=cl>           <span class=n>will</span> <span class=n>be</span> <span class=k>case</span><span class=o>-</span><span class=n>insensitive</span> <span class=n>as</span> <span class=n>well</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>This</span> <span class=n>option</span> <span class=n>can</span> <span class=n>be</span> <span class=n>combined</span> <span class=n>with</span> <span class=o>--</span><span class=n>color</span> <span class=n>to</span> <span class=n>make</span> <span class=n>it</span> <span class=n>easier</span> <span class=n>to</span> <span class=n>spot</span> <span class=n>the</span> <span class=n>match</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>group</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>group</span> <span class=n>groups</span> <span class=n>matches</span> <span class=n>by</span> <span class=n>file</span> <span class=n>name</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>the</span> <span class=n>default</span> <span class=n>when</span> <span class=n>used</span> <span class=n>interactively</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>nogroup</span> <span class=nb>prints</span> <span class=n>one</span> <span class=n>result</span> <span class=n>per</span> <span class=n>line</span><span class=p>,</span> <span class=n>like</span> <span class=n>grep</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>the</span> <span class=n>default</span> <span class=n>when</span> <span class=n>output</span>
+</span></span><span class=line><span class=cl>           <span class=n>is</span> <span class=n>redirected</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>H</span><span class=p>,</span> <span class=o>--</span><span class=n>with</span><span class=o>-</span><span class=n>filename</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>the</span> <span class=n>filename</span> <span class=k>for</span> <span class=n>each</span> <span class=n>match</span><span class=o>.</span> <span class=n>This</span> <span class=n>is</span> <span class=n>the</span> <span class=n>default</span> <span class=n>unless</span> <span class=n>searching</span> <span class=n>a</span> <span class=n>single</span>
+</span></span><span class=line><span class=cl>           <span class=n>explicitly</span> <span class=n>specified</span> <span class=n>file</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>h</span><span class=p>,</span> <span class=o>--</span><span class=n>no</span><span class=o>-</span><span class=n>filename</span>
+</span></span><span class=line><span class=cl>           <span class=n>Suppress</span> <span class=n>the</span> <span class=n>prefixing</span> <span class=n>of</span> <span class=n>filenames</span> <span class=n>on</span> <span class=n>output</span> <span class=n>when</span> <span class=n>multiple</span> <span class=n>files</span> <span class=n>are</span> <span class=n>searched</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>heading</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>a</span> <span class=n>filename</span> <span class=n>heading</span> <span class=n>above</span> <span class=n>each</span> <span class=n>file</span><span class=s1>&#39;s results.  This is the default when used</span>
+</span></span><span class=line><span class=cl>           <span class=n>interactively</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>help</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>a</span> <span class=n>short</span> <span class=n>help</span> <span class=n>statement</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>help</span><span class=o>-</span><span class=n>types</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>all</span> <span class=n>known</span> <span class=n>types</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>help</span><span class=o>-</span><span class=n>colors</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>a</span> <span class=n>chart</span> <span class=n>of</span> <span class=n>various</span> <span class=n>color</span> <span class=n>combinations</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>help</span><span class=o>-</span><span class=n>rgb</span><span class=o>-</span><span class=n>colors</span>
+</span></span><span class=line><span class=cl>           <span class=n>Like</span> <span class=o>--</span><span class=n>help</span><span class=o>-</span><span class=n>colors</span> <span class=n>but</span> <span class=n>with</span> <span class=n>more</span> <span class=n>precise</span> <span class=n>RGB</span> <span class=n>colors</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>i</span><span class=p>,</span> <span class=o>--</span><span class=n>ignore</span><span class=o>-</span><span class=k>case</span>
+</span></span><span class=line><span class=cl>           <span class=n>Ignore</span> <span class=k>case</span> <span class=n>distinctions</span> <span class=ow>in</span> <span class=n>PATTERN</span><span class=o>.</span>  <span class=n>Overrides</span> <span class=o>--</span><span class=n>smart</span><span class=o>-</span><span class=k>case</span> <span class=ow>and</span> <span class=o>-</span><span class=n>I</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>I</span><span class=p>,</span> <span class=o>--</span><span class=n>no</span><span class=o>-</span><span class=n>ignore</span><span class=o>-</span><span class=k>case</span>
+</span></span><span class=line><span class=cl>           <span class=n>Turns</span> <span class=n>on</span> <span class=k>case</span> <span class=n>distinctions</span> <span class=ow>in</span> <span class=n>PATTERN</span><span class=o>.</span>  <span class=n>Overrides</span> <span class=o>--</span><span class=n>smart</span><span class=o>-</span><span class=k>case</span> <span class=ow>and</span> <span class=o>-</span><span class=n>i</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>ignore</span><span class=o>-</span><span class=n>ack</span><span class=o>-</span><span class=n>defaults</span>
+</span></span><span class=line><span class=cl>           <span class=n>Tells</span> <span class=n>ack</span> <span class=n>to</span> <span class=n>completely</span> <span class=n>ignore</span> <span class=n>the</span> <span class=n>default</span> <span class=n>definitions</span> <span class=n>provided</span> <span class=n>with</span> <span class=n>ack</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span>
+</span></span><span class=line><span class=cl>           <span class=n>useful</span> <span class=ow>in</span> <span class=n>combination</span> <span class=n>with</span> <span class=o>--</span><span class=n>create</span><span class=o>-</span><span class=n>ackrc</span> <span class=k>if</span> <span class=n>you</span> <span class=n>really</span> <span class=n>want</span> <span class=n>to</span> <span class=n>customize</span> <span class=n>ack</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>ignore</span><span class=o>-</span><span class=n>dir</span><span class=o>=</span><span class=n>DIRNAME</span><span class=p>,</span> <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>ignore</span><span class=o>-</span><span class=n>directory</span><span class=o>=</span><span class=n>DIRNAME</span>
+</span></span><span class=line><span class=cl>           <span class=n>Ignore</span> <span class=n>directory</span> <span class=p>(</span><span class=n>as</span> <span class=n>CVS</span><span class=p>,</span> <span class=o>.</span><span class=n>svn</span><span class=p>,</span> <span class=n>etc</span> <span class=n>are</span> <span class=n>ignored</span><span class=p>)</span><span class=o>.</span> <span class=n>May</span> <span class=n>be</span> <span class=n>used</span> <span class=n>multiple</span> <span class=n>times</span> <span class=n>to</span>
+</span></span><span class=line><span class=cl>           <span class=n>ignore</span> <span class=n>multiple</span> <span class=n>directories</span><span class=o>.</span> <span class=n>For</span> <span class=n>example</span><span class=p>,</span> <span class=n>mason</span> <span class=n>users</span> <span class=n>may</span> <span class=n>wish</span> <span class=n>to</span> <span class=n>include</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>ignore</span><span class=o>-</span><span class=n>dir</span><span class=o>=</span><span class=n>data</span><span class=o>.</span> <span class=n>The</span> <span class=o>--</span><span class=n>noignore</span><span class=o>-</span><span class=n>dir</span> <span class=n>option</span> <span class=n>allows</span> <span class=n>users</span> <span class=n>to</span> <span class=n>search</span> <span class=n>directories</span>
+</span></span><span class=line><span class=cl>           <span class=n>which</span> <span class=n>would</span> <span class=n>normally</span> <span class=n>be</span> <span class=n>ignored</span> <span class=p>(</span><span class=n>perhaps</span> <span class=n>to</span> <span class=n>research</span> <span class=n>the</span> <span class=n>contents</span> <span class=n>of</span> <span class=o>.</span><span class=n>svn</span><span class=o>/</span><span class=n>props</span>
+</span></span><span class=line><span class=cl>           <span class=n>directories</span><span class=p>)</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>The</span> <span class=n>DIRNAME</span> <span class=n>must</span> <span class=n>always</span> <span class=n>be</span> <span class=n>a</span> <span class=n>simple</span> <span class=n>directory</span> <span class=n>name</span><span class=o>.</span> <span class=n>Nested</span> <span class=n>directories</span> <span class=n>like</span> <span class=n>foo</span><span class=o>/</span><span class=n>bar</span>
+</span></span><span class=line><span class=cl>           <span class=n>are</span> <span class=n>NOT</span> <span class=n>supported</span><span class=o>.</span> <span class=n>You</span> <span class=n>would</span> <span class=n>need</span> <span class=n>to</span> <span class=n>specify</span> <span class=o>--</span><span class=n>ignore</span><span class=o>-</span><span class=n>dir</span><span class=o>=</span><span class=n>foo</span> <span class=ow>and</span> <span class=n>then</span> <span class=n>no</span> <span class=n>files</span>
+</span></span><span class=line><span class=cl>           <span class=n>from</span> <span class=n>any</span> <span class=n>foo</span> <span class=n>directory</span> <span class=n>are</span> <span class=n>taken</span> <span class=n>into</span> <span class=n>account</span> <span class=n>by</span> <span class=n>ack</span> <span class=n>unless</span> <span class=n>given</span> <span class=n>explicitly</span> <span class=n>on</span> <span class=n>the</span>
+</span></span><span class=line><span class=cl>           <span class=n>command</span> <span class=n>line</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>ignore</span><span class=o>-</span><span class=n>file</span><span class=o>=</span><span class=n>FILTER</span><span class=p>:</span><span class=n>ARGS</span>
+</span></span><span class=line><span class=cl>           <span class=n>Ignore</span> <span class=n>files</span> <span class=n>matching</span> <span class=n>FILTER</span><span class=p>:</span><span class=n>ARGS</span><span class=o>.</span>  <span class=n>The</span> <span class=n>filters</span> <span class=n>are</span> <span class=n>specified</span> <span class=n>identically</span> <span class=n>to</span> <span class=n>file</span>
+</span></span><span class=line><span class=cl>           <span class=n>type</span> <span class=n>filters</span> <span class=n>as</span> <span class=n>seen</span> <span class=ow>in</span> <span class=s2>&#34;Defining your own types&#34;</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>k</span><span class=p>,</span> <span class=o>--</span><span class=n>known</span><span class=o>-</span><span class=n>types</span>
+</span></span><span class=line><span class=cl>           <span class=n>Limit</span> <span class=n>selected</span> <span class=n>files</span> <span class=n>to</span> <span class=n>those</span> <span class=n>with</span> <span class=n>types</span> <span class=n>that</span> <span class=n>ack</span> <span class=n>knows</span> <span class=n>about</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>l</span><span class=p>,</span> <span class=o>--</span><span class=n>files</span><span class=o>-</span><span class=n>with</span><span class=o>-</span><span class=n>matches</span>
+</span></span><span class=line><span class=cl>           <span class=n>Only</span> <span class=nb>print</span> <span class=n>the</span> <span class=n>filenames</span> <span class=n>of</span> <span class=n>matching</span> <span class=n>files</span><span class=p>,</span> <span class=n>instead</span> <span class=n>of</span> <span class=n>the</span> <span class=n>matching</span> <span class=n>text</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>L</span><span class=p>,</span> <span class=o>--</span><span class=n>files</span><span class=o>-</span><span class=n>without</span><span class=o>-</span><span class=n>matches</span>
+</span></span><span class=line><span class=cl>           <span class=n>Only</span> <span class=nb>print</span> <span class=n>the</span> <span class=n>filenames</span> <span class=n>of</span> <span class=n>files</span> <span class=n>that</span> <span class=k>do</span> <span class=n>NOT</span> <span class=n>match</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>match</span> <span class=n>PATTERN</span>
+</span></span><span class=line><span class=cl>           <span class=n>Specify</span> <span class=n>the</span> <span class=n>PATTERN</span> <span class=n>explicitly</span><span class=o>.</span> <span class=n>This</span> <span class=n>is</span> <span class=n>helpful</span> <span class=k>if</span> <span class=n>you</span> <span class=n>don</span><span class=s1>&#39;t want to put the regex</span>
+</span></span><span class=line><span class=cl>           <span class=n>as</span> <span class=n>your</span> <span class=n>first</span> <span class=n>argument</span><span class=p>,</span> <span class=n>e</span><span class=o>.</span><span class=n>g</span><span class=o>.</span> <span class=n>when</span> <span class=n>executing</span> <span class=n>multiple</span> <span class=n>searches</span> <span class=n>over</span> <span class=n>the</span> <span class=n>same</span> <span class=n>set</span> <span class=n>of</span>
+</span></span><span class=line><span class=cl>           <span class=n>files</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=c1># search for foo and bar in given files</span>
+</span></span><span class=line><span class=cl>               <span class=n>ack</span> <span class=n>file1</span> <span class=n>t</span><span class=o>/</span><span class=n>file</span><span class=o>*</span> <span class=o>--</span><span class=n>match</span> <span class=n>foo</span>
+</span></span><span class=line><span class=cl>               <span class=n>ack</span> <span class=n>file1</span> <span class=n>t</span><span class=o>/</span><span class=n>file</span><span class=o>*</span> <span class=o>--</span><span class=n>match</span> <span class=n>bar</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>m</span><span class=o>=</span><span class=n>NUM</span><span class=p>,</span> <span class=o>--</span><span class=nb>max</span><span class=o>-</span><span class=n>count</span><span class=o>=</span><span class=n>NUM</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>only</span> <span class=n>NUM</span> <span class=n>matches</span> <span class=n>out</span> <span class=n>of</span> <span class=n>each</span> <span class=n>file</span><span class=o>.</span>  <span class=n>If</span> <span class=n>you</span> <span class=n>want</span> <span class=n>to</span> <span class=n>stop</span> <span class=n>ack</span> <span class=n>after</span> <span class=n>printing</span>
+</span></span><span class=line><span class=cl>           <span class=n>the</span> <span class=n>first</span> <span class=n>match</span> <span class=n>of</span> <span class=n>any</span> <span class=n>kind</span><span class=p>,</span> <span class=n>use</span> <span class=n>the</span> <span class=o>-</span><span class=mi>1</span> <span class=n>options</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>man</span>
+</span></span><span class=line><span class=cl>           <span class=n>Print</span> <span class=n>this</span> <span class=n>manual</span> <span class=n>page</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>n</span><span class=p>,</span> <span class=o>--</span><span class=n>no</span><span class=o>-</span><span class=n>recurse</span>
+</span></span><span class=line><span class=cl>           <span class=n>No</span> <span class=n>descending</span> <span class=n>into</span> <span class=n>subdirectories</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>o</span>  <span class=n>Show</span> <span class=n>only</span> <span class=n>the</span> <span class=n>part</span> <span class=n>of</span> <span class=n>each</span> <span class=n>line</span> <span class=n>matching</span> <span class=n>PATTERN</span> <span class=p>(</span><span class=n>turns</span> <span class=n>off</span> <span class=n>text</span> <span class=n>highlighting</span><span class=p>)</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>           <span class=n>This</span> <span class=n>is</span> <span class=n>exactly</span> <span class=n>the</span> <span class=n>same</span> <span class=n>as</span> <span class=s2>&#34;--output=$&amp;&#34;</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>output</span><span class=o>=</span><span class=n>expr</span>
+</span></span><span class=line><span class=cl>           <span class=n>Output</span> <span class=n>the</span> <span class=n>evaluation</span> <span class=n>of</span> <span class=n>expr</span> <span class=k>for</span> <span class=n>each</span> <span class=n>line</span> <span class=p>(</span><span class=n>turns</span> <span class=n>off</span> <span class=n>text</span> <span class=n>highlighting</span><span class=p>)</span><span class=o>.</span> <span class=n>If</span>
+</span></span><span class=line><span class=cl>           <span class=n>PATTERN</span> <span class=n>matches</span> <span class=n>more</span> <span class=n>than</span> <span class=n>once</span> <span class=n>then</span> <span class=n>a</span> <span class=n>line</span> <span class=n>is</span> <span class=n>output</span> <span class=k>for</span> <span class=n>each</span> <span class=n>non</span><span class=o>-</span><span class=n>overlapping</span>
+</span></span><span class=line><span class=cl>           <span class=n>match</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>expr</span> <span class=n>may</span> <span class=n>contain</span> <span class=n>the</span> <span class=n>strings</span> <span class=s2>&#34;</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=s2>&#34;</span><span class=se>\r</span><span class=s2>&#34;</span> <span class=ow>and</span> <span class=s2>&#34;</span><span class=se>\t</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>which</span> <span class=n>will</span> <span class=n>be</span> <span class=n>expanded</span> <span class=n>to</span> <span class=n>their</span>
+</span></span><span class=line><span class=cl>           <span class=n>corresponding</span> <span class=n>characters</span> <span class=n>line</span> <span class=n>feed</span><span class=p>,</span> <span class=n>carriage</span> <span class=k>return</span> <span class=ow>and</span> <span class=n>tab</span><span class=p>,</span> <span class=n>respectively</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>expr</span> <span class=n>may</span> <span class=n>also</span> <span class=n>contain</span> <span class=n>the</span> <span class=n>following</span> <span class=n>Perl</span> <span class=n>special</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>$</span><span class=mi>1</span> <span class=n>through</span> <span class=o>$</span><span class=mi>9</span>
+</span></span><span class=line><span class=cl>               <span class=n>The</span> <span class=n>subpattern</span> <span class=n>from</span> <span class=n>the</span> <span class=n>corresponding</span> <span class=n>set</span> <span class=n>of</span> <span class=n>capturing</span> <span class=n>parentheses</span><span class=o>.</span>  <span class=n>If</span> <span class=n>your</span>
+</span></span><span class=line><span class=cl>               <span class=n>pattern</span> <span class=n>is</span> <span class=s2>&#34;(.+) and (.+)&#34;</span><span class=p>,</span> <span class=ow>and</span> <span class=n>the</span> <span class=n>string</span> <span class=n>is</span> <span class=s2>&#34;this and that&#39;, then $1 is</span>
+</span></span><span class=line><span class=cl>               <span class=s2>&#34;this&#34;</span> <span class=ow>and</span> <span class=o>$</span><span class=mi>2</span> <span class=n>is</span> <span class=s2>&#34;that&#34;</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>$</span><span class=n>_</span>  <span class=n>The</span> <span class=n>contents</span> <span class=n>of</span> <span class=n>the</span> <span class=n>line</span> <span class=ow>in</span> <span class=n>the</span> <span class=n>file</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>$.</span>  <span class=n>The</span> <span class=n>number</span> <span class=n>of</span> <span class=n>the</span> <span class=n>line</span> <span class=ow>in</span> <span class=n>the</span> <span class=n>file</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>$&amp;</span><span class=p>,</span> <span class=s2>&#34;$`&#34;</span> <span class=ow>and</span> <span class=s2>&#34;$&#39;&#34;</span>
+</span></span><span class=line><span class=cl>               <span class=o>$&amp;</span> <span class=n>is</span> <span class=n>the</span> <span class=n>the</span> <span class=n>string</span> <span class=n>matched</span> <span class=n>by</span> <span class=n>the</span> <span class=n>pattern</span><span class=p>,</span> <span class=s2>&#34;$`&#34;</span> <span class=n>is</span> <span class=n>what</span> <span class=n>precedes</span> <span class=n>the</span> <span class=n>match</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>               <span class=ow>and</span> <span class=s2>&#34;$&#39;&#34;</span> <span class=n>is</span> <span class=n>what</span> <span class=n>follows</span> <span class=n>it</span><span class=o>.</span>  <span class=n>If</span> <span class=n>the</span> <span class=n>pattern</span> <span class=n>is</span> <span class=s2>&#34;gra(ph|nd)&#34;</span> <span class=ow>and</span> <span class=n>the</span> <span class=n>string</span> <span class=n>is</span>
+</span></span><span class=line><span class=cl>               <span class=s2>&#34;lexicographic&#34;</span><span class=p>,</span> <span class=n>then</span> <span class=o>$&amp;</span> <span class=n>is</span> <span class=s2>&#34;graph&#34;</span><span class=p>,</span> <span class=s2>&#34;$`&#34;</span> <span class=n>is</span> <span class=s2>&#34;lexico&#34;</span> <span class=ow>and</span> <span class=s2>&#34;$&#39;&#34;</span> <span class=n>is</span> <span class=s2>&#34;ic&#34;</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=n>Use</span> <span class=n>of</span> <span class=n>these</span> <span class=n>variables</span> <span class=ow>in</span> <span class=n>your</span> <span class=n>output</span> <span class=n>will</span> <span class=n>slow</span> <span class=n>down</span> <span class=n>the</span> <span class=n>pattern</span> <span class=n>matching</span><span class=o>.</span><span class=n>rocess</span> <span class=n>Scheduling</span> <span class=n>In</span> <span class=n>Linux</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>$+</span>  <span class=n>The</span> <span class=n>match</span> <span class=n>made</span> <span class=n>by</span> <span class=n>the</span> <span class=n>last</span> <span class=n>parentheses</span> <span class=n>that</span> <span class=n>matched</span> <span class=ow>in</span> <span class=n>the</span> <span class=n>pattern</span><span class=o>.</span>  <span class=n>For</span>
+</span></span><span class=line><span class=cl>               <span class=n>example</span><span class=p>,</span> <span class=k>if</span> <span class=n>your</span> <span class=n>pattern</span> <span class=n>is</span> <span class=s2>&#34;Version: (.+)|Revision: (.+)&#34;</span><span class=p>,</span> <span class=n>then</span> <span class=o>$+</span> <span class=n>will</span>
+</span></span><span class=line><span class=cl>               <span class=n>contain</span> <span class=n>whichever</span> <span class=n>set</span> <span class=n>of</span> <span class=n>parentheses</span> <span class=n>matched</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>$</span><span class=n>f</span>  <span class=o>$</span><span class=n>f</span> <span class=n>is</span> <span class=n>available</span><span class=p>,</span> <span class=ow>in</span> <span class=s2>&#34;--output&#34;</span> <span class=n>only</span><span class=p>,</span> <span class=n>to</span> <span class=n>insert</span> <span class=n>the</span> <span class=n>filename</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>a</span> <span class=n>stand</span><span class=o>-</span>
+</span></span><span class=line><span class=cl>               <span class=ow>in</span> <span class=k>for</span> <span class=n>the</span> <span class=n>discovered</span> <span class=o>$</span><span class=n>filename</span> <span class=n>usage</span> <span class=ow>in</span> <span class=n>old</span> <span class=s2>&#34;ack2 --output&#34;</span><span class=p>,</span> <span class=n>which</span> <span class=n>is</span>
+</span></span><span class=line><span class=cl>               <span class=n>disallowed</span> <span class=n>with</span> <span class=s2>&#34;ack3&#34;</span> <span class=n>improved</span> <span class=n>security</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=n>The</span> <span class=n>intended</span> <span class=n>usage</span> <span class=n>is</span> <span class=n>to</span> <span class=n>provide</span> <span class=n>the</span> <span class=n>grep</span> <span class=ow>or</span> <span class=n>compile</span><span class=o>-</span><span class=n>error</span> <span class=n>syntax</span> <span class=n>needed</span> <span class=k>for</span>
+</span></span><span class=line><span class=cl>               <span class=n>editor</span><span class=o>/</span><span class=n>IDE</span> <span class=n>go</span><span class=o>-</span><span class=n>to</span><span class=o>-</span><span class=n>line</span> <span class=n>integration</span><span class=p>,</span> <span class=n>e</span><span class=o>.</span><span class=n>g</span><span class=o>.</span> <span class=s2>&#34;--output=$f:$.:$_&#34;</span> <span class=ow>or</span>
+</span></span><span class=line><span class=cl>               <span class=s2>&#34;--output=$f</span><span class=se>\t</span><span class=s2>$.</span><span class=se>\t</span><span class=s2>$&amp;&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>pager</span><span class=o>=</span><span class=n>program</span><span class=p>,</span> <span class=o>--</span><span class=n>nopager</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>pager</span> <span class=n>directs</span> <span class=n>ack</span><span class=s1>&#39;s output through program.  This can also be specified via the</span>
+</span></span><span class=line><span class=cl>           <span class=s2>&#34;ACK_PAGER&#34;</span> <span class=ow>and</span> <span class=s2>&#34;ACK_PAGER_COLOR&#34;</span> <span class=n>environment</span> <span class=n>variables</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>Using</span> <span class=o>--</span><span class=n>pager</span> <span class=n>does</span> <span class=ow>not</span> <span class=n>suppress</span> <span class=n>grouping</span> <span class=ow>and</span> <span class=n>coloring</span> <span class=n>like</span> <span class=n>piping</span> <span class=n>output</span> <span class=n>on</span> <span class=n>the</span>
+</span></span><span class=line><span class=cl>           <span class=n>command</span><span class=o>-</span><span class=n>line</span> <span class=n>does</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>nopager</span> <span class=n>cancels</span> <span class=n>any</span> <span class=n>setting</span> <span class=ow>in</span> <span class=o>~/.</span><span class=n>ackrc</span><span class=p>,</span> <span class=s2>&#34;ACK_PAGER&#34;</span> <span class=ow>or</span> <span class=s2>&#34;ACK_PAGER_COLOR&#34;</span><span class=o>.</span>  <span class=n>No</span>
+</span></span><span class=line><span class=cl>           <span class=n>output</span> <span class=n>will</span> <span class=n>be</span> <span class=n>sent</span> <span class=n>through</span> <span class=n>a</span> <span class=n>pager</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>passthru</span>
+</span></span><span class=line><span class=cl>           <span class=n>Prints</span> <span class=n>all</span> <span class=n>lines</span><span class=p>,</span> <span class=n>whether</span> <span class=ow>or</span> <span class=ow>not</span> <span class=n>they</span> <span class=n>match</span> <span class=n>the</span> <span class=n>expression</span><span class=o>.</span>  <span class=n>Highlighting</span> <span class=n>will</span>
+</span></span><span class=line><span class=cl>           <span class=n>still</span> <span class=n>work</span><span class=p>,</span> <span class=n>though</span><span class=p>,</span> <span class=n>so</span> <span class=n>it</span> <span class=n>can</span> <span class=n>be</span> <span class=n>used</span> <span class=n>to</span> <span class=n>highlight</span> <span class=n>matches</span> <span class=k>while</span> <span class=n>still</span> <span class=n>seeing</span> <span class=n>the</span>
+</span></span><span class=line><span class=cl>           <span class=n>entire</span> <span class=n>file</span><span class=p>,</span> <span class=n>as</span> <span class=ow>in</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=c1># Watch a log file, and highlight a certain IP address.</span>
+</span></span><span class=line><span class=cl>               <span class=o>$</span> <span class=n>tail</span> <span class=o>-</span><span class=n>f</span> <span class=o>~/</span><span class=n>access</span><span class=o>.</span><span class=n>log</span> <span class=o>|</span> <span class=n>ack</span> <span class=o>--</span><span class=n>passthru</span> <span class=mf>123.45</span><span class=o>.</span><span class=mf>67.89</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>print0</span>
+</span></span><span class=line><span class=cl>           <span class=n>Only</span> <span class=n>works</span> <span class=ow>in</span> <span class=n>conjunction</span> <span class=n>with</span> <span class=o>-</span><span class=n>f</span><span class=p>,</span> <span class=o>-</span><span class=n>g</span><span class=p>,</span> <span class=o>-</span><span class=n>l</span> <span class=ow>or</span> <span class=o>-</span><span class=n>c</span><span class=p>,</span> <span class=n>options</span> <span class=n>that</span> <span class=n>only</span> <span class=n>list</span> <span class=n>filenames</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>           <span class=n>The</span> <span class=n>filenames</span> <span class=n>are</span> <span class=n>output</span> <span class=n>separated</span> <span class=n>with</span> <span class=n>a</span> <span class=n>null</span> <span class=n>byte</span> <span class=n>instead</span> <span class=n>of</span> <span class=n>the</span> <span class=n>usual</span> <span class=n>newline</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>           <span class=n>This</span> <span class=n>is</span> <span class=n>helpful</span> <span class=n>when</span> <span class=n>dealing</span> <span class=n>with</span> <span class=n>filenames</span> <span class=n>that</span> <span class=n>contain</span> <span class=n>whitespace</span><span class=p>,</span> <span class=n>e</span><span class=o>.</span><span class=n>g</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=c1># Remove all files of type HTML.</span>
+</span></span><span class=line><span class=cl>               <span class=n>ack</span> <span class=o>-</span><span class=n>f</span> <span class=o>--</span><span class=n>html</span> <span class=o>--</span><span class=n>print0</span> <span class=o>|</span> <span class=n>xargs</span> <span class=o>-</span><span class=mi>0</span> <span class=n>rm</span> <span class=o>-</span><span class=n>f</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>p</span><span class=p>[</span><span class=n>N</span><span class=p>],</span> <span class=o>--</span><span class=n>proximate</span><span class=p>[</span><span class=o>=</span><span class=n>N</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>           <span class=n>Groups</span> <span class=n>together</span> <span class=n>match</span> <span class=n>lines</span> <span class=n>that</span> <span class=n>are</span> <span class=n>within</span> <span class=n>N</span> <span class=n>lines</span> <span class=n>of</span> <span class=n>each</span> <span class=n>other</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>useful</span>
+</span></span><span class=line><span class=cl>           <span class=k>for</span> <span class=n>visually</span> <span class=n>picking</span> <span class=n>out</span> <span class=n>matches</span> <span class=n>that</span> <span class=n>appear</span> <span class=n>close</span> <span class=n>to</span> <span class=n>other</span> <span class=n>matches</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>For</span> <span class=n>example</span><span class=p>,</span> <span class=k>if</span> <span class=n>you</span> <span class=n>got</span> <span class=n>these</span> <span class=n>results</span> <span class=n>without</span> <span class=n>the</span> <span class=s2>&#34;--proximate&#34;</span> <span class=n>option</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=mi>15</span><span class=p>:</span> <span class=n>First</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>               <span class=mi>18</span><span class=p>:</span> <span class=n>Second</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>               <span class=mi>19</span><span class=p>:</span> <span class=n>Third</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>               <span class=mi>37</span><span class=p>:</span> <span class=n>Fourth</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>they</span> <span class=n>would</span> <span class=n>look</span> <span class=n>like</span> <span class=n>this</span> <span class=n>with</span> <span class=s2>&#34;--proximate=1&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=mi>15</span><span class=p>:</span> <span class=n>First</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=mi>18</span><span class=p>:</span> <span class=n>Second</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>               <span class=mi>19</span><span class=p>:</span> <span class=n>Third</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=mi>37</span><span class=p>:</span> <span class=n>Fourth</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=ow>and</span> <span class=n>this</span> <span class=n>with</span> <span class=s2>&#34;--proximate=3&#34;</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=mi>15</span><span class=p>:</span> <span class=n>First</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>               <span class=mi>18</span><span class=p>:</span> <span class=n>Second</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>               <span class=mi>19</span><span class=p>:</span> <span class=n>Third</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=mi>37</span><span class=p>:</span> <span class=n>Fourth</span> <span class=n>match</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>If</span> <span class=n>N</span> <span class=n>is</span> <span class=n>omitted</span><span class=p>,</span> <span class=n>N</span> <span class=n>is</span> <span class=n>set</span> <span class=n>to</span> <span class=mf>1.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>P</span>  <span class=n>Negates</span> <span class=n>the</span> <span class=n>effect</span> <span class=n>of</span> <span class=n>the</span> <span class=o>--</span><span class=n>proximate</span> <span class=n>option</span><span class=o>.</span>  <span class=n>Shortcut</span> <span class=k>for</span> <span class=o>--</span><span class=n>proximate</span><span class=o>=</span><span class=mf>0.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>Q</span><span class=p>,</span> <span class=o>--</span><span class=n>literal</span>
+</span></span><span class=line><span class=cl>           <span class=n>Quote</span> <span class=n>all</span> <span class=n>metacharacters</span> <span class=ow>in</span> <span class=n>PATTERN</span><span class=p>,</span> <span class=n>it</span> <span class=n>is</span> <span class=n>treated</span> <span class=n>as</span> <span class=n>a</span> <span class=n>literal</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>r</span><span class=p>,</span> <span class=o>-</span><span class=n>R</span><span class=p>,</span> <span class=o>--</span><span class=n>recurse</span>
+</span></span><span class=line><span class=cl>           <span class=n>Recurse</span> <span class=n>into</span> <span class=n>sub</span><span class=o>-</span><span class=n>directories</span><span class=o>.</span> <span class=n>This</span> <span class=n>is</span> <span class=n>the</span> <span class=n>default</span> <span class=ow>and</span> <span class=n>just</span> <span class=n>here</span> <span class=k>for</span> <span class=n>compatibility</span>
+</span></span><span class=line><span class=cl>           <span class=n>with</span> <span class=n>grep</span><span class=o>.</span> <span class=n>You</span> <span class=n>can</span> <span class=n>also</span> <span class=n>use</span> <span class=n>it</span> <span class=k>for</span> <span class=n>turning</span> <span class=o>--</span><span class=n>no</span><span class=o>-</span><span class=n>recurse</span> <span class=n>off</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=nb>range</span><span class=o>-</span><span class=n>start</span><span class=o>=</span><span class=n>PATTERN</span><span class=p>,</span> <span class=o>--</span><span class=nb>range</span><span class=o>-</span><span class=n>end</span><span class=o>=</span><span class=n>PATTERN</span>
+</span></span><span class=line><span class=cl>           <span class=n>Specifies</span> <span class=n>patterns</span> <span class=n>that</span> <span class=n>mark</span> <span class=n>the</span> <span class=n>start</span> <span class=ow>and</span> <span class=n>end</span> <span class=n>of</span> <span class=n>a</span> <span class=nb>range</span><span class=o>.</span>  <span class=n>See</span> <span class=s2>&#34;MATCHING IN A</span>
+</span></span><span class=line><span class=cl>           <span class=n>RANGE</span> <span class=n>OF</span> <span class=n>LINES</span><span class=s2>&#34; for details.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>s</span>  <span class=n>Suppress</span> <span class=n>error</span> <span class=n>messages</span> <span class=n>about</span> <span class=n>nonexistent</span> <span class=ow>or</span> <span class=n>unreadable</span> <span class=n>files</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>taken</span> <span class=n>from</span>
+</span></span><span class=line><span class=cl>           <span class=n>fgrep</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>S</span><span class=p>,</span> <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>smart</span><span class=o>-</span><span class=k>case</span><span class=p>,</span> <span class=o>--</span><span class=n>no</span><span class=o>-</span><span class=n>smart</span><span class=o>-</span><span class=k>case</span>
+</span></span><span class=line><span class=cl>           <span class=n>Ignore</span> <span class=k>case</span> <span class=ow>in</span> <span class=n>the</span> <span class=n>search</span> <span class=n>strings</span> <span class=k>if</span> <span class=n>PATTERN</span> <span class=n>contains</span> <span class=n>no</span> <span class=n>uppercase</span> <span class=n>characters</span><span class=o>.</span> <span class=n>This</span>
+</span></span><span class=line><span class=cl>           <span class=n>is</span> <span class=n>similar</span> <span class=n>to</span> <span class=s2>&#34;smartcase&#34;</span> <span class=ow>in</span> <span class=n>the</span> <span class=n>vim</span> <span class=n>text</span> <span class=n>editor</span><span class=o>.</span>  <span class=n>The</span> <span class=n>options</span> <span class=n>overrides</span> <span class=o>-</span><span class=n>i</span> <span class=ow>and</span> <span class=o>-</span><span class=n>I</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>-</span><span class=n>S</span> <span class=n>is</span> <span class=n>a</span> <span class=n>synonym</span> <span class=k>for</span> <span class=o>--</span><span class=n>smart</span><span class=o>-</span><span class=k>case</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=o>-</span><span class=n>i</span> <span class=n>always</span> <span class=n>overrides</span> <span class=n>this</span> <span class=n>option</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>sort</span><span class=o>-</span><span class=n>files</span>
+</span></span><span class=line><span class=cl>           <span class=n>Sorts</span> <span class=n>the</span> <span class=n>found</span> <span class=n>files</span> <span class=n>lexicographically</span><span class=o>.</span>  <span class=n>Use</span> <span class=n>this</span> <span class=k>if</span> <span class=n>you</span> <span class=n>want</span> <span class=n>your</span> <span class=n>file</span> <span class=n>listings</span>
+</span></span><span class=line><span class=cl>           <span class=n>to</span> <span class=n>be</span> <span class=n>deterministic</span> <span class=n>between</span> <span class=n>runs</span> <span class=n>of</span> <span class=n>ack</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>show</span><span class=o>-</span><span class=n>types</span>
+</span></span><span class=line><span class=cl>           <span class=n>Outputs</span> <span class=n>the</span> <span class=n>filetypes</span> <span class=n>that</span> <span class=n>ack</span> <span class=n>associates</span> <span class=n>with</span> <span class=n>each</span> <span class=n>file</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>Works</span> <span class=n>with</span> <span class=o>-</span><span class=n>f</span> <span class=ow>and</span> <span class=o>-</span><span class=n>g</span> <span class=n>options</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>t</span> <span class=n>TYPE</span><span class=p>,</span> <span class=o>--</span><span class=n>type</span><span class=o>=</span><span class=n>TYPE</span><span class=p>,</span> <span class=o>--</span><span class=n>TYPE</span>
+</span></span><span class=line><span class=cl>           <span class=n>Specify</span> <span class=n>the</span> <span class=n>types</span> <span class=n>of</span> <span class=n>files</span> <span class=n>to</span> <span class=n>include</span> <span class=ow>in</span> <span class=n>the</span> <span class=n>search</span><span class=o>.</span>  <span class=n>TYPE</span> <span class=n>is</span> <span class=n>a</span> <span class=n>filetype</span><span class=p>,</span> <span class=n>like</span> <span class=n>perl</span>
+</span></span><span class=line><span class=cl>           <span class=ow>or</span> <span class=n>xml</span><span class=o>.</span>  <span class=o>--</span><span class=n>type</span><span class=o>=</span><span class=n>perl</span> <span class=n>can</span> <span class=n>also</span> <span class=n>be</span> <span class=n>specified</span> <span class=n>as</span> <span class=o>--</span><span class=n>perl</span><span class=p>,</span> <span class=n>although</span> <span class=n>this</span> <span class=n>is</span> <span class=n>deprecated</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>Type</span> <span class=n>inclusions</span> <span class=n>can</span> <span class=n>be</span> <span class=n>repeated</span> <span class=ow>and</span> <span class=n>are</span> <span class=n>ORed</span> <span class=n>together</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>See</span> <span class=n>ack</span> <span class=o>--</span><span class=n>help</span><span class=o>-</span><span class=n>types</span> <span class=k>for</span> <span class=n>a</span> <span class=n>list</span> <span class=n>of</span> <span class=n>valid</span> <span class=n>types</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>T</span> <span class=n>TYPE</span><span class=p>,</span> <span class=o>--</span><span class=n>type</span><span class=o>=</span><span class=n>noTYPE</span><span class=p>,</span> <span class=o>--</span><span class=n>noTYPE</span>
+</span></span><span class=line><span class=cl>           <span class=n>Specifies</span> <span class=n>the</span> <span class=n>type</span> <span class=n>of</span> <span class=n>files</span> <span class=n>to</span> <span class=n>exclude</span> <span class=n>from</span> <span class=n>the</span> <span class=n>search</span><span class=o>.</span>  <span class=o>--</span><span class=n>type</span><span class=o>=</span><span class=n>noperl</span> <span class=n>can</span> <span class=n>be</span> <span class=n>done</span>
+</span></span><span class=line><span class=cl>           <span class=n>as</span> <span class=o>--</span><span class=n>noperl</span><span class=p>,</span> <span class=n>although</span> <span class=n>this</span> <span class=n>is</span> <span class=n>deprecated</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>If</span> <span class=n>a</span> <span class=n>file</span> <span class=n>is</span> <span class=n>of</span> <span class=n>both</span> <span class=n>type</span> <span class=s2>&#34;foo&#34;</span> <span class=ow>and</span> <span class=s2>&#34;bar&#34;</span><span class=p>,</span> <span class=n>specifying</span> <span class=n>both</span> <span class=o>--</span><span class=n>type</span><span class=o>=</span><span class=n>foo</span> <span class=ow>and</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>type</span><span class=o>=</span><span class=n>nobar</span> <span class=n>will</span> <span class=n>exclude</span> <span class=n>the</span> <span class=n>file</span><span class=p>,</span> <span class=n>because</span> <span class=n>an</span> <span class=n>exclusion</span> <span class=n>takes</span> <span class=n>precedence</span> <span class=n>over</span> <span class=n>an</span>
+</span></span><span class=line><span class=cl>           <span class=n>inclusion</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>type</span><span class=o>-</span><span class=n>add</span> <span class=n>TYPE</span><span class=p>:</span><span class=n>FILTER</span><span class=p>:</span><span class=n>ARGS</span>
+</span></span><span class=line><span class=cl>           <span class=n>Files</span> <span class=n>with</span> <span class=n>the</span> <span class=n>given</span> <span class=n>ARGS</span> <span class=n>applied</span> <span class=n>to</span> <span class=n>the</span> <span class=n>given</span> <span class=n>FILTER</span> <span class=n>are</span> <span class=n>recognized</span> <span class=n>as</span> <span class=n>being</span> <span class=n>of</span>
+</span></span><span class=line><span class=cl>           <span class=p>(</span><span class=n>the</span> <span class=n>existing</span><span class=p>)</span> <span class=n>type</span> <span class=n>TYPE</span><span class=o>.</span> <span class=n>See</span> <span class=n>also</span> <span class=s2>&#34;Defining your own types&#34;</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>type</span><span class=o>-</span><span class=n>set</span> <span class=n>TYPE</span><span class=p>:</span><span class=n>FILTER</span><span class=p>:</span><span class=n>ARGS</span>
+</span></span><span class=line><span class=cl>           <span class=n>Files</span> <span class=n>with</span> <span class=n>the</span> <span class=n>given</span> <span class=n>ARGS</span> <span class=n>applied</span> <span class=n>to</span> <span class=n>the</span> <span class=n>given</span> <span class=n>FILTER</span> <span class=n>are</span> <span class=n>recognized</span> <span class=n>as</span> <span class=n>being</span> <span class=n>of</span>
+</span></span><span class=line><span class=cl>           <span class=n>type</span> <span class=n>TYPE</span><span class=o>.</span> <span class=n>This</span> <span class=n>replaces</span> <span class=n>an</span> <span class=n>existing</span> <span class=n>definition</span> <span class=k>for</span> <span class=n>type</span> <span class=n>TYPE</span><span class=o>.</span>  <span class=n>See</span> <span class=n>also</span> <span class=s2>&#34;Defining</span>
+</span></span><span class=line><span class=cl>           <span class=n>your</span> <span class=n>own</span> <span class=n>types</span><span class=s2>&#34;.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>type</span><span class=o>-</span><span class=n>del</span> <span class=n>TYPE</span>
+</span></span><span class=line><span class=cl>           <span class=n>The</span> <span class=n>filters</span> <span class=n>associated</span> <span class=n>with</span> <span class=n>TYPE</span> <span class=n>are</span> <span class=n>removed</span> <span class=n>from</span> <span class=n>Ack</span><span class=p>,</span> <span class=ow>and</span> <span class=n>are</span> <span class=n>no</span> <span class=n>longer</span> <span class=n>considered</span>
+</span></span><span class=line><span class=cl>           <span class=k>for</span> <span class=n>searches</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=p>[</span><span class=n>no</span><span class=p>]</span><span class=n>underline</span>
+</span></span><span class=line><span class=cl>           <span class=n>Turns</span> <span class=n>on</span> <span class=n>underlining</span> <span class=n>of</span> <span class=n>matches</span><span class=p>,</span> <span class=n>where</span> <span class=s2>&#34;underlining&#34;</span> <span class=n>is</span> <span class=n>printing</span> <span class=n>a</span> <span class=n>line</span> <span class=n>of</span> <span class=n>carets</span>
+</span></span><span class=line><span class=cl>           <span class=n>under</span> <span class=n>the</span> <span class=n>match</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>               <span class=o>$</span> <span class=n>ack</span> <span class=o>-</span><span class=n>u</span> <span class=n>foo</span>
+</span></span><span class=line><span class=cl>               <span class=n>peanuts</span><span class=o>.</span><span class=n>txt</span>
+</span></span><span class=line><span class=cl>               <span class=mi>17</span><span class=p>:</span> <span class=n>Come</span> <span class=n>kick</span> <span class=n>the</span> <span class=n>football</span> <span class=n>you</span> <span class=n>fool</span>
+</span></span><span class=line><span class=cl>                                 <span class=o>^^^</span>          <span class=o>^^^</span>
+</span></span><span class=line><span class=cl>               <span class=mi>623</span><span class=p>:</span> <span class=n>Price</span> <span class=n>per</span> <span class=n>square</span> <span class=n>foot</span>
+</span></span><span class=line><span class=cl>                                     <span class=o>^^^</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>This</span> <span class=n>is</span> <span class=n>useful</span> <span class=k>if</span> <span class=n>you</span><span class=s1>&#39;re dumping the results of an ack run into a text file or</span>
+</span></span><span class=line><span class=cl>           <span class=n>printer</span> <span class=n>that</span> <span class=n>doesn</span><span class=s1>&#39;t support ANSI color codes.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>The</span> <span class=n>setting</span> <span class=n>of</span> <span class=n>underline</span> <span class=n>does</span> <span class=ow>not</span> <span class=n>affect</span> <span class=n>highlighting</span> <span class=n>of</span> <span class=n>matches</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>v</span><span class=p>,</span> <span class=o>--</span><span class=n>invert</span><span class=o>-</span><span class=n>match</span>
+</span></span><span class=line><span class=cl>           <span class=n>Invert</span> <span class=n>match</span><span class=p>:</span> <span class=n>select</span> <span class=n>non</span><span class=o>-</span><span class=n>matching</span> <span class=n>lines</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>version</span>
+</span></span><span class=line><span class=cl>           <span class=n>Display</span> <span class=n>version</span> <span class=ow>and</span> <span class=n>copyright</span> <span class=n>information</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>w</span><span class=p>,</span> <span class=o>--</span><span class=n>word</span><span class=o>-</span><span class=n>regexp</span>
+</span></span><span class=line><span class=cl>           <span class=n>Force</span> <span class=n>PATTERN</span> <span class=n>to</span> <span class=n>match</span> <span class=n>only</span> <span class=n>whole</span> <span class=n>words</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=n>x</span>  <span class=n>An</span> <span class=n>abbreviation</span> <span class=k>for</span> <span class=o>--</span><span class=n>files</span><span class=o>-</span><span class=n>from</span><span class=o>=-.</span> <span class=n>The</span> <span class=n>list</span> <span class=n>of</span> <span class=n>files</span> <span class=n>to</span> <span class=n>search</span> <span class=n>are</span> <span class=n>read</span> <span class=n>from</span>
+</span></span><span class=line><span class=cl>           <span class=n>standard</span> <span class=n>input</span><span class=p>,</span> <span class=n>with</span> <span class=n>one</span> <span class=n>line</span> <span class=n>per</span> <span class=n>file</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>           <span class=n>Note</span> <span class=n>that</span> <span class=n>the</span> <span class=n>list</span> <span class=n>of</span> <span class=n>files</span> <span class=n>is</span> <span class=ow>not</span> <span class=n>filtered</span> <span class=ow>in</span> <span class=n>any</span> <span class=n>way</span><span class=o>.</span>  <span class=n>If</span> <span class=n>you</span> <span class=n>add</span> <span class=s2>&#34;--type=html&#34;</span>
+</span></span><span class=line><span class=cl>           <span class=ow>in</span> <span class=n>addition</span> <span class=n>to</span> <span class=s2>&#34;-x&#34;</span><span class=p>,</span> <span class=n>the</span> <span class=s2>&#34;--type&#34;</span> <span class=n>will</span> <span class=n>be</span> <span class=n>ignored</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>-</span><span class=mi>1</span>  <span class=n>Stops</span> <span class=n>after</span> <span class=n>reporting</span> <span class=n>first</span> <span class=n>match</span> <span class=n>of</span> <span class=n>any</span> <span class=n>kind</span><span class=o>.</span>  <span class=n>This</span> <span class=n>is</span> <span class=n>different</span> <span class=n>from</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=nb>max</span><span class=o>-</span><span class=n>count</span><span class=o>=</span><span class=mi>1</span> <span class=ow>or</span> <span class=o>-</span><span class=n>m1</span><span class=p>,</span> <span class=n>where</span> <span class=n>only</span> <span class=n>one</span> <span class=n>match</span> <span class=n>per</span> <span class=n>file</span> <span class=n>is</span> <span class=n>shown</span><span class=o>.</span>  <span class=n>Also</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span> <span class=n>works</span> <span class=n>with</span>
+</span></span><span class=line><span class=cl>           <span class=o>-</span><span class=n>f</span> <span class=ow>and</span> <span class=o>-</span><span class=n>g</span><span class=p>,</span> <span class=n>where</span> <span class=o>-</span><span class=n>m</span> <span class=n>does</span> <span class=ow>not</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>thpppt</span>
+</span></span><span class=line><span class=cl>           <span class=n>Display</span> <span class=n>the</span> <span class=n>all</span><span class=o>-</span><span class=n>important</span> <span class=n>Bill</span> <span class=n>The</span> <span class=n>Cat</span> <span class=n>logo</span><span class=o>.</span>  <span class=n>Note</span> <span class=n>that</span> <span class=n>the</span> <span class=n>exact</span> <span class=n>spelling</span> <span class=n>of</span>
+</span></span><span class=line><span class=cl>           <span class=o>--</span><span class=n>thpppppt</span> <span class=n>is</span> <span class=ow>not</span> <span class=n>important</span><span class=o>.</span>  <span class=n>It</span><span class=s1>&#39;s checked against a regular expression.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>bar</span>
+</span></span><span class=line><span class=cl>           <span class=n>Check</span> <span class=n>with</span> <span class=n>the</span> <span class=n>admiral</span> <span class=k>for</span> <span class=n>traps</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>       <span class=o>--</span><span class=n>cathy</span>
+</span></span><span class=line><span class=cl>           <span class=n>Chocolate</span><span class=p>,</span> <span class=n>Chocolate</span><span class=p>,</span> <span class=n>Chocolate</span><span class=o>!</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=ackrc-location-semantics>ACKRC LOCATION SEMANTICS</h2><p>Ack 可以从许多来源加载其配置。 以下列表指定了 Ack 查找配置文件的来源； 找到的每一个都按此处指定的顺序加载，并且每一个都覆盖在它之前的任何源中设置的选项。 （例如，如果我在我的用户 ackrc 中设置了 &ndash;sort-files，在命令行中设置了 &ndash;nosort-files，则命令行优先）。</p><ul><li><p>默认值从 App::Ack::ConfigDefaults 加载。这可以使用 &ndash;ignore-ack-defaults 省略。</p></li><li><p>Global ackrc<br>然后从全局 ackrc 加载选项。它位于类 Unix 系统上的 /etc/ackrc 中。<br>在 Windows XP 及更早版本下，全局 ackrc 位于 C:\Documents and Settings\All Users\Application Data\ackrc<br>在 Windows Vista/7 下，全局 ackrc 位于 C:\ProgramData\ackrc<br>&ndash;noenv 选项可防止加载所有 ackrc 文件。</p></li><li><p>User ackrc<br>然后从用户的 ackrc 加载选项。 它位于类 Unix 系统上的 $HOME/.ackrc 中。<br>在 Windows XP 和更早版本下，用户的 ackrc 位于 C:\Documents and Settings$USER\Application Data\ackrc。<br>在 Windows Vista/7 下，用户的 ackrc 位于 C:\Users$USER\AppData\Roaming\ackrc。<br>如果要加载不同的用户级 ackrc，可以使用 $ACKRC 环境变量指定。<br>&ndash;noenv 选项可防止加载所有 ackrc 文件。</p></li><li><p>Project ackrc<br>然后从项目 ackrc 加载选项。 项目ackrc是第一个名为.ackrc或_ackrc的ackrc文件，先在当前目录搜索，然后是父目录，然后是祖父目录，等等。这个可以用&ndash;noenv省略。</p></li><li><p>&ndash;ackrc
+&ndash;ackrc 选项可以包含在命令行中以指定可以覆盖所有其他文件的 ackrc 文件。即使存在 &ndash;noenv 也会参考它。</p></li><li><p>Command line
+然后从命令行加载选项。</p></li></ul><h2 id=附录a---ack-dump>附录A - ack dump</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Defaults
+</span></span><span class=line><span class=cl>========
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.bzr
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.cabal-sandbox
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.cdv
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.git
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.hg
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.metadata
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.pc
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.pytest_cache
+</span></span><span class=line><span class=cl>  --ignore-directory=is:.svn
+</span></span><span class=line><span class=cl>  --ignore-directory=is:CMakeFiles
+</span></span><span class=line><span class=cl>  --ignore-directory=is:CVS
+</span></span><span class=line><span class=cl>  --ignore-directory=is:RCS
+</span></span><span class=line><span class=cl>  --ignore-directory=is:SCCS
+</span></span><span class=line><span class=cl>  --ignore-directory=is:_MTN
+</span></span><span class=line><span class=cl>  --ignore-directory=is:__MACOSX
+</span></span><span class=line><span class=cl>  --ignore-directory=is:__pycache__
+</span></span><span class=line><span class=cl>  --ignore-directory=is:_build
+</span></span><span class=line><span class=cl>  --ignore-directory=is:_darcs
+</span></span><span class=line><span class=cl>  --ignore-directory=is:_sgbak
+</span></span><span class=line><span class=cl>  --ignore-directory=is:autom4te.cache
+</span></span><span class=line><span class=cl>  --ignore-directory=is:blib
+</span></span><span class=line><span class=cl>  --ignore-directory=is:cover_db
+</span></span><span class=line><span class=cl>  --ignore-directory=is:node_modules
+</span></span><span class=line><span class=cl>  --ignore-directory=is:~.dep
+</span></span><span class=line><span class=cl>  --ignore-directory=is:~.dot
+</span></span><span class=line><span class=cl>  --ignore-directory=is:~.nib
+</span></span><span class=line><span class=cl>  --ignore-directory=is:~.plst
+</span></span><span class=line><span class=cl>  --ignore-file=ext:bak
+</span></span><span class=line><span class=cl>  --ignore-file=ext:gif,jpg,jpeg,png
+</span></span><span class=line><span class=cl>  --ignore-file=ext:gz,tar,tgz,zip
+</span></span><span class=line><span class=cl>  --ignore-file=ext:mo
+</span></span><span class=line><span class=cl>  --ignore-file=ext:pdf
+</span></span><span class=line><span class=cl>  --ignore-file=ext:pyc,pyd,pyo
+</span></span><span class=line><span class=cl>  --ignore-file=ext:so
+</span></span><span class=line><span class=cl>  --ignore-file=is:.DS_Store
+</span></span><span class=line><span class=cl>  --ignore-file=is:.git
+</span></span><span class=line><span class=cl>  --ignore-file=match:/[.-]min[.]js$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/[.]css[.]map$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/[.]css[.]min$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/[.]js[.]map$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/[.]js[.]min$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/[.]min[.]css$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/[._].*[.]swp$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/^#.+#$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/core[.]\d+$/
+</span></span><span class=line><span class=cl>  --ignore-file=match:/~$/
+</span></span><span class=line><span class=cl>  --type-add=actionscript:ext:as,mxml
+</span></span><span class=line><span class=cl>  --type-add=ada:ext:ada,adb,ads
+</span></span><span class=line><span class=cl>  --type-add=asm:ext:asm,s
+</span></span><span class=line><span class=cl>  --type-add=asp:ext:asp
+</span></span><span class=line><span class=cl>  --type-add=aspx:ext:master,ascx,asmx,aspx,svc
+</span></span><span class=line><span class=cl>  --type-add=batch:ext:bat,cmd
+</span></span><span class=line><span class=cl>  --type-add=bazel:ext:bazelrc
+</span></span><span class=line><span class=cl>  --type-add=bazel:ext:bzl
+</span></span><span class=line><span class=cl>  --type-add=bazel:is:BUILD
+</span></span><span class=line><span class=cl>  --type-add=bazel:is:WORKSPACE
+</span></span><span class=line><span class=cl>  --type-add=cc:ext:c,h,xs
+</span></span><span class=line><span class=cl>  --type-add=cfmx:ext:cfc,cfm,cfml
+</span></span><span class=line><span class=cl>  --type-add=clojure:ext:clj,cljs,edn,cljc
+</span></span><span class=line><span class=cl>  --type-add=cmake:ext:cmake
+</span></span><span class=line><span class=cl>  --type-add=cmake:is:CMakeLists.txt
+</span></span><span class=line><span class=cl>  --type-add=coffeescript:ext:coffee
+</span></span><span class=line><span class=cl>  --type-add=cpp:ext:cpp,cc,cxx,m,hpp,hh,h,hxx
+</span></span><span class=line><span class=cl>  --type-add=csharp:ext:cs
+</span></span><span class=line><span class=cl>  --type-add=css:ext:css
+</span></span><span class=line><span class=cl>  --type-add=dart:ext:dart
+</span></span><span class=line><span class=cl>  --type-add=delphi:ext:pas,int,dfm,nfm,dof,dpk,dproj,groupproj,bdsgroup,bdsproj
+</span></span><span class=line><span class=cl>  --type-add=elisp:ext:el
+</span></span><span class=line><span class=cl>  --type-add=elixir:ext:ex,exs
+</span></span><span class=line><span class=cl>  --type-add=elm:ext:elm
+</span></span><span class=line><span class=cl>  --type-add=erlang:ext:erl,hrl
+</span></span><span class=line><span class=cl>  --type-add=fortran:ext:f,f77,f90,f95,f03,for,ftn,fpp
+</span></span><span class=line><span class=cl>  --type-add=go:ext:go
+</span></span><span class=line><span class=cl>  --type-add=groovy:ext:groovy,gtmpl,gpp,grunit,gradle
+</span></span><span class=line><span class=cl>  --type-add=gsp:ext:gsp
+</span></span><span class=line><span class=cl>  --type-add=haskell:ext:hs,lhs
+</span></span><span class=line><span class=cl>  --type-add=hh:ext:h
+</span></span><span class=line><span class=cl>  --type-add=hpp:ext:hpp,hh,h,hxx
+</span></span><span class=line><span class=cl>  --type-add=html:ext:htm,html,xhtml
+</span></span><span class=line><span class=cl>  --type-add=jade:ext:jade
+</span></span><span class=line><span class=cl>  --type-add=java:ext:java,properties
+</span></span><span class=line><span class=cl>  --type-add=js:ext:js
+</span></span><span class=line><span class=cl>  --type-add=json:ext:json
+</span></span><span class=line><span class=cl>  --type-add=jsp:ext:jsp,jspx,jspf,jhtm,jhtml
+</span></span><span class=line><span class=cl>  --type-add=kotlin:ext:kt,kts
+</span></span><span class=line><span class=cl>  --type-add=less:ext:less
+</span></span><span class=line><span class=cl>  --type-add=lisp:ext:lisp,lsp
+</span></span><span class=line><span class=cl>  --type-add=lua:ext:lua
+</span></span><span class=line><span class=cl>  --type-add=lua:firstlinematch:/^#!.*\blua(jit)?/
+</span></span><span class=line><span class=cl>  --type-add=make:ext:mak
+</span></span><span class=line><span class=cl>  --type-add=make:ext:mk
+</span></span><span class=line><span class=cl>  --type-add=make:is:GNUmakefile
+</span></span><span class=line><span class=cl>  --type-add=make:is:Makefile
+</span></span><span class=line><span class=cl>  --type-add=make:is:Makefile.Debug
+</span></span><span class=line><span class=cl>  --type-add=make:is:Makefile.Release
+</span></span><span class=line><span class=cl>  --type-add=make:is:makefile
+</span></span><span class=line><span class=cl>  --type-add=markdown:ext:md,markdown
+</span></span><span class=line><span class=cl>  --type-add=matlab:ext:m
+</span></span><span class=line><span class=cl>  --type-add=objc:ext:m,h
+</span></span><span class=line><span class=cl>  --type-add=objcpp:ext:mm,h
+</span></span><span class=line><span class=cl>  --type-add=ocaml:ext:ml,mli,mll,mly
+</span></span><span class=line><span class=cl>  --type-add=perl:ext:pl,pm,pod,t,psgi
+</span></span><span class=line><span class=cl>  --type-add=perl:firstlinematch:/^#!.*\bperl/
+</span></span><span class=line><span class=cl>  --type-add=perltest:ext:t
+</span></span><span class=line><span class=cl>  --type-add=php:ext:php,phpt,php3,php4,php5,phtml
+</span></span><span class=line><span class=cl>  --type-add=php:firstlinematch:/^#!.*\bphp/
+</span></span><span class=line><span class=cl>  --type-add=plone:ext:pt,cpt,metadata,cpy,py
+</span></span><span class=line><span class=cl>  --type-add=pod:ext:pod
+</span></span><span class=line><span class=cl>  --type-add=purescript:ext:purs
+</span></span><span class=line><span class=cl>  --type-add=python:ext:py
+</span></span><span class=line><span class=cl>  --type-add=python:firstlinematch:/^#!.*\bpython/
+</span></span><span class=line><span class=cl>  --type-add=rake:is:Rakefile
+</span></span><span class=line><span class=cl>  --type-add=rr:ext:R
+</span></span><span class=line><span class=cl>  --type-add=rst:ext:rst
+</span></span><span class=line><span class=cl>  --type-add=ruby:ext:rb,rhtml,rjs,rxml,erb,rake,spec
+</span></span><span class=line><span class=cl>  --type-add=ruby:firstlinematch:/^#!.*\bruby/
+</span></span><span class=line><span class=cl>  --type-add=ruby:is:Rakefile
+</span></span><span class=line><span class=cl>  --type-add=rust:ext:rs
+</span></span><span class=line><span class=cl>  --type-add=sass:ext:sass,scss
+</span></span><span class=line><span class=cl>  --type-add=scala:ext:scala
+</span></span><span class=line><span class=cl>  --type-add=scheme:ext:scm,ss
+</span></span><span class=line><span class=cl>  --type-add=shell:ext:sh,bash,csh,tcsh,ksh,zsh,fish
+</span></span><span class=line><span class=cl>  --type-add=shell:firstlinematch:/^#!.*\b(?:ba|t?c|k|z|fi)?sh\b/
+</span></span><span class=line><span class=cl>  --type-add=smalltalk:ext:st
+</span></span><span class=line><span class=cl>  --type-add=smarty:ext:tpl
+</span></span><span class=line><span class=cl>  --type-add=sql:ext:sql,ctl
+</span></span><span class=line><span class=cl>  --type-add=stylus:ext:styl
+</span></span><span class=line><span class=cl>  --type-add=svg:ext:svg
+</span></span><span class=line><span class=cl>  --type-add=swift:ext:swift
+</span></span><span class=line><span class=cl>  --type-add=swift:firstlinematch:/^#!.*\bswift/
+</span></span><span class=line><span class=cl>  --type-add=tcl:ext:tcl,itcl,itk
+</span></span><span class=line><span class=cl>  --type-add=tex:ext:tex,cls,sty
+</span></span><span class=line><span class=cl>  --type-add=toml:ext:toml
+</span></span><span class=line><span class=cl>  --type-add=ts:ext:ts,tsx
+</span></span><span class=line><span class=cl>  --type-add=ttml:ext:tt,tt2,ttml
+</span></span><span class=line><span class=cl>  --type-add=vb:ext:bas,cls,frm,ctl,vb,resx
+</span></span><span class=line><span class=cl>  --type-add=verilog:ext:v,vh,sv
+</span></span><span class=line><span class=cl>  --type-add=vhdl:ext:vhd,vhdl
+</span></span><span class=line><span class=cl>  --type-add=vim:ext:vim
+</span></span><span class=line><span class=cl>  --type-add=xml:ext:xml,dtd,xsd,xsl,xslt,ent,wsdl
+</span></span><span class=line><span class=cl>  --type-add=xml:firstlinematch:/&lt;[?]xml/
+</span></span><span class=line><span class=cl>  --type-add=yaml:ext:yaml,yml
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/tags/linux/>Linux</a>
+<a href=/tags/ack/>Ack</a>
+<a href=/tags/%E5%B7%A5%E5%85%B7/>工具</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/ssh-key-%E7%94%9F%E6%88%90/><div class=article-details><h2 class=article-title>SSH key 生成</h2></div></a></article><article><a href=/p/linux-nvidia-%E9%80%A0%E6%88%90-kernel-crash/><div class=article-details><h2 class=article-title>Linux - NVIDIA 造成 kernel crash</h2></div></a></article><article><a href=/p/pandoc-mardown-to-pdf/><div class=article-details><h2 class=article-title>Pandoc mardown to pdf</h2></div></a></article><article><a href=/p/vim-%E6%8F%92%E4%BB%B6/><div class=article-details><h2 class=article-title>Vim 插件</h2></div></a></article><article><a href=/p/process-scheduling-in-linux/><div class=article-details><h2 class=article-title>Process Scheduling In Linux</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

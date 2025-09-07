@@ -1,0 +1,247 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content='一、主要概念 1. 变量（variables） 1.1 创造一个变量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 使用等号 = 号赋值 > var1 = c(0,1,2,3) > print(var1) [1] 0 1 2 3 # 使用左箭头 <- 赋值 > var2 <- c("learn","R") > print(var2) [1] "learn" "R" # 使用右箭头 -> 赋值 > c(TRUE,1) -> var3 > print(var3) [1] 1 1 1.2 打印一下定义过的所有变量 1 2 # 打印现在已经定义了的变量 # 使用 ls() 命令, ls 其实就是 list 的缩写 '><title>R language introduce</title><link rel=canonical href=https://MyLoveES.github.io/p/r-language-introduce/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="R language introduce"><meta property='og:description' content='一、主要概念 1. 变量（variables） 1.1 创造一个变量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 使用等号 = 号赋值 > var1 = c(0,1,2,3) > print(var1) [1] 0 1 2 3 # 使用左箭头 <- 赋值 > var2 <- c("learn","R") > print(var2) [1] "learn" "R" # 使用右箭头 -> 赋值 > c(TRUE,1) -> var3 > print(var3) [1] 1 1 1.2 打印一下定义过的所有变量 1 2 # 打印现在已经定义了的变量 # 使用 ls() 命令, ls 其实就是 list 的缩写 '><meta property='og:url' content='https://MyLoveES.github.io/p/r-language-introduce/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='R语言'><meta property='article:tag' content='入门'><meta property='article:published_time' content='2024-03-11T00:00:00+00:00'><meta property='article:modified_time' content='2024-03-11T00:00:00+00:00'><meta name=twitter:title content="R language introduce"><meta name=twitter:description content='一、主要概念 1. 变量（variables） 1.1 创造一个变量 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 使用等号 = 号赋值 > var1 = c(0,1,2,3) > print(var1) [1] 0 1 2 3 # 使用左箭头 <- 赋值 > var2 <- c("learn","R") > print(var2) [1] "learn" "R" # 使用右箭头 -> 赋值 > c(TRUE,1) -> var3 > print(var3) [1] 1 1 1.2 打印一下定义过的所有变量 1 2 # 打印现在已经定义了的变量 # 使用 ls() 命令, ls 其实就是 list 的缩写 '><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#1-变量variables>1. 变量（variables）</a><ol><li><ol><li><a href=#11-创造一个变量>1.1 创造一个变量</a></li><li><a href=#12-打印一下定义过的所有变量>1.2 打印一下定义过的所有变量</a></li><li><a href=#13-打印变量里的值>1.3 打印变量里的值</a></li></ol></li></ol></li><li><a href=#2-向量vector>2. 向量（vector）</a><ol><li><ol><li><a href=#21-啥是向量>2.1 啥是向量</a></li><li><a href=#22-创造一个向量>2.2 创造一个向量</a></li><li><a href=#23-下标index>2.3 下标（index）</a></li><li><a href=#24-na暂时不知道具体有啥用>2.4 NA（暂时不知道具体有啥用）</a></li></ol></li></ol></li><li><a href=#3-列表list>3. 列表（list）</a><ol><li><ol><li><a href=#31-和向量有什么不同>3.1 和向量有什么不同？</a></li><li><a href=#32-数组的命名>3.2 数组的命名</a></li></ol></li></ol></li><li><a href=#4-数据框-data-frame>4. 数据框 （Data frame）</a></li><li><a href=#5-依赖库package>5. 依赖库（package）</a></li><li><a href=#6-函数function>6. 函数（function）</a></li></ol><ol><li><a href=#excel>excel</a></li><li><a href=#csv>csv</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%95%99%E7%A8%8B/>教程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/r-language-introduce/>R language introduce</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Mar 11, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>3 minute read</time></div></footer></div></header><section class=article-content><h1 id=一主要概念>一、主要概念</h1><h2 id=1-变量variables>1. 变量（variables）</h2><h4 id=11-创造一个变量>1.1 创造一个变量</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># 使用等号 = 号赋值</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>var1</span> <span class=o>=</span> <span class=n>c</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>,</span><span class=mi>3</span><span class=p>)</span>          
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>print</span><span class=p>(</span><span class=n>var1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mi>0</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>3</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 使用左箭头 &lt;- 赋值</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>var2</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=s2>&#34;learn&#34;</span><span class=p>,</span><span class=s2>&#34;R&#34;</span><span class=p>)</span>  
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>print</span><span class=p>(</span><span class=n>var2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=s2>&#34;learn&#34;</span> <span class=s2>&#34;R&#34;</span>
+</span></span><span class=line><span class=cl>   
+</span></span><span class=line><span class=cl><span class=c1># 使用右箭头 -&gt; 赋值</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>c</span><span class=p>(</span><span class=n>TRUE</span><span class=p>,</span><span class=mi>1</span><span class=p>)</span> <span class=o>-&gt;</span> <span class=n>var3</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>print</span><span class=p>(</span><span class=n>var3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mi>1</span> <span class=mi>1</span>          
+</span></span></code></pre></td></tr></table></div></div><h4 id=12-打印一下定义过的所有变量>1.2 打印一下定义过的所有变量</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 打印现在已经定义了的变量
+</span></span><span class=line><span class=cl># 使用 ls() 命令, ls 其实就是 list 的缩写
+</span></span></code></pre></td></tr></table></div></div><p><img src=/p/r-language-introduce/R-ls.png width=1148 height=264 srcset="/p/r-language-introduce/R-ls_hu_3ad3ad84828618d3.png 480w, /p/r-language-introduce/R-ls_hu_eba10503946aeef2.png 1024w" loading=lazy class=gallery-image data-flex-grow=434 data-flex-basis=1043px></p><h4 id=13-打印变量里的值>1.3 打印变量里的值</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 可以直接输入变量
+</span></span><span class=line><span class=cl>xNum
+</span></span></code></pre></td></tr></table></div></div><p><img src=/p/r-language-introduce/R-va.png width=532 height=74 srcset="/p/r-language-introduce/R-va_hu_ab0eb4dde5fa251c.png 480w, /p/r-language-introduce/R-va_hu_53c747356fbd8630.png 1024w" loading=lazy class=gallery-image data-flex-grow=718 data-flex-basis=1725px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 也可以用print()
+</span></span><span class=line><span class=cl>print(xNum)
+</span></span></code></pre></td></tr></table></div></div><p><img src=/p/r-language-introduce/R-print.png width=538 height=70 srcset="/p/r-language-introduce/R-print_hu_bc9a92d7f108012.png 480w, /p/r-language-introduce/R-print_hu_389dcf182c801d54.png 1024w" loading=lazy class=gallery-image data-flex-grow=768 data-flex-basis=1844px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 或者用str()
+</span></span><span class=line><span class=cl>[展示时可能会发生变化哦，比如小数点位数默认保留两位]
+</span></span><span class=line><span class=cl>str(xNum)
+</span></span></code></pre></td></tr></table></div></div><p><img src=/p/r-language-introduce/R-str.png width=520 height=66 srcset="/p/r-language-introduce/R-str_hu_34070a3575405bd4.png 480w, /p/r-language-introduce/R-str_hu_1f9db79def5a086e.png 1024w" loading=lazy class=gallery-image data-flex-grow=787 data-flex-basis=1890px></p><h2 id=2-向量vector>2. 向量（vector）</h2><h4 id=21-啥是向量>2.1 啥是向量</h4><p>一组<font color=#dd0000><strong>相同类型</strong></font>的元素的列表，比如都是数字，或者都是字符串<br>是<font color=#dd0000><strong>一维</strong></font>的<br><img src=/p/r-language-introduce/R-vector.png width=316 height=296 srcset="/p/r-language-introduce/R-vector_hu_36513e3b8d38542c.png 480w, /p/r-language-introduce/R-vector_hu_42dda6dc8816b0b4.png 1024w" loading=lazy class=gallery-image data-flex-grow=106 data-flex-basis=256px></p><h4 id=22-创造一个向量>2.2 创造一个向量</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 使用c()命令
+</span></span><span class=line><span class=cl>x &lt;- c(2, 4, 6, 8) # create a vector x using combine function c()
+</span></span></code></pre></td></tr></table></div></div><p><img src=/p/r-language-introduce/R-create-vector.png width=1040 height=110 srcset="/p/r-language-introduce/R-create-vector_hu_dbf6a31d041ae3e0.png 480w, /p/r-language-introduce/R-create-vector_hu_99212bbf19f5ab35.png 1024w" loading=lazy class=gallery-image data-flex-grow=945 data-flex-basis=2269px></p><h4 id=23-下标index>2.3 下标（index）</h4><p>既然是列表，那么其中的每个元素自然是要有序号的，但是和常见的其他编程语言不同，<font color=#dd0000><strong>元素序号是从1开始的！</strong></font><br></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; x &lt;- c(2, 4, 6, 8) # create a vector x using combine function c()
+</span></span><span class=line><span class=cl>&gt; x
+</span></span><span class=line><span class=cl>[1] 2 4 6 8
+</span></span><span class=line><span class=cl>&gt; x[1]
+</span></span><span class=line><span class=cl>[1] 2
+</span></span><span class=line><span class=cl>&gt; x[4]
+</span></span><span class=line><span class=cl>[1] 8
+</span></span></code></pre></td></tr></table></div></div><h4 id=24-na暂时不知道具体有啥用>2.4 NA（暂时不知道具体有啥用）</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 使用c()命令，可以用NA作为一个占位符，其实际值为空
+</span></span><span class=line><span class=cl>x &lt;- c(2, 4, NA, NA) 
+</span></span></code></pre></td></tr></table></div></div><h2 id=3-列表list>3. 列表（list）</h2><h4 id=31-和向量有什么不同>3.1 和向量有什么不同？</h4><p>向量：一组<font color=#dd0000><strong>一维</strong></font>的<font color=#dd0000><strong>相同类型</strong></font>的元素的列表，比如都是数字，或者都是字符串<br>数组：一组元素，可以包含<font color=#dd0000><strong>不同类型</strong></font>的元素，比如数字、字符串以及矩阵的混合。除了一维外，也可以是<font color=#dd0000><strong>多维</strong></font>的数组<br>[感觉不如向量用得广泛]
+<img src=/p/r-language-introduce/R-vector.png width=316 height=296 srcset="/p/r-language-introduce/R-vector_hu_36513e3b8d38542c.png 480w, /p/r-language-introduce/R-vector_hu_42dda6dc8816b0b4.png 1024w" loading=lazy class=gallery-image data-flex-grow=106 data-flex-basis=256px></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 列表变量赋值
+</span></span><span class=line><span class=cl>&gt; my_list &lt;- list(matrix(c(1, 2, 3, 4), nrow = 2), c(5, 6, 7))
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 打印列表
+</span></span><span class=line><span class=cl>&gt; my_list # 数组里的第一个元素是矩阵
+</span></span><span class=line><span class=cl>[[1]]
+</span></span><span class=line><span class=cl>     [,1] [,2]
+</span></span><span class=line><span class=cl>[1,]    1    3
+</span></span><span class=line><span class=cl>[2,]    2    4
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>[[2]] # 数组里的第二个元素是向量
+</span></span><span class=line><span class=cl>[1] 5 6 7
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 打印列表str()
+</span></span><span class=line><span class=cl>&gt; str(my_list)
+</span></span><span class=line><span class=cl>List of 2
+</span></span><span class=line><span class=cl> $ : num [1:2, 1:2] 1 2 3 4
+</span></span><span class=line><span class=cl> $ : num [1:3] 5 6 7
+</span></span></code></pre></td></tr></table></div></div><h4 id=32-数组的命名>3.2 数组的命名</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 1.1 直接创建一个列表
+</span></span><span class=line><span class=cl>xList &lt;- list(xNum, xChar) # method 1: create, then name 
+</span></span><span class=line><span class=cl># 1.2 给列表元素命名
+</span></span><span class=line><span class=cl>names(xList) &lt;- c(&#34;itemnum&#34;, &#34;itemchar&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 2. 创建列表的同时，直接给元素命名
+</span></span><span class=line><span class=cl>xList &lt;- list(itemnum=xNum, itemchar=xChar)
+</span></span></code></pre></td></tr></table></div></div><p>随后可以使用元素下标，或者命名后的name获取对应的元素</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 数组[下标]
+</span></span><span class=line><span class=cl>&gt; xList[[1]]
+</span></span><span class=line><span class=cl>[1] 1.00000 3.14159 5.00000 7.00000
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 数组$名称
+</span></span><span class=line><span class=cl>&gt; xList$itemnum # method 2: $name reference
+</span></span><span class=line><span class=cl>[1] 1.00000 3.14159 5.00000 7.00000
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 数组[[名称]]
+</span></span><span class=line><span class=cl>&gt; xList[[&#34;itemnum&#34;]] # method 3: quoted name
+</span></span><span class=line><span class=cl>[1] 1.00000 3.14159 5.00000 7.00000
+</span></span></code></pre></td></tr></table></div></div><h2 id=4-数据框-data-frame>4. 数据框 （Data frame）</h2><ul><li>也有叫数据帧、数据表格的，感觉框表达的更形象
+<img src=/p/r-language-introduce/R-data-frame.png width=924 height=532 srcset="/p/r-language-introduce/R-data-frame_hu_b2592e372244e3b2.png 480w, /p/r-language-introduce/R-data-frame_hu_2ba856bbb93eab27.png 1024w" loading=lazy class=gallery-image data-flex-grow=173 data-flex-basis=416px></li><li>实际上可以理解为excel里存储的表格结构</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 创建一个data frame
+</span></span><span class=line><span class=cl>df = data.frame(
+</span></span><span class=line><span class=cl>    姓名 = c(&#34;张三&#34;, &#34;李四&#34;, &#34;王五&#34;),
+</span></span><span class=line><span class=cl>    工号 = c(&#34;001&#34;,&#34;002&#34;,&#34;003&#34;),
+</span></span><span class=line><span class=cl>    月薪 = c(1000, 2000, 3000)
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>print(df) # 查看 table 数据
+</span></span><span class=line><span class=cl>  姓名 工号 月薪
+</span></span><span class=line><span class=cl>1 张三  001 1000
+</span></span><span class=line><span class=cl>2 李四  002 2000
+</span></span><span class=line><span class=cl>3 王五  003 3000
+</span></span></code></pre></td></tr></table></div></div><ul><li>而后可以通过多种操作，读取frame中的所需数据</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 平均工资(R语言支持中文)
+</span></span><span class=line><span class=cl>&gt; mean(df$月薪)
+</span></span><span class=line><span class=cl>[1] 2000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 也可以直接summary看整体数据
+</span></span><span class=line><span class=cl>&gt; summary(df$月薪)
+</span></span><span class=line><span class=cl>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+</span></span><span class=line><span class=cl>   1000    1500    2000    2000    2500    3000
+</span></span></code></pre></td></tr></table></div></div><h2 id=5-依赖库package>5. 依赖库（package）</h2><p>一些函数操作，是可以直接使用，不需要引入外部依赖库的，比如mean/min/max等基本计算。而另一些比较复杂的操作，需要引入外部package，使用package中对应的方法实现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 安装readxl库
+</span></span><span class=line><span class=cl>install.packages(“readxl”)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 引用readxl库
+</span></span><span class=line><span class=cl>library(&#34;readxl&#34;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 借助readxl库读取excel数据，文件名为deospray sales.xls，sheet名为deospray
+</span></span><span class=line><span class=cl>deospray.data &lt;- read_excel(path = &#34;deospray sales.xls&#34;, sheet = &#34;deospray&#34;)
+</span></span></code></pre></td></tr></table></div></div><h2 id=6-函数function>6. 函数（function）</h2><p>可以自定义一些func便于重复使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>se &lt;- function(x){
+</span></span><span class=line><span class=cl>    # computes standard error of the mean
+</span></span><span class=line><span class=cl>    tmp.sd &lt;- sd(x) # standard deviation
+</span></span><span class=line><span class=cl>    tmp.N &lt;- length(x) # sample size
+</span></span><span class=line><span class=cl>    tmp.se &lt;- tmp.sd / sqrt(tmp.N) #std error of the mean return(tmp.se)
+</span></span><span class=line><span class=cl>}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>se(store.df$store.visits)
+</span></span></code></pre></td></tr></table></div></div><h1 id=二数据读取-from-excelcsv>二、数据读取 From excel/csv</h1><h2 id=excel>excel</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>library(readxl)
+</span></span><span class=line><span class=cl>deospray.data &lt;- read_excel(path = &#34;deospray sales.xls&#34;, sheet = &#34;deospray&#34;)
+</span></span></code></pre></td></tr></table></div></div><h2 id=csv>csv</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>read.csv(&#34;Data_Descriptive.csv&#34;)
+</span></span><span class=line><span class=cl>store.df &lt;- read.csv(&#34;Data_descriptive.csv&#34;) 
+</span></span><span class=line><span class=cl># 将storeNum构建为R因子
+</span></span><span class=line><span class=cl>store.df$storeNum &lt;- factor(store.df$storeNum)
+</span></span></code></pre></td></tr></table></div></div><h1 id=三数据处理的汪洋大海>三、数据处理的汪洋大海～</h1></section><footer class=article-footer><section class=article-tags><a href=/tags/r%E8%AF%AD%E8%A8%80/>R语言</a>
+<a href=/tags/%E5%85%A5%E9%97%A8/>入门</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/rweek1-getting-start/><div class=article-details><h2 class=article-title>R[week1] Getting start</h2></div></a></article><article><a href=/p/rweek9-managing-resource-trade-offs-ii-code/><div class=article-details><h2 class=article-title>R[week9] Managing Resource Trade-Offs II Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs-code/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs</h2></div></a></article><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-code-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage code II</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

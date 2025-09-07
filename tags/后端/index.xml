@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>后端 on Kunkka</title><link>https://MyLoveES.github.io/tags/%E5%90%8E%E7%AB%AF/</link><description>Recent content in 后端 on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 23 Feb 2022 17:52:13 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/%E5%90%8E%E7%AB%AF/index.xml" rel="self" type="application/rss+xml"/><item><title>Customized Java Exception</title><link>https://MyLoveES.github.io/p/customized-java-exception/</link><pubDate>Wed, 23 Feb 2022 17:52:13 +0000</pubDate><guid>https://MyLoveES.github.io/p/customized-java-exception/</guid><description>&lt;h2 id="自定义异常"&gt;自定义异常
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;简化 / 自定义打印结果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-java" data-lang="java"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nd"&gt;@Override&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kd"&gt;synchronized&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Throwable&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;fillInStackTrace&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt;&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;demo&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;test&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;xxxx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;custom&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;exception&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="na"&gt;SimpleException&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;自定义异常&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item><item><title>Code without TheadPool</title><link>https://MyLoveES.github.io/p/code-without-theadpool/</link><pubDate>Thu, 25 Nov 2021 18:40:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/code-without-theadpool/</guid><description>&lt;h1 id="脱离线程池这些操作的替代方案"&gt;脱离线程池，这些操作的替代方案
+&lt;/h1&gt;&lt;h2 id="线程池---优"&gt;线程池 - 优
+&lt;/h2&gt;&lt;h2 id="线程池---缺"&gt;线程池 - 缺
+&lt;/h2&gt;&lt;h2 id="方案"&gt;方案
+&lt;/h2&gt;&lt;h3 id="1-非阻塞"&gt;1. 非阻塞
+&lt;/h3&gt;&lt;h3 id="2-限流"&gt;2. 限流
+&lt;/h3&gt;&lt;h3 id="3-隔离"&gt;3. 隔离
+&lt;/h3&gt;&lt;h3 id="4-任务状态监控干预"&gt;4. 任务状态监控、干预
+&lt;/h3&gt;</description></item></channel></rss>

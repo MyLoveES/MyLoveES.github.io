@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Markdown on Kunkka</title><link>https://MyLoveES.github.io/tags/markdown/</link><description>Recent content in Markdown on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 06 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml"/><item><title>Pandoc mardown to pdf</title><link>https://MyLoveES.github.io/p/pandoc-mardown-to-pdf/</link><pubDate>Fri, 06 May 2022 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/pandoc-mardown-to-pdf/</guid><description>&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pandoc --pdf-engine=xelatex --highlight-style zenburn --toc -V geometry:margin=1in -V urlcolor=NavyBlue -V CJKmainfont=&amp;#34;STKaitiSC-Regular&amp;#34; ${input} ${output}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item></channel></rss>

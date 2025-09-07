@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Podman on Kunkka</title><link>https://MyLoveES.github.io/tags/podman/</link><description>Recent content in Podman on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 13 Oct 2021 18:14:13 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/podman/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker Substitute Podman</title><link>https://MyLoveES.github.io/p/docker-substitute-podman/</link><pubDate>Wed, 13 Oct 2021 18:14:13 +0000</pubDate><guid>https://MyLoveES.github.io/p/docker-substitute-podman/</guid><description>&lt;h2 id="podman简介"&gt;Podman简介
+&lt;/h2&gt;&lt;p&gt;&lt;a class="link" href="https://podman.io/" target="_blank" rel="noopener"
+&gt;podman&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="和docker的区别"&gt;和Docker的区别
+&lt;/h2&gt;&lt;h2 id="安装"&gt;安装
+&lt;/h2&gt;&lt;h2 id="使用"&gt;使用
+&lt;/h2&gt;&lt;h2 id="使用-nvidia-driver"&gt;使用 Nvidia-driver
+&lt;/h2&gt;</description></item></channel></rss>

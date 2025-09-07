@@ -1,0 +1,895 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content='本篇主要讲了R语言的几种类型，以及与数据之间的关系。\nR: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\n一、Basic objects 1. vectors 一维数据集，常用于number, boolean, string, etc.\n1 2 3 4 5 6 7 8 9 10 11 12 # define some variables > x <- c(2, 4, 6, 8) > xNum <- c(1, 3.14159, 5, 7) > xLog <- c(TRUE, FALSE, TRUE, TRUE) > xChar <- c("foo", "bar", "boo", "far") > xMix <- c(1, TRUE, 3, "Hello, world!") # print variable > xNum # result [1] 1.00000 3.14159 5.00000 7.00000 1 2 3 4 5 6 7 8 9 # 可以使用vector作为新verctor创建的初始值 > x2 <- c(xNum, xMix) # print > x2 # result [1] "1" "3.14159" "5" "7" "1" "TRUE" [7] "3" "Hello, world!" 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 下标与计算，需要注意R语言中下标从1开始 > xNum[2] [1] 3.14159 # 计算时，不指明元素的话，会将vec中所有元素各执行一遍计算 > x2 <- c(x, x) > x2 + 1 [1] 3 5 7 9 3 5 7 9 > x2 * pi [1] 6.283185 12.566371 18.849556 25.132741 6.283185 12.566371 18.849556 25.132741 > (x+cos(0.5)) * x2 [1] 5.755165 19.510330 41.265495 71.020660 5.755165 19.510330 41.265495 71.020660 注⚠️：由此可以看出一个特点，若两个vec计算，元素数量不相同时，会反复使用元素少的vec。（很像是矩阵的计算？（谁说vec不是一维矩阵呢？ 比如上面的x只有4个元素，而x2有8个元素，所以x的元素使用了两次。\n'><title>R[week1] Getting start</title><link rel=canonical href=https://MyLoveES.github.io/p/rweek1-getting-start/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="R[week1] Getting start"><meta property='og:description' content='本篇主要讲了R语言的几种类型，以及与数据之间的关系。\nR: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\n一、Basic objects 1. vectors 一维数据集，常用于number, boolean, string, etc.\n1 2 3 4 5 6 7 8 9 10 11 12 # define some variables > x <- c(2, 4, 6, 8) > xNum <- c(1, 3.14159, 5, 7) > xLog <- c(TRUE, FALSE, TRUE, TRUE) > xChar <- c("foo", "bar", "boo", "far") > xMix <- c(1, TRUE, 3, "Hello, world!") # print variable > xNum # result [1] 1.00000 3.14159 5.00000 7.00000 1 2 3 4 5 6 7 8 9 # 可以使用vector作为新verctor创建的初始值 > x2 <- c(xNum, xMix) # print > x2 # result [1] "1" "3.14159" "5" "7" "1" "TRUE" [7] "3" "Hello, world!" 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 下标与计算，需要注意R语言中下标从1开始 > xNum[2] [1] 3.14159 # 计算时，不指明元素的话，会将vec中所有元素各执行一遍计算 > x2 <- c(x, x) > x2 + 1 [1] 3 5 7 9 3 5 7 9 > x2 * pi [1] 6.283185 12.566371 18.849556 25.132741 6.283185 12.566371 18.849556 25.132741 > (x+cos(0.5)) * x2 [1] 5.755165 19.510330 41.265495 71.020660 5.755165 19.510330 41.265495 71.020660 注⚠️：由此可以看出一个特点，若两个vec计算，元素数量不相同时，会反复使用元素少的vec。（很像是矩阵的计算？（谁说vec不是一维矩阵呢？ 比如上面的x只有4个元素，而x2有8个元素，所以x的元素使用了两次。\n'><meta property='og:url' content='https://MyLoveES.github.io/p/rweek1-getting-start/'><meta property='og:site_name' content='Kunkka'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='R语言'><meta property='article:tag' content='数据分析'><meta property='article:tag' content='入门'><meta property='article:published_time' content='2024-03-12T00:00:00+00:00'><meta property='article:modified_time' content='2024-03-12T00:00:00+00:00'><meta name=twitter:title content="R[week1] Getting start"><meta name=twitter:description content='本篇主要讲了R语言的几种类型，以及与数据之间的关系。\nR: 4.3.2 (2023-10-31)\nR studio: 2023.12.1+402 (2023.12.1+402)\n一、Basic objects 1. vectors 一维数据集，常用于number, boolean, string, etc.\n1 2 3 4 5 6 7 8 9 10 11 12 # define some variables > x <- c(2, 4, 6, 8) > xNum <- c(1, 3.14159, 5, 7) > xLog <- c(TRUE, FALSE, TRUE, TRUE) > xChar <- c("foo", "bar", "boo", "far") > xMix <- c(1, TRUE, 3, "Hello, world!") # print variable > xNum # result [1] 1.00000 3.14159 5.00000 7.00000 1 2 3 4 5 6 7 8 9 # 可以使用vector作为新verctor创建的初始值 > x2 <- c(xNum, xMix) # print > x2 # result [1] "1" "3.14159" "5" "7" "1" "TRUE" [7] "3" "Hello, world!" 1 2 3 4 5 6 7 8 9 10 11 12 13 14 # 下标与计算，需要注意R语言中下标从1开始 > xNum[2] [1] 3.14159 # 计算时，不指明元素的话，会将vec中所有元素各执行一遍计算 > x2 <- c(x, x) > x2 + 1 [1] 3 5 7 9 3 5 7 9 > x2 * pi [1] 6.283185 12.566371 18.849556 25.132741 6.283185 12.566371 18.849556 25.132741 > (x+cos(0.5)) * x2 [1] 5.755165 19.510330 41.265495 71.020660 5.755165 19.510330 41.265495 71.020660 注⚠️：由此可以看出一个特点，若两个vec计算，元素数量不相同时，会反复使用元素少的vec。（很像是矩阵的计算？（谁说vec不是一维矩阵呢？ 比如上面的x只有4个元素，而x2有8个元素，所以x的元素使用了两次。\n'><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kunkka</a></h1><h2 class=site-description>wind rises</h2></div></header><ol class=menu-social><li><a href=https://github.com/MyLoveES target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=/index.xml target=_blank title=RSS rel=me><svg class="icon icon-tabler icon-tabler-rss" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="5" cy="19" r="1"/><path d="M4 4a16 16 0 0116 16"/><path d="M4 11a9 9 0 019 9"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/about><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/archives><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/all-categories><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg>
+<span>Categories</span></a></li><li><a href=/links><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li><a href=/all-tags><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg>
+<span>Tags</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#1-vectors>1. vectors</a></li><li><a href=#2-more-on-vectors-and-indexing>2. More on Vectors and Indexing</a><ol><li><a href=#21-子集>2.1 子集</a></li></ol></li><li><a href=#3-missing-and-interesting-values---na>3. Missing and interesting values - NA</a><ol><li><a href=#31-重要的na>3.1 重要的NA</a></li></ol></li><li><a href=#4-lists>4. Lists</a></li><li><a href=#5-data-frame>5. Data frame</a><ol><li><a href=#cor函数><strong>cor()函数</strong></a></li><li><a href=#参数>参数</a></li><li><a href=#返回值>返回值</a></li><li><a href=#示例>示例</a></li><li><a href=#皮尔逊相关系数pearson-correlation-coefficient>皮尔逊相关系数（Pearson correlation coefficient）</a></li><li><a href=#特点>特点：</a></li><li><a href=#解释>解释：</a></li><li><a href=#适用范围>适用范围：</a></li><li><a href=#注意事项>注意事项：</a></li></ol></li><li><a href=#6-saving-loading-and-importing-data>6. Saving, loading, and importing data</a><ol><li><a href=#61-save-and-reload>6.1 save and reload</a></li><li><a href=#62-import>6.2 import</a><ol><li><a href=#621-excel>6.2.1 excel</a></li><li><a href=#622-csv>6.2.2 csv</a></li></ol></li></ol></li><li><a href=#7-function>7. function</a></li><li><a href=#8-clean-up>8. clean up</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%95%99%E7%A8%8B/>教程</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/rweek1-getting-start/>R[week1] Getting start</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Mar 12, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>11 minute read</time></div></footer></div></header><section class=article-content><p>本篇主要讲了R语言的几种类型，以及与数据之间的关系。</p><blockquote><p>R: 4.3.2 (2023-10-31)<br>R studio: 2023.12.1+402 (2023.12.1+402)</p></blockquote><h1 id=一basic-objects>一、Basic objects</h1><h2 id=1-vectors>1. vectors</h2><p>一维数据集，常用于number, boolean, string, etc.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># define some variables</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>8</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>xNum</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mf>3.14159</span><span class=p>,</span> <span class=mi>5</span><span class=p>,</span> <span class=mi>7</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>xLog</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=n>TRUE</span><span class=p>,</span> <span class=n>FALSE</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>xChar</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=s2>&#34;foo&#34;</span><span class=p>,</span> <span class=s2>&#34;bar&#34;</span><span class=p>,</span> <span class=s2>&#34;boo&#34;</span><span class=p>,</span> <span class=s2>&#34;far&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>xMix</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=s2>&#34;Hello, world!&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># print variable</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>xNum</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># result</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mf>1.00000</span> <span class=mf>3.14159</span> <span class=mf>5.00000</span> <span class=mf>7.00000</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 可以使用vector作为新verctor创建的初始值
+</span></span><span class=line><span class=cl>&gt; x2 &lt;- c(xNum, xMix)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># print
+</span></span><span class=line><span class=cl>&gt; x2 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># result
+</span></span><span class=line><span class=cl>[1] &#34;1&#34;             &#34;3.14159&#34;       &#34;5&#34;             &#34;7&#34;             &#34;1&#34;             &#34;TRUE&#34;         
+</span></span><span class=line><span class=cl>[7] &#34;3&#34;             &#34;Hello, world!&#34;
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 下标与计算，需要注意R语言中下标从1开始
+</span></span><span class=line><span class=cl>&gt; xNum[2]
+</span></span><span class=line><span class=cl>[1] 3.14159
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 计算时，不指明元素的话，会将vec中所有元素各执行一遍计算
+</span></span><span class=line><span class=cl>&gt; x2 &lt;- c(x, x) 
+</span></span><span class=line><span class=cl>&gt; x2 + 1
+</span></span><span class=line><span class=cl>[1] 3 5 7 9 3 5 7 9
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; x2 * pi
+</span></span><span class=line><span class=cl>[1]  6.283185 12.566371 18.849556 25.132741  6.283185 12.566371 18.849556 25.132741
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; (x+cos(0.5)) * x2
+</span></span><span class=line><span class=cl>[1]  5.755165 19.510330 41.265495 71.020660  5.755165 19.510330 41.265495 71.020660
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注⚠️：由此可以看出一个特点，若两个vec计算，元素数量不相同时，会反复使用元素少的vec。（很像是矩阵的计算？（谁说vec不是一维矩阵呢？<br>比如上面的x只有4个元素，而x2有8个元素，所以x的元素使用了两次。</p></blockquote><blockquote><p>注⚠️：除了cos外，常用的数学函数还有：</p></blockquote><div class=table-wrapper><table><thead><tr><th>函数</th><th>描述</th></tr></thead><tbody><tr><td>exp(x)</td><td>计算e的x次幂。</td></tr><tr><td>log(x)</td><td>计算x的自然对数。</td></tr><tr><td>log10(x)</td><td>计算x的以10为底的对数。</td></tr><tr><td>log2(x)</td><td>计算x的以2为底的对数。</td></tr><tr><td>sqrt(x)</td><td>计算x的平方根。</td></tr><tr><td>^ 或 **</td><td>进行幂运算，例如x^2 或 x**2表示x的平方。</td></tr><tr><td>sin(x)</td><td>计算x的正弦值。</td></tr><tr><td>cos(x)</td><td>计算x的余弦值。</td></tr><tr><td>tan(x)</td><td>计算x的正切值。</td></tr><tr><td>asin(x)</td><td>计算x的反正弦值。</td></tr><tr><td>acos(x)</td><td>计算x的反余弦值。</td></tr><tr><td>atan(x)</td><td>计算x的反正切值。</td></tr><tr><td>sinh(x)</td><td>计算x的双曲正弦值。</td></tr><tr><td>cosh(x)</td><td>计算x的双曲余弦值。</td></tr><tr><td>tanh(x)</td><td>计算x的双曲正切值。</td></tr><tr><td>ceiling(x)</td><td>对x进行向上取整。</td></tr><tr><td>floor(x)</td><td>对x进行向下取整。</td></tr><tr><td>abs(x)</td><td>计算x的绝对值。</td></tr><tr><td>factorial(x)</td><td>计算x的阶乘。</td></tr><tr><td>%%</td><td>计算x除以y的余数，例如5 %% 2等于1。</td></tr></tbody></table></div><h2 id=2-more-on-vectors-and-indexing>2. More on Vectors and Indexing</h2><h3 id=21-子集>2.1 子集</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 定义一个数字序列
+</span></span><span class=line><span class=cl>&gt; xSeq &lt;- 1:10 # use 1:10 instead of typing 1,2,3,4 ...10.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 获取子集
+</span></span><span class=line><span class=cl>&gt; xNum
+</span></span><span class=line><span class=cl>[1] 1.00000 3.14159 5.00000 7.00000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 第2到第4个元素
+</span></span><span class=line><span class=cl>&gt; xNum[2:4]
+</span></span><span class=line><span class=cl>[1] 3.14159 5.00000 7.00000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 第2-3个元素
+</span></span><span class=line><span class=cl>&gt; myStart &lt;- 2 
+</span></span><span class=line><span class=cl>&gt; xNum[myStart:sqrt(myStart+7)]
+</span></span><span class=line><span class=cl>[1] 3.14159 5.00000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; xSeq
+</span></span><span class=line><span class=cl>[1]  1  2  3  4  5  6  7  8  9 10
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 负数代表排除掉第n个元素
+</span></span><span class=line><span class=cl>&gt; xSeq[-5:-7]
+</span></span><span class=line><span class=cl>[1]  1  2  3  4  8  9 10
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 用vec计算得出另一个vec
+</span></span><span class=line><span class=cl>&gt; xSub &lt;- xNum[2:4]
+</span></span><span class=line><span class=cl>[1] 3.14159 5.00000 7.00000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 可以用boolean来筛选元素
+</span></span><span class=line><span class=cl>&gt; xNum[c(FALSE, TRUE, TRUE, TRUE)]
+</span></span><span class=line><span class=cl>[1] 3.14159 5.00000 7.00000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 因此可以用表达式来获取logic value
+</span></span><span class=line><span class=cl>&gt; xNum[xNum &gt; 3]
+</span></span><span class=line><span class=cl>[1] 3.14159 5.00000 7.00000
+</span></span></code></pre></td></tr></table></div></div><h2 id=3-missing-and-interesting-values---na>3. Missing and interesting values - NA</h2><h3 id=31-重要的na>3.1 重要的NA</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; my.test.scores &lt;- c(91, NA, NA)
+</span></span><span class=line><span class=cl>NA
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; mean(my.test.scores)
+</span></span><span class=line><span class=cl>NA
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; max(my.test.scores)
+</span></span><span class=line><span class=cl>NA
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 筛选掉NA
+</span></span><span class=line><span class=cl>## 方法1: na.rm=TRUE
+</span></span><span class=line><span class=cl>&gt; mean(my.test.scores, na.rm=TRUE)
+</span></span><span class=line><span class=cl>91
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; max(my.test.scores, na.rm=TRUE)
+</span></span><span class=line><span class=cl>91
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>## 方法2：na.omit
+</span></span><span class=line><span class=cl>&gt; mean(na.omit(my.test.scores))
+</span></span><span class=line><span class=cl>91
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>## 方法3: !is.na(x)
+</span></span><span class=line><span class=cl>&gt; is.na(my.test.scores)
+</span></span><span class=line><span class=cl>[1] FALSE  TRUE  TRUE
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; my.test.scores[!is.na(my.test.scores)]
+</span></span><span class=line><span class=cl>91
+</span></span></code></pre></td></tr></table></div></div><h2 id=4-lists>4. Lists</h2><p><strong>多维</strong>的数据集合</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; str(xChar)
+</span></span><span class=line><span class=cl>chr [1:4] &#34;foo&#34; &#34;bar&#34; &#34;boo&#34; &#34;far&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 从vec合并为list
+</span></span><span class=line><span class=cl>&gt; xList &lt;- list(xNum, xChar) 
+</span></span><span class=line><span class=cl>&gt; xList
+</span></span><span class=line><span class=cl>[[1]]
+</span></span><span class=line><span class=cl>[1] 1.00000 3.14159 5.00000 7.00000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>[[2]]
+</span></span><span class=line><span class=cl>[1] &#34;foo&#34; &#34;bar&#34; &#34;boo&#34; &#34;far&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; str(xList)
+</span></span><span class=line><span class=cl>List of 2
+</span></span><span class=line><span class=cl> $ : num [1:4] 1 3.14 5 7
+</span></span><span class=line><span class=cl> $ : chr [1:4] &#34;foo&#34; &#34;bar&#34; &#34;boo&#34; &#34;far&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary(xList[[1]])
+</span></span><span class=line><span class=cl>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+</span></span><span class=line><span class=cl>  1.000   2.606   4.071   4.035   5.500   7.000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 分配名字
+</span></span><span class=line><span class=cl>## 方式1
+</span></span><span class=line><span class=cl>&gt; names(xList) &lt;- c(&#34;itemnum&#34;, &#34;itemchar&#34;)
+</span></span><span class=line><span class=cl>## 方式2
+</span></span><span class=line><span class=cl>xList &lt;- list(itemnum=xNum, itemchar=xChar)
+</span></span><span class=line><span class=cl>&gt; xList
+</span></span><span class=line><span class=cl>$itemnum
+</span></span><span class=line><span class=cl>[1] 1.00000 3.14159 5.00000 7.00000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$itemchar
+</span></span><span class=line><span class=cl>[1] &#34;foo&#34; &#34;bar&#34; &#34;boo&#34; &#34;far&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 分配名字后，可以用名字来替代索引，获得元素
+</span></span><span class=line><span class=cl>&gt; xList$itemnum # method 2: $name reference
+</span></span><span class=line><span class=cl>[1] 1.00000 3.14159 5.00000 7.00000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; xList[[&#34;itemnum&#34;]] # method 3: quoted name
+</span></span><span class=line><span class=cl>[1] 1.00000 3.14159 5.00000 7.00000
+</span></span></code></pre></td></tr></table></div></div><h2 id=5-data-frame>5. Data frame</h2><p>即为<strong>矩阵</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># 创建一个date frame, 使用多个vec作为数据源</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span><span class=o>.</span><span class=n>df</span> <span class=o>&lt;-</span> <span class=n>data</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=n>xNum</span><span class=p>,</span> <span class=n>xLog</span><span class=p>,</span> <span class=n>xChar</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span><span class=o>.</span><span class=n>df</span>
+</span></span><span class=line><span class=cl>     <span class=n>xNum</span>  <span class=n>xLog</span> <span class=n>xChar</span>
+</span></span><span class=line><span class=cl><span class=mi>1</span> <span class=mf>1.00000</span>  <span class=n>TRUE</span>   <span class=n>foo</span>
+</span></span><span class=line><span class=cl><span class=mi>2</span> <span class=mf>3.14159</span> <span class=n>FALSE</span>   <span class=n>bar</span>
+</span></span><span class=line><span class=cl><span class=mi>3</span> <span class=mf>5.00000</span>  <span class=n>TRUE</span>   <span class=n>boo</span>
+</span></span><span class=line><span class=cl><span class=mi>4</span> <span class=mf>7.00000</span>  <span class=n>TRUE</span>   <span class=n>far</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 使用index获取特定元素</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=mi>2</span><span class=p>,</span><span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=mf>3.14159</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span><span class=o>.</span><span class=n>df1</span> <span class=o>&lt;-</span> <span class=n>data</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=n>xNum</span><span class=p>,</span> <span class=n>xLog</span><span class=p>,</span> <span class=n>xChar</span><span class=p>,</span> <span class=n>stringsAsFactors</span><span class=o>=</span><span class=n>TRUE</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>x</span><span class=o>.</span><span class=n>df1</span>
+</span></span><span class=line><span class=cl>     <span class=n>xNum</span>  <span class=n>xLog</span> <span class=n>xChar</span>
+</span></span><span class=line><span class=cl><span class=mi>1</span> <span class=mf>1.00000</span>  <span class=n>TRUE</span>   <span class=n>foo</span>
+</span></span><span class=line><span class=cl><span class=mi>2</span> <span class=mf>3.14159</span> <span class=n>FALSE</span>   <span class=n>bar</span>
+</span></span><span class=line><span class=cl><span class=mi>3</span> <span class=mf>5.00000</span>  <span class=n>TRUE</span>   <span class=n>boo</span>
+</span></span><span class=line><span class=cl><span class=mi>4</span> <span class=mf>7.00000</span>  <span class=n>TRUE</span>   <span class=n>far</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>str</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>df1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s1>&#39;data.frame&#39;</span><span class=p>:</span>	<span class=mi>4</span> <span class=n>obs</span><span class=o>.</span> <span class=n>of</span>  <span class=mi>3</span> <span class=n>variables</span><span class=p>:</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>xNum</span> <span class=p>:</span> <span class=n>num</span>  <span class=mi>1</span> <span class=mf>3.14</span> <span class=mi>5</span> <span class=mi>7</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>xLog</span> <span class=p>:</span> <span class=n>logi</span>  <span class=n>TRUE</span> <span class=n>FALSE</span> <span class=n>TRUE</span> <span class=n>TRUE</span>
+</span></span><span class=line><span class=cl> <span class=o>$</span> <span class=n>xChar</span><span class=p>:</span> <span class=n>Factor</span> <span class=n>w</span><span class=o>/</span> <span class=mi>4</span> <span class=n>levels</span> <span class=s2>&#34;bar&#34;</span><span class=p>,</span><span class=s2>&#34;boo&#34;</span><span class=p>,</span><span class=s2>&#34;far&#34;</span><span class=p>,</span><span class=o>..</span><span class=p>:</span> <span class=mi>4</span> <span class=mi>1</span> <span class=mi>2</span> <span class=mi>3</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注⚠️：何为factor？<br>个人理解类似于“枚举”，有限集合。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 一些 &#39;sub&#39; data frame 方法
+</span></span><span class=line><span class=cl>&gt; x.df[2, ] # 第2行 all of row 2 
+</span></span><span class=line><span class=cl>     xNum  xLog xChar
+</span></span><span class=line><span class=cl>2 3.14159 FALSE   bar
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; x.df[ ,3] # 第3列 all of column 3
+</span></span><span class=line><span class=cl>[1] &#34;foo&#34; &#34;bar&#34; &#34;boo&#34; &#34;far&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; x.df[2:3, ] # 第2-3行
+</span></span><span class=line><span class=cl>     xNum  xLog xChar
+</span></span><span class=line><span class=cl>2 3.14159 FALSE   bar
+</span></span><span class=line><span class=cl>3 5.00000  TRUE   boo
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; x.df[ ,1:2] # two columns # 第1-2列
+</span></span><span class=line><span class=cl>     xNum  xLog
+</span></span><span class=line><span class=cl>1 1.00000  TRUE
+</span></span><span class=line><span class=cl>2 3.14159 FALSE
+</span></span><span class=line><span class=cl>3 5.00000  TRUE
+</span></span><span class=line><span class=cl>4 7.00000  TRUE
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; x.df[-3, ] # omit the third observation # 排除掉第3行
+</span></span><span class=line><span class=cl>     xNum  xLog xChar
+</span></span><span class=line><span class=cl>1 1.00000  TRUE   foo
+</span></span><span class=line><span class=cl>2 3.14159 FALSE   bar
+</span></span><span class=line><span class=cl>4 7.00000  TRUE   far
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; x.df[, -2] # omit the second column # 排除掉第2列
+</span></span><span class=line><span class=cl>     xNum xChar
+</span></span><span class=line><span class=cl>1 1.00000   foo
+</span></span><span class=line><span class=cl>2 3.14159   bar
+</span></span><span class=line><span class=cl>3 5.00000   boo
+</span></span><span class=line><span class=cl>4 7.00000   far
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注⚠️：从data frame中筛选数据，如果是单个元素，返回值类型为元素数量为1的vec；如果是一行或者一列，则为vec；如果是多行或者多列，则为一个新的data frame。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 清理掉上述内容
+</span></span><span class=line><span class=cl>&gt; rm(list=ls()) # caution, deletes all objects!
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 新建一个data frame，填充元素
+</span></span><span class=line><span class=cl>&gt; store.num &lt;- factor(c(3, 14, 21, 32, 54)) # store id
+</span></span><span class=line><span class=cl>&gt; store.rev &lt;- c(543, 654, 345, 678, 234) # store revenue, $1000 
+</span></span><span class=line><span class=cl>&gt; store.visits &lt;- c(45, 78, 32, 56, 34) # visits, 1000s 
+</span></span><span class=line><span class=cl>&gt; store.manager &lt;- c(&#34;Annie&#34;, &#34;Bert&#34;, &#34;Carla&#34;, &#34;Dave&#34;, &#34;Ella&#34;) 
+</span></span><span class=line><span class=cl>&gt; (store.df &lt;- data.frame(store.num, store.rev, store.visits,store.manager)) # 加括号，直接打印内容
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  store.num store.rev store.visits store.manager
+</span></span><span class=line><span class=cl>1         3       543           45         Annie
+</span></span><span class=line><span class=cl>2        14       654           78          Bert
+</span></span><span class=line><span class=cl>3        21       345           32         Carla
+</span></span><span class=line><span class=cl>4        32       678           56          Dave
+</span></span><span class=line><span class=cl>5        54       234           34          Ella
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; store.df$store.manager # 查询manager
+</span></span><span class=line><span class=cl>[1] &#34;Annie&#34; &#34;Bert&#34;  &#34;Carla&#34; &#34;Dave&#34;  &#34;Ella&#34; 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; mean(store.df$store.rev) # 查询revenue 平均值
+</span></span><span class=line><span class=cl>[1] 490.8
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; cor(store.df$store.rev, store.df$store.visits) # caculate correlation
+</span></span><span class=line><span class=cl>[1] 0.8291032
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary(store.df) # summary
+</span></span><span class=line><span class=cl> store.num   store.rev      store.visits store.manager     
+</span></span><span class=line><span class=cl> 3 :1      Min.   :234.0   Min.   :32    Length:5          
+</span></span><span class=line><span class=cl> 14:1      1st Qu.:345.0   1st Qu.:34    Class :character  
+</span></span><span class=line><span class=cl> 21:1      Median :543.0   Median :45    Mode  :character  
+</span></span><span class=line><span class=cl> 32:1      Mean   :490.8   Mean   :49                      
+</span></span><span class=line><span class=cl> 54:1      3rd Qu.:654.0   3rd Qu.:56                      
+</span></span><span class=line><span class=cl>           Max.   :678.0   Max.   :78                      
+</span></span></code></pre></td></tr></table></div></div><div style=background-color:#f0f0f0;padding:10px><h3 id=cor函数><strong>cor()函数</strong></h3><blockquote><p>用于计算相关系数的函数之一。相关系数是衡量两个变量之间线性关系强度和方向的统计量，通常用于探索变量之间的相关性。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cor(x, y, method = c(&#34;pearson&#34;, &#34;kendall&#34;, &#34;spearman&#34;), use = c(&#34;everything&#34;, &#34;all.obs&#34;, &#34;complete.obs&#34;, &#34;na.or.complete&#34;))
+</span></span></code></pre></td></tr></table></div></div><h3 id=参数>参数</h3><blockquote><p><strong>x</strong>: 一个数值向量、矩阵或数据框，或者是一个因子。<br><strong>y</strong>: （可选）一个数值向量、矩阵或数据框，或者是一个因子。如果指定了 y，则会计算 x 和 y 之间的相关系数；如果未指定 y，则会计算 x 中各个变量之间的相关系数。<br><strong>method</strong>: （可选）指定计算相关系数的方法，可选值为 &ldquo;pearson&rdquo;（皮尔逊相关系数，默认）、&ldquo;kendall&rdquo;（肯德尔相关系数）和 &ldquo;spearman&rdquo;（斯皮尔曼相关系数）。<br><strong>use</strong>: （可选）指定如何处理缺失值的参数，可选值包括 &ldquo;everything&rdquo;（默认，对所有数据点进行计算）、&ldquo;all.obs&rdquo;（对所有非缺失数据点进行计算）、&ldquo;complete.obs&rdquo;（对完全没有缺失值的数据点进行计算）、&ldquo;na.or.complete&rdquo;（对有缺失值但至少有一对完整观测值的数据点进行计算）。</p></blockquote><h3 id=返回值>返回值</h3><blockquote><p>返回一个相关系数矩阵，其中包含了各个变量之间的相关系数。</p></blockquote><h3 id=示例>示例</h3><blockquote><p>假设有一个数据框 df 包含了两个数值变量 x 和 y</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 创建数据框
+</span></span><span class=line><span class=cl>df &lt;- data.frame(
+</span></span><span class=line><span class=cl>  x = c(1, 2, 3, 4, 5),
+</span></span><span class=line><span class=cl>  y = c(2, 3, 5, 7, 11)
+</span></span><span class=line><span class=cl>)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 计算两个变量之间的皮尔逊相关系数
+</span></span><span class=line><span class=cl>cor(df$x, df$y)
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>将输出两个变量 x 和 y 之间的皮尔逊相关系数。</p></blockquote></div><div style=background-color:#f0f0f0;padding:10px><h3 id=皮尔逊相关系数pearson-correlation-coefficient>皮尔逊相关系数（Pearson correlation coefficient）</h3><p>是一种用来衡量两个变量之间线性关系强度和方向的统计量。它衡量的是两个变量之间的线性相关程度，取值范围在-1到1之间。</p><h3 id=特点>特点：</h3><blockquote><p>当 r=1 时，表示两个变量完全正相关，即一个变量增大时，另一个变量也增大，呈线性关系；<br>当 r=-1 时，表示两个变量完全负相关，即一个变量增大时，另一个变量减小，也呈线性关系；<br>当 r=0 时，表示两个变量之间没有线性关系，但并不代表两个变量之间没有其他类型的关系。</p></blockquote><h3 id=解释>解释：</h3><blockquote><p>如果 r 的值接近于1或-1，表示两个变量之间有很强的线性关系，相关性较高；<br>如果 r 的值接近于0，表示两个变量之间的线性关系很弱，相关性较低。</p></blockquote><h3 id=适用范围>适用范围：</h3><blockquote><p>皮尔逊相关系数要求两个变量的数据是连续变量；<br>它要求变量之间的关系是线性的。</p></blockquote><h3 id=注意事项>注意事项：</h3><blockquote><p>皮尔逊相关系数只能衡量两个变量之间的线性关系，对于非线性关系不敏感；<br>相关系数不能说明因果关系，只能说明两个变量之间的相关性。</p></blockquote><p>在实际数据分析中，皮尔逊相关系数经常用于探索变量之间的关系，特别是在探索两个连续变量之间的关系时，它是一个非常有用的工具。</p></div><h2 id=6-saving-loading-and-importing-data>6. Saving, loading, and importing data</h2><h3 id=61-save-and-reload>6.1 save and reload</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># 保存data frame到文件</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>save</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>,</span> <span class=n>file</span><span class=o>=</span><span class=s2>&#34;store-df-backup.RData&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 删掉内存中的data frame</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>rm</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span> <span class=c1># caution, only if save() gave no error </span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 重新从文件中加载</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>load</span><span class=p>(</span><span class=s2>&#34;store-df-backup.RData&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>save</span><span class=o>.</span><span class=n>image</span><span class=p>()</span> <span class=c1># saves file &#34;.RData&#34; </span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=n>save</span><span class=o>.</span><span class=n>image</span><span class=p>(</span><span class=s2>&#34;mywork.RData&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=nb>load</span><span class=p>(</span><span class=s2>&#34;mywork.RData&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注⚠️： save()和save.image()都是保存到文件；save()只保存指定的元素；save.image()保存所有的对象和数据。
+load()加载.RData时，会把文件中保存的内存对象，<strong>覆盖</strong>掉当前内存中的</p></blockquote><h3 id=62-import>6.2 import</h3><h4 id=621-excel>6.2.1 excel</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 安装并引用excel处理的依赖包
+</span></span><span class=line><span class=cl>&gt; install.packages (&#34;readxl&#34;)
+</span></span><span class=line><span class=cl>&gt; library(readxl)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; deospray.data &lt;- read_excel(path = &#34;deospray sales.xls&#34;, sheet = &#34;deospray&#34;) # filename, sheet name
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; str(deospray.data)
+</span></span><span class=line><span class=cl>tibble [620 × 22] (S3: tbl_df/tbl/data.frame)
+</span></span><span class=line><span class=cl> $ chain         : num [1:620] 1 1 1 1 1 1 1 1 1 1 ...
+</span></span><span class=line><span class=cl> $ week          : chr [1:620] &#34;W16046&#34; &#34;W16047&#34; &#34;W16048&#34; &#34;W16049&#34; ...
+</span></span><span class=line><span class=cl> $ sales_brand1  : num [1:620] 24 28.1 25.8 24.6 23 ...
+</span></span><span class=line><span class=cl> $ sales_brand2  : num [1:620] 31.3 39.6 102.2 68.4 37.8 ...
+</span></span><span class=line><span class=cl> $ sales_brand3  : num [1:620] 21.1 24 26.8 22.7 20.6 ...
+</span></span><span class=line><span class=cl> $ sales_brand4  : num [1:620] 48.4 52.1 53 43 53.9 ...
+</span></span><span class=line><span class=cl> $ sales_brand5  : num [1:620] 65 64.6 64.7 64.2 52.7 ...
+</span></span><span class=line><span class=cl> $ price_brand1  : num [1:620] 1.09 1.08 1.08 1.08 1.08 ...
+</span></span><span class=line><span class=cl> $ price_brand2  : num [1:620] 0.688 0.642 0.478 0.569 0.576 ...
+</span></span><span class=line><span class=cl> $ price_brand3  : num [1:620] 1.05 1.05 1.05 1.04 1.06 ...
+</span></span><span class=line><span class=cl> $ price_brand4  : num [1:620] 1.12 1.12 1.12 1.12 1.12 ...
+</span></span><span class=line><span class=cl> $ price_brand5  : num [1:620] 1.32 1.32 1.32 1.32 1.32 ...
+</span></span><span class=line><span class=cl> $ display_brand1: num [1:620] 0.02 0.02 0.19 0.18 0.05 0.05 0.08 0.03 0.05 0.04 ...
+</span></span><span class=line><span class=cl> $ display_brand2: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl> $ display_brand3: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl> $ display_brand4: num [1:620] 0.01 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl> $ display_brand5: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl> $ feature_brand1: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl> $ feature_brand2: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl> $ feature_brand3: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl> $ feature_brand4: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl> $ feature_brand5: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 查看数据
+</span></span><span class=line><span class=cl>&gt; View(deospray.data)
+</span></span></code></pre></td></tr></table></div></div><h4 id=622-csv>6.2.2 csv</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&gt; store.df &lt;- read.csv(&#34;Data_descriptive.csv&#34;) 
+</span></span><span class=line><span class=cl>&gt; store.df$storeNum &lt;- factor(store.df$storeNum)
+</span></span></code></pre></td></tr></table></div></div><h2 id=7-function>7. function</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># 一个简单的function se
+</span></span><span class=line><span class=cl>&gt; se &lt;- function(x){sd(x) / sqrt(length(x))}
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; se(store.df$store.visits)
+</span></span><span class=line><span class=cl>[1] 8.42615 # 为什么PDF里面结果是NA????
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; se &lt;- function(x){
+</span></span><span class=line><span class=cl>&gt;   # computes standard error of the mean
+</span></span><span class=line><span class=cl>&gt;   tmp.sd &lt;- sd(x) # standard deviation
+</span></span><span class=line><span class=cl>&gt;   tmp.N &lt;- length(x) # sample size
+</span></span><span class=line><span class=cl>&gt;   tmp.se &lt;- tmp.sd / sqrt(tmp.N) #std error of the mean return(tmp.se)
+</span></span><span class=line><span class=cl>&gt; }
+</span></span></code></pre></td></tr></table></div></div><blockquote><p>注⚠️：其他的一些数学函数</p></blockquote><div class=table-wrapper><table><thead><tr><th>函数</th><th>描述</th></tr></thead><tbody><tr><td>mean()</td><td>计算向量或数据框列的均值。</td></tr><tr><td>median()</td><td>计算向量或数据框列的中位数。</td></tr><tr><td>min()</td><td>计算向量或数据框列的最小值。</td></tr><tr><td>max()</td><td>计算向量或数据框列的最大值。</td></tr><tr><td>quantile()</td><td>计算向量或数据框列的四分位数。</td></tr><tr><td>cv() 或 coefficient_of_variation()</td><td>计算向量或数据框列的变异系数。</td></tr><tr><td>sd()</td><td>计算向量或数据框列的标准差。</td></tr><tr><td>var()</td><td>计算向量或数据框列的方差。</td></tr><tr><td>stderr()</td><td>计算向量或数据框列的标准误差。</td></tr><tr><td>cumsum()</td><td>计算向量中元素的累计和。</td></tr><tr><td>cumprod()</td><td>计算向量中元素的累计积。</td></tr><tr><td>sort()</td><td>对向量或数据框列进行排序。</td></tr><tr><td>rank()</td><td>计算向量或数据框列中元素的排名。</td></tr><tr><td>sum()</td><td>计算向量或数据框列的总和。</td></tr><tr><td>prod()</td><td>计算向量或数据框列的乘积。</td></tr><tr><td>cor()、cov()</td><td>分别计算相关系数和协方差矩阵。</td></tr><tr><td>scale()</td><td>对向量或数据框列进行标准化。</td></tr></tbody></table></div><h2 id=8-clean-up>8. clean up</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>rm(list=ls()) # delete all visible objects in memory.
+</span></span></code></pre></td></tr></table></div></div><h1 id=二week1-code>二、week1 code</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># 获取当前已加载文件的目录</span>
+</span></span><span class=line><span class=cl><span class=n>file_dir</span> <span class=o>&lt;-</span> <span class=n>dirname</span><span class=p>(</span><span class=n>parent</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span><span class=o>$</span><span class=n>ofile</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>file_dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 将工作目录设置为当前已加载文件的目录</span>
+</span></span><span class=line><span class=cl><span class=n>setwd</span><span class=p>(</span><span class=n>file_dir</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># define some variables</span>
+</span></span><span class=line><span class=cl><span class=n>x</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>6</span><span class=p>,</span> <span class=mi>8</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>xNum</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mf>3.14159</span><span class=p>,</span> <span class=mi>5</span><span class=p>,</span> <span class=mi>7</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>xLog</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=n>TRUE</span><span class=p>,</span> <span class=n>FALSE</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>xChar</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=s2>&#34;foo&#34;</span><span class=p>,</span> <span class=s2>&#34;bar&#34;</span><span class=p>,</span> <span class=s2>&#34;boo&#34;</span><span class=p>,</span> <span class=s2>&#34;far&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>xMix</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=s2>&#34;Hello, world!&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xNum</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>x2</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=n>xNum</span><span class=p>,</span> <span class=n>xMix</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>x2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xNum</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>x2</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>x</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>x2</span><span class=o>+</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>x2</span> <span class=o>*</span> <span class=n>pi</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>x</span><span class=o>+</span><span class=nb>cos</span><span class=p>(</span><span class=mf>0.5</span><span class=p>))</span> <span class=o>*</span> <span class=n>x2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xSeq</span> <span class=o>&lt;-</span> <span class=mi>1</span><span class=p>:</span><span class=mi>10</span> <span class=c1># use 1:10 instead of typing 1,2,3,4 ...10.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xNum</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xNum</span><span class=p>[</span><span class=mi>2</span><span class=p>:</span><span class=mi>4</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>myStart</span> <span class=o>&lt;-</span> <span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=n>xNum</span><span class=p>[</span><span class=n>myStart</span><span class=p>:</span><span class=nb>sqrt</span><span class=p>(</span><span class=n>myStart</span><span class=o>+</span><span class=mi>7</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xSeq</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xSeq</span><span class=p>[</span><span class=o>-</span><span class=mi>5</span><span class=p>:</span><span class=o>-</span><span class=mi>7</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xSub</span> <span class=o>&lt;-</span> <span class=n>xNum</span><span class=p>[</span><span class=mi>2</span><span class=p>:</span><span class=mi>4</span><span class=p>]</span> 
+</span></span><span class=line><span class=cl><span class=n>xSub</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xNum</span><span class=p>[</span><span class=n>c</span><span class=p>(</span><span class=n>FALSE</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>,</span> <span class=n>TRUE</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xNum</span><span class=p>[</span><span class=n>xNum</span> <span class=o>&gt;</span> <span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>91</span><span class=p>,</span> <span class=n>NA</span><span class=p>,</span> <span class=n>NA</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>mean</span><span class=p>(</span><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>max</span><span class=p>(</span><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>mean</span><span class=p>(</span><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span><span class=p>,</span> <span class=n>na</span><span class=o>.</span><span class=n>rm</span><span class=o>=</span><span class=n>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>max</span><span class=p>(</span><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span><span class=p>,</span> <span class=n>na</span><span class=o>.</span><span class=n>rm</span><span class=o>=</span><span class=n>TRUE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>mean</span><span class=p>(</span><span class=n>na</span><span class=o>.</span><span class=n>omit</span><span class=p>(</span><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>is</span><span class=o>.</span><span class=n>na</span><span class=p>(</span><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span><span class=p>[</span><span class=o>!</span><span class=n>is</span><span class=o>.</span><span class=n>na</span><span class=p>(</span><span class=n>my</span><span class=o>.</span><span class=n>test</span><span class=o>.</span><span class=n>scores</span><span class=p>)]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>str</span><span class=p>(</span><span class=n>xChar</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xList</span> <span class=o>&lt;-</span> <span class=n>list</span><span class=p>(</span><span class=n>xNum</span><span class=p>,</span> <span class=n>xChar</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>xList</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>str</span><span class=p>(</span><span class=n>xList</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>summary</span><span class=p>(</span><span class=n>xList</span><span class=p>[[</span><span class=mi>1</span><span class=p>]])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xList</span> <span class=o>&lt;-</span> <span class=n>list</span><span class=p>(</span><span class=n>xNum</span><span class=p>,</span> <span class=n>xChar</span><span class=p>)</span> <span class=c1># method 1: create, then name </span>
+</span></span><span class=line><span class=cl><span class=n>names</span><span class=p>(</span><span class=n>xList</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=s2>&#34;itemnum&#34;</span><span class=p>,</span> <span class=s2>&#34;itemchar&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>xList</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xList</span> <span class=o>&lt;-</span> <span class=n>list</span><span class=p>(</span><span class=n>itemnum</span><span class=o>=</span><span class=n>xNum</span><span class=p>,</span> <span class=n>itemchar</span><span class=o>=</span><span class=n>xChar</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>names</span><span class=p>(</span><span class=n>xList</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>xList</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xList</span><span class=o>$</span><span class=n>itemnum</span> <span class=c1># method 2: $name reference</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span> <span class=o>&lt;-</span> <span class=n>data</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=n>xNum</span><span class=p>,</span> <span class=n>xLog</span><span class=p>,</span> <span class=n>xChar</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=mi>2</span><span class=p>,</span><span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df1</span> <span class=o>&lt;-</span> <span class=n>data</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=n>xNum</span><span class=p>,</span> <span class=n>xLog</span><span class=p>,</span> <span class=n>xChar</span><span class=p>,</span> <span class=n>stringsAsFactors</span><span class=o>=</span><span class=n>TRUE</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df1</span>
+</span></span><span class=line><span class=cl><span class=nb>str</span><span class=p>(</span><span class=n>x</span><span class=o>.</span><span class=n>df1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=mi>2</span><span class=p>,</span> <span class=p>]</span> <span class=c1># all of row 2 </span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span><span class=p>[</span> <span class=p>,</span><span class=mi>3</span><span class=p>]</span> <span class=c1># all of column 3</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=mi>2</span><span class=p>:</span><span class=mi>3</span><span class=p>,</span> <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span><span class=p>[</span> <span class=p>,</span><span class=mi>1</span><span class=p>:</span><span class=mi>2</span><span class=p>]</span> <span class=c1># two columns</span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span><span class=p>[</span><span class=o>-</span><span class=mi>3</span><span class=p>,</span> <span class=p>]</span> <span class=c1># omit the third observation</span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=o>.</span><span class=n>df</span><span class=p>[,</span> <span class=o>-</span><span class=mi>2</span><span class=p>]</span> <span class=c1># omit the second column</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>rm</span><span class=p>(</span><span class=n>list</span><span class=o>=</span><span class=n>ls</span><span class=p>())</span> <span class=c1># caution, deletes all objects!</span>
+</span></span><span class=line><span class=cl><span class=n>store</span><span class=o>.</span><span class=n>num</span> <span class=o>&lt;-</span> <span class=n>factor</span><span class=p>(</span><span class=n>c</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=mi>14</span><span class=p>,</span> <span class=mi>21</span><span class=p>,</span> <span class=mi>32</span><span class=p>,</span> <span class=mi>54</span><span class=p>))</span> <span class=c1># store id</span>
+</span></span><span class=line><span class=cl><span class=n>store</span><span class=o>.</span><span class=n>rev</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>543</span><span class=p>,</span> <span class=mi>654</span><span class=p>,</span> <span class=mi>345</span><span class=p>,</span> <span class=mi>678</span><span class=p>,</span> <span class=mi>234</span><span class=p>)</span> <span class=c1># store revenue, $1000 </span>
+</span></span><span class=line><span class=cl><span class=n>store</span><span class=o>.</span><span class=n>visits</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=mi>45</span><span class=p>,</span> <span class=mi>78</span><span class=p>,</span> <span class=mi>32</span><span class=p>,</span> <span class=mi>56</span><span class=p>,</span> <span class=mi>34</span><span class=p>)</span> <span class=c1># visits, 1000s </span>
+</span></span><span class=line><span class=cl><span class=n>store</span><span class=o>.</span><span class=n>manager</span> <span class=o>&lt;-</span> <span class=n>c</span><span class=p>(</span><span class=s2>&#34;Annie&#34;</span><span class=p>,</span> <span class=s2>&#34;Bert&#34;</span><span class=p>,</span> <span class=s2>&#34;Carla&#34;</span><span class=p>,</span> <span class=s2>&#34;Dave&#34;</span><span class=p>,</span> <span class=s2>&#34;Ella&#34;</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span> <span class=o>&lt;-</span> <span class=n>data</span><span class=o>.</span><span class=n>frame</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>num</span><span class=p>,</span> <span class=n>store</span><span class=o>.</span><span class=n>rev</span><span class=p>,</span> <span class=n>store</span><span class=o>.</span><span class=n>visits</span><span class=p>,</span><span class=n>store</span><span class=o>.</span><span class=n>manager</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>store</span><span class=o>.</span><span class=n>manager</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>mean</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>store</span><span class=o>.</span><span class=n>rev</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>cor</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>store</span><span class=o>.</span><span class=n>rev</span><span class=p>,</span> <span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>store</span><span class=o>.</span><span class=n>visits</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>summary</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>save</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>,</span> <span class=n>file</span><span class=o>=</span><span class=s2>&#34;store-df-backup.RData&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>rm</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=p>)</span> <span class=c1># caution, only if save() gave no error </span>
+</span></span><span class=line><span class=cl><span class=nb>load</span><span class=p>(</span><span class=s2>&#34;store-df-backup.RData&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>save</span><span class=o>.</span><span class=n>image</span><span class=p>()</span> <span class=c1># saves file &#34;.RData&#34; </span>
+</span></span><span class=line><span class=cl><span class=n>save</span><span class=o>.</span><span class=n>image</span><span class=p>(</span><span class=s2>&#34;mywork_week1.RData&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>load</span><span class=p>(</span><span class=s2>&#34;mywork_week1.RData&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># install.packages (&#34;readxl&#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1># library(readxl)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>deospray</span><span class=o>.</span><span class=n>data</span> <span class=o>&lt;-</span> <span class=n>read_excel</span><span class=p>(</span><span class=n>path</span> <span class=o>=</span> <span class=s2>&#34;deospray sales.xls&#34;</span><span class=p>,</span> <span class=n>sheet</span> <span class=o>=</span> <span class=s2>&#34;deospray&#34;</span><span class=p>)</span> <span class=c1># filename, sheet name</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>str</span><span class=p>(</span><span class=n>deospray</span><span class=o>.</span><span class=n>data</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># View(deospray.data)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>se</span> <span class=o>&lt;-</span> <span class=n>function</span><span class=p>(</span><span class=n>x</span><span class=p>){</span><span class=n>sd</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=o>/</span> <span class=nb>sqrt</span><span class=p>(</span><span class=n>length</span><span class=p>(</span><span class=n>x</span><span class=p>))}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>se</span><span class=p>(</span><span class=n>store</span><span class=o>.</span><span class=n>df</span><span class=o>$</span><span class=n>store</span><span class=o>.</span><span class=n>visits</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/tags/r%E8%AF%AD%E8%A8%80/>R语言</a>
+<a href=/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/>数据分析</a>
+<a href=/tags/%E5%85%A5%E9%97%A8/>入门</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/rweek9-managing-resource-trade-offs-ii-code/><div class=article-details><h2 class=article-title>R[week9] Managing Resource Trade-Offs II Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs-code/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs Code</h2></div></a></article><article><a href=/p/rweek8-managing-resource-trade-offs/><div class=article-details><h2 class=article-title>R[week8] Managing Resource Trade-Offs</h2></div></a></article><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-code-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage code II</h2></div></a></article><article><a href=/p/rweek7-managing-sustainable-competitive-advantage-lecture-ii/><div class=article-details><h2 class=article-title>R[week7] Managing Sustainable Competitive Advantage lecture II</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//weasley.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 Kunkka</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

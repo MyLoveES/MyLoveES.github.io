@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>线程 on Kunkka</title><link>https://MyLoveES.github.io/tags/%E7%BA%BF%E7%A8%8B/</link><description>Recent content in 线程 on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 22 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/%E7%BA%BF%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>Why threads are a bad idea (for most purposes)</title><link>https://MyLoveES.github.io/p/why-threads-are-a-bad-idea-for-most-purposes/</link><pubDate>Tue, 22 Mar 2022 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/why-threads-are-a-bad-idea-for-most-purposes/</guid><description>&lt;p&gt;// 发现本文很多概念在现在已经不适用了，不做参考&lt;/p&gt;
+&lt;h1 id="threads"&gt;Threads
+&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;诞生于操作系统的发展&lt;/li&gt;
+&lt;li&gt;演变为用户级别的工具&lt;/li&gt;
+&lt;li&gt;作为各种问题的解决方案&lt;/li&gt;
+&lt;li&gt;每个程序员都应该是线程程序员？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="什么是线程"&gt;什么是线程
+&lt;/h2&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/why-threads-are-a-bad-idea-for-most-purposes/Threads.png"
+width="1468"
+height="536"
+srcset="https://MyLoveES.github.io/p/why-threads-are-a-bad-idea-for-most-purposes/Threads_hu_7f82b31f2c00a7fc.png 480w, https://MyLoveES.github.io/p/why-threads-are-a-bad-idea-for-most-purposes/Threads_hu_1da6e77f16e20fe3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="273"
+data-flex-basis="657px"
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用于管理并发的通用解决方案&lt;/li&gt;
+&lt;li&gt;执行流彼此独立&lt;/li&gt;
+&lt;li&gt;共享状态&lt;/li&gt;
+&lt;li&gt;抢占式调度&lt;/li&gt;
+&lt;li&gt;同步（例如锁、条件）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="问题"&gt;问题
+&lt;/h2&gt;&lt;p&gt;线程编程很难用&lt;/p&gt;
+&lt;h2 id="为啥这么难用"&gt;为啥这么难用
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;必须对共享资源加锁来控制访问&lt;/li&gt;
+&lt;li&gt;由锁产生的死锁问题&lt;/li&gt;
+&lt;li&gt;难以 debug. 依赖数据和时间&lt;/li&gt;
+&lt;li&gt;难以抽象 modules&lt;/li&gt;
+&lt;li&gt;回调在加锁的场景下很难用&lt;/li&gt;
+&lt;li&gt;很难取得好的性能：
+&lt;ol&gt;
+&lt;li&gt;简单的锁(例如监视器)产生低并发性&lt;/li&gt;
+&lt;li&gt;细粒度锁增加了复杂度，降低了性能&lt;/li&gt;
+&lt;li&gt;操作系统限制性能(调度、上下文切换)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;对线程支持的不好
+&lt;ol&gt;
+&lt;li&gt;线程代码难以移植&lt;/li&gt;
+&lt;li&gt;标准库非线程安全的&lt;/li&gt;
+&lt;li&gt;内核调用，窗口系统不是多线程&lt;/li&gt;
+&lt;li&gt;调试工具匮乏&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;通常不需要并发&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="替代品"&gt;替代品
+&lt;/h2&gt;&lt;p&gt;Events&lt;/p&gt;
+&lt;h2 id="主张"&gt;主张
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;大多数情况下，事件更好&lt;/li&gt;
+&lt;li&gt;只有在真正需要CPU并发的时候，线程才需要&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="event-driven-programming"&gt;Event-Driven Programming
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;1个执行流:无CPU并发。&lt;/li&gt;
+&lt;li&gt;注册事件回调&lt;/li&gt;
+&lt;li&gt;事件循环等待事件，调用处理程序&lt;/li&gt;
+&lt;li&gt;不抢占事件处理程序&lt;/li&gt;
+&lt;li&gt;handler通常生命周期很短&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="难用的地方"&gt;难用的地方
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;长时间运行的环节使应用程序无响应
+&lt;ol&gt;
+&lt;li&gt;fork 子进程，用事件在完成时唤醒&lt;/li&gt;
+&lt;li&gt;拆分handlers&lt;/li&gt;
+&lt;li&gt;在处理程序中定期调用事件循环（重入性增加了复杂性）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;不能跨事件维持本地状态（处理程序必须return）&lt;/li&gt;
+&lt;li&gt;没有CPU并发（不适合科学应用）&lt;/li&gt;
+&lt;li&gt;事件驱动的I/O并不总是得到很好的支持（例如差劲的写缓冲）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="events-vs-threads"&gt;Events vs. Threads
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;事件尽可能避免并发，线程相反：
+&lt;ol&gt;
+&lt;li&gt;事件易于上手：无并发、无抢占、无同步、无死锁。&lt;/li&gt;
+&lt;li&gt;仅在不寻常的情况下使用复杂的技术。&lt;/li&gt;
+&lt;li&gt;使用线程，即使是最简单的应用程序也面临着很大的复杂性。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;使用事件更容易调试
+&lt;ol&gt;
+&lt;li&gt;时序依赖只与事件相关，与事件内部调度无关&lt;/li&gt;
+&lt;li&gt;更容易追踪的问题：按钮响应缓慢 vs 损坏的内存&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;单CPU上事件驱动更快
+&lt;ol&gt;
+&lt;li&gt;没有锁的开销&lt;/li&gt;
+&lt;li&gt;没有上下文切换&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;事件的可以执行更强&lt;/li&gt;
+&lt;li&gt;线程提供真正的并发
+&lt;ol&gt;
+&lt;li&gt;可以使用长时间运行的有状态处理程序而不会冻结&lt;/li&gt;
+&lt;li&gt;可扩展的多cpu性能&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="应该用线程吗no"&gt;应该用线程吗：NO！
+&lt;/h1&gt;&lt;p&gt;尽可能避免线程:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对于gui、分布式系统、低端服务器，应该使用事件，而不是线程&lt;/li&gt;
+&lt;li&gt;只使用真正需要CPU并发的线程&lt;/li&gt;
+&lt;li&gt;在需要线程的地方，在线程应用程序内核中隔离使用:保持大多数代码是单线程的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="conclusions"&gt;Conclusions
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;并发从根本上来说很难;尽可能的避免。&lt;/li&gt;
+&lt;li&gt;线程比事件更强大，但很少需要这种能力&lt;/li&gt;
+&lt;li&gt;线程比事件更难编程;仅供专家&lt;/li&gt;
+&lt;li&gt;使用事件作为主要的开发工具(gui和分布式系统)&lt;/li&gt;
+&lt;li&gt;只对性能关键的内核使用线程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="ref"&gt;Ref
+&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;ref: &lt;a class="link" href="https://www.cc.gatech.edu/classes/AY2010/cs4210_fall/papers/ousterhout-threads.pdf" target="_blank" rel="noopener"
+&gt;Why Threads Are a Bad Idea&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;</description></item></channel></rss>

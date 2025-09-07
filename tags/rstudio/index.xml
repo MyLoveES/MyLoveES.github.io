@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>RStudio on Kunkka</title><link>https://MyLoveES.github.io/tags/rstudio/</link><description>Recent content in RStudio on Kunkka</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://MyLoveES.github.io/tags/rstudio/index.xml" rel="self" type="application/rss+xml"/><item><title>R studio - Basic usage</title><link>https://MyLoveES.github.io/p/r-studio-basic-usage/</link><pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate><guid>https://MyLoveES.github.io/p/r-studio-basic-usage/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;使用的版本：&lt;br&gt;
+R: 4.3.2 (2023-10-31)
+R studio: 2023.12.1+402 (2023.12.1+402)&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h1 id="一建一个r-script"&gt;一、建一个R script
+&lt;/h1&gt;&lt;h3 id="1-切换右下角的files-tab"&gt;1. 切换右下角的files tab
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-1.png"
+width="2880"
+height="1750"
+srcset="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-1_hu_35d7b03470e41bb.png 480w, https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-1_hu_73f79cf858ae9e87.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="164"
+data-flex-basis="394px"
+&gt;&lt;/p&gt;
+&lt;h3 id="2-新建r-script"&gt;2. 新建R script
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-2.png"
+width="2876"
+height="1794"
+srcset="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-2_hu_8b01891abdcce49e.png 480w, https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-2_hu_879b57f7770e27f6.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="160"
+data-flex-basis="384px"
+&gt;
+&lt;img src="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-3.png"
+width="2880"
+height="1750"
+srcset="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-3_hu_bd240242eee390fa.png 480w, https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-3_hu_aa1521bc6c6b89d2.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="164"
+data-flex-basis="394px"
+&gt;&lt;/p&gt;
+&lt;h1 id="二编写运行代码"&gt;二、编写&amp;amp;运行代码
+&lt;/h1&gt;&lt;h3 id="1-编写与运行"&gt;1. 编写与运行
+&lt;/h3&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-4.png"
+width="2880"
+height="1750"
+srcset="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-4_hu_75301ea69e98d371.png 480w, https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-4_hu_66bc363850e1de96.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="164"
+data-flex-basis="394px"
+&gt;&lt;/p&gt;
+&lt;h3 id="2-导入与写出到文件"&gt;2. 导入与写出到文件
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;如果使用相对路径，应该需要把文件放到work dir
+&lt;img src="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-5.png"
+width="2880"
+height="1750"
+srcset="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-5_hu_f7f44d947cd56cb.png 480w, https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-5_hu_84285ec5087a6a00.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="164"
+data-flex-basis="394px"
+&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h1 id="三技巧"&gt;三、技巧
+&lt;/h1&gt;&lt;h3 id="1-在脚本中将work-dir设置为文件所在目录"&gt;1. 在脚本中，将work dir设置为文件所在目录
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 获取当前已加载文件的目录
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;file_dir &amp;lt;- dirname(parent.frame(2)$ofile)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;print(file_dir)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 将工作目录设置为当前已加载文件的目录
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;setwd(file_dir)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-6.png"
+width="2880"
+height="1750"
+srcset="https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-6_hu_556b257d588ff0ca.png 480w, https://MyLoveES.github.io/p/r-studio-basic-usage/Rstudio-6_hu_d895671ab65c820a.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="164"
+data-flex-basis="394px"
+&gt;&lt;/p&gt;</description></item></channel></rss>
