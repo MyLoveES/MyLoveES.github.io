@@ -59,7 +59,7 @@ toc: true
 
 {% asset_img fushimi_inari_shrine_torii_gates.jpeg %}
 
-{% asset_img fushimi_inari_shrine_torii_gates_video.mov %}
+{% asset_img fushimi_inari_shrine_torii_gates_video.mp4 %}
 
 这里拍照确实好看，电影《艺伎回忆录》也在这里取过景。
 
