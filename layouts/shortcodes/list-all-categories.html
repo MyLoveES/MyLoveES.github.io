@@ -1,0 +1,372 @@
+<style>
+    /* General container for the grid and search */
+    .categories-container {
+        max-width: 1200px; /* Even wider container for more content */
+        margin: 2rem auto;
+    }
+
+    /* Header and Title */
+    .categories-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+    .categories-header h2 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--card-text-color-main);
+        margin-bottom: 0.5rem;
+    }
+    .categories-header p {
+        font-size: 1.1rem;
+        color: var(--card-text-color-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Sort Options */
+    .sort-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    .sort-options select {
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: 2px solid var(--card-border-color, #e0e0e0);
+        background-color: var(--card-background);
+        color: var(--card-text-color-main);
+        font-size: 1.2rem; /* Enlarged font size */
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .sort-options select:focus {
+        outline: none;
+        border-color: var(--primary-color, #007bff);
+        box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb, 0, 123, 255), 0.15);
+    }
+
+    /* Search Input Styling */
+    .search-container {
+        flex-grow: 1;
+        max-width: 400px;
+        position: relative;
+    }
+    .search-input {
+        width: 100%;
+        padding: 14px 48px 14px 18px; /* Space for search icon and increased padding */
+        border: 2px solid var(--card-border-color, #e0e0e0);
+        border-radius: 12px;
+        font-size: 1.2rem; /* Enlarged font size */
+        background-color: var(--card-background);
+        color: var(--card-text-color-main);
+        transition: all 0.3s ease;
+    }
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary-color, #007bff);
+        box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb, 0, 123, 255), 0.15);
+    }
+    .search-icon {
+        position: absolute;
+        right: 18px;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        color: var(--card-text-color-secondary);
+        pointer-events: none;
+    }
+    .search-icon svg {
+        width: 22px; /* Larger icon */
+        height: 22px;
+        vertical-align: middle;
+    }
+
+    /* Categories Grid */
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 24px;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    .category-item {
+        margin: 0;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .category-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 200px; /* Taller cards */
+        padding: 30px;
+        background-color: var(--card-background);
+        border-radius: 16px;
+        text-decoration: none;
+        color: var(--card-text-color-main);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 2px solid transparent;
+        gap: 20px; /* More space between name and count */
+    }
+    .category-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+        border-color: var(--primary-color, #007bff);
+    }
+
+    /* Name and Count Styling */
+    .category-name {
+        font-size: 2.2rem; /* Further enlarged font */
+        font-weight: 700;
+        color: var(--card-text-color-main);
+        margin: 0;
+        z-index: 1;
+        position: relative;
+    }
+    .category-count {
+        font-size: 1.1rem;
+        font-weight: 700;
+        background-color: var(--primary-color, #007bff);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        min-width: 45px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        z-index: 1;
+        position: relative;
+    }
+    /* High count indicator */
+    .high-count {
+        font-weight: 800;
+        background-color: var(--primary-color-darker, #0056b3);
+        font-size: 1.2rem;
+    }
+    /* Very high count */
+    .very-high-count {
+        font-weight: 800;
+        background-color: #d32f2f; /* Red for very high count */
+        font-size: 1.25rem;
+        padding: 10px 22px;
+    }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--card-text-color-secondary);
+    }
+    .empty-state svg {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 20px;
+        color: var(--card-text-color-secondary);
+    }
+    .empty-state h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: var(--card-text-color-main);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .categories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+        .category-card {
+            height: 180px;
+            padding: 24px;
+        }
+        .category-name {
+            font-size: 1.4rem;
+        }
+    }
+    @media (max-width: 768px) {
+        .categories-container {
+            padding: 1.5rem;
+        }
+        .sort-container {
+            flex-direction: column;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .search-container {
+            max-width: 100%;
+            width: 100%;
+        }
+    }
+    @media (max-width: 480px) {
+        .categories-grid {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+        }
+        .category-card {
+            height: 160px;
+            padding: 16px;
+            gap: 12px;
+        }
+        .category-name {
+            font-size: 1.2rem;
+        }
+        .category-count {
+            font-size: 1rem;
+            padding: 6px 14px;
+        }
+        .categories-header h2 {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<div class="categories-container">
+    
+    <div class="sort-container">
+        <div class="search-container">
+            <input type="text" id="category-search" class="search-input" onkeyup="filterCategories()" placeholder="搜索分类...">
+            <span class="search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </span>
+        </div>
+        
+        <div class="sort-options">
+            <select id="sort-select" onchange="sortCategories()">
+                <option value="count-desc">按文章数量降序</option>
+                <option value="count-asc">按文章数量升序</option>
+                <option value="alpha-asc">按名称升序</option>
+                <option value="alpha-desc">按名称降序</option>
+            </select>
+        </div>
+    </div>
+
+    <ul id="categories-grid" class="categories-grid">
+        {{ $cats := .Site.Taxonomies.categories.ByCount }}
+        {{ range $cats.Reverse }}
+            {{ $highCount := ge .Count 5 }}
+            {{ $veryHighCount := ge .Count 10 }}
+            <li class="category-item" data-name="{{ .Page.Title }}" data-count="{{ .Count }}">
+                <a href="{{ .Page.Permalink }}" class="category-card">
+                    <h3 class="category-name">{{ .Page.Title }}</h3>
+                    <div class="category-count {{ if $veryHighCount }}very-high-count{{ else if $highCount }}high-count{{ end }}">{{ .Count }} 篇文章</div>
+                </a>
+            </li>
+        {{ end }}
+    </ul>
+    
+    <!-- Empty state (will be shown when no results found) -->
+    <div id="empty-categories" class="empty-state" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3>没有找到匹配的分类</h3>
+        <p>尝试使用不同的搜索词或浏览所有分类</p>
+    </div>
+</div>
+
+<script>
+// Filter categories based on search input
+function filterCategories() {
+    const input = document.getElementById('category-search');
+    const filter = input.value.toUpperCase();
+    const grid = document.getElementById("categories-grid");
+    const items = grid.getElementsByTagName('li');
+    const emptyState = document.getElementById("empty-categories");
+    
+    let visibleCount = 0;
+    
+    for (let i = 0; i < items.length; i++) {
+        const nameElem = items[i].querySelector(".category-name");
+        const txtValue = nameElem.textContent || nameElem.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            items[i].style.display = "";
+            visibleCount++;
+        } else {
+            items[i].style.display = "none";
+        }
+    }
+    
+    // Show empty state if no results
+    if (visibleCount === 0) {
+        emptyState.style.display = "block";
+        grid.style.display = "none";
+    } else {
+        emptyState.style.display = "none";
+        grid.style.display = "grid";
+    }
+}
+
+// Sort categories by count or alphabetically
+function sortCategories() {
+    const select = document.getElementById('sort-select');
+    const value = select.value;
+    const grid = document.getElementById('categories-grid');
+    const items = Array.from(grid.getElementsByTagName('li'));
+    
+    items.sort(function(a, b) {
+        if (value === 'count-desc') {
+            return parseInt(b.dataset.count) - parseInt(a.dataset.count);
+        } else if (value === 'count-asc') {
+            return parseInt(a.dataset.count) - parseInt(b.dataset.count);
+        } else if (value === 'alpha-asc') {
+            return a.dataset.name.localeCompare(b.dataset.name);
+        } else { // alpha-desc
+            return b.dataset.name.localeCompare(a.dataset.name);
+        }
+    });
+    
+    // Remove all existing items
+    while (grid.firstChild) {
+        grid.removeChild(grid.firstChild);
+    }
+    
+    // Append sorted items back to the grid
+    items.forEach(function(item) {
+        grid.appendChild(item);
+    });
+    
+    // Save the sort preference
+    localStorage.setItem('category-sort-mode', value);
+}
+
+// Add animation effects with delay for grid items
+function animateGridItems() {
+    const items = document.querySelectorAll('.category-item');
+    items.forEach((item, index) => {
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, 50 * index);
+    });
+}
+
+// Initialize sort from localStorage if available
+document.addEventListener('DOMContentLoaded', function() {
+    const savedSort = localStorage.getItem('category-sort-mode');
+    
+    if (savedSort) {
+        const sortSelect = document.getElementById('sort-select');
+        sortSelect.value = savedSort;
+        sortCategories();
+    }
+    
+    // Set initial styles for animation
+    const items = document.querySelectorAll('.category-item');
+    items.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    });
+    
+    // Start animation after a small delay
+    setTimeout(animateGridItems, 100);
+});
+</script>

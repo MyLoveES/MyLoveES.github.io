@@ -1,70 +1,299 @@
 <style>
-.tag-search-container {
-  text-align: center;
-  margin: 2rem 0;
-}
-#tag-search-input {
-  width: 60%;
-  max-width: 400px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-.tag-cloud {
-  padding: 1rem 0;
-  text-align: center;
-}
-.tag-link {
-  display: inline-block;
-  padding: 6px 12px;
-  margin: 6px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  text-decoration: none;
-  color: #333;
-  font-size: 14px;
-  transition: all 0.2s ease-in-out;
-}
-.tag-link:hover {
-    background-color: #ddd;
-    transform: scale(1.05);
-}
-.tag-link sup {
-  color: #888;
-  font-size: 10px;
-  padding-left: 4px;
-}
+    /* General container for tags */
+    .tags-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+    }
+
+    /* Search and filter controls */
+    .tags-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    /* Sort Options */
+    .sort-options select {
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: 2px solid var(--card-border-color, #e0e0e0);
+        background-color: var(--card-background);
+        color: var(--card-text-color-main);
+        font-size: 1.2rem; /* Enlarged font size */
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .sort-options select:focus {
+        outline: none;
+        border-color: var(--primary-color, #007bff);
+        box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb, 0, 123, 255), 0.15);
+    }
+
+    /* Search Input Styling */
+    .tags-search-container {
+        position: relative;
+        flex-grow: 1;
+        max-width: 400px;
+    }
+    .tags-search-input {
+        width: 100%;
+        padding: 14px 48px 14px 18px; /* Space for search icon and increased padding */
+        border: 2px solid var(--card-border-color, #e0e0e0);
+        border-radius: 12px;
+        font-size: 1.2rem; /* Enlarged font size */
+        background-color: var(--card-background);
+        color: var(--card-text-color-main);
+        transition: all 0.3s ease;
+    }
+    .tags-search-input:focus {
+        outline: none;
+        border-color: var(--primary-color, #007bff);
+        box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb, 0, 123, 255), 0.15);
+    }
+    .tags-search-icon {
+        position: absolute;
+        right: 18px;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        color: var(--card-text-color-secondary);
+        pointer-events: none;
+    }
+    .tags-search-icon svg {
+        width: 22px; /* Larger icon */
+        height: 22px;
+        vertical-align: middle;
+    }
+
+    /* Tags Container */
+    .tags-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 1rem 0;
+    }
+
+    /* Individual tag styling */
+    .tag-item {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        transition: all 0.2s ease;
+    }
+
+    .tag-link {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        border-radius: 4px;
+        overflow: hidden;
+        background-color: #f8f8f8;
+        border: 1px solid #e0e0e0;
+        transition: all 0.2s ease;
+    }
+    .tag-link:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .tag-name {
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .tag-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 10px;
+        font-size: 14px;
+        font-weight: 600;
+        min-width: 28px;
+        text-align: center;
+    }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--card-text-color-secondary);
+    }
+    .empty-state svg {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 20px;
+        color: var(--card-text-color-secondary);
+    }
+    .empty-state h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: var(--card-text-color-main);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .tags-container {
+            padding: 1.5rem;
+        }
+        .tags-controls {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .tags-search-container {
+            max-width: 100%;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
 </style>
 
-<div class="tag-search-container">
-  <input type="text" id="tag-search-input" onkeyup="filterTags()" placeholder="Search for tags...">
-</div>
+<div class="tags-container">
+    <div class="tags-controls">
+        <div class="tags-search-container">
+            <input type="text" id="tags-search" class="tags-search-input" onkeyup="filterTags()" placeholder="搜索标签...">
+            <span class="tags-search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+            </span>
+        </div>
+        
+        <div class="sort-options">
+            <select id="sort-select" onchange="sortTags()">
+                <option value="count-desc">按文章数量降序</option>
+                <option value="count-asc">按文章数量升序</option>
+                <option value="alpha-asc">按名称升序</option>
+                <option value="alpha-desc">按名称降序</option>
+            </select>
+        </div>
+    </div>
 
-<div class="tag-cloud">
-  {{ $tags := .Site.Taxonomies.tags.ByCount }}
-  {{ range $tags }}
-    <a href="{{ .Page.Permalink }}" class="tag-link">
-      {{ .Page.Title }} <sup>{{ .Count }}</sup>
-    </a>
-  {{ end }}
+    <!-- Tags container -->
+    <div id="tags-wrapper" class="tags-wrapper">
+        {{ $tags := .Site.Taxonomies.tags.ByCount }}
+        {{ range $tags.Reverse }}
+            <div class="tag-item" data-name="{{ .Page.Title }}" data-count="{{ .Count }}">
+                <a href="{{ .Page.Permalink }}" class="tag-link">
+                    <span class="tag-name">{{ .Page.Title }}</span>
+                    <span class="tag-count">{{ .Count }}</span>
+                </a>
+            </div>
+        {{ end }}
+    </div>
+    
+    <!-- Empty state (will be shown when no results found) -->
+    <div id="empty-tags" class="empty-state" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3>没有找到匹配的标签</h3>
+        <p>尝试使用不同的搜索词或浏览所有标签</p>
+    </div>
 </div>
 
 <script>
+// Filter tags based on search input
 function filterTags() {
-  let input = document.getElementById('tag-search-input');
-  let filter = input.value.toLowerCase();
-  let tagCloud = document.querySelector('.tag-cloud');
-  let tags = tagCloud.getElementsByTagName('a');
-
-  for (let i = 0; i < tags.length; i++) {
-    let tag = tags[i];
-    let txtValue = tag.textContent || tag.innerText;
-    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-      tag.style.display = "";
-    } else {
-      tag.style.display = "none";
+    const input = document.getElementById('tags-search');
+    const filter = input.value.toUpperCase();
+    const wrapper = document.getElementById("tags-wrapper");
+    const items = wrapper.getElementsByClassName('tag-item');
+    const emptyState = document.getElementById("empty-tags");
+    
+    let visibleCount = 0;
+    
+    for (let i = 0; i < items.length; i++) {
+        const tagText = items[i].dataset.name;
+        if (tagText.toUpperCase().indexOf(filter) > -1) {
+            items[i].style.display = "";
+            visibleCount++;
+        } else {
+            items[i].style.display = "none";
+        }
     }
-  }
+    
+    // Show empty state if no results
+    if (visibleCount === 0) {
+        if (emptyState) emptyState.style.display = "block";
+        wrapper.style.display = "none";
+    } else {
+        if (emptyState) emptyState.style.display = "none";
+        wrapper.style.display = "flex";
+    }
 }
+
+// Sort tags by count or alphabetically
+function sortTags() {
+    const select = document.getElementById('sort-select');
+    const value = select.value;
+    const wrapper = document.getElementById('tags-wrapper');
+    const items = Array.from(wrapper.getElementsByClassName('tag-item'));
+    
+    items.sort(function(a, b) {
+        if (value === 'count-desc') {
+            return parseInt(b.dataset.count) - parseInt(a.dataset.count);
+        } else if (value === 'count-asc') {
+            return parseInt(a.dataset.count) - parseInt(b.dataset.count);
+        } else if (value === 'alpha-asc') {
+            return a.dataset.name.localeCompare(b.dataset.name);
+        } else { // alpha-desc
+            return b.dataset.name.localeCompare(a.dataset.name);
+        }
+    });
+    
+    // Remove all existing items
+    while (wrapper.firstChild) {
+        wrapper.removeChild(wrapper.firstChild);
+    }
+    
+    // Append sorted items back
+    items.forEach(function(item) {
+        wrapper.appendChild(item);
+    });
+    
+    // Save the sort preference
+    localStorage.setItem('tag-sort-mode', value);
+}
+
+// Add fade-in animation for tag items
+function animateTagItems() {
+    const items = document.querySelectorAll('.tag-item');
+    items.forEach((item, index) => {
+        // Set initial state
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(10px)';
+        
+        // Apply transition
+        item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        
+        // Stagger the animations
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, 20 * index);
+    });
+}
+
+// Initialize from localStorage if available
+document.addEventListener('DOMContentLoaded', function() {
+    const savedSort = localStorage.getItem('tag-sort-mode');
+    
+    if (savedSort) {
+        const sortSelect = document.getElementById('sort-select');
+        sortSelect.value = savedSort;
+        sortTags();
+    }
+    
+    // Start animations
+    animateTagItems();
+});
 </script>

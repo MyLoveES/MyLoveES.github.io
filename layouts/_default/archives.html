@@ -1,0 +1,40 @@
+{{ define "main" }}
+<div class="archives-container">
+    <h1 class="article-title">
+        Archives
+        <a href="/archives/" title="查看所有归档" class="title-link-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+        </a>
+    </h1>
+
+    {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+    {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
+    {{ $filtered := where $notHidden "Type" "in" site.Params.mainSections }}
+    {{ range $filtered.GroupByDate "2006" }}
+    <div class="archives-group">
+        <h2 class="archives-date section-title">{{ .Key }}</h2>
+        <div class="article-list--compact">
+            {{ range .Pages }}
+                <article>
+                    <a href="{{ .RelPermalink }}">
+                        <div class="article-details">
+                            <h2 class="article-title">{{ .Title }}</h2>
+                            <footer class="article-time">
+                                <time datetime="{{ .Date }}">{{ .Date | time.Format (or .Site.Params.dateFormat.published "Jan 02, 2006") }}</time>
+                            </footer>
+                        </div>
+                        {{ if .Params.image }}
+                        <div class="article-image">
+                            <img src="{{ .Params.image }}" loading="lazy" />
+                        </div>
+                        {{ end }}
+                    </a>
+                </article>
+            {{ end }}
+        </div>
+    </div>
+    {{ end }}
+</div>
+{{ end }}

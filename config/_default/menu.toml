@@ -1,9 +1,33 @@
 [[main]]
+identifier = "archives"
+name = "Archives"
+url = "/archives"
+[main.params]
+icon = "archives"
+weight = 4
+
+[[main]]
+identifier = "categories"
+name = "Categories"
+[main.params]
+icon = "categories"
+weight = 5
+
+[[main]]
+identifier = "tags"
+name = "Tags"
+url = "/all-tags"
+[main.params]
+icon = "tag"
+weight = 6
+
+[[main]]
 identifier = "about"
 name = "About"
 url = "/about"
 [main.params]
 icon = "user"
+weight = 10
 
 [[main]]
 identifier = "links"
@@ -11,19 +35,12 @@ name = "Links"
 url = "/links"
 [main.params]
 icon = "link"
-
-[[main]]
-identifier = "tags"
-name = "Tags"
-url = "/all-tags/"
-[main.params]
-icon = "tag"
+weight = 7
 
 [[social]]
 identifier = "github"
 name = "GitHub"
 url = "https://github.com/MyLoveES"
-
 [social.params]
 icon = "brand-github"
 
@@ -31,6 +48,5 @@ icon = "brand-github"
 identifier = "rss"
 name = "RSS"
 url = "/index.xml"
-
 [social.params]
 icon = "rss"
