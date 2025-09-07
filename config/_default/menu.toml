@@ -1,0 +1,29 @@
+[[main]]
+identifier = "about"
+name = "About"
+url = "/about"
+[main.params]
+icon = "user"
+
+[[main]]
+identifier = "links"
+name = "Links"
+url = "/links"
+[main.params]
+icon = "link"
+
+[[social]]
+identifier = "github"
+name = "GitHub"
+url = "https://github.com/MyLoveES"
+
+[social.params]
+icon = "brand-github"
+
+[[social]]
+identifier = "rss"
+name = "RSS"
+url = "/index.xml"
+
+[social.params]
+icon = "rss"
