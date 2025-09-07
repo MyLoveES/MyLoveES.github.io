@@ -1,8 +1,11 @@
 ---
 title: Algorithm-背包问题_多重背包
 date: 2021-06-18 14:39:13
-tags: [Dynamic programming]
-categories: Algorithm
+categories:
+- "算法"
+tags:
+- "动态规划"
+- "背包问题"
 toc: true
 ---
 # 多重 背包问题

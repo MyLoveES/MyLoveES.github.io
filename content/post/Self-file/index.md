@@ -1,8 +1,11 @@
 ---
 title: Self - file
 date: 2023-03-18
-tags: [project]
-categories: self-build-roject
+categories:
+- "技术"
+tags:
+- "项目构建"
+- "DDD"
 toc: true
 ---
 

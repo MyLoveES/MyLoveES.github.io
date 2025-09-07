@@ -1,8 +1,12 @@
 ---
 title: Linux - NVIDIA 造成 kernel crash
 date: 2022-07-10
-tags: [Linux]
-categories: Linux
+categories:
+- "技术"
+tags:
+- "Linux"
+- "NVIDIA"
+- "故障排查"
 toc: true
 ---
 

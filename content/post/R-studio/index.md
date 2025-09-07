@@ -1,8 +1,12 @@
 ---
 title: R studio - Basic usage
 date: 2024-03-10
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "RStudio"
+- "工具"
 toc: true
 ---
 

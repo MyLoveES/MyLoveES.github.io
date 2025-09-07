@@ -1,8 +1,11 @@
 ---
 title: Algorithm-背包问题_0-1 
 date: 2021-06-06 17:52:13
-tags: [Dynamic programming]
-categories: Algorithm
+categories:
+- "算法"
+tags:
+- "动态规划"
+- "背包问题"
 toc: true
 ---
 # 0-1 背包问题

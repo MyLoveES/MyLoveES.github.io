@@ -1,8 +1,11 @@
 ---
 title: R language introduce
 date: 2024-03-11
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "入门"
 toc: true
 ---
 

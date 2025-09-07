@@ -1,8 +1,11 @@
 ---
 title: 网关选型
 date: 2022-03-10
-tags: [Business, Gateway]
-categories: Business
+categories:
+- "技术"
+tags:
+- "架构"
+- "网关"
 toc: true
 ---
 

@@ -1,8 +1,11 @@
 ---
 title: Seda - The Staged Event-Driven Architecture
 date: 2022-03-23 19:00:00
-tags: [Business]
-categories: Business
+categories:
+- "技术"
+tags:
+- "架构"
+- "SEDA"
 toc: true
 ---
 

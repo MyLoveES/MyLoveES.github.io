@@ -1,8 +1,12 @@
 ---
 title: Reaching agreement in the presence of faults
 date: 2022-08-11
-tags: [Distributed]
-categories: Distributed
+categories:
+- "技术"
+tags:
+- "分布式"
+- "理论"
+- "拜占庭将军问题"
 toc: true
 ---
 # Q：处理器、进程或者节点各自独立，如何才能够达成共识？  

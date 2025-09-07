@@ -1,8 +1,12 @@
 ---
 title: R[week4] Choice model lecture
 date: 2024-03-24
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
+- "选择模型"
 math: true
 toc: true
 ---

@@ -1,8 +1,11 @@
 ---
 title: R[week7] Managing Sustainable Competitive Advantage code II
 date: 2024-03-31
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
 math: true
 toc: true
 ---

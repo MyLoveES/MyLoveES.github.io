@@ -1,8 +1,12 @@
 ---
 title: R[week2] Segmentation Lecture
 date: 2024-03-15
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
+- "市场细分"
 math: true
 toc: true
 ---

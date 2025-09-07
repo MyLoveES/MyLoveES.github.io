@@ -1,8 +1,11 @@
 ---
 title: R final
 date: 2023-04-05
-tags: [R-Language]
-categories: [R-Language]
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
 math: true
 toc: true
 ---

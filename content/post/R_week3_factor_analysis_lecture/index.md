@@ -1,8 +1,12 @@
 ---
 title: R[week3] Factor Analysis For Perceptual Maps Lecture
 date: 2024-03-22
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
+- "因子分析"
 math: true
 toc: true
 ---

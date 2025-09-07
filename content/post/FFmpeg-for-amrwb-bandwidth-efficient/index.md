@@ -1,8 +1,12 @@
 ---
 title: ffmpeg develop for amrwb bandwidth efficient
 date: 2023-08-29
-tags: [project]
-categories: self-build-roject
+categories:
+- "技术"
+tags:
+- "FFmpeg"
+- "音视频"
+- "编码"
 toc: true
 ---
 

@@ -1,8 +1,11 @@
 ---
 title: God of Cookery - Home Edition
 date: 2025-09-07 23:38:00
-tags: [Home, Cook]
-categories: [Home, Cook]
+categories:
+- "生活"
+tags:
+- "烹饪"
+- "食谱"
 toc: true
 ---
 # 荤菜

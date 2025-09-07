@@ -1,8 +1,12 @@
 ---
 title: R[week1] Desciptive Analysis
 date: 2024-03-13
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
+- "描述性分析"
 toc: true
 math: true
 

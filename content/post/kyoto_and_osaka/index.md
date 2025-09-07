@@ -1,8 +1,13 @@
 ---
 title: kyoto & osaka
 date: 2025-05-07
-tags: [Life, Travel]
-categories: [Life, Travel]
+categories:
+- "生活"
+tags:
+- "旅行"
+- "日本"
+- "京都"
+- "大阪"
 toc: true
 ---
 

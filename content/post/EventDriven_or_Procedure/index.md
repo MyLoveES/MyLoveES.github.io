@@ -1,8 +1,12 @@
 ---
 title: 事件驱动 or 面向过程
 date: 2022-03-21
-tags: [Business]
-categories: Business
+categories:
+- "技术"
+tags:
+- "架构"
+- "事件驱动"
+- "理论"
 toc: true
 ---
 

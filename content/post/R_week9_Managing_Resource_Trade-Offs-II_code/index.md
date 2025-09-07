@@ -1,8 +1,11 @@
 ---
 title: R[week9] Managing Resource Trade-Offs II Code
 date: 2024-04-03
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
 math: true
 toc: true
 ---

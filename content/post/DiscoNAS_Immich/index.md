@@ -1,8 +1,14 @@
 ---
 title: DiscoNAS Immich
 date: 2025-07-07
-tags: [Life, Technology, NAS]
-categories: [Life, Technology, NAS]
+categories:
+- "技术"
+- "生活"
+tags:
+- "服务器"
+- "自托管"
+- "NAS"
+- "Immich"
 toc: true
 ---
 # Immich

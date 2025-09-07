@@ -1,8 +1,12 @@
 ---
 title: R[week6] Managing Sustainable Competitive Advantage lecture
 date: 2024-03-28
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
+- "竞争优势"
 math: true
 toc: true
 ---

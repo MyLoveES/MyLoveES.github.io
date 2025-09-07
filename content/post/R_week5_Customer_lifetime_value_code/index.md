@@ -1,8 +1,12 @@
 ---
 title: R[week5] Customer Lifetime Value code
 date: 2024-03-27
-tags: [R-Language]
-categories: R-Language
+categories:
+- "教程"
+tags:
+- "R语言"
+- "数据分析"
+- "CLV"
 math: true
 toc: true
 ---

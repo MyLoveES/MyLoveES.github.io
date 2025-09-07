@@ -1,8 +1,12 @@
 ---
 title: Process Scheduling In Linux
 date: 2022-04-11
-tags: [Linux]
-categories: Linux
+categories:
+- "技术"
+tags:
+- "Linux"
+- "内核"
+- "进程调度"
 toc: true
 ---
 ![](ProcessSchedulingInLinux.jpeg)

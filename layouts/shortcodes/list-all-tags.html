@@ -1,0 +1,70 @@
+<style>
+.tag-search-container {
+  text-align: center;
+  margin: 2rem 0;
+}
+#tag-search-input {
+  width: 60%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.tag-cloud {
+  padding: 1rem 0;
+  text-align: center;
+}
+.tag-link {
+  display: inline-block;
+  padding: 6px 12px;
+  margin: 6px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+.tag-link:hover {
+    background-color: #ddd;
+    transform: scale(1.05);
+}
+.tag-link sup {
+  color: #888;
+  font-size: 10px;
+  padding-left: 4px;
+}
+</style>
+
+<div class="tag-search-container">
+  <input type="text" id="tag-search-input" onkeyup="filterTags()" placeholder="Search for tags...">
+</div>
+
+<div class="tag-cloud">
+  {{ $tags := .Site.Taxonomies.tags.ByCount }}
+  {{ range $tags }}
+    <a href="{{ .Page.Permalink }}" class="tag-link">
+      {{ .Page.Title }} <sup>{{ .Count }}</sup>
+    </a>
+  {{ end }}
+</div>
+
+<script>
+function filterTags() {
+  let input = document.getElementById('tag-search-input');
+  let filter = input.value.toLowerCase();
+  let tagCloud = document.querySelector('.tag-cloud');
+  let tags = tagCloud.getElementsByTagName('a');
+
+  for (let i = 0; i < tags.length; i++) {
+    let tag = tags[i];
+    let txtValue = tag.textContent || tag.innerText;
+    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+      tag.style.display = "";
+    } else {
+      tag.style.display = "none";
+    }
+  }
+}
+</script>

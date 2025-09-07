@@ -1,8 +1,13 @@
 ---
 title: Linux - AVX512 造成程序 crash
 date: 2022-03-07
-tags: [Linux]
-categories: Linux
+categories:
+- "技术"
+tags:
+- "Linux"
+- "内核"
+- "AVX512"
+- "故障排查"
 toc: true
 ---
 

@@ -12,6 +12,13 @@ url = "/links"
 [main.params]
 icon = "link"
 
+[[main]]
+identifier = "tags"
+name = "Tags"
+url = "/all-tags/"
+[main.params]
+icon = "tag"
+
 [[social]]
 identifier = "github"
 name = "GitHub"

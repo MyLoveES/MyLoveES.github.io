@@ -1,8 +1,12 @@
 ---
 title: Why threads are a bad idea (for most purposes)
 date: 2022-03-22
-tags: [Business]
-categories: Business
+categories:
+- "技术"
+tags:
+- "并发"
+- "线程"
+- "理论"
 toc: true
 ---
 // 发现本文很多概念在现在已经不适用了，不做参考

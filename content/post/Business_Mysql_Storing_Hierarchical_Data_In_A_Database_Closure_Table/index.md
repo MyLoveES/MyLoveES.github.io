@@ -1,8 +1,13 @@
 ---
 title: Storing Hierarchical data by 【Closure Table】
 date: 2021-08-23 18:50:00
-tags: [Data structure, Mysql]
-categories: [Data structure, Mysql]
+categories:
+- "技术"
+tags:
+- "MySQL"
+- "数据库"
+- "数据结构"
+- "设计模式"
 toc: true
 ---
 # 如何在数据库中存储层次结构

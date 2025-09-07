@@ -1,8 +1,14 @@
 ---
 title: DiscoNAS Media Library
 date: 2025-06-07
-tags: [Life, Technology, NAS]
-categories: [Life, Technology, NAS]
+categories:
+- "技术"
+- "生活"
+tags:
+- "服务器"
+- "自托管"
+- "NAS"
+- "媒体库"
 toc: true
 ---
 
