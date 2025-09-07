@@ -10,3 +10,6 @@ public/
 *.swo
 _book
 package-lock.json
+
+.trash
+.obsidian/workspace.json
