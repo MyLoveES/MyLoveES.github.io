@@ -1,3 +1,9 @@
+title: God of Cookery - Home Edition
+date: 2025-09-07 23:38:00
+tags: [Home, cook]
+categories: [Home, cook]
+toc: true
+---
 # 荤菜
 
 ## 红烧排骨
