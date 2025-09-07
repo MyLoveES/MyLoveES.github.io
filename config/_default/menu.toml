@@ -9,6 +9,7 @@ weight = 4
 [[main]]
 identifier = "categories"
 name = "Categories"
+url = "/all-categories"
 [main.params]
 icon = "categories"
 weight = 5
