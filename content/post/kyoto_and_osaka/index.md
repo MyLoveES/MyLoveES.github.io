@@ -9,6 +9,7 @@ tags:
 - "京都"
 - "大阪"
 toc: true
+image: kiyomizu_dera_temple.jpeg
 ---
 
 # 日本关西：京都与大阪
