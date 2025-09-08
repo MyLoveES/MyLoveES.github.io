@@ -1,5 +1,4 @@
 ---
----
 layout:     post
 title:      "Hi, Linux commands"
 subtitle:   " \"Hi, Linux commands\""
