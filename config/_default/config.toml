@@ -1,7 +1,7 @@
 # Change baseurl before deploy
 baseurl = "https://MyLoveES.github.io"
 languageCode = "en"
-title = "Kunkka"
+title = "Disco"
 author = "Ruili"
 
 # Theme i18n support
