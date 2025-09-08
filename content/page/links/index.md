@@ -1,6 +1,6 @@
 ---
 title: "Links"
-comment: false
+comments: false
 links:
   - title: GitHub
     description: My code repository.

@@ -1,6 +1,6 @@
 ---
 title: "About Me"
-comment: false
+comments: false
 ---
 
 Welcome to my blog!
