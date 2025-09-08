@@ -6,7 +6,7 @@ categories:
 tags:
 - "感悟"
 toc: true
-published: false
+draft: true
 ---
 不玩贴吧之后，很久没跟自己说过话了。Hi，李锐，好久不见，你还好吗？
   

@@ -6,7 +6,7 @@ categories:
 tags:
 - "感悟"
 toc: true
-published: false
+draft: true
 ---
 我想了两天 我们的关系，和困境
   
