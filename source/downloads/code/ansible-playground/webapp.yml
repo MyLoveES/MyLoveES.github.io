@@ -1,6 +1,0 @@
-- hosts: webservers
-  roles:
-  - jdk
-  - webapp
-  vars_files:
-  - vars.yml
