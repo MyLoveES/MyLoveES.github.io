@@ -2,11 +2,11 @@
 title: "R Final Analysis"
 date: 2025-09-07
 ---
-# 1. Manage customer hierarchical
+## Manage customer hierarchical
 
-## 1.1 segmentation
+### segmentation
 
-### 1.1.1 import and check data
+#### 1.1.1 import and check data
 ```
 > # 1. anage customer hierarchical
 > 
@@ -45,7 +45,7 @@ date: 2025-09-07
 
 ```
 
-### 1.1.2 hclust()
+#### hclust()
 
 ```
 > ### 1.1.2 Hierarchical clustering: hclust()
@@ -124,7 +124,7 @@ seg.hc.segment
 
 - group 2 is well-differentiated: higher salary and full time employed.
 
-### 1.1.3 kmeans()
+#### kmeans()
 ```
 > ### 1.1.3 Mean-based clustering: kmeans()
 > 
@@ -166,7 +166,7 @@ seg.hc.segment
 
 ![](1_hierarchical_segmetation_kmeans_clusplot.png)
 
-### 1.1.4 Model-based clustering: Mclust()
+#### Model-based clustering: Mclust()
 
 ```
 > ### 1.1.4 Model-based clustering: Mclust()

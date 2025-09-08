@@ -9,9 +9,9 @@ tags:
 - "简单"
 toc: true
 ---
-## 203. 移除链表元素
+### 移除链表元素
 
-### 1. des
+#### des
 
 ```
 给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回 新的头节点 。
@@ -37,7 +37,7 @@ toc: true
 0 <= k <= 50
 ```
 
-### 2. code
+#### code
 ```java
 /**
  * Definition for singly-linked list.

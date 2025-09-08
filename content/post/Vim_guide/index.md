@@ -6,7 +6,7 @@ categories: 技术
 toc: true
 ---
 
-# .vimrc
+## .vimrc
 
 ```
 if filereadable(expand("~/.vimrc.bundles"))
@@ -75,7 +75,7 @@ map <leader>e <Plug>(easymotion-fn)
 map <C-n> :NERDTreeToggle<CR>
 ```
 
-# .vimrc.bundles
+## .vimrc.bundles
 ```
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -109,7 +109,7 @@ filetype plugin indent on    " required
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 ```
 
-# .ideavimrc
+## .ideavimrc
 ```
 "" Source your .vimrc
 source ~/.vimrc

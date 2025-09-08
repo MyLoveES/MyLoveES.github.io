@@ -11,10 +11,10 @@ tags:
 toc: true
 ---
 
-## Docker Image
+### Docker Image
 [nmtan/chevereto](https://hub.docker.com/r/nmtan/chevereto/)
 
-## Environment variables
+### Environment variables
 The most essentials environments variables are listed below
 - CHEVERETO_DB_HOST - Hostname of the Database machine that you wish to connect, default to db
 - CHEVERETO_DB_PORT - The port of the Database machine to connect to, default to 3306
@@ -25,11 +25,11 @@ The most essentials environments variables are listed below
 
 For other environment variables, please consult the file [settings.php](https://github.com/tanmng/docker-chevereto/blob/master/settings.php) and the section "Advanced configuration" below.
 
-## Persistent storage
+### Persistent storage
 Chevereto stores images uploaded by users in /var/www/html/images directory within the container.  
 You can mount a data volume at this location to ensure that you don't lose your images if you relaunch/remove container.
 
-## Max image size
+### Max image size
 By default, PHP allow a maximum file upload to be 2MB. You can change such behaviour by updating the php.ini in your container, either by bind-mount the file, or build a new image with the updated file, that way you can reuse the image on demand.
 
 Note that by default, Chevereto set a file upload limit of 10MB, so after you modify your php.ini, you should also update this settings in Chevereto settings page (available at CHEVERETO_URL/dashboard/settings/image-upload)
@@ -38,7 +38,7 @@ The customized php.ini should set the values of upload_max_filesize, post_max_si
 
 An example of this is available in the examples/bigger-files directory
 
-## Standalone
+### Standalone
 ```
 docker run -it --name chevereto -d \
     --link mysql:mysql \
@@ -52,7 +52,7 @@ docker run -it --name chevereto -d \
     nmtan/chevereto
 ```
 
-## docker-compose
+### docker-compose
 ```
 version: '3'
 
@@ -100,7 +100,7 @@ networks:
     external: true
 ```
 
-## Nginx (使用了bitwarden的nginx) 
+### Nginx (使用了bitwarden的nginx) 
 ```
 upstream chevereto {
     server chevereto:80;
@@ -119,7 +119,7 @@ server {
 }
 ```
 
-## php.ini
+### php.ini
 ```
 [PHP]
 max_execution_time = 60;

@@ -10,26 +10,26 @@ tags:
 - "设计模式"
 toc: true
 ---
-# 如何在数据库中存储层次结构
+## 如何在数据库中存储层次结构
 
-## 常见场景
+### 常见场景
 
 1. 公司：公司 - 部门 - 子部门 
 2. 人员：领导 - 员工 
 3. 文件：根目录 - 文件夹 - 文件
 4. 关系：group - child
 
-## 实例
+### 实例
 
 ![](CASE.png)
 
-## 转成树型
+### 转成树型
 
 ![](CASE_CUSTOM.png)
 
 ![](CASE_TREE.png)
 
-## Closure Table
+### Closure Table
 
 维护一个表，所有的tree path作为记录进行保存。
 
@@ -61,9 +61,9 @@ toc: true
 |13        |7         |1       |
 |...       |...       |...     |
 
-## 各种情况的处理代价
+### 各种情况的处理代价
 
-### 增
+#### 增
 ![](ADD.jpg)
 
 > 代价：-> O(n)  如果层级非常深，代价 -> ∞  
@@ -71,7 +71,7 @@ toc: true
 > 执行：添加到 DIR_D 下  
 ```sql
 insert into node(name) values($name);
-# 查所有父节点，建立关系
+## 查所有父节点，建立关系
 ids[] = {$parent_id}
 ids[] += select id from node where current_id=$parent_id; 
 distance = ids.length;
@@ -94,7 +94,7 @@ for (ancestor_id : ids) {
 |16         |10        |2       |
 |16         |13        |1       |
 
-### 删
+#### 删
 ![](DEL.jpg)
 > 代价：-> O(n)  
 > 输入：id  
@@ -106,7 +106,7 @@ delete from relation where ancestor_id in ${ids} or current_id in ${ids}
 delete from node where id in ${ids}
 ```
 
-### 改
+#### 改
 > 代价：-> O(1)  
 > 输入：id, other info  
 > 执行：  
@@ -114,15 +114,15 @@ delete from node where id in ${ids}
 update node set info where id = $id
 ```
 
-### 查
-#### 查自己
+#### 查
+##### 查自己
 > 代价：-> O(1)  
 > 输入：id  
 > 执行：
 ```sql
 select * from node where id = $id
 ```
-#### 查下一级
+##### 查下一级
 ![](SEARCH_NEXT.jpg)
 > 代价：-> O(n)  
 > 输入：id  
@@ -132,7 +132,7 @@ select * from relation
 left join node on node.id = relation.current_id
 where relation.ancestor_id = $id and distance = 1
 ```
-#### 查所有子集
+##### 查所有子集
 ![](SEARCH_ALL.jpg)
 > 代价：-> O(n)  
 > 输入：id  
@@ -142,7 +142,7 @@ select * from relation
 left join node on node.id = relation.current_id
 where relation.ancestor_id = $id
 ```
-### 移动
+#### 移动
 ![](MOVE.jpg)
 > 代价：-> O(n)
 > 输入：id, new_parent_id
@@ -173,7 +173,7 @@ for(cur_id : ids) {
 }
 ``` -->
 
-## 总结
+### 总结
 **优点** : 修改、查询简便，效率高；   
 **缺点** : 空间换时间；进行删除、移动代价较大；层级深度很大的时候空间消耗巨大   
 **适用** : 有固定的层级深度，并且层级不多的场景   

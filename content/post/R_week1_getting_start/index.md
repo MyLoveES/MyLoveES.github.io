@@ -15,44 +15,44 @@ toc: true
 > R: 4.3.2 (2023-10-31)  
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
-# 一、Basic objects
+## 一、Basic objects
 
-## 1. vectors
+### vectors
 
 一维数据集，常用于number, boolean, string, etc.
 ```
-# define some variables
+## define some variables
 > x <- c(2, 4, 6, 8)
 > xNum <- c(1, 3.14159, 5, 7)
 > xLog <- c(TRUE, FALSE, TRUE, TRUE) 
 > xChar <- c("foo", "bar", "boo", "far") 
 > xMix <- c(1, TRUE, 3, "Hello, world!") 
 
-# print variable
+## print variable
 > xNum
 
-# result
+## result
 [1] 1.00000 3.14159 5.00000 7.00000
 ```
 
 ```
-# 可以使用vector作为新verctor创建的初始值
+## 可以使用vector作为新verctor创建的初始值
 > x2 <- c(xNum, xMix)
 
-# print
+## print
 > x2 
 
-# result
+## result
 [1] "1"             "3.14159"       "5"             "7"             "1"             "TRUE"         
 [7] "3"             "Hello, world!"
 ```
 
 ```
-# 下标与计算，需要注意R语言中下标从1开始
+## 下标与计算，需要注意R语言中下标从1开始
 > xNum[2]
 [1] 3.14159
 
-# 计算时，不指明元素的话，会将vec中所有元素各执行一遍计算
+## 计算时，不指明元素的话，会将vec中所有元素各执行一遍计算
 > x2 <- c(x, x) 
 > x2 + 1
 [1] 3 5 7 9 3 5 7 9
@@ -92,22 +92,22 @@ toc: true
 | factorial(x) | 计算x的阶乘。                 |
 | %%           | 计算x除以y的余数，例如5 %% 2等于1。 |
 
-## 2. More on Vectors and Indexing
+### More on Vectors and Indexing
 
-### 2.1 子集
+#### 子集
 ```
-# 定义一个数字序列
+## 定义一个数字序列
 > xSeq <- 1:10 # use 1:10 instead of typing 1,2,3,4 ...10.
 
-# 获取子集
+## 获取子集
 > xNum
 [1] 1.00000 3.14159 5.00000 7.00000
 
-# 第2到第4个元素
+## 第2到第4个元素
 > xNum[2:4]
 [1] 3.14159 5.00000 7.00000
 
-# 第2-3个元素
+## 第2-3个元素
 > myStart <- 2 
 > xNum[myStart:sqrt(myStart+7)]
 [1] 3.14159 5.00000
@@ -115,27 +115,27 @@ toc: true
 > xSeq
 [1]  1  2  3  4  5  6  7  8  9 10
 
-# 负数代表排除掉第n个元素
+## 负数代表排除掉第n个元素
 > xSeq[-5:-7]
 [1]  1  2  3  4  8  9 10
 
-# 用vec计算得出另一个vec
+## 用vec计算得出另一个vec
 > xSub <- xNum[2:4]
 [1] 3.14159 5.00000 7.00000
 
-# 可以用boolean来筛选元素
+## 可以用boolean来筛选元素
 > xNum[c(FALSE, TRUE, TRUE, TRUE)]
 [1] 3.14159 5.00000 7.00000
 
-# 因此可以用表达式来获取logic value
+## 因此可以用表达式来获取logic value
 > xNum[xNum > 3]
 [1] 3.14159 5.00000 7.00000
 
 ```
 
-## 3. Missing and interesting values - NA
+### Missing and interesting values - NA
 
-### 3.1 重要的NA
+#### 重要的NA
 
 ```
 > my.test.scores <- c(91, NA, NA)
@@ -147,19 +147,19 @@ NA
 > max(my.test.scores)
 NA
 
-# 筛选掉NA
-## 方法1: na.rm=TRUE
+## 筛选掉NA
+### 方法1: na.rm=TRUE
 > mean(my.test.scores, na.rm=TRUE)
 91
 
 > max(my.test.scores, na.rm=TRUE)
 91
 
-## 方法2：na.omit
+### 方法2：na.omit
 > mean(na.omit(my.test.scores))
 91
 
-## 方法3: !is.na(x)
+### 方法3: !is.na(x)
 > is.na(my.test.scores)
 [1] FALSE  TRUE  TRUE
 
@@ -168,13 +168,13 @@ NA
 
 ```
 
-## 4. Lists
+### Lists
 **多维**的数据集合
 ```
 > str(xChar)
 chr [1:4] "foo" "bar" "boo" "far"
 
-# 从vec合并为list
+## 从vec合并为list
 > xList <- list(xNum, xChar) 
 > xList
 [[1]]
@@ -192,10 +192,10 @@ List of 2
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   1.000   2.606   4.071   4.035   5.500   7.000
 
-# 分配名字
-## 方式1
+## 分配名字
+### 方式1
 > names(xList) <- c("itemnum", "itemchar")
-## 方式2
+### 方式2
 xList <- list(itemnum=xNum, itemchar=xChar)
 > xList
 $itemnum
@@ -204,7 +204,7 @@ $itemnum
 $itemchar
 [1] "foo" "bar" "boo" "far"
 
-# 分配名字后，可以用名字来替代索引，获得元素
+## 分配名字后，可以用名字来替代索引，获得元素
 > xList$itemnum # method 2: $name reference
 [1] 1.00000 3.14159 5.00000 7.00000
 
@@ -213,10 +213,10 @@ $itemchar
 
 ```
 
-## 5. Data frame
+### Data frame
 即为**矩阵**
 ```
-# 创建一个date frame, 使用多个vec作为数据源
+## 创建一个date frame, 使用多个vec作为数据源
 > x.df <- data.frame(xNum, xLog, xChar)
 
 > x.df
@@ -226,7 +226,7 @@ $itemchar
 3 5.00000  TRUE   boo
 4 7.00000  TRUE   far
 
-# 使用index获取特定元素
+## 使用index获取特定元素
 > x.df[2,1]
 [1] 3.14159
 
@@ -249,7 +249,7 @@ $itemchar
 > 个人理解类似于“枚举”，有限集合。
 
 ```
-# 一些 'sub' data frame 方法
+## 一些 'sub' data frame 方法
 > x.df[2, ] # 第2行 all of row 2 
      xNum  xLog xChar
 2 3.14159 FALSE   bar
@@ -286,10 +286,10 @@ $itemchar
 > 注⚠️：从data frame中筛选数据，如果是单个元素，返回值类型为元素数量为1的vec；如果是一行或者一列，则为vec；如果是多行或者多列，则为一个新的data frame。
 
 ```
-# 清理掉上述内容
+## 清理掉上述内容
 > rm(list=ls()) # caution, deletes all objects!
 
-# 新建一个data frame，填充元素
+## 新建一个data frame，填充元素
 > store.num <- factor(c(3, 14, 21, 32, 54)) # store id
 > store.rev <- c(543, 654, 345, 678, 234) # store revenue, $1000 
 > store.visits <- c(45, 78, 32, 56, 34) # visits, 1000s 
@@ -324,31 +324,31 @@ $itemchar
 
 <div style="background-color:#f0f0f0; padding:10px;">
 
-### **cor\(\)函数**        
+#### **cor\(\)函数**        
 > 用于计算相关系数的函数之一。相关系数是衡量两个变量之间线性关系强度和方向的统计量，通常用于探索变量之间的相关性。    
 
 ```
 cor(x, y, method = c("pearson", "kendall", "spearman"), use = c("everything", "all.obs", "complete.obs", "na.or.complete"))
 ```
-### 参数
+#### 参数
 > **x**: 一个数值向量、矩阵或数据框，或者是一个因子。     
 > **y**: （可选）一个数值向量、矩阵或数据框，或者是一个因子。如果指定了 y，则会计算 x 和 y 之间的相关系数；如果未指定 y，则会计算 x 中各个变量之间的相关系数。    
 > **method**: （可选）指定计算相关系数的方法，可选值为 "pearson"（皮尔逊相关系数，默认）、"kendall"（肯德尔相关系数）和 "spearman"（斯皮尔曼相关系数）。      
 > **use**: （可选）指定如何处理缺失值的参数，可选值包括 "everything"（默认，对所有数据点进行计算）、"all.obs"（对所有非缺失数据点进行计算）、"complete.obs"（对完全没有缺失值的数据点进行计算）、"na.or.complete"（对有缺失值但至少有一对完整观测值的数据点进行计算）。       
 
-### 返回值
+#### 返回值
 > 返回一个相关系数矩阵，其中包含了各个变量之间的相关系数。      
 
-### 示例
+#### 示例
 > 假设有一个数据框 df 包含了两个数值变量 x 和 y       
 ```
-# 创建数据框
+## 创建数据框
 df <- data.frame(
   x = c(1, 2, 3, 4, 5),
   y = c(2, 3, 5, 7, 11)
 )
 
-# 计算两个变量之间的皮尔逊相关系数
+## 计算两个变量之间的皮尔逊相关系数
 cor(df$x, df$y)
 ```
 > 将输出两个变量 x 和 y 之间的皮尔逊相关系数。    
@@ -356,27 +356,27 @@ cor(df$x, df$y)
 
 <div style="background-color:#f0f0f0; padding:10px;">
 
-### 皮尔逊相关系数（Pearson correlation coefficient）
+#### 皮尔逊相关系数（Pearson correlation coefficient）
 
 是一种用来衡量两个变量之间线性关系强度和方向的统计量。它衡量的是两个变量之间的线性相关程度，取值范围在-1到1之间。    
 
-### 特点：
+#### 特点：
 
 > 当 r=1 时，表示两个变量完全正相关，即一个变量增大时，另一个变量也增大，呈线性关系；    
 > 当 r=-1 时，表示两个变量完全负相关，即一个变量增大时，另一个变量减小，也呈线性关系；    
 > 当 r=0 时，表示两个变量之间没有线性关系，但并不代表两个变量之间没有其他类型的关系。   
 
-### 解释：
+#### 解释：
 
 > 如果 r 的值接近于1或-1，表示两个变量之间有很强的线性关系，相关性较高；   
 > 如果 r 的值接近于0，表示两个变量之间的线性关系很弱，相关性较低。     
 
-### 适用范围：
+#### 适用范围：
 
 > 皮尔逊相关系数要求两个变量的数据是连续变量；    
 > 它要求变量之间的关系是线性的。     
 
-### 注意事项：
+#### 注意事项：
 
 > 皮尔逊相关系数只能衡量两个变量之间的线性关系，对于非线性关系不敏感；      
 > 相关系数不能说明因果关系，只能说明两个变量之间的相关性。       
@@ -386,17 +386,17 @@ cor(df$x, df$y)
 
 
 
-## 6. Saving, loading, and importing data
+### Saving, loading, and importing data
 
-### 6.1 save and reload
+#### save and reload
 ```
-# 保存data frame到文件
+## 保存data frame到文件
 > save(store.df, file="store-df-backup.RData")
 
-# 删掉内存中的data frame
+## 删掉内存中的data frame
 > rm(store.df) # caution, only if save() gave no error 
 
-# 重新从文件中加载
+## 重新从文件中加载
 > load("store-df-backup.RData")
 ``` 
 
@@ -411,10 +411,10 @@ cor(df$x, df$y)
 > 注⚠️： save()和save.image()都是保存到文件；save()只保存指定的元素；save.image()保存所有的对象和数据。
 > load()加载.RData时，会把文件中保存的内存对象，**覆盖**掉当前内存中的
 
-### 6.2 import  
-#### 6.2.1 excel  
+#### import  
+##### excel  
 ```
-# 安装并引用excel处理的依赖包
+## 安装并引用excel处理的依赖包
 > install.packages ("readxl")
 > library(readxl)
 
@@ -445,19 +445,19 @@ tibble [620 × 22] (S3: tbl_df/tbl/data.frame)
  $ feature_brand4: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
  $ feature_brand5: num [1:620] 0 0 0 0 0 0 0 0 0 0 ...
 
-# 查看数据
+## 查看数据
 > View(deospray.data)
 ```
 
-#### 6.2.2 csv
+##### csv
 ```
 > store.df <- read.csv("Data_descriptive.csv") 
 > store.df$storeNum <- factor(store.df$storeNum)
 ```
 
-## 7. function
+### function
 ```
-# 一个简单的function se
+## 一个简单的function se
 > se <- function(x){sd(x) / sqrt(length(x))}
 
 > se(store.df$store.visits)
@@ -492,20 +492,20 @@ tibble [620 × 22] (S3: tbl_df/tbl/data.frame)
 | cor()、cov()             | 分别计算相关系数和协方差矩阵。      |
 | scale()                  | 对向量或数据框列进行标准化。         |
 
-## 8. clean up
+### clean up
 ```
 rm(list=ls()) # delete all visible objects in memory.
 ```
 
-# 二、week1 code
+## 二、week1 code
 ```
-# 获取当前已加载文件的目录
+## 获取当前已加载文件的目录
 file_dir <- dirname(parent.frame(2)$ofile)
 print(file_dir)
-# 将工作目录设置为当前已加载文件的目录
+## 将工作目录设置为当前已加载文件的目录
 setwd(file_dir)
 
-# define some variables
+## define some variables
 x <- c(2, 4, 6, 8)
 xNum <- c(1, 3.14159, 5, 7)
 xLog <- c(TRUE, FALSE, TRUE, TRUE)
@@ -624,14 +624,14 @@ save.image("mywork_week1.RData")
 
 load("mywork_week1.RData")
 
-# install.packages ("readxl")
-# library(readxl)
+## install.packages ("readxl")
+## library(readxl)
 
 deospray.data <- read_excel(path = "deospray sales.xls", sheet = "deospray") # filename, sheet name
 
 str(deospray.data)
 
-# View(deospray.data)
+## View(deospray.data)
 
 se <- function(x){sd(x) / sqrt(length(x))}
 

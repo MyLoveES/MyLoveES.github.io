@@ -9,9 +9,9 @@ tags:
 toc: true
 ---
 
-# 表
+## 表
 
-## file
+### file
 |字段|类型|说明|
 |----|----|----|
 |id|long, primary key|自增主键|
@@ -21,7 +21,7 @@ toc: true
 |create_time|datetime|创建时间|
 |update_time|datetime|更新时间|
 
-## file_owner
+### file_owner
 |字段|类型|说明|
 |----|----|----|
 |id|long, primary key|自增主键|
@@ -33,7 +33,7 @@ toc: true
 |create_time|datetime|创建时间|
 |update_time|datetime|更新时间|
 
-## file_download
+### file_download
 |字段|类型|说明|
 |----|----|----|
 |id|long, primary key|自增主键|
@@ -49,12 +49,12 @@ toc: true
 |create_time|datetime|创建时间|
 |update_time|datetime|更新时间|
 
-# 注意的点
+## 注意的点
 
 1. 封装SDK    
 2. 客户端登记文件，直传存储引擎，再次确认状态
 
-# 流程图
+## 流程图
 
 1. 客户端上传   
 
@@ -64,14 +64,14 @@ toc: true
 
 ![](self-file-2.png)
 
-# 新建项目
+## 新建项目
 
-## 1. init
+### init
 ```
     spring init --groupId=com.weasley --artifactId=file-center --name=file-center --description="file-center" file-center
 ```
 
-## 2. module
+### module
 根目录 setting.gradle
 ```
     include 'file-center-common'
@@ -204,7 +204,7 @@ subprojects {
 }
 ```
 
-### 1) file-center-common
+#### file-center-common
 ```
     1) mkdir file-center-common
     2) mkdir -p src/main/java/com/weasley/common
@@ -212,37 +212,37 @@ subprojects {
 ```
 
 
-### 2) file-center-domain
+#### file-center-domain
 ```
     1) mkdir file-center-domain
     2) mkdir -p src/main/java/com/weasley/domain
     3) mkdir -p src/main/resources 
 ```
 
-### 3) file-center-application
+#### file-center-application
 ```
     1) mkdir file-center-application
     2) mkdir -p src/main/java/com/weasley/application
     3) mkdir -p src/main/resources 
 ```
 
-### 4) file-center-interface
+#### file-center-interface
 ```
     1) mkdir file-center-interface
     2) mkdir -p src/main/java/com/weasley/interface
     3) mkdir -p src/main/resources 
 ```
 
-### 5) file-center-infrastructure
+#### file-center-infrastructure
 ```
     1) mkdir file-center-infrastructure
     2) mkdir -p src/main/java/com/weasley/infrastructure
     3) mkdir -p src/main/resources 
 ```
 
-## 3. boot scripts
+### boot scripts
 
-## 4. logback
+### logback
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
@@ -317,9 +317,9 @@ subprojects {
 </configuration>
 ```
 
-## 5. docs
+### docs
 
-## 6. SQL generate
+### SQL generate
 ```
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
@@ -355,7 +355,7 @@ public class CodeGenerator {
 
 ```
 
-## 7.application.yml
+### 7.application.yml
 ```
 spring:
   application:
@@ -487,19 +487,19 @@ monitor:
     enable: true
 ```
 
-## 8. file-center-common
+### file-center-common
 
-### 1) ErrorCode
+#### ErrorCode
 
-### 2) Response
+#### Response
 
-### 3) Global Exception
+#### Global Exception
 
-### 4) Response advice
+#### Response advice
 
-### 5) Submodule build.gradle
+#### Submodule build.gradle
 ```
-# unittest
+## unittest
 tasks.named('test') {
 	useJUnitPlatform()
 }

@@ -10,7 +10,7 @@ tags:
 toc: true
 ---
 
-# maven add module
+## maven add module
 
 1. 根目录pom添加
 ```

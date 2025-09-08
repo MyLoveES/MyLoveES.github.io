@@ -13,7 +13,7 @@ toc: true
 > R: 4.3.2 (2023-10-31)  
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
-# 1 Marketing Effectiveness and Resource Allocation
+## Marketing Effectiveness and Resource Allocation
 
 Leverage historical data to quantify the effectiveness of marketing actions.
 
@@ -31,12 +31,12 @@ tibble [200 × 5] (S3: tbl_df/tbl/data.frame)
 
 数据包含每周的销售额以及电视、广播和报纸广告费用（以千英镑计）。
 
-## 1.1 Does radio advertising affect sales for an electronics brand?
+### Does radio advertising affect sales for an electronics brand?
 
 Visualizing the data
 
 ```
-# scatter plot
+## scatter plot
 plot(spending.data$radio, spending.data$sales)
 ```
 ![](R_week8_code_1.png)
@@ -71,7 +71,7 @@ F-statistic: 98.42 on 1 and 198 DF,  p-value: < 2.2e-16
 
 问题：如果我在广播广告上花费 40,000 英镑，我将卖出多少？答案：17.31 = 9.31 +0.20 * 40
 
-## 1.2 Accounting for multiple predictors: multiple linear regression
+### Accounting for multiple predictors: multiple linear regression
 
 ```
 > regression <- lm(sales ~ radio + tv, data=spending.data) 
@@ -98,9 +98,9 @@ Multiple R-squared:  0.8972,	Adjusted R-squared:  0.8962
 F-statistic: 859.6 on 2 and 197 DF,  p-value: < 2.2e-16
 ```
 
-## 1.3 Allocating marketing budgets
+### Allocating marketing budgets
 
-### 1.3.1 Ratio of elasticities method
+#### Ratio of elasticities method
 
 - What is elasticity?
   1. % change in the response variable for a 1% change in the predictor variable 
@@ -121,7 +121,7 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: < 2.2e-16
      - 线下广告：0.08/0.20 = 40%  
      建议：将60%（£60,000）的预算分配给在线广告，40%（£40,000）的预算分配给线下广告。  
 
-### 1.3.2 How to obtain elasticities from a linear regression model?
+#### How to obtain elasticities from a linear regression model?
 
 1. 广告弹性 = 广告估算值 * (基线广告/基线销售)
 2. 基线广告 = 平均广播广告支出（=23.26）
@@ -140,9 +140,9 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: < 2.2e-16
 [1] 0.3152211
 ```
 
-# 2 Marketing Mix Modelling
+## Marketing Mix Modelling
 
-## 2.1 Modelling non-linear returns on investment
+### Modelling non-linear returns on investment
 
 假设广告在初始预算为50万英镑的情况下在1周内播出，旨在提高英国消费者对Airbnb作为一个包容性品牌的认知，同时增加访问Airbnb网站和预订的流量。   
 由于该广告活动的结果，Airbnb的预订量增加了1%。   
@@ -224,7 +224,7 @@ Which one to use?
   • Plot the data to learn about the relation between X and Y. • Estimate both models and identify the best fitting model
 ```
 
-## 2.2 Modelling media synergy
+### Modelling media synergy
 
 - 营销组合工具的综合使用可以产生协同效应。
 - 当多种媒体的联合影响超过它们各自部分的总和时，就会产生协同效应。
@@ -294,7 +294,7 @@ Multiple R-squared:  0.938,	Adjusted R-squared:  0.9367
 F-statistic:   737 on 4 and 195 DF,  p-value: < 2.2e-16
 ```
 
-## 2.3 Modelling carryover effects
+### Modelling carryover effects
 
 
 到目前为止，我们假设在给定时间段内的广告只会影响该时间段内的销售。实际上，消费者对广告的反应可能会有延迟。不考虑延迟效应可能会导致广告弹性系数被低估。  
@@ -347,7 +347,7 @@ Multiple R-squared:  0.8523,	Adjusted R-squared:  0.8501
 F-statistic: 377.1 on 3 and 196 DF,  p-value: < 2.2e-16
 ```
 
-## 2.4 Predictive accuracy *
+### Predictive accuracy *
 
 ```
 > # Total number of rows in the data frame

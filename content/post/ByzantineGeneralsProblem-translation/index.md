@@ -11,7 +11,7 @@ tags:
 toc: true
 ---
 
-# INTRODUCTION
+## INTRODUCTION
 
 A reliable computer system must be able to cope with the failure of one or more of its components. A failed component may exhibit a type of behavior that is often overlooked--namely, sending conflicting information to different parts of the system. The problem of coping with this type of failure is expressed abstractly as the Byzantine Generals Problem. We devote the major part of the paper to a discussion of this abstract problem and conclude by indicating how our solutions can be used in implementing a reliable computer system. We imagine that several divisions of the Byzantine army are camped outside an enemy city, each division commanded by its own general. The generals can communicate with one another only by messenger. After observing the enemy, they must decide upon a common plan of action. However, some of the generals may be traitors, trying to prevent the loyal generals from reaching agreement. The generals must have an algorithm to guarantee that   
 
@@ -20,11 +20,11 @@ A reliable computer system must be able to cope with the failure of one or more 
 A. All loyal generals decide upon the same plan of action.
 The loyal generals will all do what the algorithm says they should, but the traitors may do anything they wish. The algorithm must guarantee condition A regardless of what the traitors do. The loyal generals should not only reach agreement, but should agree upon a reasonable plan. We therefore also want to insure that.  
 
-## A. 所有忠诚的将军都决定相同的行动计划。   
+### 所有忠诚的将军都决定相同的行动计划。   
 
 忠诚的将军都会按照算法的要求行事，而叛徒则可以随心所欲。算法必须保证不管叛徒做了什么, 所有忠诚的将军都决定相同的行动计划。忠诚的将军们不仅要达成一致，而且要商定一个合理的计划。因此，我们也希望确保这一点   
 
-## B. A small number of traitors cannot cause the loyal generals to adopt a bad plan.   
+### A small number of traitors cannot cause the loyal generals to adopt a bad plan.   
 
 B. 少数叛徒不能使忠诚的将军采取错误的计划。   
 
@@ -33,7 +33,7 @@ Condition B is hard to formalize, since it requires saying precisely what a bad 
 
 条件B很难去具象化，因为它需要准确地说清楚错误的计划是什么，我们不打算去具体描述它。相反，我们考虑将军们如何达成这个共识。每个将军观察敌人并且和其他人沟通他的观察结果。设v(i)是将军i所传达的信息，每个将军使用一些方法来让v(1)~v(n)形成一个具体的行动。条件A是通过让所有的将军使用相同的方法来组合信息来实现的，条件B是通过使用鲁棒的方法来实现的。比如，如果决策是去进攻或者撤退，v(i)是将军i认为最佳的选项，最终结论可以通过他们的多数投票决定。只有当忠诚的将领几乎平分两种可能性时，少数叛徒才能影响决策，在这种情况下，任何一个决策都不能被称为错误的决定。虽然这种方法可能不是满足条件A和B的唯一方法，但它是我们所知道的唯一方法。它假定了一种方法，通过这种方法，将军们互相传达他们的价值观v (i)。最明显的方法是第i个将军通过信使发送v (i)给其他将军。然而，这是行不通的，因为满足条件A要求每个忠诚的将军都获得相同的值v(1) .....V (n)，一个叛变的将军可能会向不同的将军传达不同的价值观。要满足条件A，必须满足以下条件:  
 
-### 1) Every loyal general must obtain the same information v (1) .... , v (n).  
+#### Every loyal general must obtain the same information v (1) .... , v (n).  
   
 Condition 1 implies that a general cannot necessarily use a value of v(i) obtained directly from the ith general, since a traitorous ith general may send different values to different generals. This means that unless we are careful, in meeting condition 1 we might introduce the possibility that the generals use a value of v (i) different from the one sent by the ith general--even though the ith general is loyal. We must not allow this to happen if condition B is to be met. For example, we cannot permit a few traitors to cause the loya generals to base their decision upon the values "retreat",..., "retreat" if every loyal general sent the value "attack". We therefore have the following requirement for each i: 
   
@@ -41,7 +41,7 @@ Condition 1 implies that a general cannot necessarily use a value of v(i) obtain
   
 条件1表明，将军不能使用直接从第i个将军处获得的v(i)的值，因为叛变的第i个将军可能会向不同的将军发送不同的值。这意味着，除非我们很小心，在满足条件1时，我们可能会引入这样一种可能性:将军使用的v (i)值与第i个将军发送的值不同——即使第i个将军是忠诚的。如果要满足条件B，我们决不能允许这种情况发生。例如，我们不能允许少数叛徒使忠诚将军们根据 “retreat”....."retreat" 的价值观作出决定，如果每一个忠诚的将军都发出“进攻”的指令。因此，我们对每个i有以下要求:
 
-### 2) If the ith general is loyal, then the value that he sends must be used by every loyal general as the value of v (i).  
+#### If the ith general is loyal, then the value that he sends must be used by every loyal general as the value of v (i).  
   
 2) 如果第i个将军是忠诚的，那么他发送的值必须被每个忠诚的将军用作v (i)的值。
   
@@ -52,8 +52,8 @@ Conditions 1' and 2 are both conditions on the single value sent by the ith gene
   
 条件1'和2都是第i个将军发送的单个值的条件。因此，我们可以把我们的考虑限制在一个将军如何把他的值传递给其他人的问题上。我们用一个将军向他的副手们发出命令的方式来表述这个问题，得到了下面的问题。拜占庭将军的问题。一位指挥官必须向他的n - 1名中将发出这样的命令:
   
-#### IC1. All loyal lieutenants obey the same order.
-#### IC2. If the commanding general is loyal, then every loyal lieutenant obeys the order he sends. 
+##### IC1. All loyal lieutenants obey the same order.
+##### IC2. If the commanding general is loyal, then every loyal lieutenant obeys the order he sends. 
 
 IC1。所有忠诚的中尉都服从同一条命令。
 IC2。如果指挥官是忠诚的，那么每个忠诚的中尉都会服从他的命令。
@@ -62,7 +62,7 @@ Conditions IC1 and IC2 are called the interactive consistency conditions. Note t
   
 IC1和IC2称为交互一致性条件。注意，如果指挥官是忠诚的，IC1包含于IC2。但是指挥官不一定是忠诚的。为了解决我们最初的问题，第i个将军发出他的值v(i)，通过使用拜占庭将军问题的一个解决方案，发送命令“使用v(i)作为我的值”，其他将军充当中尉。
   
-## 2. IMPOSSIBILITY RESULTS
+### IMPOSSIBILITY RESULTS
   
 2. 不可能的结果
 
@@ -99,9 +99,9 @@ One might think that the difficulty in solving the Byzantine Generals Problem st
 IC1 '. All loyal lieutenants attack within 10 minutes of one another.
 IC2'. If the commanding general is loyal, then every loyal lieutenant attacks within 10 minutes of the time given in the commander's order. 
   
-### IC1”。所有忠诚的中尉都在十分钟内互相攻击。
+#### IC1”。所有忠诚的中尉都在十分钟内互相攻击。
   
-### IC2”。如果指挥官是忠诚的，那么每个忠诚的中尉在指挥官命令的10分钟内攻击。
+#### IC2”。如果指挥官是忠诚的，那么每个忠诚的中尉在指挥官命令的10分钟内攻击。
   
 (We assume that the orders are given and processed the day before the attack and that the time at which an order is received is irrelevant--only the attack time given in the order matters.} 
   
@@ -111,20 +111,20 @@ Like the Byzantine Generals Problem, this problem is unsolvable unless more than
   
 就像拜占庭将军问题一样，这个问题是无法解决的，除非超过三分之二的将军是忠诚的。我们首先证明，如果有一个解决方案，可以解决三个将军同时对付一个叛徒，那么我们就可以构建一个解决三将军一叛徒的拜占庭将军问题。假设指挥官想要发出“进攻”或“撤退”的命令。他通过发送1点的攻击时间来命令攻击，通过发送2点的攻击时间来命令撤退，使用假设的算法。每个中尉都使用以下程序来获得命令。
   
-#### (1) After receiving the attack time from the commander, a lieutenant does one of the following:  
-##### (a) If the time is 1:10 or earlier, then attack.  
-##### (b) If the time is 1:50 or later, then retreat.  
-##### (c) Otherwise, continue to step (2).   
+##### (1) After receiving the attack time from the commander, a lieutenant does one of the following:  
+###### (a) If the time is 1:10 or earlier, then attack.  
+###### (b) If the time is 1:50 or later, then retreat.  
+###### (c) Otherwise, continue to step (2).   
   
-#### (2) Ask the other lieutenant what decision he reached in step (1).  
-##### (a) If the other lieutenant reached a decision, then make the same decision he did.  
-##### (b) Otherwise, retreat.   
+##### (2) Ask the other lieutenant what decision he reached in step (1).  
+###### (a) If the other lieutenant reached a decision, then make the same decision he did.  
+###### (b) Otherwise, retreat.   
   
 It follows from IC2' that if the commander is loyal, then a loyal lieutenant will obtain the correct order in step (1), so IC2 is satisfied. If the commander is loyal, then IC1 follows from IC2, so we need only prove IC1 under the assumption that the commander is a traitor. Since there is at most one traitor, this means that both lieutenants are loyal. It follows from ICI' that if one lieutenant decides to attack in step (1), then the other cannot decide to retreat in step (1). Hence, either they will both come to the same decision in step (1) or at least one of them will defer his decision until step (2). In this case, it is easy to see that they both arrive at the same decision, so IC1 is satisfied. We have therefore constructed a three-general solution to the Byzantine Generals Problem that handles one traitor, which is impossible. Hence, we cannot have a three-general algorithm that maintains ICI' and IC2' in the presence of a traitor. The method of having one general simulate m others can now be used to prove that no solution with fewer than 3rn + 1 generals can cope with m traitors. The proof is similar to the one for the original Byzantine Generals Problem and is left to the reader. 
   
 由IC2’可知，如果指挥官是忠诚的，那么忠诚的中尉将在步骤(1)中获得正确的命令，因此IC2是满足的。如果指挥官是忠诚的，那么IC1从IC2继承而来，所以我们只需要在指挥官是叛徒的假设下证明IC1。因为最多有一个叛徒，这意味着两个中尉都是忠诚的。根据ICI'可知，如果一个中尉在步骤(1)中决定进攻，那么另一个中尉在步骤(1)中就不能决定撤退。因此，他们要么在步骤(1)中都做出相同的决定，要么至少有一个会推迟到步骤(2)。在这种情况下，很容易看到他们都做出了相同的决定，所以IC1是满意的。因此，我们建立了一个解决三将军，一叛徒的办法，但这是不可能的。因此，我们不能有一个三将军算法，在叛徒存在的情况下保持ICI'和IC2'。用一个将军模拟m个其他将军模拟的方法现在可以用来证明，没有一个小于3rn + 1个将军的解可以对付m个叛徒。这个证明类似于原来的拜占庭将军问题，留给读者。
   
-## 3. A SOLUTION WITH ORAL MESSAGES
+### A SOLUTION WITH ORAL MESSAGES
   
 3.一个口头信息的解决方案
   
@@ -230,7 +230,7 @@ There are at most m traitors, and the commander is one of them, so at most m - 1
 我们首先考虑司令员是忠诚的情况。通过将k等同于结论1中的m，我们看到OM(m)满足IC2。如果指挥官是忠诚的，IC1由IC2得出，所以我们只需要在指挥官是叛徒的情况下验证IC1。  
 最多有m个叛徒，而指挥官是其中之一，所以最多有m-1个中尉是叛徒。由于有超过3米的将军，所以有超过3米-1的中尉，而且3米-1>3（米-1）。因此，我们可以运用归纳假设得出结论：OM(m - 1)满足条件IC1和IC2。因此，对于每个j，任何两个忠诚的副手在步骤（3）中得到的vj值都是一样的。(如果两个中尉中的一个是中尉j，这由IC2得出，否则由IC1得出）。因此，任何两个忠诚的中尉都会得到相同的价值向量vl ..... Vn-1，因此在步骤(3)中获得相同的值 majority(vl ..... Vn-1)，证明了IC1。  
   
-## 4. A SOLUTION WITH SIGNED MESSAGES
+### A SOLUTION WITH SIGNED MESSAGES
   
 签名消息方案  
   
@@ -330,7 +330,7 @@ j in step (2)(A)(ii); so j receives it (by A1). If i adds the order to Vi in ste
   
 2.k=m。由于指挥官是叛徒，所以最多只有m-1名中尉是叛徒。因此，至少有一个中尉j1, .... , jm是忠诚的。这个忠诚的中尉在第一次收到价值v的时候，一定给j发送了这个命令，因此j一定会收到这个命令。   
   
-## 5. MISSING COMMUNICATION PATHS  
+### MISSING COMMUNICATION PATHS  
   
 Thus far, we have assumed that a general can send messages directly to every other general. We now remove this assumption. Instead, we suppose that physical barriers place some restrictions on who can send messages to whom. We consider the generals to form the nodes of a simple, finite undirected graph G, where an arc between two nodes indicates that those two generals can send messages directly to one another. We now extend Algorithms OM(m) and SM(m), which assumed G to be completely connected, to more general graphs.  
 To extend our oral message algorithm OM(m), we need the following definition, where two generals are said to be neighbors if they are joined by an arc.  

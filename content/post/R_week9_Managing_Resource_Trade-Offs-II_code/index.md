@@ -20,7 +20,7 @@ toc: true
 4. 按时间对数据进行分组：类似邮件或促销活动后，同店销售是否增加了？  
 在所有这些情况下，我们将一个数据组与另一个数据组进行比较，以识别效应。本教程探讨了市场营销中经常出现的这些比较类型。  
 
-# 1 Descriptives by group
+## 1 Descriptives by group
 
 我们使用消费者细分数据。我们对两个新开发的广告（叙事型 vs. 信息型）的效果感兴趣，并收集了来自300名受访者的数据，包括他们的年龄、性别、子女数量、是否喜欢广告以及他们在页面上花费的时间。在这些数据中，每个受访者来自我们的四个消费者细分之一：郊区混合、都市潮流、旅行者或晋升中。
 
@@ -59,7 +59,7 @@ toc: true
 [1] 50.21652
 ```
 
-## 1.1 aggregate()
+### aggregate()
 
 当你想要找到多个组的值时，一个更通用的方法是使用aggregate()函数。
 
@@ -70,7 +70,7 @@ toc: true
 2 treatment 55.01809
 ```
 
-## 1.2 Basic formula syntax
+### Basic formula syntax
 
 R通过公式规范提供了描述变量之间关系的标准方法。一个公式使用波浪线（~）运算符将左侧的响应变量与右侧的解释变量分开。基本形式是：   
 ```
@@ -85,13 +85,13 @@ y ~ x（简单公式）
 2 treatment      55.01809
 ```
 
-## 1.3 Descriptives for two-way groups
+### Descriptives for two-way groups
 
 在市场营销中的一个常见任务是交叉制表，根据两个（或更多）因素将客户分成组。公式语法使得通过指定多个解释变量来计算交叉制表变得容易：
 
 y ~ x1 + x2 + . . . (Multiple variable formula)
 
-### 1.3.1 Means
+#### Means
 
 利用这种格式与aggregate()，我们可以这样写：
 ```
@@ -117,7 +117,7 @@ agg.data <- aggregate(seconds_spent ~ segment + condition, data = ad.df, mean)
 
 aggregate()命令允许我们计算连续变量的函数，例如seconds_spent或like的平均值，适用于任何因素的组合（如段、条件等）。这是市场研究中的一个常见任务，许多公司专门生产交叉制表。
 
-### 1.3.2 Frequencies
+#### Frequencies
 
 ```
 > table(ad.df$condition, ad.df$like)
@@ -148,9 +148,9 @@ aggregate()命令允许我们计算连续变量的函数，例如seconds_spent�
 
 结果显示，“都市上升”受访者报告了总共55个孩子，而“旅行者”没有报告。
 
-# 2 Visualization by group
+## Visualization by group
 
-## 2.1 Visualizing frequencies and proportions
+### Visualizing frequencies and proportions
 
 Lattice包提供了一个有用的解决方案：histogram (formula, data, type)。它理解公式的概念，包括对因子进行条件划分（" | "），这意味着根据因子将绘图分成多个面板。
 
@@ -170,7 +170,7 @@ histogram()的默认方式是在每个组内绘制比例，使得值相对于组
 
 结果告诉我们，根据广告条件在段内的喜欢程度差异很小。这意味着两个广告版本在喜欢程度上产生的差异很小。
 
-## 2.2 Visualizing continuous data
+### Visualizing continuous data
 
 在前面的部分中，我们看到了如何绘制计数和比例。那么连续数据呢？我们如何绘制我们数据中按条件分组的总浏览时间？一个简单的方法是使用aggregate()来找到平均总时间，然后使用lattice包中的barchart()来绘制计算出的值：
 
@@ -196,7 +196,7 @@ histogram()的默认方式是在每个组内绘制比例，使得值相对于组
 
 ![](R_week9_code_6.png)
 
-### 2.2.1 bwplot() *
+#### bwplot() *
 
 
 对于箱线图的更好选择是lattice包中的bwplot()命令，它提供了更漂亮的图表，并且允许多因素条件化。需要注意的一点是，bwplot()使用的模型公式方向与你可能期望的相反；你写的是condition ~ seconds_spent。我们按段绘制水平箱线图如下：
@@ -217,11 +217,11 @@ bwplot(condition ~ seconds_spent | segment, data = ad.df, horizontal = TRUE, xla
 
 对于按段和广告条件分组的总浏览时长的条件化图表显示，旅行者细分中处于处理组的人的总浏览时长分布比处于对照组的人的分布要宽得多。
 
-# 3 Statistical tests
+## Statistical tests
 
 除了使用上面描述的组平均值和交叉制表总结组间的差异外，一个优秀的分析师能够使用统计检验来确定差异是否真实，或者可能是由于数据中的微小变化（“噪音”）造成的。我们应该专注于帮助识别真实差异的统计检验。
 
-## 3.1 Testing group frequencies: chisq.test()
+### Testing group frequencies: chisq.test()
 
 
 卡方检验用于频率计数，例如由table产生的计数。卡方检验确定单元格中的频率是否与基于它们的总计数的预期值显着不同。在R中，我们使用chisq.test()命令。一般来说，chisq.test()操作在一个表上。   
@@ -245,7 +245,7 @@ X-squared = 0.010422, df = 1, p-value = 0.9187
 
 在这种情况下，零假设是因素之间没有关联。也就是说，单元格中的计数与边际比例一样符合预期。基于较高的p值，我们无法拒绝零假设，并得出结论：因素之间没有关联，喜欢与条件在我们的数据中是独立的。喜欢和条件之间没有关系。
 
-## 3.2 Testing group means: t.test()
+### Testing group means: t.test()
 
 t检验比较一个样本的平均值与另一个样本的平均值（或与一个特定值，如0）之间的差异。重要的是，它比较了完全两组数据的平均值。例如，在数据中，我们可能会询问两种广告条件之间的总浏览时间是否有所不同。   
 我们使用t.test(formula, data)测试两组之间的浏览时间（处理组 vs. 控制组）的差异：  
@@ -289,7 +289,7 @@ sample estimates:
 
 置信区间从-8.62到10.83包含了0，并且p值为0.82。因此，我们得出结论，在我们的数据中，旅行者中两个条件之间的平均浏览时间没有显著差异。
 
-## 3.3 Testing multiple-group means: ANOVA
+### Testing multiple-group means: ANOVA
 
 方差分析（ANOVA）比较多个组的平均值。零假设是多个平均值之间没有差异。   
 ANOVA可以处理单个因素（称为单因素ANOVA）、两个因素（双因素）、以及更高阶的因素，包括因素之间的交互作用。   
@@ -328,7 +328,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 
 结果表明，当我们尝试用段和条件来解释总浏览时间的差异时，段是一个显著的预测因子，但条件不是一个显著的预测因子。然而，先前的结果表明条件是显著的。这种差异是什么？这意味着段和条件不是独立的，而且段成员资格单独就足以捕捉到效应。条件仅仅比段解释了稍微多一点。
 
-### 3.3.1 Visualize ANOVA result
+#### Visualize ANOVA result
 
 
 可视化ANOVA结果的一个好方法是绘制组均值的置信区间。我们使用multcomp（多重比较）包和它的glht(model)（一般线性假设）命令。  
@@ -352,14 +352,14 @@ segmentUrban hip == 0     21.68
 在移除截距项后，glht()为我们提供了每个段的均值。我们使用plot()函数绘制它，使用par(mar =. . . )命令为长轴标签添加一些额外的边距：
 
 ```
-# cex.axis = 0.8 makes the axis labels smaller to 80%.
+## cex.axis = 0.8 makes the axis labels smaller to 80%.
 > plot(glht(ad.aov),
 +      xlab = "Total seconds spent", main = "Average seconds spent by Segment (95% CI)", cex.axis = 0.8)
 ```
 
 点表示每个段的均值，条形图反映了置信区间。我们可以看到每个段中平均浏览时间的置信区间。很明显，都市潮流段成员的平均浏览时间明显低于其他三组。
 
-## 3.4 Testing group means: lm()
+### Testing group means: lm()
 
 你也可以使用lm()回归来比较组，当响应变量是连续变量时，比如总浏览时间。                
 分组变量（因子）必须被重新编码为虚拟变量（即取0和1为值的变量）。例如，因子“条件”（包括“对照”和“处理”）应该被重新编码为“dummy_condition: 0 = 对照，1 = 处理”。   
@@ -426,7 +426,7 @@ Multiple R-squared:  0.4601,	Adjusted R-squared:  0.4546
 F-statistic: 84.08 on 3 and 296 DF,  p-value: < 2.2e-16
 ```
 
-## 3.5 Difference-in-Difference
+### Difference-in-Difference
 
 ```
 > panel.df.raw <- read.csv("Data_Panel.csv", stringsAsFactors = TRUE) 
@@ -469,7 +469,7 @@ panel.df<-panel.df %>%
  $ did      : num  0 0 0 0 0 0 0 0 0 0 ...
 ```
 
-### 3.5.1 Estimating the DID estimator
+#### Estimating the DID estimator
 
 ```
 > didreg <- lm(profit ~ treatment + time + did, data = panel.df) 
@@ -499,7 +499,7 @@ F-statistic: 1.984 on 3 and 66 DF,  p-value: 0.1249
 
 “did”的系数是差异中的差异估计量。治疗效应在10%的显著性水平下具有边际意义，治疗效应为负。
 
-# 4 Takeaways
+## Takeaways
 
 - 在描述和可视化组数据时：
 

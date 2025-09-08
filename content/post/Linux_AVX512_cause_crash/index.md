@@ -11,7 +11,7 @@ tags:
 toc: true
 ---
 
-## 背景  
+### 背景  
 服务运行不起来，ps aux查看state始终处在 Dl+ 状态  
 查看dmesg或者cat /var/log/messages，发现 **trap invalid opcode** 和 **segfault at**.  查过后，可能是指令集问题。  
 
@@ -19,7 +19,7 @@ toc: true
 
 ![](segment_at.jpg)
 
-## 解释
+### 解释
  
 ip:c14490 sp:7f975324f790 error:0 in xxxx[400000+53a3d000]  
 其中，  
@@ -46,15 +46,15 @@ objdump -D xxxx > obj
 > ref: https://utcc.utoronto.ca/~cks/space/blog/linux/KernelSegfaultMessageMeaning
 
 
-## 贴一下 starkoverflow 上的操作
+### 贴一下 starkoverflow 上的操作
 
-### **If this were a program, not a shared library**
+#### **If this were a program, not a shared library**
 Run `addr2line -e yourSegfaultingProgram c14490` (and repeat for the other instruction pointer valUes given) to see where the error is happening. Better, get a debug-instrumented build, and reproduce the problem under a debugger such as gdb.
 
-### **Since it's a shared library**
+#### **Since it's a shared library**
 You're hosed, unfortunately; it's not possible to know where the libraries were placed in memory by the dynamic linker after-the-fact. Reproduce the problem under gdb.
 
-### What the error means
+#### What the error means
 Here's the breakdown of the fields:  
 - address (after the at) - the location in memory the code is trying to access (it's likely that c14490 are offsets from a pointer we expect to be set to a valid value but which is instead pointing to 0)
 - ip - instruction pointer, ie. where the code which is trying to do this lives (指令指针，即尝试执行此操作的代码所在的位置)
@@ -75,8 +75,8 @@ Here's the breakdown of the fields:
  */
 ```
 
-## 贴另一个blog，更详尽的解释
-### What the Linux kernel's messages about segfaulting programs mean on 64-bit x86
+### 贴另一个blog，更详尽的解释
+#### What the Linux kernel's messages about segfaulting programs mean on 64-bit x86
 
 For quite a while the Linux kernel has had an option to log a kernel message about every faulting user program, and it probably defaults to on in your Linux distribution. I've seen these messages fly by for years, but for reasons beyond the scope of this entry I've recently wanted to understand what they mean in some moderate amount of detail.  
 
@@ -150,7 +150,7 @@ The error code of 14 is in hex, which means that as bits it's 010100. This is a 
 
 For 64-bit x86 Linux kernels (and possibly for 32-bit x86 ones as well), the code you want to look at is show_signal_msg in fault.c, which prints the general 'segfault at ..' message, do_trap and do_general_protection in traps.c, which print the 'trap ...' messages, and print_vma_addr in memory.c, which prints the 'in ...' portion for all of these messages.  
 
-#### Sidebar: The various error code bits as numbers
+##### Sidebar: The various error code bits as numbers
 
 |       |       |
 |-------|-------|

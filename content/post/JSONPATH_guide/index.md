@@ -273,7 +273,7 @@ Predicates # 判断
 ----------
 There are three different ways to create filter predicates in JsonPath.
 
-### Inline Predicates
+#### Inline Predicates
 
 Inline predicates are the ones defined in the path.
 
@@ -287,7 +287,7 @@ You can use `&&` and `||` to combine multiple predicates `[?(@.price < 10 && @.c
  
 You can use `!` to negate a predicate `[?(!(@.price < 10 && @.category == 'fiction'))]`.
 
-### Filter Predicates
+#### Filter Predicates
  
 Predicates can be built using the Filter API as shown below:
 
@@ -322,7 +322,7 @@ Filter fooAndBar = filter(
 );
 ```
 
-### Roll Your Own
+#### Roll Your Own
  
 Third option is to implement your own predicates
  
@@ -370,7 +370,7 @@ String newJson = JsonPath.parse(json).set("$['store']['book'][0]['author']", "Pa
 Tweaking Configuration
 ----------------------
 
-### Options
+#### Options
 When creating your Configuration there are a few option flags that can alter the default behaviour.
 
 **DEFAULT_PATH_LEAF_TO_NULL**
@@ -451,7 +451,7 @@ Configuration conf2 = conf.addOptions(Option.REQUIRE_PROPERTIES);
 List<String> genders = JsonPath.using(conf2).parse(json).read("$[*]['gender']");
 ```
 
-### JsonProvider SPI
+#### JsonProvider SPI
 
 JsonPath is shipped with five different JsonProviders:
 
@@ -490,7 +490,7 @@ Configuration.setDefaults(new Configuration.Defaults() {
 
 Note that the JacksonJsonProvider requires `com.fasterxml.jackson.core:jackson-databind:2.4.5` and the GsonJsonProvider requires `com.google.code.gson:gson:2.3.1` on your classpath. 
 
-### Cache SPI
+#### Cache SPI
 
 In JsonPath 2.1.0 a new Cache SPI was introduced. This allows API consumers to configure path caching in a way that suits their needs. The cache must be configured before it is accesses for the first time or a JsonPathException is thrown. JsonPath ships with two cache implementations
 

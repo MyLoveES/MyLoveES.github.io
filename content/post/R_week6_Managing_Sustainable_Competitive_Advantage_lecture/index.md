@@ -17,7 +17,7 @@ toc: true
 - 了解通过提供创新产品来管理可持续竞争优势（SCA）的重要性
 - 能够进行共同分析以评估新产品/服务的开发
 
-# 1. Innovation Offering
+## Innovation Offering
 
 - 创新的新产品有助于企业建立和维持可持续竞争优势，并阻碍因竞争对手不断对企业的成功做出反应而产生的竞争攻击（MP#3）。
 - 提供是一个有意广泛的术语，涵盖了企业提供的既有形产品又有无形服务。
@@ -28,7 +28,7 @@ toc: true
   - 涉及导致差异化和可持续竞争优势的变化
   - 星巴克、戴尔和iPod创造了可持续竞争优势。
 
-## 1.1 Benefits of Innovation and Offering’s Equity   
+### Benefits of Innovation and Offering’s Equity   
 创新和产品价值的权益
 
 - 提供的权益指的是产品或服务性能为客户提供的核心价值。
@@ -37,7 +37,7 @@ toc: true
 - 新的产品还可以帮助公司获得新客户或进入新市场，尤其是当它们提供类似性能但价格更低时。
 - 提供新的创新产品往往会增强公司的品牌形象，即使客户没有购买新产品。
 
-## 1.2 Stage-Gate Design Review Process for Effective Product Development 
+### Stage-Gate Design Review Process for Effective Product Development 
 阶段门设计审查流程用于有效的产品开发  
 
 1. Concept and Definition   
@@ -49,15 +49,15 @@ toc: true
 4. Final Audit  
 审计阶段包括最终产品和产品评估。通常还包括对一些反思
 
-## 1.3 Research Approaches for Designing and Launching New Offerings 
+### Research Approaches for Designing and Launching New Offerings 
 设计和推出新产品的研究方法  
 
 - 在开发早期，定性技术如观察、焦点小组和客户访谈非常有效；它们能揭示一些重要的新需求，或者是公司不知道的需求。
 - 为了避免新产品高失败率带来的风险，公司可以采用不同的技术来提升决策水平，避免不成功的推出，如共同分析
 
-# 2. Choice-Based Conjoint Analysis
+## Choice-Based Conjoint Analysis
 
-## 2.1 Product design task
+### Product design task
 - 产品可以被看作是属性水平或特征的捆绑。
 - 产品特征为消费者提供价值
 
@@ -68,7 +68,7 @@ toc: true
   - 市场份额
   - 盈利能力
 - 最佳设计是基于对消费者偏好的分析
-## 2.2 conjoint analysis
+### conjoint analysis
 1. 共同分析有助于使新产品“更”成功
   - 产品优势推动财务成功
   - 产品设计需要做出权衡决策（价格、性能、尺寸、位置、功能等）
@@ -82,7 +82,7 @@ toc: true
   - 预测提议的新产品（即属性捆绑）的市场份额和影响
   - 确定客户愿意为新产品支付的金额
 
-## 2.3 Conceptual Underpinnings of Conjoint Analysis 
+### Conceptual Underpinnings of Conjoint Analysis 
 共同分析的概念基础  
 - 消费者在属性水平上的效用不同
 - 产品的效用 = 其属性水平的效用之和
@@ -92,7 +92,7 @@ $$
 - 可以通过消费者对产品配置的评估来测量效用
 - 可以利用效用估计来预测新产品的市场份额
 
-## 2.4 Conjoint Analysis Process
+### Conjoint Analysis Process
 1. 设计研究
   - 选择属性和水平（范围和数量）
   - 制定产品配置（最多不超过16个）
@@ -105,14 +105,14 @@ $$
   - 评估市场模拟
   - 评估不同的选择规则
 
-# 2. Multinomial Logistic Regression (MNL) Model
+## Multinomial Logistic Regression (MNL) Model
 多项逻辑回归（MNL）模型  
 - 每个备选方案对消费者都有一个效用
 - 效用是产品属性的函数
   - 它是对平板电脑吸引力的衡量
 - 在面对选择集时，消费者选择具有最大效用的平板电脑
 
-## 2.1 Every Attribute Level has a Sub-Utility (Part-Worth) 
+### Every Attribute Level has a Sub-Utility (Part-Worth) 
 每个属性水平都有一个子效用（部分效用）  
 - 例如，每个品牌的价值为：
   - Galaxy：$β_{Gal}$
@@ -143,7 +143,7 @@ $$
 
 - **Pr(>|t|)**：表示 $t$ 值对应的 $p$ 值，即检验模型参数的显著性水平。$p$ 值是在原假设成立的情况下观察到的 $t$ 值或更极端情况的概率。如果 $p$ 值小于预先设定的显著性水平（例如 $0.05$），则可以拒绝原假设，认为模型参数是显著的。
 
-## 2.2 Tablet Conjoint (sub) Utilities (β Parameters Estimates)
+### Tablet Conjoint (sub) Utilities (β Parameters Estimates)
 
 平板电脑共同分析效用（β参数估计）  
 - 参考水平用灰色标记
@@ -207,7 +207,7 @@ $$
 
 一个普通消费者愿意支付高达 $124.94 从 1gb 升级到 4gb RAM，保持所有其他属性不变。
 
-# 3. Takeaways
+## Takeaways
 1. 共同分析可以通过帮助管理者根据消费者对各种产品属性的价值来定义最佳产品，从而促进新产品的设计和推出。
 2. 共同分析是行业中最流行的营销分析工具
 3. 共同分析有不同类型

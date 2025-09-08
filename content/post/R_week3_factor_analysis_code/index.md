@@ -14,7 +14,7 @@ toc: true
 > R: 4.3.2 (2023-10-31)
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
-# 1. Brand rating data
+## Brand rating data
 
 ```
 > brand.ratings <- read.csv("Data_Factor_Analysis.csv", stringsAsFactors = TRUE) 
@@ -64,9 +64,9 @@ toc: true
 |trendy|Brand is trendy|
 |rebuy|I would buy from Brand again|
 
-## 1.1 Rescaling the data
+### Rescaling the data
 
-### 标准化
+#### 标准化
 
 ```
 > brand.sc <- brand.ratings
@@ -86,7 +86,7 @@ toc: true
 ```
 We can see the standardized variable has a mean of 0.00.
 
-## 1.2 Correlation
+### Correlation
 Correlations among variables show some variables are highly related to each other and potentially could be combined.
 ```
 > cor(brand.sc[,1:9])
@@ -154,7 +154,7 @@ princomp() 函数返回一个主成分分析结果的对象，该对象包含了
 </div>
 
 ```
-# use the optional argument (order = “hclust”) to order variables for better visualization
+## use the optional argument (order = “hclust”) to order variables for better visualization
 corrplot(cor(brand.sc[,1:9]), order = "hclust")
 ```
 
@@ -162,9 +162,9 @@ corrplot(cor(brand.sc[,1:9]), order = "hclust")
 
 The result shows that some of the ratings are highly related to each other so that they could be represented by common factors.
 
-## 1.3 Mean rating by brand
+### Mean rating by brand
 
-### 1.3.1 aggregate()
+#### aggregate()
 
 ```
 > brand.mean <- aggregate(. ~ brand, data=brand.sc, mean) 
@@ -212,13 +212,13 @@ heatmap.2(as.matrix(brand.mean),main = "Brand attributes", trace = "none", key =
 颜色越浅表示值越高，颜色越深表示值越低。我们可以看到，品牌的感知明显不同，一些品牌在performance、leader方面得分很高(品牌b和c)，而另一些品牌在value和rebuy方面得分很高(品牌f和g)。    
 从相关图和热图图中，我们可以猜测形容词和品牌的分组和关系。例如，bargin/value/rebuy的各栏的颜色模式有相似之处。接下来我们将正式阐述这种见解。
 
-# 2 Principal component analysis (PCA) using princomp()
+## 2 Principal component analysis (PCA) using princomp()
 
 princomp()函数产生未旋转的主成分分析。  
 
 您可以使用原始的个人评分数据brand.sc或聚合的平均评分数据brand.mean。个体受访者评分的图表可能会过于密集，可能无法清楚地告诉我们有关品牌位置的信息！更好的解决方案是使用按品牌聚合的评分执行PCA。  
 
-## 2.1 PCA
+### PCA
 
 ```
 > brand.pc<- princomp(brand.mean, cor = TRUE)
@@ -289,7 +289,7 @@ loadings()函数会返回一个矩阵，其中的行表示原始变量，列表�
 
 </div>
 
-## 2.2 Visualising PCA (perceptual map)
+### Visualising PCA (perceptual map)
 
 biplot()是关于前两个PCA成分的数据点的二维图。它展示了评分形容词之间的关联。对平均评分的PCA解的biplot提供了可解释的感知图，显示了品牌相对于前两个主成分的位置。  
 
@@ -346,7 +346,7 @@ e 1.174513 0.3910396 -0.9372789 -0.9337707 0.5732131 -0.2502787 0.07921355 -0.46
 
 这表明品牌e可以通过增加对性能的重视，同时减少对“最新”和“乐趣”的重视来瞄准这个间隙。
 
-# 3 Factor analysis using factanal() *
+## Factor analysis using factanal() *
 
 factanal()函数执行最大似然因子分析。
 
@@ -383,7 +383,7 @@ factanal()函数返回一个包含因子分析结果的对象，其中包括提�
 
 </div>
 
-## 3.1 Determine the factor number
+### Determine the factor number
 
 首先要确定要估计的因子数量。有各种方法可以做到这一点，其中两种传统方法是使用screen plot，以及保留特征值（用于解释方差比例的指标）大于1.0的因子。特征值为1.0对应于可能归因于单个自变量的方差量；捕获比此类项更少方差的因子可能被认为相对不重要。   
 
@@ -458,7 +458,7 @@ eigen()函数返回一个列表，其中包含了两个元素：
 因子分析可以进行旋转，以具有解释相同方差比例的新载荷。factanal()中的默认设置是找到各因子之间的零相关性（使用varimax旋转）。
 ```
 
-## 3.2 Factor loadings
+### Factor loadings
 
 因子载荷是从载荷值中获得的。
 
@@ -476,7 +476,7 @@ eigen()函数返回一个列表，其中包含了两个元素：
 
 ![](R_week3_factor_loading.png)
 
-## 3.3 Factor scores
+### Factor scores
 
 从factanal()请求因子得分是通过添加"scores = ..."参数实现的。然后，我们可以从生成的对象中提取它们以形成一个新的数据框。
 
@@ -494,13 +494,13 @@ brand.fs <- brand.fa$scores
 
 ![](R_week3_factor_scores.png)
 
-# Recap
+## Recap
 
 总结一下，当希望跨多个维度比较几个品牌时，将注意力集中在解释数据变异的前两个或三个主成分上可能会有所帮助。您可以使用屏幕图选择要关注的主成分数量，该图显示了每个主成分解释数据中的多少变化。感知地图将品牌绘制在前两个主成分上，揭示了观察结果与潜在维度（即成分）的关系。  
 
 PCA可以使用品牌调查评分（如我们在此处所做的）进行，也可以使用价格和物理测量等客观数据，或者二者的组合进行。无论在哪种情况下，当您面对品牌或产品的多维数据时，PCA可视化都是了解市场差异的有用工具。
 
-# Code
+## Code
 
 ```
 library("corrplot")
@@ -530,9 +530,9 @@ brand.mean <- aggregate(. ~ brand, data=brand.sc, mean)
 brand.mean
 
 rownames(brand.mean) <- brand.mean[, 1]
-# Use brand for the row name
+## Use brand for the row name
 brand.mean <- brand.mean [, -1]
-# Remove the brand name column by not selecting the first column # Negative index is used to exclude the variable
+## Remove the brand name column by not selecting the first column # Negative index is used to exclude the variable
 brand.mean
 
 heatmap.2(as.matrix(brand.mean),main = "Brand attributes", trace = "none", key = FALSE, dend = "none") #turn off some options

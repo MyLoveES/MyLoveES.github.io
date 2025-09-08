@@ -10,11 +10,11 @@ tags:
 - "密码管理"
 toc: true
 ---
-# 云服务器安装 bitwarden
+## 云服务器安装 bitwarden
 
-## [官方文档 Install and Deploy - Linux](https://bitwarden.com/help/install-on-premise-linux/#docker-post-installation-linux-only)
+### [官方文档 Install and Deploy - Linux](https://bitwarden.com/help/install-on-premise-linux/#docker-post-installation-linux-only)
 
-## 创建`bitwarden`本地用户和目录（SKIP）
+### 创建`bitwarden`本地用户和目录（SKIP）
 ```
 1. Create a bitwarden user:
 sudo adduser bitwarden
@@ -37,9 +37,9 @@ sudo chmod -R 700 /opt/bitwarden
 7. Set the bitwarden user ownership of the /opt/bitwarden directory:
 sudo chown -R bitwarden:bitwarden /opt/bitwarden
 ```
-## 安装
+### 安装
 
-### 1. Download the Bitwarden installation script (bitwarden.sh) to your machine:
+#### Download the Bitwarden installation script (bitwarden.sh) to your machine:
 ```
 curl -Lso bitwarden.sh https://go.btwrdn.co/bw-sh && chmod 700 bitwarden.sh
 
@@ -65,7 +65,7 @@ https://bitwarden.com, https://github.com/bitwarden
 
 EOF
 
-# Setup
+## Setup
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SCRIPT_NAME=$(basename "$0")
@@ -79,7 +79,7 @@ fi
 SCRIPTS_DIR="$OUTPUT/scripts"
 GITHUB_BASE_URL="https://raw.githubusercontent.com/bitwarden/server/master"
 
-# Please do not create pull requests modifying the version numbers.
+## Please do not create pull requests modifying the version numbers.
 COREVERSION="1.45.2"
 WEBVERSION="2.25.0"
 KEYCONNECTORVERSION="1.0.0"
@@ -90,7 +90,7 @@ docker-compose --version
 
 echo ""
 
-# Functions
+## Functions
 
 function downloadSelf() {
     if curl -s -w "http_code %{http_code}" -o $SCRIPT_PATH.1 $GITHUB_BASE_URL/scripts/bitwarden.sh | grep -q "^http_code 20[0-9]"
@@ -150,7 +150,7 @@ See more at https://bitwarden.com/help/article/install-on-premise/#script-comman
 EOT
 }
 
-# Commands
+## Commands
 
 case $1 in
     "install")
@@ -206,12 +206,12 @@ esac
 
 ```
 
-### 2. Run the installer script. A ./bwdata directory will be created relative to the location of bitwarden.sh.
+#### Run the installer script. A ./bwdata directory will be created relative to the location of bitwarden.sh.
 ```
 ./bitwarden.sh install
 ```
 
-### 3. Complete the prompts in the installer
+#### Complete the prompts in the installer
 - Enter the domain name for your Bitwarden instance:  
 Typically, this value should be the configured DNS record.
 
@@ -235,7 +235,7 @@ Typically, this value should be the configured DNS record.
 
   If you specify n, your instance will not use an SSL certificate and you will be required to front your installation with a HTTPS proxy, or else Bitwarden applications will not function properly.
 
-### 4. Post-Install Configuration
+#### Post-Install Configuration
 
 - Environment Variables
 ```
@@ -258,7 +258,7 @@ After editing `global.override.env`, run the following command to apply your cha
 ./bitwarden.sh restart
 ```
 
-### 5. Installation File
+#### Installation File
 
 The Bitwarden installation script uses settings in `./bwdata/config.yml` to generate the necessary assets for installation. Some installation scenarios (e.g. installations behind a proxy with alternate ports) may require adjustments to `config.yml` that were not provided during standard installation.
 
@@ -268,7 +268,7 @@ Edit `config.yml` as necessary and apply your changes by running:
 ./bitwarden.sh rebuild
 ```
 
-### Start Bitwarden
+#### Start Bitwarden
 
 Once you've completed all previous steps, start your Bitwarden instance:
 
@@ -288,7 +288,7 @@ Congratulations! Bitwarden is now up and running at `https://your.domain.com`. V
 
 You may now register a new account and log in. You will need to have configured `smtp` environment variables (see [Environment Variables](#environment-variable)) in order to verify the email for your new account.
 
-## Script Commands Reference
+### Script Commands Reference
 
 The Bitwarden installation script (`bitwarden.sh` or `bitwarden.ps1`) has the following commands available:
 

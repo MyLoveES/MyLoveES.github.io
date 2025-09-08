@@ -12,7 +12,7 @@ toc: true
 
 ![](funny_compare.png)
 
-# 背景
+## 背景
 
 业务中碰到一个场景，服务需要处理一个Job，分为几个阶段：Pre Do After。实现业务逻辑有两种比较常见的模式:
 
@@ -23,10 +23,10 @@ toc: true
 ![](EventDrivenBack.png)
 
 那这两种模式孰优孰劣？看看前人的见解：
-# EventDriven-oriented or Procedure-oriented
-## Who are they
+## EventDriven-oriented or Procedure-oriented
+### Who are they
 
-### Event Driven
+#### Event Driven
 
 ![](EventDriven-workers.png)
 
@@ -53,7 +53,7 @@ toc: true
 5. 缓冲：利用 Broker 或队列的方式还可以达到把抖动的吞吐量变成均匀的吞吐量，这就是所谓的“削峰”，这对后端系统是个不错的保护
 ```
 
-### Procedure-oriented
+#### Procedure-oriented
 
 ![](Procedure.png)
 
@@ -72,7 +72,7 @@ data in memory
 3. 实时性强，任务从一而终
 ```
 
-## The Duality Mapping
+### The Duality Mapping
 
 ![](MessageEqualsThread.png)
 
@@ -87,7 +87,7 @@ data in memory
 3. 在相同的调度策略下，两类模型的性能可以一样高（根据队列长度、等待时间、处理速度等方面观测）。除此之外，一个模型提供的基本操作可以使其效率和另一个模型一样高。
 ```
 
-### Event Driven: simpler concurrency model
+#### Event Driven: simpler concurrency model
 <details>
 <summary>原文</summary>
 
@@ -114,7 +114,7 @@ Note that if a whole system is built according to this style, then the sole mean
 ``` 
 </details>  
 
-#### 一些概念的定义：  
+##### 一些概念的定义：  
 > Messages: 数据结构，用于进程之间传递信息。  
 > Message identifiers: 消息 id  
 > Message channels: 消息目的地  
@@ -127,7 +127,7 @@ Note that if a whole system is built according to this style, then the sole mean
 
 ![](MessageDefinition.png)
 
-#### 运行公式
+##### 运行公式
 ```
 begin m: messageBody; 
     i: messageld;
@@ -152,7 +152,7 @@ begin m: messageBody;
 end.
 ```
 
-### Procedure-oriented: simpler & natural programming style
+#### Procedure-oriented: simpler & natural programming style
 
 <details>
 <summary>原文</summary>
@@ -182,7 +182,7 @@ If a whole system is built in this style, then the sole means of interaction amo
 ``` 
 </details>  
 
-#### 一些概念的定义
+##### 一些概念的定义
 > Procedure  
 > Procedure call facilities, synchronous and asynchronous   
   -- (asynchronous):   
@@ -196,7 +196,7 @@ If a whole system is built in this style, then the sole means of interaction amo
   -- SIGNAL condition Variable  
   
 
-#### 运行公式
+##### 运行公式
 ```
 ResourceManager: MONITOR =
     C: CONDITION;
@@ -223,7 +223,7 @@ ResourceManager: MONITOR =
 END
 ```
 
-### The Duality Mapping
+#### The Duality Mapping
 
 |          |          |
 |----------|----------|
@@ -242,7 +242,7 @@ END
 ![](DualityMappingCodes.png)
 
 
-#### 番外
+##### 番外
 
 在之后的另一篇文章，Why Events Are A Bad Idea 里面，作者的解释性对比
 |        |        |
@@ -254,7 +254,7 @@ END
 |waiting for messages|waiting on condition variables|
 
 
-### 性能
+#### 性能
 
 1. 程序本身执行时间
 ![](DualityMappingCodes.png)
@@ -278,10 +278,10 @@ Virtual memory and paging or swapping can even be used with equal effectiveness 
 ```
 </details>
 
-## But, who is better ?
+### But, who is better ?
 > ref: [Why Threads Are a Bad Idea](https://www.cc.gatech.edu/classes/AY2010/cs4210_fall/papers/ousterhout-threads.pdf)
 > ref: [Why events are a bad idea](http://capriccio.cs.berkeley.edu/pubs/threads-hotos-2003.pdf)
 
 
-# Ref
+## Ref
 > ref: [On the Duality of Operating System Structures](https://courses.cs.vt.edu/~cs5204/fall07-gback/papers/p3-lauer.pdf)

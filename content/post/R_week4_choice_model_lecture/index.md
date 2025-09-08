@@ -19,7 +19,7 @@ toc: true
 - **使用分析工具**：这部分提到了使用选择模型和客户生命周期价值分析等分析工具来支持上述方法的实施。
 
 
-# 1. Customer Dynamics
+## Customer Dynamics
 
 客户对大多数产品和服务的需求随时间变化或由于特定事件而变化。
 
@@ -28,7 +28,7 @@ toc: true
 
 因此，客户动态是所有企业在制定有效营销策略时必须解决的基本“问题”。客户会发生变化；如果不能理解和解决这些动态，就会导致业务绩效不佳。
 
-### 1.1 生命周期方法
+#### 生命周期方法
 
 使用通用的客户成长阶段及其在生命周期中的位置来确定客户偏好和相关策略。  
 - Customer lifecycle  
@@ -44,7 +44,7 @@ toc: true
 - 忽略客户动态的原因。
 - 仅适用于以离散阶段进行划分的情况，不适用于连续变化的情况。
 
-### 1.2 动态客户细分
+#### 动态客户细分
 
 根据客户类似的获取、拓展和保留阶段对公司现有客户进行分段。  
 
@@ -59,7 +59,7 @@ toc: true
 - 细分可能不是完全同质的。
 - 无法精确匹配所有客户的特点。
 
-### 1.3 客户生命周期价值
+#### 客户生命周期价值
 
 捕捉客户根据其预期迁移路径在整个与公司的生命周期中的贡献。  
 
@@ -76,7 +76,7 @@ toc: true
 - 忽略了动态和异质性。
 
 
-# 2. Choice Model
+## Choice Model
 
 Choice Model 试图确定不同因素（价格、促销）对消费者个体选择（加入、交叉购买、离开）的影响。它是最流行的个体级响应模型。  
 1. 输入：  
@@ -88,7 +88,7 @@ Choice Model 试图确定不同因素（价格、促销）对消费者个体选�
 • 因变量：
     - 购买（是/否）
 
-## 2.1 **Generalised linear models (GLM)** 广义线性模型
+### **Generalised linear models (GLM)** 广义线性模型
 
 是一种统计模型，可以用于分析具有非正态误差结构的数据，例如二项分布、泊松分布等。GLM 是线性模型的一种扩展，它允许因变量和自变量之间的关系不是线性的，同时也不要求因变量服从正态分布。
 
@@ -98,7 +98,7 @@ Choice Model 试图确定不同因素（价格、促销）对消费者个体选�
 
 3. **Multinomial logistic regression**：多项式逻辑回归，是逻辑回归的一种扩展，适用于因变量有多个类别的情况。与二元逻辑回归不同，多项式逻辑回归可以处理多类别的因变量，并提供各类别的概率。
 
-## 2.2 Binary choice: logistic regression
+### Binary choice: logistic regression
 
 - **Response to marketing efforts**：营销活动的反应。指客户在接收到营销活动后的反应，比如使用优惠券或电子邮件广告后是否购买了产品。
   - **Did the customer buy after being sent a coupon or an email ad?**：客户在收到优惠券或电子邮件广告后是否购买了产品。
@@ -118,7 +118,7 @@ Choice Model 试图确定不同因素（价格、促销）对消费者个体选�
 
 5. **Then using this regression model, we can predict the money spend given a frequency**：然后，使用这个回归模型，我们可以根据给定的频率来预测花费。
 
-### 2.2.1 公式
+#### 公式
 
 > odd：购买概率 / 不购买的概率
 $$
@@ -144,7 +144,7 @@ $$
 \log(\text{odds}) = \beta_1 \text{frequency} + \beta_0
 $$
 
-### 2.2.2 Odds and Choice Probability
+#### Odds and Choice Probability
 
 > Utility
 
@@ -190,9 +190,9 @@ $$
   
 - Logistic回归使用数据来估计模型参数（β系数）。
 
-# 3. Example
+## Example
 
-## 3.1 数据
+### 数据
 
 - 因变量：
     - 购买（是/否）
@@ -204,7 +204,7 @@ $$
 
 ![](week4_lec_1.png)
 
-## 3.2 logistic output
+### logistic output
 
 ![](week4_lec_2.png)
 
@@ -240,7 +240,7 @@ $$ V = -30.29 + 0.111 \times \text{Recency} + 0.594 \times \text{Frequency} + 0.
 - 预测购买概率为：
 $$ p = \frac{\exp(V)}{\exp(V) + 1} $$
 
-## 3.3 Lift Calculation
+### Lift Calculation
 
 - 增加1美元购买金额对购买概率的影响：
 - 计算购买新的效用值：
@@ -253,11 +253,11 @@ $$ \text{Lift}_{\text{new}} = \frac{\exp(V_{\text{new}})}{\exp(V_{\text{base}}) 
 
 ![](week4_lec_4.png)
 
-## 3.4 Classification
+### Classification
 
 ![](week4_lec_5.png)
 
-## 3.5 Classification (Hit Rate)
+### Classification (Hit Rate)
 
 ![](week4_lec_6.png)
 
@@ -277,7 +277,7 @@ $$ \text{Lift}_{\text{new}} = \frac{\exp(V_{\text{new}})}{\exp(V_{\text{base}}) 
 
 这些指标通常用于评估二分类模型（正类和负类）。在实际应用中，选择哪个指标取决于具体的业务需求和分类任务的重要性。  
 
-# 4. ROC (Receiver Operating Characteristic) Curve
+## ROC (Receiver Operating Characteristic) Curve
 
 
 这些是用于解释ROC曲线的AUC（曲线下面积）值的常见阈值：
@@ -291,7 +291,7 @@ ROC曲线是衡量二分类模型性能的重要工具，AUC值是ROC曲线下�
 
 ![](week4_lec_7.png)
 
-# 5. Dynamic Segmentation
+## Dynamic Segmentation
 
 根据概率尺度从高到低对客户进行排名。针对以下客户：
 
@@ -300,7 +300,7 @@ ROC曲线是衡量二分类模型性能的重要工具，AUC值是ROC曲线下�
 - 概率低于某个阈值的客户（即将“失去”的客户，营销仪表板）
 - 这些方法可以帮助公司根据客户的概率分数进行优先级排序，并根据业务需求采取相应的行动。
 
-# 6. Takeaway
+## Takeaway
 
 选择模型是一种数学模型，用于预测观察到的客户选择的可能性，其受到公司营销的影响。选择建模在市场研究中非常普遍，用于理解各种消费者决策。  
 

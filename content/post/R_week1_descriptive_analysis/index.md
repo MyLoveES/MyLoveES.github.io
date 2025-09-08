@@ -19,14 +19,14 @@ math: true
 
 > install and import libraries
 ```
-# install.packages ("readxl")
-# install.packages ("psych")
-# install.packages ("car")
-# install.packages ("gpairs")
-# install.packages ("grid")
-# install.packages ("lattice")
-# install.packages ("corrplot")
-# install.packages ("gplots")
+## install.packages ("readxl")
+## install.packages ("psych")
+## install.packages ("car")
+## install.packages ("gpairs")
+## install.packages ("grid")
+## install.packages ("lattice")
+## install.packages ("corrplot")
+## install.packages ("gplots")
 
 library("readxl")
 library("psych")
@@ -38,12 +38,12 @@ library("corrplot")
 library("gplots")
 ```
 
-# 一、Data
+## 一、Data
 
-## 1. vectors
+### vectors
 
 ```
-# 导入数据
+## 导入数据
 > store.df <- read.csv("Data_Descriptive.csv", stringsAsFactors=TRUE) 
 > str(store.df)
 'data.frame':	2080 obs. of  10 variables:
@@ -58,12 +58,12 @@ library("gplots")
  $ p2prom  : int  0 0 0 0 1 0 0 0 0 0 ...
  $ country : Factor w/ 7 levels "AU","BR","CN",..: 7 7 7 7 7 7 7 7 7 7 ...
 
-# 从上面结果可以看出，csv中一共有2080个观察值（行），10个变量（列）。
-# 其中country是factor类型的，一共有7个level。
+## 从上面结果可以看出，csv中一共有2080个观察值（行），10个变量（列）。
+## 其中country是factor类型的，一共有7个level。
 ```
 
-## 2. Summarize a single variable
-### 2.1 Discrete variables
+### Summarize a single variable
+#### Discrete variables
 ```
 > table(store.df$p1price)
 2.19 2.29 2.49 2.79 2.99 
@@ -78,7 +78,7 @@ library("gplots")
 +   age_group = c("Young", "Young", "Old", "Young", "Old", "Young", "Old", "Old", "Young", "Young")
 + )
 
-# 创建多维频数表
+## 创建多维频数表
 > table(df$gender, df$age_group)
 
        Young Old
@@ -107,13 +107,13 @@ Male       4   1
 2.19 2.29 2.49 2.79 2.99 
  395  444  423  443  375
 
-# talbe()返回的是一个table类型的结果
+## talbe()返回的是一个table类型的结果
 > str(p1.table)
  'table' int [1:5(1d)] 395 444 423 443 375
  - attr(*, "dimnames")=List of 1
   ..$ : chr [1:5] "2.19" "2.29" "2.49" "2.79" ...
 
-# 转为图
+## 转为图
 > plot(p1.table)
 ```
 
@@ -124,7 +124,7 @@ Male       4   1
 > 用于创建各种类型的图形的基本函数之一。它可以用于绘制散点图、线图、柱状图、箱线图等等。后面会有更多的用法，就不在此处列举了。    
 > plot()会自适应地采用一种图表来展示数据，但我们同样可以根据需要调整。
 ```
-# 二维table，获取每个价位上的促销频数
+## 二维table，获取每个价位上的促销频数
 > table(store.df$p1price, store.df$p1prom)
       
          0   1
@@ -134,7 +134,7 @@ Male       4   1
   2.79 396  47
   2.99 343  32
 
-# 计算product 1在每个price上的促销比例[prod1/(prod1+prod2)]
+## 计算product 1在每个price上的促销比例[prod1/(prod1+prod2)]
 > p1.table2 <- table(store.df$p1price, store.df$p1prom) 
 
 > p1.table2[ ,2] / (p1.table2[ ,1] + p1.table2[ ,2])
@@ -142,7 +142,7 @@ Male       4   1
 0.10379747 0.10360360 0.09929078 0.10609481 0.08533333
 ```
 
-### 2.2 Continuous variables
+#### Continuous variables
 
 > 注⚠️：Continuous variables VS Discrete variable    
 
@@ -181,19 +181,19 @@ Male       4   1
 
 <div style="background-color:#f0f0f0; padding:10px;">
 
-### IQR（Interquartile Range）：
+#### IQR（Interquartile Range）：
 
 > **定义**：IQR是数据集中第三四分位数（Q3）和第一四分位数（Q1）之间的距离。            
 > **计算方法**：IQR = Q3 - Q1，其中Q3是数据集中75th百分位数，Q1是数据集中25th百分位数。   
 > **用途**：IQR通常用于识别数据中的离群值，因为它提供了数据中间50%的范围，并且对于偏斜分布的数据比标准差更鲁棒。   
 
-### MAD（Median Absolute Deviation）：
+#### MAD（Median Absolute Deviation）：
 
 > **定义**：MAD是数据点与数据集中位数的绝对偏差的中位数。    
 > **计算方法**：首先计算每个数据点与数据集中位数的绝对偏差，然后取这些绝对偏差的中位数。   
 > **用途**：MAD也用于度量数据的离散程度，并且在处理离群值时更具有鲁棒性，因为它不受极端值的影响，类似于IQR。    
 
-### IQR 和 MAD 相比：
+#### IQR 和 MAD 相比：
 
 > **计算方法**：IQR是基于四分位数计算的，而MAD是基于中位数计算的。
 > **鲁棒性**：IQR和MAD都是鲁棒的统计量，对异常值的影响较小，但在某些情况下，MAD可能更为鲁棒，特别是当数据集包含大量离群值时。
@@ -210,13 +210,13 @@ Male       4   1
 
 > 返回值：返回一个包含计算得到的分位数的向量，其顺序与 probs 中指定的顺序相对应。    
 ```
-# 创建一个示例数据集
+## 创建一个示例数据集
 > data <- c(10, 15, 20, 25, 30, 35, 40, 45, 50)
 
-# 计算第一四分位数、中位数、第三四分位数
+## 计算第一四分位数、中位数、第三四分位数
 > quantiles <- quantile(data, probs = c(0.25, 0.5, 0.75))
 
-# 打印结果
+## 打印结果
 > print(quantiles)
 25% 50% 75% 
  20  30  40
@@ -298,9 +298,9 @@ mysummary.df["Product 2", "IQR"] <- IQR(store.df$p2sales)
 mysummary.df
 ```
 
-## 3 Summarize data frames
+### Summarize data frames
 
-### 3.1 summary()
+#### summary()
 
 有事没事，summary一下
 ```
@@ -333,15 +333,15 @@ mysummary.df
 
 > 在统计学中，"1st Qu" 和 "3rd Qu" 分别代表第一四分位数和第三四分位数。四分位数是将数据集分为四等份的值，它们用于描述数据分布的位置和分散程度。
 
-### **第一四分位数（1st Qu）**
+#### **第一四分位数（1st Qu）**
 > 是数据集中所有数值排序后第25%位置的值，也就是数据中的较小的四分之一。
 
-### **第三四分位数（3rd Qu）**
+#### **第三四分位数（3rd Qu）**
 > 是数据集中所有数值排序后第75%位置的值，也就是数据中的较大的四分之三。
 
 </div>
 
-## 3.2 describe()
+### describe()
 
 ```
 > library(psych) # install if needed 
@@ -359,19 +359,19 @@ p1prom      8 2080   0.10  0.30   0.00    0.00  0.00   0.00   1.00   1.0  2.66  
 p2prom      9 2080   0.14  0.35   0.00    0.05  0.00   0.00   1.00   1.0  2.09     2.38 0.01
 country*   10 2080   4.55  1.72   4.50    4.62  2.22   1.00   7.00   6.0 -0.29    -0.81 0.04
 
-# vars: 方差
-# n: 观测数量（样本数量）
-# mean: 均值
-# sd: 标准差
-# median: 中位数
-# trimmed: 修剪均值（去除异常值后的均值）
-# mad: 中位数绝对偏差（Median Absolute Deviation）
-# min: 最小值
-# max: 最大值
-# range: 范围（最大值与最小值的差）
-# skew: 偏度（Skewness，衡量分布偏斜程度）
-# kurtosis: 峰度（Kurtosis，衡量分布的尖峰程度）
-# se: 标准误差（Standard Error，均值的估计标准差）
+## vars: 方差
+## n: 观测数量（样本数量）
+## mean: 均值
+## sd: 标准差
+## median: 中位数
+## trimmed: 修剪均值（去除异常值后的均值）
+## mad: 中位数绝对偏差（Median Absolute Deviation）
+## min: 最小值
+## max: 最大值
+## range: 范围（最大值与最小值的差）
+## skew: 偏度（Skewness，衡量分布偏斜程度）
+## kurtosis: 峰度（Kurtosis，衡量分布的尖峰程度）
+## se: 标准误差（Standard Error，均值的估计标准差）
 
 > describe(store.df[,c(2, 4:9)])
         vars    n   mean    sd median trimmed   mad   min    max range skew kurtosis   se
@@ -384,7 +384,7 @@ p1prom     6 2080   0.10  0.30   0.00    0.00  0.00  0.00   1.00   1.0 2.66     
 p2prom     7 2080   0.14  0.35   0.00    0.05  0.00  0.00   1.00   1.0 2.09     2.38 0.01
 ```
 
-#### trimmed
+##### trimmed
 
 > trimmed 是指去除了数据中一定比例的极端值（通常是尾部的极端值）后计算得到的均值。修剪均值（trimmed mean）是一种对均值的修正，旨在减少极端值对均值的影响，从而更好地反映数据的中心趋势。    
 
@@ -392,7 +392,7 @@ p2prom     7 2080   0.14  0.35   0.00    0.05  0.00  0.00   1.00   1.0 2.09     
 
 > 修剪均值适用于数据集中存在明显的极端值或异常值的情况。与简单的算术平均值相比，修剪均值更加稳健，因为它对异常值的影响更小，更能够反映数据的典型中心位置。然而，需要注意的是，修剪均值可能会导致一定程度上的信息损失，尤其是当数据中的极端值具有特殊意义或重要性时。    
 
-#### mad
+##### mad
 
 > MAD（Median Absolute Deviation，中位数绝对偏差）是一种用于衡量数据集散布度的统计量，它衡量了数据点与数据集中位数之间的典型偏差。    
 
@@ -402,7 +402,7 @@ p2prom     7 2080   0.14  0.35   0.00    0.05  0.00  0.00   1.00   1.0 2.09     
 
 > MAD常用于金融领域和其他领域的数据分析中，特别是在需要考虑数据的异常值对结果的影响时。   
 
-#### Skewness（偏度）  
+##### Skewness（偏度）  
 
 > 是描述数据分布形态偏斜程度的统计量。它衡量了数据分布相对于其平均值的不对称性，即数据集在平均值两侧的分布是否对称。   
 
@@ -430,7 +430,7 @@ p2prom     7 2080   0.14  0.35   0.00    0.05  0.00  0.00   1.00   1.0 2.09     
 对称化处理的目的是使数据更符合统计模型的假设，例如线性模型对数据的正态性假设。通过对数据进行对称化处理，可以提高统计分析的准确性和稳健性，并提高模型的拟合效果。
 ```
 
-#### Kurtosis（峰度）
+##### Kurtosis（峰度）
 
 > 是描述数据分布峰态（尖峰程度）的统计量。它衡量了数据分布中数据点在均值附近聚集的程度，即数据集的尖峰度。    
 
@@ -441,7 +441,7 @@ p2prom     7 2080   0.14  0.35   0.00    0.05  0.00  0.00   1.00   1.0 2.09     
 > 正常的峰度为3。大于3的峰度表示分布尖峭（尖峰），而小于3的峰度表示分布平缓（扁平）。与偏度一样，峰度也是了解数据分布形态的重要指标，特别是在建模时需要考虑数据集的峰态特征。    
 
 
-#### se
+##### se
 
 > se 代表的是标准误差（Standard Error）。标准误差是对样本统计量的抽样分布的离散程度进行估计的一种度量，用于衡量样本统计量与总体参数之间的差异。    
 
@@ -449,7 +449,7 @@ p2prom     7 2080   0.14  0.35   0.00    0.05  0.00  0.00   1.00   1.0 2.09     
 
 > 标准误差的应用非常广泛，特别是在统计推断和假设检验中，它常用于计算置信区间、假设检验的统计量（如 t 统计量、z 统计量）  
 
-## 检查数据集的通用方法
+### 检查数据集的通用方法
 
 1. read.csv 读取数据    
 2. 转换为data frame，给定合适的名称
@@ -537,7 +537,7 @@ p2prom      9 2080   0.14  0.35   0.00    0.05  0.00   0.00   1.00   1.0  2.09  
 country*   10 2080   4.55  1.72   4.50    4.62  2.22   1.00   7.00   6.0 -0.29    -0.81 0.04
 ```
 
-#### 番外 Trimmmed And Skewed
+##### 番外 Trimmmed And Skewed
 
 > **Trimmed**  
 
@@ -574,14 +574,14 @@ $$
 在R语言中，我们可以使用 `psych` 包中的 `describe()` 函数来计算数据集的偏度。让我们来进行计算：   
 
 ```R
-# 安装并加载 psych 包
+## 安装并加载 psych 包
 install.packages("psych")
 library(psych)
 
-# 创建数据集
+## 创建数据集
 data <- c(2, 3, 4, 5, 6, 7, 8, 9, 10, 100)
 
-# 计算数据集的偏度
+## 计算数据集的偏度
 describe(data)$skew
 ```
 
@@ -590,7 +590,7 @@ describe(data)$skew
 现在，我们剔除极端值100，并重新计算数据集的偏度：   
 
 ```R
-# 剔除极端值并重新计算偏度
+## 剔除极端值并重新计算偏度
 trimmed_data <- data[data < 100]
 describe(trimmed_data)$skew
 ```
@@ -600,7 +600,7 @@ describe(trimmed_data)$skew
 因此，通过计算修剪均值和观察数据集的偏度，我们可以更好地理解极端值对数据分布的影响，以及修剪均值对于改善数据分布的偏斜性的作用。   
 
 
-## 3.3 apply()
+### apply()
 
 ```
 apply(x = DATA, MARGIN = MARGIN, FUN = FUNCTION)
@@ -641,9 +641,9 @@ apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)
  0.5001202 15.0119401 28.3725990 24.4241905  0.2948819  0.3292181  0.3000721  0.3454668
 ```
 
-## 4. Single variable visualisation
+### Single variable visualisation
 
-### 4.1 Histograms 柱状图
+#### Histograms 柱状图
 
 > hist()
 
@@ -654,7 +654,7 @@ hist(store.df$p1sales)
 ![](hist1.png)
 
 ```
-# 添加标题、x轴y轴说明
+## 添加标题、x轴y轴说明
 hist(store.df$p1sales,
      main = "Product 1 Weekly Sales Frequencies, All Stores", 
      xlab = "Product 1 Sales (Units)",
@@ -741,7 +741,7 @@ $$
 > axis()
 
 ```
-# side=1 x轴; side=2 y轴; at=sqp() 修改间隔
+## side=1 x轴; side=2 y轴; at=sqp() 修改间隔
 axis(side = 1, at=seq(60, 300, by=20)) # add "60", "80", ...
 ```
 
@@ -782,16 +782,16 @@ lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing
 ```
 ![](hist7.png)
 
-# 二、week1 code
+## 二、week1 code
 ```
-# install.packages ("readxl")
-# install.packages ("psych")
-# install.packages ("car")
-# install.packages ("gpairs")
-# install.packages ("grid")
-# install.packages ("lattice")
-# install.packages ("corrplot")
-# install.packages ("gplots")
+## install.packages ("readxl")
+## install.packages ("psych")
+## install.packages ("car")
+## install.packages ("gpairs")
+## install.packages ("grid")
+## install.packages ("lattice")
+## install.packages ("corrplot")
+## install.packages ("gplots")
 
 library("readxl")
 library("psych")
@@ -802,10 +802,10 @@ library("lattice")
 library("corrplot")
 library("gplots")
 
-# 获取当前已加载文件的目录
+## 获取当前已加载文件的目录
 file_dir <- dirname(parent.frame(2)$ofile)
 print(file_dir)
-# 将工作目录设置为当前已加载文件的目录
+## 将工作目录设置为当前已加载文件的目录
 setwd(file_dir)
 
 store.df <- read.csv("Data_Descriptive.csv", stringsAsFactors=TRUE)
@@ -874,7 +874,7 @@ apply(store.df[ , 2:9], 2, sd)
 
 hist(store.df$p1sales)
 
-# 添加标题、x轴y轴说明
+## 添加标题、x轴y轴说明
 hist(store.df$p1sales,
      main = "Product 1 Weekly Sales Frequencies, All Stores", 
      xlab = "Product 1 Sales (Units)",
@@ -907,7 +907,7 @@ hist(store.df$p1sales,
      xaxt="n" # means x-axis tick mark is set to "none"
 )
 
-# side=1 x轴; side=2 y轴; at=sqp() 修改间隔
+## side=1 x轴; side=2 y轴; at=sqp() 修改间隔
 axis(side = 1, at=seq(60, 300, by=20)) # add "60", "80", ...
 
 lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing

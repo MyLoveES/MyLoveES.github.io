@@ -8,9 +8,9 @@ tags:
 - "背包问题"
 toc: true
 ---
-# 多重 背包问题
+## 多重 背包问题
 
-## 1. 多重背包
+### 多重背包
 
 > 有N种物品和一个容量为T的背包，第i种物品最多有M[i]件可用，价值为P[i]，体积为V[i]，求解：选哪些物品放入背包，可以使得这些物品的价值最大，并且体积总和不超过背包容量。
 
@@ -18,9 +18,9 @@ toc: true
 
 ![](package_multi_init.png)
 
-## 2. 解决
+### 解决
 
-### 分治
+#### 分治
 
 
 > 递推公式：  
@@ -55,9 +55,9 @@ public int cal(int[] m int[] w, int[] v, int i, int j) {
 }
 ```
 
-### 动态规划
+#### 动态规划
 
-#### **递归**
+##### **递归**
 
 ```java
 public int solution(int[] m, int[] w, int[] v, int c) {
@@ -84,7 +84,7 @@ public int cal(int[] m, int[] w, int[] v, int[][] result, int i, int j) {
 }
 ```
 
-#### **迭代**
+##### **迭代**
 
 ```java
 public int solution(int[] m, int[] w, int[] v, int c) {
@@ -101,7 +101,7 @@ public int solution(int[] m, int[] w, int[] v, int c) {
 }
 ```
 
-#### **空间优化**
+##### **空间优化**
 ```java
 public int solution(int w[], int v[], int c) {
   // 初始化为 r = 0 / r[0] = 0

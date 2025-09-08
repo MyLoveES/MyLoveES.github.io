@@ -11,7 +11,7 @@ toc: true
 
 ![](gateway.png)
 
-## What & Why
+### What & Why
 - Single entry point for all clients (面向客户端的单一入口)  
 - Common in microservice architectures （微服务需要业务聚合）  
 - Client insulation from services （客户端和服务隔离）  
@@ -33,14 +33,14 @@ toc: true
 
 ![](backendforfrontend.png)     
 
-## Aspects to be considered
+### Aspects to be considered
 - Develepment（Programming Language）  
 - Community activity
 - Performance
 - Stability
 - Update 
 
-## SOME GATEWAY(By programming language)
+### SOME GATEWAY(By programming language)
 - Nginx+Lua：Open Resty、Kong、Orange、Abtesting Gateway等；  
 - Java：Zuul/Zuul 2、Spring Cloud Gateway、Kaazing KWG、gravitee、Dromara soul等；  
 - Go：Janus、fagongzi、Grpc-Gateway；  
@@ -49,7 +49,7 @@ toc: true
 
 使用范围、成熟度、活跃度等，主流有：Kong、Zuul/Zuul 2、Spring Cloud Gateway、apisix
 
-### Nginx 
+#### Nginx 
 Nginx 更偏向于作为流量网关。成熟，性能好，稳定。
 但致命弱点是，不便于自定义开发（有一部分是开发语言的原因），需要 +Lua (例如下面的 OpenResty / Kong / Apisix)。
 
@@ -59,14 +59,14 @@ Nginx 更偏向于作为流量网关。成熟，性能好，稳定。
 Nginx 在启动后，会有一个 Master 进程和多个 Worker 进程，Master 进程和 Worker 进程之间是通过进程间通信进行交互的，如图所示。Worker 工作进程的阻塞点是在像 select()、epoll_wait() 等这样的 I/O 多路复用函数调用处，以等待发生数据可读 / 写事件。Nginx 采用了异步非阻塞的方式来处理请求，也就是说，Nginx 是可以同时处理成千上万个请求的。
 ```
 
-### OpenResty（Nginx + Lua）
+#### OpenResty（Nginx + Lua）
 OpenResty nginx + Lua动态扩展。目前已经有基于Open Resty产生的gateway，例如 Kong，APISIX等。
 
 ```
 还可以将 Lua 嵌入到 Nginx 中，从而可以使用 Lua 来编写脚本，这样就可以使用 Lua 编写应用脚本，部署到 Nginx 中运行，即 Nginx 变成了一个 Web 容器；这样开发人员就可以使用 Lua 语言开发高性能Web应用了。在开发的时候使用 OpenResty 来搭建开发环境，OpenResty 将 Nginx 核心、LuaJIT、许多有用的 Lua 库和 Nginx 第三方模块打包在一起；这样只需要安装 OpenResty，不需要了解 Nginx 核心和写复杂的 C/C++ 模块就可以，只需要使用 Lua 语言进行 Web 应用开发了。
 ```
 
-### APISIX（Nginx + etcd）
+#### APISIX（Nginx + etcd）
 - Develepment（Programming Language）: N
 - Community activity: Y
 - Performance: Y
@@ -79,7 +79,7 @@ APISIX的性能更好，功能也更加丰富。
 但APISIX很年轻，或许需要更多的“检验”，开发语言的差别也会增加问题排查、处理的代价。  
 (可以尝试)  
 
-### Kong（Nginx + postgres）
+#### Kong（Nginx + postgres）
 - Develepment（Programming Language）: Y
 - Community activity: Y
 - Performance: N (compared with apisix)
@@ -93,7 +93,7 @@ Kong和APISIX相比较而言，从性能、功能丰富度方面 都处于下风
   
 ![](Kong2.png)   
 
-### Zuul (Java)
+#### Zuul (Java)
 Zuul-动态路由、监控、弹性和安全。基于Servlet，属于上一代产品，同步I/O、多线程。性能不好，针对于Zuul的替代方案已经有 Zuul2 以及 Spring Gateway 两类。因此Zuul不予考虑。
 
 ![](zuul-lifecycle.png)
@@ -103,11 +103,11 @@ Zuul-动态路由、监控、弹性和安全。基于Servlet，属于上一代�
 > SimpleHostRoutingFilter  
 > SendResponseFilter  
 > SendErrorFilter  
-#### PROBLEMS?  
+##### PROBLEMS?  
 > Large coupled filters 
 > Filter model/API is clunky
 
-### Zuul2 (Java)
+#### Zuul2 (Java)
 - Develepment（Programming Language）: N
 - Community activity: Y
 - Performance: Y
@@ -125,7 +125,7 @@ Zuul-动态路由、监控、弹性和安全。基于Servlet，属于上一代�
 > HTTP/2 and Websockets in the future  
 > Reinvents many things from Spring  
 
-### Spring Cloud Gateway (Java)
+#### Spring Cloud Gateway (Java)
 - Develepment（Programming Language）: Y
 - Community activity: Y
 - Performance: Y
@@ -133,7 +133,7 @@ Zuul-动态路由、监控、弹性和安全。基于Servlet，属于上一代�
 - Update: Y
 
 Java 8、Spring 5.0、Spring Boot 2.0、Reactor -> Spring family
-#### Spring Cloud紧密配合  
+##### Spring Cloud紧密配合  
 目前使用了nacos作为配置中心，可以和 gateway 搭配。
 
 > Java 8/Spring 5/Boot 2
@@ -144,7 +144,7 @@ Java 8、Spring 5.0、Spring Boot 2.0、Reactor -> Spring family
 Spring Cloud Gateway里明确地区分了Router和Filter，内置了非常多的开箱即用功能，并且都可以通过Spring Boot配置或手工编码链式调用来使用。  
 内置了10种Router，直接配置就可以随心所欲地根据Header、Path、Host或Query来做路由。  
 
-##### 核心特性：  
+###### 核心特性：  
 - 通过请求参数匹配路由；  
 - 通过断言和过滤器实现路由；
 - 与Hystrix熔断集成；
@@ -153,9 +153,9 @@ Spring Cloud Gateway里明确地区分了Router和Filter，内置了非常多的
 - 请求限流；
 - 路径重写。
 
-## Compare
+### Compare
 
-### **Zuul vs Zuul2 (Difference between sync and async): Zuul2 Win!**
+#### **Zuul vs Zuul2 (Difference between sync and async): Zuul2 Win!**
 - **Zuul(block) disadvantages**
 - *Zuul 1* was built on the Servlet framework 
 - Blocking and mltithreaded, means they process requests by using one thread per connection.
@@ -180,10 +180,10 @@ The advantages of async systems sound glorious, but the above benefits come at a
 Async, by contrast, is callback based and driven by an event loop. The event loop’s stack trace is meaningless when trying to follow a request. It is difficult to follow a request as events and callbacks are processed, and the tools to help with debugging this are sorely lacking in this area. Edge cases, unhandled exceptions, and incorrectly handled state changes create dangling resources resulting in ByteBuf leaks, file descriptor leaks, lost responses, etc. These types of issues have proven to be quite difficult to debug because it is difficult to know which event wasn’t handled properly or cleaned up appropriately.
 ```
 
-### **Kong vs APISIX**
+#### **Kong vs APISIX**
 ![](Kong_vs_APISIX.png)
 
-### **Spring Cloud Gateway vs Zuul2 vs OpenResty vs Kong**
+#### **Spring Cloud Gateway vs Zuul2 vs OpenResty vs Kong**
 |网关|限流|鉴权|监控|易用性|可维护性|成熟度|
 |---|---|----|----|-----|-------|-----|
 |Spring Cloud Gateway|IP、用户、集群限流，提供相应接口扩展|普通鉴权、OAuth2.0|Gateway Metrics Filter|简单|Spring全家桶成员、扩展性强、易配置、易维护|成熟|
@@ -191,27 +191,27 @@ Async, by contrast, is callback based and driven by an event loop. The event loo
 |OpenResty|Lua|Lua|需要开发|简单易用，但需要Lua开发|可维护性差|成熟|
 |Kong|根据时间、用户限流。可在源码基础上开发http://coding.idealworld.group/2021/05/26/reflections-of-middle-platform-api-gateway-selection/|普通鉴权、OAuth2.0、Key Auth、HMAC|上报datadog，记录请求数量、数据量、应答数据量、接收发送时间间隔、状态码数量、Kong内耗时|简单易用，API转发通过管理接口配置。需要Lua开发|维护需要Lua|成熟|
 
-## Finally
-### Kong
+### Finally
+#### Kong
 1. nginx + lua，开发不友好
 2. 仅支持PostgreSQL，增加运维成本，单点数据库  
 3. 在不修改源码的情况下，无法自定义Nginx配置文件，重启后重新初始化所有变更的Nginx配置文件  
 
-### Apisix
+#### Apisix
 1. nginx + lua，开发不友好
 2. 待检验
 
-### Zuul
+#### Zuul
 1. 性能差，已有替代品
 
-### Zuul2
+#### Zuul2
 1. 性能好，但 Sprintg Cloud 没有兼容计划，与目前使用的技术栈结合的不是很好
 2. 还不太稳定
-### Spring Cloud Gateway
+#### Spring Cloud Gateway
 1. 性能比较好（not best）
-## 结论
+### 结论
 综合比较下来，Spring Cloud Gateway 性能好，也比较成熟稳定，并且是Spring全家桶成员，和当前项目是用的技术栈更匹配。)
-## Ref
+### Ref
 > ref: [The author of spring cloud gateway's PPT](https://spencergibb.netlify.app/preso/detroit-cf-api-gateway-2017-03/#/)   
 > ref: [What is api gateway](https://microservices.io/patterns/apigateway.html)   
 > ref: [Netflix blog: Zuul2](https://netflixtechblog.com/zuul-2-the-netflix-journey-to-asynchronous-non-blocking-systems-45947377fb5c)  

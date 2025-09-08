@@ -10,24 +10,24 @@ tags:
 - "设计模式"
 toc: true
 ---
-# 如何在数据库中存储层次结构
+## 如何在数据库中存储层次结构
 
-## 常见场景
+### 常见场景
 
 1. 公司：公司 - 部门 - 子部门 
 2. 人员：领导 - 员工 
 3. 文件：根目录 - 文件夹 - 文件
 4. 关系：group - child
 
-## 实例
+### 实例
 
 ![](CASE.png)
 
-## 转成树型
+### 转成树型
 
 ![](CASE_TREE.png)
 
-## 回头看
+### 回头看
 
 之前提到的几种方案（Adjacency_List, Path_Enumerations, Closure_Table）都能够一定程度地满足需求，但是各自具有不可避免的弊端。  
 Adjacency_List: 层级查询 -> ∞  
@@ -42,7 +42,7 @@ Closure_Table: 空间消耗大，层级删改 -> ∞
 
 但是如果这些方案并没有在关系型数据库中提供，就得采用其他方式：   -->
 
-## Nested Sets  
+### Nested Sets  
 
 根据树的深度遍历对节点编号，记录首、末次访问到该节点的数字。通过比较数字或的层级结构关系。  
 <!-- 进行更新操作很复杂，但是可以通过不使用整数而是用有理数来改进更新速度。 -->
@@ -69,9 +69,9 @@ Closure_Table: 空间消耗大，层级删改 -> ∞
 |14    |file_j|15       |16        |
 |15    |file_k|17       |18        |
 
-## 各种情况的处理代价
+### 各种情况的处理代价
 
-### 增
+#### 增
 ![](ADD.jpg)
 > 代价：-> O(n)，更新会影响到其他子树  
 > 输入：name. parent_id
@@ -85,7 +85,7 @@ update table set left = left + 2 where left >= $parent.right;
 update table set right = right + 2 where right >= $parent.right;
 ```
 
-### 删
+#### 删
 ![](DEL.jpg)
 > 代价：-> O(n)，先删除节点以及子树，并对其他子树进行修改  
 > 输入：id  
@@ -100,7 +100,7 @@ update table set left = left - $d where left > $current.right;
 update table set right = right - $d where right > $current.right;
 ```
 
-### 改
+#### 改
 > 代价：-> O(1)  
 > id, other info  
 > 执行：  
@@ -108,15 +108,15 @@ update table set right = right - $d where right > $current.right;
 update table set info where id = $id;
 ```
 
-### 查
-#### 查自己
+#### 查
+##### 查自己
 > 代价：-> O(1)  
 > 输入：id  
 > 执行：
 ```sql
 select * from table where id = $id
 ```
-#### 查下一级
+##### 查下一级
 ![](SEARCH_NEXT.jpg)
 > 代价：-> O(n)  
 > 输入：id    
@@ -131,7 +131,7 @@ having max(parent.left) = $parent.left  -- Subset for those with the given Paren
 
 这类查询可以通过增加一列来简化。例如，增加depth列记录当前节点深度，或者parent_id列记录父节点（和Adjacency List混用）,但增加了维护成本
 ```
-#### 查所有子集
+##### 查所有子集
 ![](SEARCH_ALL.jpg)
 > 代价：-> O(n)  
 > 输入：path  
@@ -143,7 +143,7 @@ where left > $parent.left
 and right < $parent.right 
 order by left asc;
 ```
-### 移动
+#### 移动
 ![](MOVE1.jpg)
 ![](MOVE2.jpg)
 > 代价：-> O(n)  
@@ -152,7 +152,7 @@ order by left asc;
 
 ```sql
 
-# 先执行 DEL，再执行 ADD
+## 先执行 DEL，再执行 ADD
 
 current = $(
     select * 
@@ -160,7 +160,7 @@ current = $(
     where id = $id
 );
 
-# 查询父节点
+## 查询父节点
 old_parent = $(
     select * from table 
     where left < $current.left 
@@ -186,7 +186,7 @@ update table
 set right = right - node_count*2
 where right > $current.right;
 
-# 更新子节点
+## 更新子节点
 update table 
 set left = left + ($new_parent.right - $current.left), 
     right = right + ($new_parent.right - $current.left)
@@ -204,13 +204,13 @@ set right = right + node_count*2
 where right > $current.right;
 ```
 
-## 总结
+### 总结
 **可以和邻接表同时使用**    
 **优点** : 消除递归操作,实现无限分组    
 **缺点** : 增 删 改影响范围大    
 **适用** : 强要求无限层级深度    
 
-## 比较
+### 比较
 |T    |增    |删    |改    |查自己  |查下一级 |查所有子集|移动   |适用   |
 |-----|------|------|-----|-------|--------|--------|------|-------|
 |Adjacency List|O(1)|∞|O(1)|O(1)|O(n)|O(n)|O(1)|不涉及“所有子集”操作，严格按照层级一层层地查询|

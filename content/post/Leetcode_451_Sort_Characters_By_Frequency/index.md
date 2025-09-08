@@ -10,11 +10,11 @@ tags:
 - "中等"
 toc: true
 ---
-## 451. Sort Characters By Frequency
+### Sort Characters By Frequency
 
 Given a string s, sort it in decreasing order based on the frequency of characters, and return the sorted string.
 
-### 排序
+#### 排序
 ```java
 class Solution {
     public String frequencySort(String s) {
@@ -40,7 +40,7 @@ class Solution {
 }
 ``` 
 
-### 桶排序
+#### 桶排序
 
 ```java
 class Solution {

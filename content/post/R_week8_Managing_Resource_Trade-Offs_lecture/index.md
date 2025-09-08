@@ -13,7 +13,7 @@ toc: true
 > R: 4.3.2 (2023-10-31)
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
-# 0. Learning Objectives
+## Learning Objectives
 
 - 市场营销问题
   - 管理资源权衡
@@ -21,11 +21,11 @@ toc: true
   - 市场实验
   - 市场反应模型
 
-## 0.1 Framework for Managing Resource Trade-Offs
+### Framework for Managing Resource Trade-Offs
 
 ![](R_week8_lecture_1.png)
 
-## 0.2 Attribution Approach
+### Attribution Approach
 
 - 指定归因模型，使公司能够了解资源增加的确切美元影响，还可以回答以下问题：  
 
@@ -36,7 +36,7 @@ toc: true
   - 市场反应模型（营销组合模型）
   - 实验
 
-# 1. Market Response Model
+## Market Response Model
 
 - 第一部分：营销效果和资源分配
 
@@ -48,24 +48,24 @@ toc: true
   - 携带效应建模
   - 评估模型
 
-## 1.1 Why Measure Returns on Marketing Investment?
+### Why Measure Returns on Marketing Investment?
 
 ![](R_week8_lecture_2.png)
 
-## 1.2 What are market response models? How it Works?
+### What are market response models? How it Works?
 
 
 1. 利用过去的数据揭示营销资源和业绩之间的关系，响应模型提供了两个主要的见解。  
 2. 营销资源和结果之间关系的形状（凹形或凸形）。  
 3. 如果营销投入增加1%，财务业绩会发生多大变化，也称为营销弹性。  
 
-## 1.3 How to Measure Return on Marketing Investment
+### How to Measure Return on Marketing Investment
 
 ![](R_week8_lecture_3.png)
 
-## 1.4 The Basics: Simple linear regression
+### The Basics: Simple linear regression
 
-### 1.4.1 Example1: Radio Ads for Sales
+#### Example1: Radio Ads for Sales
 
 ![](R_week8_lecture_7.png)
 
@@ -81,7 +81,7 @@ Predict sales
 
 ![](R_week8_lecture_6.png)
 
-### 1.4.2 Radio and TV ads for sales
+#### Radio and TV ads for sales
 
 ![](R_week8_lecture_8.png)
 
@@ -93,7 +93,7 @@ Sales =a+ b1 Radio advertising + b2 TV advertising
 
 ![](R_week8_lecture_11.png)
 
-## 1.5 Allocating Marketing Budgets
+### Allocating Marketing Budgets
 
 - 弹性系数是什么？  
   - 预测变量变化1%，响应变量变化的百分比  
@@ -101,7 +101,7 @@ Sales =a+ b1 Radio advertising + b2 TV advertising
 
 ![](R_week8_lecture_12.png)
 
-## 1.6 Modelling log-log Returns on Investment
+### Modelling log-log Returns on Investment
 
 ![](R_week8_lecture_13.png)
 
@@ -109,14 +109,14 @@ Sales =a+ b1 Radio advertising + b2 TV advertising
 
 ![](R_week8_lecture_15.png)
 
-## 1.7 Modelling Media Synergy
+### Modelling Media Synergy
 
 - 组合使用营销组合工具可以产生协同效应。   
 - 当多种媒体的联合影响超过它们各自部分的总和时，就会产生协同效应。  
 
 ![](R_week8_lecture_16.png)
 
-## 1.8 Modelling carryover effects
+### Modelling carryover effects
 
 - 到目前为止，我们假设在给定时间段内的广告只会影响该时间段内的销售。  
 - 实际上，消费者对广告的反应可能会有延迟。  
@@ -137,17 +137,17 @@ Adstockt= Advertisingt+ λAdstockt-1
 
 ![](R_week8_lecture_18.png)
 
-## 1.9 Building and Evaluating Market Response Model
+### Building and Evaluating Market Response Model
 
 ![](R_week8_lecture_19.png)
 
-## 1.10 Takeaways
+### Takeaways
 
 - 所有资源都是有限的。管理者必须在资源之间进行权衡，以制定有效的营销策略。
 - 管理资源权衡的方法已经从纯启发式的时代发展到数据化时代，管理者依靠统计模型和详细信息。
 - 基于响应模型的归因方法捕捉了过去营销资源和过去结果之间的关系。然后利用过去的数据可以揭示营销资源和绩效之间的关系。
 
-# 2. Marketing Experiment
+## Marketing Experiment
 
 - Marketing experiment  
 - AB testing  
@@ -163,7 +163,7 @@ Adstockt= Advertisingt+ λAdstockt-1
 1. 确定特定营销投资与客户或公司结果之间是否存在直接关系。
 2. 根据它们的财务影响（例如，销售额增长）在一组投资策略和策略中进行选择。
 
-## 2.1 Marketing Experiment: Components
+### Marketing Experiment: Components
 
 - 实验归因方法涉及干预、结果、处理条件的设计以及对照条件。
 - 决定测试哪些因素至关重要，实验很快就会变得非常复杂。
@@ -175,7 +175,7 @@ Adstockt= Advertisingt+ λAdstockt-1
 |Treatment|When, where, and to whom the firm administers the intervention|
 |Control|A region, customer, or situation similar to the experimental intervention that remains unchanged during the experimental process|
 
-## 2.2 Marketing Experiment: How it works
+### Marketing Experiment: How it works
 
 
 - 实验旨在建立自变量（营销投资）和结果之间的关系。
@@ -200,23 +200,23 @@ Adstockt= Advertisingt+ λAdstockt-1
   1. “后验”设计：在客户接受营销活动后，测量营销行为对客户行为的影响。
   2. “前后对照”设计：在客户接受营销活动之前和之后，测量营销行为的影响。
 
-## 2.3 Marketing Experiment: Example
+### Marketing Experiment: Example
 
 鲜花送货公司DFG正在进行季度营销预算会议。一位经理指出公司每年在广告上花费了25万美元，质疑是否合理，或者DFG是否花费过多。在随后的内部讨论中，一些经理坚持认为地方电视广告对于建立品牌资产和产生收入至关重要；而另一些则认为公司花费过多。
 
-### 2.3.1 Marketing Experiment: “after-only”
+#### Marketing Experiment: “after-only”
 
 DFG决定进行一项受控的营销实验。将处理组和对照组匹配在已知属性上（例如人口统计学特征）。
 
 ![](R_week9_lecture_1.png)
 
-### 2.3.2 Marketing Experiment: “before-and-after”
+#### Marketing Experiment: “before-and-after”
 
 DFG决定采用控制的营销实验，采用前后对照的设计。
 
 ![](R_week9_lecture_2.png)
 
-### 2.3.3 Case
+#### Case
 
 - 随机分配顾客
 - 分析
@@ -225,11 +225,11 @@ DFG决定采用控制的营销实验，采用前后对照的设计。
 
 ![](R_week9_lecture_3.png)
 
-### 2.3.4 68-95-99.7 rule
+#### 68-95-99.7 rule
 
 ![](R_week9_lecture_4.png)
 
-### 2.3.5 GOGOGO
+#### GOGOGO
 
 
 - 公司估计了三个回归方程，从三个不同的模型中获得了系数 𝛽1，分别捕捉了由于地方电视广告增加而导致的品牌知名度、品牌回忆率和销售的统计变化。
@@ -237,7 +237,7 @@ DFG决定采用控制的营销实验，采用前后对照的设计。
   - 当DFG增加其地方电视广告时，处理区域的品牌知名度、品牌回忆率和销售分别增长了1.5％、3.2％和3％（与对照组相比）。
 - DFG每年销售额为2500万美元，因此该实验使公司的决策者对地方电视广告带来的销售增长更有信心。因此，一项实验帮助解决了DFG内部的冲突。
 
-## 2.4 A/B testing
+### A/B testing
 
 
 - 使用实验设计比较一个设计的两个或更多变体
@@ -251,11 +251,11 @@ DFG决定采用控制的营销实验，采用前后对照的设计。
   2. 参与率（例如点赞、分享）
   3. 停留时间（例如在首页停留的秒数）
 
-## 2.5 Multivariate testing
+### Multivariate testing
 
 ![](R_week9_lecture_5.png)
 
-## 2.6 Natural Experiments: when to use
+### Natural Experiments: when to use
 
 - 我们并不总是能够进行随机化
 - 政策上的意外变化可以被视为“自然实验”。例如，对一些市场引入了新的退货政策。
@@ -263,7 +263,7 @@ DFG决定采用控制的营销实验，采用前后对照的设计。
   1. 处理组：受政策变化影响的组；例如，退货政策发生变化的市场。
   2. 对照组：不受政策变化影响的组；例如，退货政策保持不变的市场。
 
-### 2.6.1 Natural Experiments: Difference-in-Difference
+#### Natural Experiments: Difference-in-Difference
 
 ![](R_week9_lecture_6.png)
 
@@ -284,7 +284,7 @@ DFG决定采用控制的营销实验，采用前后对照的设计。
 - 𝛽0是截距
 ```
 
-# 3 Takeaways
+## Takeaways
 
 - 实验评估因果关系
 - 通常使用T检验、方差分析或线性回归来比较组，以测试差异是否显著

@@ -15,7 +15,7 @@ toc: true
 
 市场营销人员通常希望从交易中提取见解。关联规则分析试图从庞大、稀疏的数据集中找到一组有信息量的模式。我们使用一个包含超过 80,000 笔市场购物篮交易和 16,000 个独特项目的真实数据集来展示关联规则。然后，我们将探讨规则挖掘在交易数据中的潜在用途，并使用关联规则来探索这些交易数据中的模式。
 
-# 1 The Basics of Association Rules
+## The Basics of Association Rules
 
 关联规则挖掘的基本思想是，当事件一起发生的频率超过了它们各自发生率的预期时，这种共同发生就是一个有趣的模式。  
 理解关联规则需要一些术语。
@@ -44,11 +44,11 @@ toc: true
 
 在实践中，分析人员会将所需支持度的水平设置为诸如 0.01、0.10、0.20 等具有意义和对业务有用的值，考虑到数据特征（如项目集的大小）。同样，所需的置信度水平可能是高的（如 0.8）或低的（如 0.2），取决于数据和业务。对于提升度，较高的值通常更好，肯定应该高于 1.0，尽管我们必须注意具有巨大提升度的异常值。   
 
-# 2 Retail Transaction Data: Groceries
+## Retail Transaction Data: Groceries
 
 我们要检查的数据集包含超市交易数据。我们首先检查的是 arules 软件包中包含的一个小型数据集。尽管规模较小，但这个数据集很有用，因为项目标记有类别名称，使其更易于阅读。然后，我们转向一个来自超市连锁店的较大数据集，该数据集的数据被伪装，但更典型于大型数据集。
 
-## 2.1 Data: Groceries
+### Data: Groceries
 
 我们将使用 arules 软件包中的 Groceries 数据集来说明关联规则的一般概念。这个数据集包含一起购买的商品列表（即市场购物篮），其中的单个项目被记录为类别标签，而不是产品名称。在继续之前，您应该安装 arules 和 arulesViz 软件包。  
 
@@ -85,7 +85,7 @@ includes extended item information - examples:
 [3] {whole milk} 
 ```
 
-## 2.2 Finding rules
+### Finding rules
 
 现在我们使用 apriori(data, parameters = ...) 函数来使用 Apriori 算法查找关联规则。在概念层面上，Apriori 算法搜索在一系列交易中频繁出现的项目集。对于每个项目集，它评估在特定支持度水平或以上表达项目之间关联的各种可能规则，然后保留显示置信度超过某个阈值的规则。  
 为了控制 apriori() 的搜索范围，我们使用参数 list() 来指示算法搜索具有最小支持度 0.01（1% 的交易）的规则，并提取那些进一步表现出最小置信度 0.3 的规则。生成的规则集被赋值给 groc.rules 对象：  
@@ -113,7 +113,7 @@ writing ... [125 rule(s)] done [0.00s].
 creating S4 object  ... done [0.00s].
 ```
 
-## 2.3 Inspecting rules
+### Inspecting rules
 要解释上面 apriori() 的结果，有两个关键的事情需要检查。  
 
 • 首先，检查进入规则的项目数量，这在输出行“sorting and recoding items ...”中显示，在这种情况下告诉我们找到的规则使用了总共 88 个项目中的数量。如果这个数字太小（只有你的项目的一个小集合）或太大（几乎全部），那么你可能希望调整支持度和置信度水平。    
@@ -135,7 +135,7 @@ creating S4 object  ... done [0.00s].
 
 根据这样的信息，商店可能会得出几个见解。例如，商店可以在牛肉柜台附近设置一个土豆和洋葱的陈列，以鼓励正在查看牛肉的购物者购买这些蔬菜，或者考虑使用它们的食谱。它还可以建议将牛肉的优惠券放在根菜类蔬菜区，或者在商店的某个地方展示食谱卡。
 
-## 2.4 Plot rules
+### Plot rules
 
 为了了解规则的分布情况，我们加载 arulesViz 软件包，然后使用 plot() 函数绘制规则集，根据置信度（Y 轴）和支持度（X 轴）绘制规则，并根据提升度调整点的深浅以表示规则的重要性。
 
@@ -164,7 +164,7 @@ creating S4 object  ... done [0.00s].
 
 这样的信息可以用于多种方式。如果我们将交易与客户信息配对，我们可以用于定向邮寄或电子邮件建议。对于经常一起销售的商品，我们可以一起调整价格和利润率；例如，将一个商品打折销售，同时提高另一个商品的价格。或者收银员可能会问客户：“您是否需要配一些其他蔬菜？”
 
-## 2.5 Finding and Plotting Subsets of Rules
+### Finding and Plotting Subsets of Rules
 
 
 在市场购物篮分析中，一个常见的目标是找到提升度高的规则。我们可以通过对提升度排序来轻松找到这样的规则。我们使用 sort() 函数对规则按提升度排序，并从头部取出前 15 条规则，以提取提升度最高的 15 条规则：
@@ -200,11 +200,11 @@ creating S4 object  ... done [0.00s].
 
 结果图中项目的位置可能因您的系统而异，但项目集群应该是相似的。每个圆圈代表一条规则，其中来自规则左侧项的入站箭头，指向右侧项的出站箭头。圆圈的大小（面积）表示规则的支持度，而颜色的深浅表示提升度（颜色越深表示提升度越高）。
 
-# 3 Supermarket Data
+## Supermarket Data
 
 现在我们将调查来自比利时一家超市连锁店的更大规模的零售交易数据中的关联情况。这个数据集包括一起购买的商品的购物篮，其中每条记录都包括任意编号的商品编号，没有商品描述（为了保护该连锁店的专有数据）。这个数据集是由Brijs等人公开提供的。
 
-## 3.1 Data Preparation
+### Data Preparation
 
 First we use readLines() to get the data from where it is hosted:
 
@@ -331,11 +331,11 @@ includes extended transaction information - examples:
 
 查看结果对象的 summary()，我们可以看到交易-商品矩阵是 88,162 行乘以 16,470 列。在这 14 亿个交叉点中，只有 0.06% 有正数据（密度），因为大多数商品在大多数交易中都没有被购买。商品 39 出现最频繁，在 50,675 个篮子中出现，超过了所有交易的一半。3,016 个交易只包含一个商品（“sizes” = 1），中位篮子大小为 8 个商品。
 
-## 3.2 Exercise:
+### Exercise:
 
 Please now use the prepared supermarket data to do the market basket analysis, finding and visualizing the association rules.  
 
-# 4 Key Point
+## Key Point
 
 关联规则是探索数据集中关系的强大方法。
 
@@ -349,7 +349,7 @@ Please now use the prepared supermarket data to do the market basket analysis, f
   3. 使用 plot(. . . , interactive=TRUE) 绘制结果规则并检查规则。  
   4. 通过选择规则的子集来寻找模式，例如具有最高提升度的规则，并使用 plot(. . . , method="graph") 进行可视化。   
 
-# 5 CODE
+## 5 CODE
 
 ```
 library("arules") # processing of regression output 
@@ -358,10 +358,10 @@ library("grid") # very popular plotting library ggplot2
 library("car") # multinomial logit
 library("plotly") # ConfusionMatrix
 
-# 获取当前已加载文件的目录
+## 获取当前已加载文件的目录
 file_dir <- dirname(parent.frame(2)$ofile)
 print(file_dir)
-# 将工作目录设置为当前已加载文件的目录
+## 将工作目录设置为当前已加载文件的目录
 setwd(file_dir)
 
 data("Groceries")

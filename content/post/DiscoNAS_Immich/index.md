@@ -11,17 +11,17 @@ tags:
 - "Immich"
 toc: true
 ---
-# Immich
+## Immich
 
 ```jsx
 #
-# WARNING: To install Immich, follow our guide: https://immich.app/docs/install/docker-compose
+## WARNING: To install Immich, follow our guide: https://immich.app/docs/install/docker-compose
 #
-# Make sure to use the docker-compose.yml of the current release:
+## Make sure to use the docker-compose.yml of the current release:
 #
-# https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml
+## https://github.com/immich-app/immich/releases/latest/download/docker-compose.yml
 #
-# The compose file on main may not be compatible with the latest release.
+## The compose file on main may not be compatible with the latest release.
 
 name: immich
 
@@ -102,19 +102,19 @@ networks:
  immich:
 ```
 
-## 1. 模型下载
+### 模型下载
 
 NAS上由于网络问题，无法从hf上加载对应的模型，需要先下载到本地，再手动上传到NAS。
 
 ```jsx
-# 下载模型
+## 下载模型
 
 https://huggingface.co/immich-app
 
-## buffalo_l 用于人脸识别
+### buffalo_l 用于人脸识别
 huggingface-cli download immich-app/buffalo_l --local-dir immich-app-buffalo_l
 
-## XLM-Roberta-Large-Vit-B-16Plus用于智能搜索
+### XLM-Roberta-Large-Vit-B-16Plus用于智能搜索
 huggingface-cli download immich-app/XLM-Roberta-Large-Vit-B-16Plus --local-dir immich-app-XLM-Roberta-Large-Vit-B-16Plus
 ```
 
@@ -135,6 +135,6 @@ NAS上模型目录结构
 | | | |____detection
 ```
 
-## 2. immich 配置
+### immich 配置
 
 ![](image.png)

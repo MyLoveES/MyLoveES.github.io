@@ -10,21 +10,21 @@ tags:
 toc: true
 ---
 
-## Name
+### Name
 ack - grep-like text finder 类grep的文本搜索
 
-## SYNOPSIS
+### SYNOPSIS
 - ack [options] PATTERN [FILE...]  // 查文本  
 - ack -f [options] [DIRECTORY...]  // 搜文件  
 
-## DESCRIPTION
+### DESCRIPTION
 ack 被设计为程序员的 grep 的替代品。   
 
 ack 在输入文件或目录中搜索与给定模式匹配的行。默认情况下， ack 打印匹配的行。如果没有给出 FILE 或 DIRECTORY，则将搜索当前目录。  
 
 Ack 还可以列出将要搜索的文件，而无需实际搜索它们，以让您利用 ack 的文件类型过滤功能。  
 
-## FILE SELECTION
+### FILE SELECTION
 如果没有指定文件进行搜索，无论是在命令行上还是使用 -x 选项通过管道输入，ack 都会深入到子目录中选择文件进行搜索。    
 > -x    Read the list of files to search from STDIN.  
 
@@ -41,12 +41,12 @@ ack 的默认选项忽略某些文件和目录。这些包括：
 使用 --dump 选项运行 ack 以查看设置了哪些设置。  
 但是，ack 总是搜索命令行中给出的文件，不管是什么类型。如果你告诉 ack 在 coredump 中搜索，它会在 coredump 中搜索。  
     
-## DIRECTORY SELECTION
+### DIRECTORY SELECTION
 Ack通过指定的起始目录的目录树递归。如果没有指定目录，则使用当前工作目录。但是，它将忽略许多版本控制系统使用的影子目录，以及Perl MakeMaker系统使用的构建目录。你可以使用——[no]ignore-dir选项从这个列表中添加或删除一个目录。该选项可以重复添加/删除忽略列表中的多个目录。    
 
 有关未搜索的目录的完整列表，请运行 ack --dump。
 
-## MATCHING IN A RANGE OF LINES
+### MATCHING IN A RANGE OF LINES
 
 --range-start 和 --range-end 选项允许您指定要在每个文件中搜索的行范围。  
 假设您有以下文件，称为 testfile：
@@ -116,42 +116,42 @@ Ack通过指定的起始目录的目录树递归。如果没有指定目录，�
 
 指定要搜索的范围不会影响匹配项的显示方式。匹配的上下文仍然是相同的，并且使用上下文选项的工作方式相同，即使上下文行超出范围，也会显示匹配的上下文行。同样， --passthru 将显示文件中的所有行，但仅显示范围内的行的匹配项。
 
-## OPTIONS
+### OPTIONS
 `### --ackrc
 指定要在所有其他文件之后加载的 ackrc 文件；请参阅 ["ACKRC LOCATION SEMANTICS"](#ackrc-location-semantics).
-### -A NUM, --after-context=NUM
+#### -A NUM, --after-context=NUM
 在匹配行之后打印 NUM 行。
-### -B NUM, --before-context=NUM
+#### -B NUM, --before-context=NUM
 在匹配行之前打印 NUM 行。
-### --[no]break
+#### --[no]break
 打印来自不同文件的结果之间的中断。交互使用时默认开启。
-### -C [NUM], --context[=NUM]
+#### -C [NUM], --context[=NUM]
 在匹配行周围打印 NUM 行（默认 2）上下文。您可以指定零行上下文来覆盖 ackrc 中指定的另一个上下文。
-### -c, --count
+#### -c, --count
 抑制正常输出； 而是打印每个输入文件的匹配行数。 如果 -l 生效，它只会显示每个文件的行数匹配的行数。 如果没有 -l，某些行数可能为零。
 如果结合 -h (--no-filename) ack 只输出一个总数。
-### --[no]color, --[no]colour   
+#### --[no]color, --[no]colour   
 --color 突出显示匹配的文本。 --nocolor 抑制颜色。 除非输出被重定向，否则默认情况下这是打开的。     
 在 Windows 上，此选项默认关闭，除非安装了 Win32::Console::ANSI 模块或使用了 ACK_PAGER_COLOR 环境变量。
-### --color-filename=color
+#### --color-filename=color
 设置用于文件名的颜色。
-### --color-match=color
+#### --color-match=color
 设置用于匹配的颜色。
-### --color-colno=color
+#### --color-colno=color
 设置用于列号的颜色。
-### --color-lineno=color
+#### --color-lineno=color
 设置用于行号的颜色。
-### --[no]column
+#### --[no]column
 显示第一个匹配的列号。这对于可以将光标放在给定位置的编辑器很有帮助。
-### --create-ackrc
+#### --create-ackrc
 将默认 ack 选项转储到标准输出。当您想要自定义默认值时，这很有用。
-### --dump
+#### --dump
 将加载的选项列表及其来源写入标准输出。方便调试。
-### --[no]env
+#### --[no]env
 --noenv 禁用所有环境处理。不读取 .ackrc 并忽略所有环境变量。默认情况下，ack 会考虑环境中的 .ackrc 和设置。
-### --flush
+#### --flush
 --flush 立即刷新输出。默认情况下这是关闭的，除非 ack 以交互方式运行（当输出到管道或文件时）。
-### -f
+#### -f
 打印将要搜索的文件，而不实际进行任何搜索。不得指定 PATTERN，否则将被视为搜索路径。
 ```
        --ackrc
@@ -545,7 +545,7 @@ Ack通过指定的起始目录的目录树递归。如果没有指定目录，�
            Chocolate, Chocolate, Chocolate!
 ```
 
-## ACKRC LOCATION SEMANTICS
+### ACKRC LOCATION SEMANTICS
 Ack 可以从许多来源加载其配置。 以下列表指定了 Ack 查找配置文件的来源； 找到的每一个都按此处指定的顺序加载，并且每一个都覆盖在它之前的任何源中设置的选项。 （例如，如果我在我的用户 ackrc 中设置了 --sort-files，在命令行中设置了 --nosort-files，则命令行优先）。   
 - 默认值从 App::Ack::ConfigDefaults 加载。这可以使用 --ignore-ack-defaults 省略。
 - Global ackrc  
@@ -569,7 +569,7 @@ Ack 可以从许多来源加载其配置。 以下列表指定了 Ack 查找配�
 - Command line
   然后从命令行加载选项。
 
-## 附录A - ack dump
+### 附录A - ack dump
 ```
 Defaults
 ========

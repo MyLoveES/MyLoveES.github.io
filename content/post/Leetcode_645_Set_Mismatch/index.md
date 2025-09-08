@@ -9,11 +9,11 @@ tags:
 - "简单"
 toc: true
 ---
-## 451. Sort Characters By Frequency
+### Sort Characters By Frequency
 
 Given a string s, sort it in decreasing order based on the frequency of characters, and return the sorted string.
 
-### 
+#### 
 ```java
 class Solution {
     public String frequencySort(String s) {

@@ -11,9 +11,9 @@ tags:
 toc: true
 ---
 
-# 一、项目生成
+## 一、项目生成
 
-## 1、Spring Boot CLI 
+### 1、Spring Boot CLI 
 
 1. 首先，你需要安装 Spring Boot CLI。你可以参考 Spring Boot 官方文档中的安装指南：https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.installing.cli    
 ```
@@ -26,9 +26,9 @@ brew install spring-boot
 spring init --build gradle-project --groupId=com.weasley --artifactId=mrsix --name=mrsix --description="MrSix: Pipeline framework" mrsix
 ```
 
-# 二、子模块
+## 二、子模块
 
-### 1) submodule-common
+#### submodule-common
 ```
     1) mkdir submodule-common
     2) mkdir -p src/main/java/com/weasley/common
@@ -36,35 +36,35 @@ spring init --build gradle-project --groupId=com.weasley --artifactId=mrsix --na
 ```
 
 
-### 2) submodule-domain
+#### submodule-domain
 ```
     1) mkdir submodule-domain
     2) mkdir -p src/main/java/com/weasley/domain
     3) mkdir -p src/main/resources
 ```
 
-### 3) submodule-application
+#### submodule-application
 ```
     1) mkdir submodule-application
     2) mkdir -p src/main/java/com/weasley/application
     3) mkdir -p src/main/resources
 ```
 
-### 4) submodule-interface
+#### submodule-interface
 ```
     1) mkdir submodule-interface
     2) mkdir -p src/main/java/com/weasley/interface
     3) mkdir -p src/main/resources
 ```
 
-### 5) submodule-infrastructure
+#### submodule-infrastructure
 ```
     1) mkdir submodule-infrastructure
     2) mkdir -p src/main/java/com/weasley/infrastructure
     3) mkdir -p src/main/resources
 ```
 
-## 2.1 gradle 
+### gradle 
 根目录 setting.gradle
 ```
     include 'submodule-common'
@@ -130,47 +130,47 @@ subprojects {
 }
 ```
 
-## 2.2 maven
+### maven
 
 ```
 mvn archetype:generate -DgroupId=com.weasley -DartifactId=sdk-common -Dversion=1.0.0 -DinteractiveMode=false
 ```
 
-# 三、增加通用依赖
+## 三、增加通用依赖
 
-## 1. spring-boot-devtools
+### spring-boot-devtools
 ```
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 ```
 
-## 2. lombok
+### lombok
 ```
 	compileOnly 'org.projectlombok:lombok:1.18.20'
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'
 ```
 
-## 3. spring-boot-configuration-processor
+### spring-boot-configuration-processor
 ```
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 ```
 
-## 4. validation
+### validation
 ```
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.4'
 ```
 
-## 5. mapstruct
+### mapstruct
 ```
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 ```
 
-## 6. knife4j
+### knife4j
 ```
     implementation group: 'com.github.xiaoymin', name: 'knife4j-openapi3-jakarta-spring-boot-starter', version: '4.0.0'
 ```
 
-## 7. mybatis plus
+### mybatis plus
 ```
     implementation group: 'com.baomidou', name: 'mybatis-plus-boot-starter', version: '3.5.3.1'
     implementation group: 'com.baomidou', name: 'mybatis-plus-generator', version: '3.5.3.1'
@@ -178,67 +178,67 @@ mvn archetype:generate -DgroupId=com.weasley -DartifactId=sdk-common -Dversion=1
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.32'
 ```
 
-## 8. spock
+### spock
 ```
     testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.3-groovy-4.0'
 	testImplementation group: 'org.spockframework', name: 'spock-spring', version: '2.3-groovy-4.0'
 ```
 
-## 9. h2
+### h2
 ```
     testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
 ```
 
-## 10. embedded-redis 
+### embedded-redis 
 ```
     testImplementation (group: 'it.ozimov', name: 'embedded-redis', version: '0.7.3') {
 		exclude group: 'org.slf4j', module: 'slf4j-simple'
 	}
 ```
 
-## 11. actuator
+### actuator
 ```
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.0.5'
 ```
 
-## 12. redission
+### redission
 ```
     implementation group: 'org.redisson', name: 'redisson-spring-boot-starter', version: '3.20.0'
 ```
 
-## 13. caffeine
+### caffeine
 ```
     implementation group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '3.1.5'
 ```
 
-## 14. hutool-core
+### hutool-core
 ```
     implementation group: 'cn.hutool', name: 'hutool-core', version: '5.8.15'
     implementation group: 'cn.hutool', name: 'hutool-extra', version: '5.8.16'
 ```
 
-## 15. minio
+### minio
 ```
     implementation group: 'io.minio', name:'minio', version: '8.4.3'
 ```
 
-## 16. vavr
+### vavr
 ```
     implementation group: 'io.vavr', name: 'vavr', version: '0.10.4'
 ```
 
-## 17. apm
+### apm
 ```
     implementation group: 'org.apache.skywalking', name: 'apm-toolkit-logback-1.x', version: '8.15.0'
 ```
 
-## 18. json-path
+### json-path
 ```
     implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.8.0'
 ```
 
 
-# 添加数据库表
+## 添加数据库表
 ```
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;

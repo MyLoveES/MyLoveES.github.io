@@ -26,7 +26,7 @@ All of these kinds of outcomes are binary because they have only two possible ov
 
 **这些类型的结果都是二元的，它们只有两种可能的状态：是或否。 logistic模型被用来拟合这样的结果。**
 
-# 1. Basics of logistic regression
+## Basics of logistic regression
 
 The core feature of a logistic model is that it relates the probability of an outcome to an exponential function of a predictor variable.  
 By modelling the probability of an outcome, a logistic model accomplishes two things:  
@@ -54,7 +54,7 @@ The formula gives a value between [0, 1]. The likelihood of y is less than 50% w
 > exp(0) / exp(0)+1 # computing logistic by hand, or using plogis()
 •[1] 2
 
-# plogis参数其实就是p(y)
+## plogis参数其实就是p(y)
 
 > plogis(-Inf) #infinitely low = likelihood 0
 [1] 0
@@ -83,7 +83,7 @@ $$
 在 R 中，你可以使用 `plogis()` 函数来计算逻辑函数的值。例如：  
 
 ```
-# 计算逻辑函数值
+## 计算逻辑函数值
 x <- 2
 probability <- plogis(x)
 print(probability)
@@ -124,7 +124,7 @@ $$
 在 R 中，你可以使用 `qlogis()` 函数来计算逆逻辑函数的值。例如：  
 
 ```R
-# 计算逆逻辑函数值
+## 计算逆逻辑函数值
 p <- 0.7
 linear_pred <- qlogis(p)
 print(linear_pred)
@@ -132,7 +132,7 @@ print(linear_pred)
 
 </div>
 
-# 2. Generalised linear model (GLM)
+## Generalised linear model (GLM)
 
 A logistic regression model in R is fitted as a generalised linear model (GLM) using a process similar to linear regression with lm(), but with the difference that a GLM can handle dependent variables that are not normally distributed. Thus, GLM can be used to model data counts (such as the number of purchases), time intervals (such as time spent on a website), or binary variables (e.g., did/didn’t purchase). The common feature of all GLM models is that they relate normally distributed predictors to a non-normal outcome using a function known as a link. This means that they are able to fit models for many different distributions using a single, consistent framework.  
 
@@ -168,13 +168,13 @@ GLM的优势在于它的灵活性和适用性，可以适应不同类型和分�
 
 </div>
 
-# 3. RFM (recency, frequency, monetary)
+## RFM (recency, frequency, monetary)
 
 RFM is a method used for analyzing customer value. RFM stands for the three dimensions: Recency: How recently did the customer purchase? Frequency: How often do they purchase? Monetary Value: How much do they spend?  
 
 RFM是用于分析客户价值的一种方法。RFM代表三个维度：Recency（最近购买时间）：客户最近一次购买是在多久之前？Frequency（购买频率）：他们购买的频率如何？Monetary Value（购买金额）：他们的消费金额是多少？  
 
-## 3.1 The Logit Model
+### The Logit Model
 The logit model restricts the output values to lie in [0, 1] intervals.  
 Specifically, it expresses the probability of purchase by customer i as a function of coefficients β0:3 and variables in the following manner:  
 
@@ -293,7 +293,7 @@ Table: Likelihood ratio test
 |        96|   30.48715|  3| 107.1406|        0|
 ```
 
-## 3.2 Predicting probabilities
+### Predicting probabilities
 
 Now we calculate $ P(Purchase_i) $ for each individual in the data set.  
 
@@ -320,7 +320,7 @@ Now we calculate $ P(Purchase_i) $ for each individual in the data set.
 predict() 函数是 R 语言中的一个常用函数，用于对已拟合的模型进行预测。它可以对新的观测数据应用已经拟合好的模型，从而生成预测值。
 </div>
 
-## 3.3 Predicting behaviour
+### Predicting behaviour
 
 We also calculate an indicator variable for whether individuals will purchase or not based on their predicted probabilities  
 
@@ -351,7 +351,7 @@ If individual’s predicted probability is greater or equal to 0.5, we predict h
 |5  |      60|         5|    88.92|        0|        0.0032378|                  0|
 ```
 
-## 3.4 Evaluating the model
+### Evaluating the model
 
 Now, we compute a confusion matrix between predicted purchases and actual purchase behaviour.  
 
@@ -480,7 +480,7 @@ $$ \text{Lift} = \frac{p_{\text{new}} - p_{\text{old}}}{p_{\text{old}}} $$
 |5  |      60|         5|    88.92|        0|        0.0032378|       0.0038267|
 ```
 
-# 4. Recap
+## Recap
 
 • Logistic regression is a powerful method and a particularly good fit for many marketing problems with binary outcomes. We will cover the choice model later for modelling product choice among sets of alternatives.  
 • Logistic regression relates a binary outcome such as purchase to predictors that may include continuous and factor variable by modelling the variable’s association with the probability of the outcome.  

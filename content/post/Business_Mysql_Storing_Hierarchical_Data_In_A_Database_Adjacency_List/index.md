@@ -10,23 +10,23 @@ tags:
 - "设计模式"
 toc: true
 ---
-# 如何在数据库中存储层次结构
+## 如何在数据库中存储层次结构
 
-## 常见场景
+### 常见场景
 
 1. 公司：公司 - 部门 - 子部门 
 2. 人员：领导 - 员工 
 3. 文件：根目录 - 文件夹 - 文件
 4. 关系：group - child
 
-## 实例
+### 实例
 
 ![](CASE.png)
 
-## 转成树型
+### 转成树型
 ![](CASE_TREE.png)
 
-## Adjacency List 邻接表
+### Adjacency List 邻接表
 
 存储当前节点的父节点信息（parent_id），通过 parent_id 相关联
 
@@ -48,7 +48,7 @@ toc: true
 |14    |file_j|10       |
 |15    |file_k|10       |
 
-## 各种情况的处理代价
+### 各种情况的处理代价
 
 ```
 O(1)：有限的操作次数，有限的影响范围
@@ -56,7 +56,7 @@ O(n)：有限的操作次数，无限的影响范围
 ∞：无限的操作次数
 ```
 
-### 增
+#### 增
 ![](ADD.jpg)
 
 > 代价：-> O(1)  
@@ -72,7 +72,7 @@ insert into table(name, parent_id) values($name, $parent_id);
 |15     |file_k  |10       |
 |16(add)|file_ADD|1        |
 
-### 删
+#### 删
 ![](DEL.jpg)
 
 **需要递归删除**
@@ -88,7 +88,7 @@ while (ids is not empty) {
 ```
 
 当然也可以只删除直接下级，但会留下“悬浮节点”
-### 改
+#### 改
 > 代价：-> O(1)  
 > 输入：id, other info  
 > 执行：  
@@ -96,15 +96,15 @@ while (ids is not empty) {
 update table set info where id = $id
 ```
 
-### 查
-#### 查自己
+#### 查
+##### 查自己
 > 代价：-> O(1)  
 > 输入：id  
 > 执行：
 ```sql
 select * from table where id = $id
 ```
-#### 查下一级 
+##### 查下一级 
 ![](SEARCH_NEXT.jpg)
 > 代价：-> O(n)  
 > 输入：id  
@@ -112,7 +112,7 @@ select * from table where id = $id
 ```sql
 select * from table where parent_id = $id
 ```
-#### 查所有子集
+##### 查所有子集
 ![](SEARCH_ALL.jpg)
 > 代价：-> ∞  
 > 输入：id  
@@ -125,7 +125,7 @@ while (sub_ids is not empty) {
     ids += sub_ids;
 }
 ```
-### 移动
+#### 移动
 ![](MOVE.jpg)
 > 代价：-> O(1)  
 > 输入：id, new_parent_id  
@@ -153,7 +153,7 @@ list
 });
 ``` -->
 
-## 总结
+### 总结
 **优点** : 进行增加、修改、移动时代价很低; 查询自己、直接下级非常方便   
 **缺点** : 如若需要使用层级结构，例如获取所有子目录，所有下级，代价趋近∞（致命）   
 **适用** : 不涉及“所有子集”，严格按照层级一层层地查询   

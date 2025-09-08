@@ -13,15 +13,15 @@ toc: true
 > R: 4.3.2 (2023-10-31)  
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
-# 1. Manage customer hierarchical
+## Manage customer hierarchical
 
-## 1.1 segmentation
+### segmentation
 
 According to the demographics data provided, 'Emplyment' data was excluded because it was related to salary. The data with 'salary=7' was removed because it was invalid. 'Regions' are simplified to 3. Finally the continuous vectors are normalized and the ordinal variables are factored.
 
 Considering data contains ordinal varibles and continous variables, we segment customers into four groups based on hierarchical clustering, which differentiation between groups was more appropriate than three or five groups.
 
-### 1.1.1 import and check data
+#### 1.1.1 import and check data
 ```
 > seg.df <- read.csv("1_demographics.csv", stringsAsFactors = TRUE)
 > head(seg.df, n = 5)
@@ -153,7 +153,7 @@ hist(seg.df$Choco_Consumption,
  $ Sustainability_Score: num  -1.146 0.501 -1.14 -0.465 -2.079 ...
 ```
 
-### 1.1.2 hclust()
+#### hclust()
 > Considering data contains ordinal varibles and continous variables, use hclust().
 ```
 > ### 1.1.2 Hierarchical clustering: hclust()
@@ -221,7 +221,7 @@ seg.hc.segment
 
 > Differentiated not welled, ignore
 
-### 1.1.3 Conclusion
+#### Conclusion
 
 | Group. | Age_Group | Gender   | Salary  | Education | Location_by_region | Choco_Consumption | Sustainability_Score |
 | ------ | --------- | -------- | ------- | --------- | ------------------ | ----------------- | -------------------- |
@@ -233,11 +233,11 @@ seg.hc.segment
 
 Graph split to 4 groups(Only explained 50.93% of the data), we see that group3 is modestly well-differentiated. 88 customers with higher salary and higher consumption of choco, means more potential to pay at a higher price. Second target is group4, higher educated rate and more sensitive to sustainability, companies can move towards sustainability and attract potential highly educated customers.
 
-## 1.2 Factor analysis
+### Factor analysis
 
 Remove unnecesssary columns from data: product_id,company_location,review_date,country_of_bean_origin,first_taste,second_taste,third_taste. Use heatmap and corrplot to visualizing the relation between factors. Finally using PCA find the position of brand, and looking for future brand positioning.
 
-### 1.2.1 import and check data
+#### 1.2.1 import and check data
 ```
 > brand.ratings <- read.csv("2_chocolate_rating.csv", stringsAsFactors = TRUE)
 > 
@@ -282,7 +282,7 @@ Remove unnecesssary columns from data: product_id,company_location,review_date,c
  $ sweetener            : int  7 1 5 5 9 7 1 7 7 3 ...
 ```
 
-### 1.2.2 Rescaling the data
+#### Rescaling the data
 ```
 > brand.sc <- brand.ratings
 > brand.sc[,2:10] <- scale (brand.ratings[,2:10])
@@ -344,7 +344,7 @@ sweetener               0.003483658  0.003668166           -0.10692619 -0.040725
 > organic un-related with countsOfIngredients、cocoaButter and salt 
 > salt related with countsOfIngredients and cocoaButter
 
-### 1.2.3 Mean rating by brand
+#### Mean rating by brand
 ```
 > brand.mean <- aggregate(. ~ brand, data=brand.sc, mean) 
 > brand.mean
@@ -477,7 +477,7 @@ Zak's                         -0.829535060 -0.24665605            1.27656714    
 > Some brands related with salt, such as Letterpress、Qantu、Pacari、Kyya、Naive   
 > Some brands related with organic, such as Amedei, Fossa, Castronovo
 
-### 1.2.4 Principal component analysis (PCA) using princomp()
+#### 1.2.4 Principal component analysis (PCA) using princomp()
 
 ```
 > brand.pc<- princomp(brand.mean, cor = TRUE)
@@ -584,7 +584,7 @@ Zak's                         2.5174379 -1.426444229 -1.78790183 -1.117084841 -0
 
 And then, we can use brand.mean or colMeans to calculate the difference distance to target brand. 
 
-### 1.2.5 move forward
+#### move forward
 Suppose we already have the basis for organic, such as brand Casttronovo. If we want to move forward rating, such as brand Fresco, we should increasing its emphasis on salt, counts_of_ingredients and cocoa_butter. And decrease organic and sweetener.
 ```
 > colMeans(brand.mean[c("Fresco", "Burnt Fork Bend", "Pura Delizia"), ]) - brand.mean["Castronovo",]
@@ -592,7 +592,7 @@ Suppose we already have the basis for organic, such as brand Casttronovo. If we 
 Castronovo    -0.2628256 0.01758907             0.6254172    0.3872584 -0.5108785 -1.100088 0.833882 -0.2060768 -0.7544261
 ```
 
-### 1.2.6 Factor analysis using factanal() *
+#### Factor analysis using factanal() *
 
 ```
 > nScree(brand.mean)
@@ -633,11 +633,11 @@ $vectors
 
 ![](final_14.png)
 
-# 2. Managing Sustainable Competitive Advantage
+## Managing Sustainable Competitive Advantage
 
-## 2.1 Choice-Based Conjoint Analysis
+### Choice-Based Conjoint Analysis
 
-### 2.1.1 import and check data
+#### 2.1.1 import and check data
 ```
 > cbc.df <- read.csv("5_conjoint.csv", stringsAsF .... [TRUNCATED] 
 
@@ -816,7 +816,7 @@ High  Low
 ```
 > Sugar High(64%) > Low(36%)
 
-### 2.1.2 prepare the data
+#### prepare the data
 
 ```
 cbc.df$Origin <- relevel(cbc.df$Origin, ref = "Venezuela")
@@ -830,7 +830,7 @@ cbc.df$Fairtrade <- relevel(cbc.df$Fairtrade, ref = "No")
 cbc.df$Sugar <- relevel(cbc.df$Sugar, ref = "Low")
 ```
 
-### 2.1.3 Multinomial conjoint model estimation with mlogit()
+#### Multinomial conjoint model estimation with mlogit()
 
 ```
 > cbc.mlogit <- dfidx(cbc.df, choice="Choice",
@@ -858,7 +858,7 @@ cbc.df$Sugar <- relevel(cbc.df$Sugar, ref = "Low")
 > Demonstrated that positive value of utility means prefer than reference value, meanwhile negative value indicates that they prefer reference level.  
 In case of the Nuts attribute, customers prefer more nuts, etc.
 
-### 2.1.4 Model fit
+#### Model fit
 
 ```
 > model.constraint <-mlogit(Choice ~ 0+Nuts, data = cbc.mlogit)
@@ -877,7 +877,7 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 
 Means the larger model (our first model) fits the data better. So, we should keep all the variables.
 
-### 2.1.5 Interpreting Conjoint Analysis Findings
+#### Interpreting Conjoint Analysis Findings
 
 According to mlogit() results, customers prefer:
 
@@ -947,9 +947,9 @@ Balanced Accuracy      0.7044   0.7669   0.6805
 ```
 If the predictions were random, the accuracy would be 33.3% (for three alternatives). Our simple model is doing much better than that – although it is not perfect.
 
-## 2.2 Willingness to pay
+### Willingness to pay
 
-### 2.2.1 What is the Nuts' value
+#### What is the Nuts' value
 
 ```
 > (coef(model)["NutsNuts and Fruit"]-coef(model)["NutsNuts only"]) / (-coef(model)["Price"])
@@ -958,7 +958,7 @@ NutsNuts and Fruit
 ```
 The dollar value of an upgrade from Nuts only to Nuts and Fruit.
 
-### 2.2.2 Willingness to Pay for an Attribute Upgrade
+#### Willingness to Pay for an Attribute Upgrade
 
 ```
 > coef(model)["NutsNuts and Fruit"] / (-coef(model)["Price"])
@@ -974,9 +974,9 @@ EnergyHigh
 ```
 The dollar value of an upgrade from Energy Low to Energy High (Energy Low is reference level. Hence its coeff is 0)
 
-## 2.3 Market Basket
+### Market Basket
 
-### 2.3.1 Retail Transaction Data: Groceries
+#### Retail Transaction Data: Groceries
 
 ```
 > retail.raw <- readLines("6_groceries.dat")
@@ -1175,7 +1175,7 @@ includes extended transaction information - examples:
 
 Looking at the summary() of the resulting object, we see that the transaction-by-item matrix is 9,835 rows by 324 columns. Of those 3.1 million intersections, only 1% have positive data (density) because most items are not purchased in most transactions. Item whole milk appears the most frequently and occurs in 1,796 baskets of all transactions. 2,159 of the transactions contain only a single item (“sizes” = 1) and the median basket size is 3 items.
 
-### 2.3.2 Retail Transaction Data: Groceries
+#### Retail Transaction Data: Groceries
 
 We now use apriori(data, parameters = ...) to find association rules with the apriori algorithm. At a conceptual level, the apriori algorithm searches through the item sets that frequently occur in a list of transactions. For each item set, it evaluates the various possible rules that express associations among the items at or above a particular level of support, and then retains the rules that show confidence above some threshold value.
 To control the extent that apriori() searches, we use the parameter=list() control to instruct the algorithm to search rules that have a minimum support of 0.01 (1% transactions) and extract the ones that further demonstrate a minimum confidence of 0.3. The resulting rules set is assigned to the groc.rules object:
@@ -1288,11 +1288,11 @@ A graph display of rules may be useful to seek themes and patterns at a higher l
 The positioning of items on the resulting graph may differ for your system, but the item clusters should be similar. Each circle represents a rule, with inbound arrows coming from items on the left-hand side of
 the rule and outbound arrows going to the right-hand side. The size (area) of the circle represents the rule’s support, and shade represents lift (darker indicates higher lift).
 
-# 3 Managing Resources Trade-offs
+## Managing Resources Trade-offs
 
-## 3.1 Selecting Advertising platforms
+### Selecting Advertising platforms
 
-### 3.1.1 import and check data
+#### 3.1.1 import and check data
 
 ```
 spending.data <- read.csv("7_advertising.csv")
@@ -1321,8 +1321,8 @@ plot(spending.data$newspaper, spending.data$sales)
 ```
 ![](final_23.png)
 
-### 3.1.2 Selecting Advertising platforms
-#### 3.1.2.1 line
+#### Selecting Advertising platforms
+##### line
 ```
 > ## line
 > regression_1 <- lm(sales ~ radio + magazines + social_media + search_ads + tv + newspaper, data=spending.data) 
@@ -1354,7 +1354,7 @@ Multiple R-squared:  0.8365,	Adjusted R-squared:  0.8314
 F-statistic: 164.5 on 6 and 193 DF,  p-value: < 2.2e-16
 
 ```
-#### 3.1.2.2 log
+##### log
 ```
 > ## log
 > summary(spending.data$radio)
@@ -1405,7 +1405,7 @@ Multiple R-squared:  0.9045,	Adjusted R-squared:  0.9015
 F-statistic: 304.7 on 6 and 193 DF,  p-value: < 2.2e-16
 
 ```
-#### 3.1.2.3 log better
+##### log better
 ```
 > regression <- lm(log(sales) ~ log(radio) + log(tv), data=spending.data) 
 > # 89.93% explained
@@ -1431,7 +1431,7 @@ Multiple R-squared:  0.9003,	Adjusted R-squared:  0.8993
 F-statistic: 889.6 on 2 and 197 DF,  p-value: < 2.2e-16
 ```
 
-### 3.1.3 Allocating Marketing Budget
+#### Allocating Marketing Budget
 
 > Sum elasticity
 ```
@@ -1465,7 +1465,7 @@ F-statistic: 889.6 on 2 and 197 DF,  p-value: < 2.2e-16
 [1] 0.0382191
 ```
 
-### 3.1.4 Advertising Carryover Effect
+#### Advertising Carryover Effect
 
 We are assumed to retain a 10% of your previous advertising stock.
 
@@ -1538,7 +1538,7 @@ Multiple R-squared:  0.858,	Adjusted R-squared:  0.8565
 F-statistic: 594.9 on 2 and 197 DF,  p-value: < 2.2e-16
 ```
 
-### 3.1.5 Synergy Effect
+#### Synergy Effect
 
 ```
 > # synergy effect
@@ -1662,9 +1662,9 @@ Multiple R-squared:  0.9252,	Adjusted R-squared:  0.9241
 F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
 ```
 
-## 3.2 Compare groups
+### Compare groups
 
-### 3.2.1 import and check data
+#### 3.2.1 import and check data
 ```
 > ad.df <- read.csv("8_clickstream.csv", stringsAsFactors = TRUE) 
 > summary(ad.df)
@@ -1698,9 +1698,9 @@ F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
 > ad.df$clicked_share <- factor(ad.df$clicked_share, ordered = FALSE)
 ```
 
-### 3.2.2 Descriptives by group
+#### 3.2.2 Descriptives by group
 
-#### 3.2.2.1 seconds spent vary for two versions of ads.
+##### 3.2.2.1 seconds spent vary for two versions of ads.
 ```
 > # seconds spent vary for two versions of ads.
 > aggregate(time_spent_homepage_sec ~ condition, data = ad.df, mean)
@@ -1709,7 +1709,7 @@ F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
 2     taste                49.99909
 ```
 
-#### 3.2.2.2 the frequency with which different combinations of condition and like occur
+##### the frequency with which different combinations of condition and like occur
 ```
 > table(ad.df$condition, ad.df$clicked_article)
          
@@ -1728,7 +1728,7 @@ F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
   taste   14507   493
 ```
 
-### 3.2.3 Visualization by group
+#### Visualization by group
 ```
 > histogram(~ clicked_article | condition, data = ad.df)
 ```
@@ -1748,9 +1748,9 @@ F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
 ```
 ![](final_27.png)
 
-### 3.2.4 Statistical tests
+#### Statistical tests
 
-#### 3.2.4.1 chisp.test()
+##### chisp.test()
 
 ```
 > # chisp.test()
@@ -1776,7 +1776,7 @@ data:  table(ad.df$clicked_share, ad.df$condition)
 X-squared = 1.9313, df = 1, p-value = 0.1646
 ```
 
-#### 3.2.4.2 t.test()
+##### t.test()
 ```
 > # t.test()
 > t.test(time_spent_homepage_sec ~ condition, data = ad.df)
@@ -1793,7 +1793,7 @@ mean in group quality   mean in group taste
              49.99489              49.99909
 ```
 
-#### 3.2.4.3 anova
+##### anova
 ```
 > ad.aov.con <- aov(time_spent_homepage_sec ~ condition, data = ad.df)
 > anova(ad.aov.con)

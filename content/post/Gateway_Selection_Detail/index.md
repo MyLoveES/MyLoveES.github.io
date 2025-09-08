@@ -9,15 +9,15 @@ tags:
 toc: true
 ---
 
-## 1.  海选
-### Nginx，Openresty、Apisix、Kong、Zuul、Zuul2、Spring Cloud Gateway
+### 海选
+#### Nginx，Openresty、Apisix、Kong、Zuul、Zuul2、Spring Cloud Gateway
 
 - Nginx（淘汰）：功能不够丰富，且开发不便（需求自定义组件开发时, 需要+Lua）。应作为流量网关，而非API网关。
 - OpenResty（淘汰）：Nginx + Lua。是一种从Nginx扩展各种功能、插件的思路，Kong、Apisix皆基于此，我们没必要从它开始手动实现。
 - Kong（淘汰）：OpenResty + Lua，同样存在开发不便的问题。存储采用postgresql。对比来看，apisix其实是更优选（国产友好，性能更好，功能也更丰富）。
 - Zuul（淘汰）：上一代产品，基于BIO，性能不好。已有替代产物 - Zuul2、Spring Cloud Gateway。
 
-## 2. 决赛圈：Spring Cloud Gateway、Zuul2、APISIX
+### 决赛圈：Spring Cloud Gateway、Zuul2、APISIX
 我们的需求：
 1. 与当前技术栈的适配（Spring Cloud、Nacos 等）
 2. 协议转换（http → rpc 等）
@@ -33,13 +33,13 @@ toc: true
 12. 动态路由
 13. 性能：Apisix > Zuul2 ≈ Spring Cloud Gateway
 
-## 3. 结论 
+### 结论 
 
 首先从成熟度来看，Zuul2的资料较少，很多还是停留在Zuul1阶段。在Zuul2和Spring Cloud Gateway同属Java开发的情况下，更倾向于Spring。因此之后的比较主要发生在Spring Cloud Gateway和APISIX之间。  
 比较来看，apisix优势是性能更好，功能更丰富。劣势是开发语言不匹配，之后开发维护学习成本比较高。而且对于nacos目前也只是实验性，并不完全成熟稳定。除此之外，需要etcd支持。  
 Spring Cloud Gateway虽性能稍劣，但技术栈匹配，后期开发难度较小。并且与当前使用的基础设施更契合，能够省却维护新的基础设施组件的成本。因此最终选择Spring Cloud Gateway作为API网关。  
 
-### Spring Cloud Gateway(Java)
+#### Spring Cloud Gateway(Java)
 https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/
 ```
 1. Spring 全家桶成员：✓
@@ -64,7 +64,7 @@ https://docs.spring.io/spring-cloud-gateway/docs/current/reference/html/
 13. 动态路由：可通过监听nacos & 代码更新
 ```
 
-### Zuul2(Java)
+#### Zuul2(Java)
 https://github.com/Netflix/zuul/wiki/Getting-Started-2.0  
 ![](Zuul2_DES.png)
 sample: https://github.com/dashprateek/zuul2-sample  
@@ -95,7 +95,7 @@ sample: https://github.com/dashprateek/zuul2-sample
 13.数据存储: JPA / redis
 ```
 
-### APISIX(OpenResty + Lua)
+#### APISIX(OpenResty + Lua)
 https://apisix.apache.org/docs/apisix/getting-started  
 ![](APISIX_DES.png)
 ```
@@ -155,9 +155,9 @@ https://apisix.apache.org/docs/apisix/getting-started
 
 ```
 
-## 番外
-### 对dubbo集成
-#### APISIX
+### 番外
+#### 对dubbo集成
+##### APISIX
 https://apisix.apache.org/zh/docs/apisix/plugins/dubbo-proxy/  
 https://apisix.apache.org/zh/blog/2022/01/13/how-to-proxy-dubbo-in-apache-apisix/
 ![](dubbo-02.png)
@@ -230,13 +230,13 @@ public class HTTP2DubboServiceImpl implements HTTP2DubboService {
  
 }
 ```
-#### Spring Cloud Gateway
+##### Spring Cloud Gateway
 https://www.cnblogs.com/zlt2000/p/13201326.html  
 ![](dubbo-3.png)
 > 由于SpringCloudGateway不支持Http到RPC协议的转换，因此需要引入"web"层来作http→rpc。有两种实现方式
 - 1. 通过web层来转换http → rpc
 - 2. 通过dubbo rest承接http
 
-### 自定义auth（插件开发）
+#### 自定义auth（插件开发）
 > apisix: https://apisix.apache.org/zh/blog/2021/09/07/how-to-use-apisix-auth/
 > spring cloud gateway: preFilter

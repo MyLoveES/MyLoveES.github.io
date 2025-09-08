@@ -20,7 +20,7 @@ toc: true
 - 如果他们喜欢，他们愿意为更大尺寸的屏幕支付多少更多的费用？ 
 - 是否有一些客户群体比其他客户更喜欢大屏幕？ 
 
-# 1. Choice-Based Conjoint Analysis Data
+## Choice-Based Conjoint Analysis Data
 
 ```
 > cbc.df<-read.csv("Data_Conjoint_Choice.csv", stringsAsFactors = TRUE) 
@@ -101,12 +101,12 @@ sz10inch  sz7inch  sz8inch  sz9inch
 
 在估计选择模型之前，始终鼓励为每个属性计算选择计数。 
 
-# 2. Prepare the data
+## Prepare the data
 
 我们现在可以估计我们的第一个选择模型了。通过拟合选择模型，我们可以精确地测量每个属性与受访者选择的关联程度。
 我们使用 mlogit 包，你可能需要使用 install.packages() 安装。mlogit 估计最基本和常用的选择模型，即多项逻辑回归模型。
 
-## 2.1 Define reference levels - used when estimating model
+### Define reference levels - used when estimating model
 ```
 cbc.df$Brand <- relevel(cbc.df$Brand, ref = "Nexus") 
 cbc.df$Size <- relevel(cbc.df$Size, ref = "sz7inch") 
@@ -114,7 +114,7 @@ cbc.df$Storage <- relevel(cbc.df$Storage, ref = "st16gb")
 cbc.df$Ram <- relevel(cbc.df$Ram, ref = "r1gb") 
 cbc.df$Battery <- relevel(cbc.df$Battery, ref = "b7h")
 ```
-## 2.2 Define data format
+### Define data format
 mlogit 要求选择数据具有特定的数据格式。我们使用 dfidx 包中的 dfidx 函数来整理格式。
 - choice 参数指示包含响应数据的列。在我们的案例中，choice = “Choice”。
 - idx 参数指示备选方案的结构。列表中的第一个索引表示选择集和消费者的列，第二个索引表示每个选择集中备选方案的列。
@@ -123,7 +123,7 @@ mlogit 要求选择数据具有特定的数据格式。我们使用 dfidx 包中
 cbc.mlogit <- dfidx(cbc.df, choice="Choice", idx=list(c("ChoiceSetId", "ConsumerId"), "AlternativeIdInSet"))
 ```
 
-# 3 Multinomial conjoint model estimation with mlogit()
+## Multinomial conjoint model estimation with mlogit()
 
 当我们运行模型时，它会选择每个离散属性的参考水平。参考水平的效用被归一化为零。我们在数据加载阶段为每个离散属性指定了一个参考水平。这些参考水平是 Nexus、7 英寸屏幕、16GB 硬盘、1GB 内存、7 小时电池。我们将价格视为连续变量，因此不需要指定参考水平。  
 该模型假定没有误差项的备选方案 j 的效用如下所示。
@@ -166,7 +166,7 @@ $$
 |Price          | -0.0050888|  0.0002752| -18.488626|          0.0000000|
 ```
 
-## 3.1 Meaning of parameters
+### Meaning of parameters
 
 在估计后，我们得到了每个离散属性的每个水平（除了参考水平）的系数估计。这样的系数捕获了与参考相比属性水平的相对效用或部分价值。例如，在品牌属性的情况下，品牌iPad系数给出了iPad相对于Nexus（参考品牌）的品牌相对效用的估计。  
 
@@ -174,7 +174,7 @@ $$
 
 在连续价格的情况下，我们得到一个单一的系数，它捕捉到当价格增加一单位（$1）时备选方案的效用如何变化，同时保持备选方案的所有其他特征不变。 
 
-## 3.2 Model fit 
+### Model fit 
 
 有人可能会想知道偏好是否仅受品牌效应驱动。我们可以估计一个只有品牌作为预测变量的模型。
 ```
@@ -200,11 +200,11 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 > lrtest()
 用于进行两个线性回归模型之间的 Likelihood Ratio Test（似然比检验）。Likelihood Ratio Test 用于比较两个具有不同复杂度的模型是否在解释数据方面有显著的差异。
 
-# 4. Interpreting Conjoint Analysis Findings
+## Interpreting Conjoint Analysis Findings
 
 通常很难直接解释选择模型的部分效用估计。系数处于一个不熟悉的尺度上（即log），它们衡量了各个水平的相对偏好，这使得它们很难理解。因此，大多数选择模型偏好专注于使用模型进行选择份额预测或计算每个属性的支付意愿，而不是呈现系数。
 
-## 4.1 Predicted Market Share
+### Predicted Market Share
 我们还可以使用估计的参数来预测数据中不同备选方案的选择概率。在这里，我们打印出数据中前六个选择集的预测。
 ```
 > kable(head(predict(model,cbc.mlogit)))
@@ -261,7 +261,7 @@ Balanced Accuracy      0.6700   0.6712   0.6736
 
 请注意，如果预测是随机的，准确率将为33.3%（对于三个备选方案）。我们的简单模型比这要好得多，尽管它并不完美。
 
-## 4.2 Conjoint simulator 
+### Conjoint simulator 
 
 现在，让我们看看如何使用模型参数场景来预测在假设市场条件下任意一组产品的市场份额。
 
@@ -309,11 +309,11 @@ Balanced Accuracy      0.6700   0.6712   0.6736
 |Kindle  |sz7inch  |st32gb  |r1gb |b9h     |   169|       0.2486479|
 ```
 
-## 4.3 Willingness to pay
+### Willingness to pay
 
 非常重要的是，使用参数估计，我们通过除以该属性的系数来为所选属性水平估计，换句话说，我们估计价格的变化将导致由于问题属性水平变化而引起的效用变化的等价物。例如，我们发现，普通消费者在选择是否购买 Galaxy 和支付额外 $125.8 之间处于中立状态，或者购买 iPad。换句话说，普通消费者愿意支付高达 $125.8 来获取 iPad 而不是 Nexus，同时保持所有其他特征不变。
 
-### 4.3.1 What is the brand value of iPad relative to Galaxy?
+#### 4.3.1 What is the brand value of iPad relative to Galaxy?
 品牌资产 - 从 Galaxy 升级到 iPad 的美元价值
 
 ```
@@ -326,7 +326,7 @@ BrandiPad
 
 提取模型系数的函数，可以用于提取线性回归、逻辑回归、多项式回归等模型的系数。
 
-### 4.3.2 Willingness to Pay for an Attribute Upgrade
+#### Willingness to Pay for an Attribute Upgrade
 从 1GB 升级到 4GB RAM 的美元价值（1GB 是参考水平。因此其系数为0）。
 
 ```
@@ -335,7 +335,7 @@ Sizesz9inch
     85.5882
 ```
 
-# 5. Code
+## Code
 
 ```
 library("xtable") # processing of regression output 
@@ -344,10 +344,10 @@ library("ggplot2") # very popular plotting library ggplot2
 library("mlogit") # multinomial logit
 library("caret") # ConfusionMatrix
 
-# 获取当前已加载文件的目录
+## 获取当前已加载文件的目录
 file_dir <- dirname(parent.frame(2)$ofile)
 print(file_dir)
-# 将工作目录设置为当前已加载文件的目录
+## 将工作目录设置为当前已加载文件的目录
 setwd(file_dir)
 
 cbc.df<-read.csv("Data_Conjoint_Choice.csv", stringsAsFactors = TRUE) 
@@ -389,14 +389,14 @@ predict.share <- function(model, d) {
   colnames(probs) <- paste("alternative", colnames(probs))
   return(probs)
 }
-# hypothetical base market structure with 4 alternatives in the market
+## hypothetical base market structure with 4 alternatives in the market
 d.base <- cbc.df[c(44,34,33,40),c("Brand","Size","Storage","Ram", "Battery","Price")] 
 d.base <- cbind(d.base,as.vector(predict.share(model,d.base)))
 colnames(d.base)[7] <- "Predicted.Share" 
 rownames(d.base) <- c()
 kable(d.base)
 
-# hypothetical market structure after Galaxy gets a RAM upgrade
+## hypothetical market structure after Galaxy gets a RAM upgrade
 d.new <- d.base
 d.new[2, 'Ram'] <- "r4gb"
 d.new$Predicted.Share <- as.vector(predict.share(model,d.new)) 

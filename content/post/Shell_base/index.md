@@ -15,9 +15,9 @@ tags:
 ---
 
 
-## Shell 基础
+### Shell 基础
 
-### variables
+#### variables
 
 |variable|meaning                                 |
 |--------|----------------------------------------|

@@ -14,7 +14,7 @@ toc: true
 > R: 4.3.2 (2023-10-31)
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
-# 一、Market Basket Analysis  
+## 一、Market Basket Analysis  
 市场购物篮分析   
 
 ```
@@ -28,7 +28,7 @@ toc: true
 • 市场购物篮分析，又称亲和性分析，根据它们在数据集中的共同出现，揭示不同实体之间的有意义的相关性。
 • 它生成满足预定义标准的关联规则，以识别频繁项目集中最重要的关系，并帮助揭示大数据中的隐藏模式。
 
-## 1.1 Benefits of Market Basket Analysis
+### Benefits of Market Basket Analysis
 
 • When you understand product relationships and purchase sequences, you can identify and track
 customers who have bought a given product and deliver tailored messages to them.
@@ -55,7 +55,7 @@ customers who have bought a given product and deliver tailored messages to them.
 优化营销，根据客户间的亲和关系来定位市场细分
 ```
 
-# 二、Key terms
+## 二、Key terms
 
 
 一个项目集是由形成关联规则的所有项目的列表表示。  

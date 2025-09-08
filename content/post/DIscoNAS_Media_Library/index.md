@@ -12,7 +12,7 @@ tags:
 toc: true
 ---
 
-# Media Library
+## Media Library
 
 ```jsx
 version: "3"
@@ -104,40 +104,40 @@ services:
          - 26881:6881/udp
 ```
 
-## 1. qBittorrent
+### qBittorrent
 
 - 默认账号：admin
 - 默认密码：需要查看 qBittorrent 容器日志
 
-### 1.1 修改密码
+#### 修改密码
 
 ![](image.png)
 
-### 1.2 修改端口号
+#### 修改端口号
 
 ![](image_1.png)
 
-### 1.3 修改下载路径
+#### 修改下载路径
 
 ![](image_2.png)
 
-### 1.4 修改语言
+#### 修改语言
 
 ![](image_3.png)
 
-### 1.5 添加分类
+#### 添加分类
 
 ![](image_4.png)
 
-## 2. Jackett
+### Jackett
 
-### 2.1 记住 API KEY
+#### 记住 API KEY
 
 后面需要配置到 NASTOOL 中
 
 ![](image_5.png)
 
-### 2.2 添加公开的 INDEXER
+#### 添加公开的 INDEXER
 
 需要等待几分钟，才能添加完
 
@@ -145,9 +145,9 @@ services:
 
 ![](image_7.png)
 
-## 3. Jellyfin
+### Jellyfin
 
-### 3.1 添加媒体库
+#### 添加媒体库
 
 - 选择 NASTOOL 链接后的目录
 
@@ -157,19 +157,19 @@ services:
 
 ![](image_10.png)
 
-### 3.2 生成API密钥
+#### 生成API密钥
 
 后面给 NASTOOL 用
 
 ![](image_11.png)
 
-### 3.3 指定转码
+#### 指定转码
 
 ![](image_12.png)
 
-## 4. NASTOOL
+### NASTOOL
 
-### 4.1 TMDB
+#### TMDB
 
 https://www.themoviedb.org/
 
@@ -179,37 +179,37 @@ https://www.themoviedb.org/
 
 ![](image_15.png)
 
-### 4.2 媒体库
+#### 媒体库
 
 - 注意要用NASTOOL链接后的目录
 
 ![](image_16.png)
 
-### 4.3 目录同步
+#### 目录同步
 
 - 从 下载目录 到 转换后的目录
 
 ![](image_17.png)
 
-### 4.4 索引器
+#### 索引器
 
 ![](image_18.png)
 
 ![](image_19.png)
 
-### 4.5 下载器
+#### 下载器
 
 ![](image_20.png)
 
 ![](image_21.png)
 
-### 4.6 媒体播放器
+#### 媒体播放器
 
 ![](image_22.png)
 
 ![](image_23.png)
 
-### 4.7 服务
+#### 服务
 
 - 可以手动目录同步，或者清理缓存
 

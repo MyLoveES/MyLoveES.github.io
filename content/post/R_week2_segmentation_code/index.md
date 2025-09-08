@@ -14,7 +14,7 @@ toc: true
 > R: 4.3.2 (2023-10-31)  
 > R studio: 2023.12.1+402 (2023.12.1+402)
 
-# 1. Segmentation data
+## Segmentation data
 
 • 年龄（age）  
 • 性别（gender）  
@@ -40,7 +40,7 @@ toc: true
 8 28.45129   Male 47245.24    0   ownNo     subNo
 ```
 
-## 1.1 Recode factor into numeric data
+### Recode factor into numeric data
 
 ```
 > seg.df$gender <- ifelse(seg.df$gender=="Male",0,1) 
@@ -57,14 +57,14 @@ toc: true
 6 43.03387      0 58143.36    4       1         0
 ```
 
-## 1.2 Rescaling the data
+### Rescaling the data
 
 ```
 > seg.df.sc <- seg.df
 
 > seg.df.sc[, c(1,3,4)] <- scale(seg.df[, c(1,3,4)])
 
-# We only need to standardize continuous variables.
+## We only need to standardize continuous variables.
 > head(seg.df.sc)
           age gender     income       kids ownHome subscribe
 1  0.48133138      0 -0.0721898  0.5183027       0         0
@@ -84,9 +84,9 @@ toc: true
  Max.   : 3.09   Max.   :1.00   Max.   : 3.145   Max.   : 4.07   Max.   :1.00   Max.   :1.00
 ```
 
-# 2. Hierarchical clustering: hclust()
+## Hierarchical clustering: hclust()
 
-## 2.1 Distance
+### Distance
 
 ```
 > seg.dist <- dist(seg.df.sc) 
@@ -100,7 +100,7 @@ toc: true
 5 2.225970 2.883670 2.936121 1.762212 0.000000
 ```
 
-## 2.2 Clustering
+### Clustering
 
 ```
 > seg.hc <- hclust(seg.dist, method="complete") 
@@ -151,7 +151,7 @@ hclust() 函数返回一个树形结构对象（dendrogram），可以使用 plo
 
 使用 as.dendrogram() 函数可以将以上这些对象转换为 dendrogram 对象，然后可以使用 dendrogram 对象进行可视化、分析或其他操作。
 
-## 2.3 Getting groups
+### Getting groups
 
 ```
 > plot(seg.hc)
@@ -170,7 +170,7 @@ seg.hc.segment
 164  73  30  33
 ```
 
-# 2.4 Describing clusters
+## Describing clusters
 
 ```
 library(cluster) 
@@ -223,16 +223,16 @@ boxplot(seg.df$income ~ seg.hc.segment, ylab = "Income", xlab = "Cluster")
 
 箱线图可以用于比较不同组之间的数据分布情况，检测异常值，以及观察数据的离散程度。它是一种简洁而有效的可视化工具，适用于各种类型的数据分析和探索。
 
-# 3. Mean-based clustering: kmeans()
+## Mean-based clustering: kmeans()
 
-## 3.1 Clustering
+### Clustering
 
 ```
 > set.seed(96743)
 > seg.k <- kmeans(seg.df.sc, centers = 4) #use standardized variables
 ```
 
-## 3.2 Describing clusters
+### Describing clusters
 
 ```
 > aggregate(seg.df, list(seg.k$cluster), mean)
@@ -264,11 +264,11 @@ clusplot(seg.df, seg.k$cluster,
 这可能暗示了一种商业策略。在当前情况下，例如，我们看到第二组在一定程度上有所区别，并且拥有最高的平均收入。这可能使其成为潜在宣传活动的良好目标。还有许多其他策略可供选择；关键点在于分析提供了值得考虑的有趣选项。  
 
 k-means分析的一个局限性是需要指定聚类的数量，并且很难确定一个解决方案是否比另一个更好。如果我们要对当前的问题使用k-means，我们将重复分析k=3、4、5等，并确定哪个解决方案对我们的业务目标最有用。  
-# 4. Model-based clustering: Mclust()
+## Model-based clustering: Mclust()
 
 关键思想是观察结果来自具有不同统计分布（例如不同的均值和方差）的群体。算法试图找到最佳的一组这样的潜在分布，以解释观察到的数据。  
 
-## 4.1 Clustering
+### Clustering
 
 ```
 > library(mclust) #install if needed
@@ -325,7 +325,7 @@ Clustering table:
 
 看起来分为3组时，对数似然估计更高。
 
-## 4.2 Comparing models
+### Comparing models
 
 ```
 > BIC(seg.mc, seg.mc4)
@@ -336,7 +336,7 @@ seg.mc4 31 3557.425
 
 3-cluster better.
 
-## 4.3 Describing clusters
+### Describing clusters
 
 ```
 > aggregate(seg.df, list(seg.mc$classification), mean)
@@ -353,19 +353,19 @@ seg.mc4 31 3557.425
 
 ![](R_week2_model_based_describing_clusters_plot.png)
 
-# Week2 Code
+## Week2 Code
 
 ```
-# install.packages ("readxl")
-# install.packages ("psych")
-# install.packages ("car")
-# install.packages ("gpairs")
-# install.packages ("grid")
-# install.packages ("lattice")
-# install.packages ("corrplot")
-# install.packages ("gplots")
-# install.packages ("mclust")
-# install.packages ("cluster")
+## install.packages ("readxl")
+## install.packages ("psych")
+## install.packages ("car")
+## install.packages ("gpairs")
+## install.packages ("grid")
+## install.packages ("lattice")
+## install.packages ("corrplot")
+## install.packages ("gplots")
+## install.packages ("mclust")
+## install.packages ("cluster")
 
 library("readxl")
 library("psych")
@@ -378,10 +378,10 @@ library("gplots")
 library("mclust")
 library("cluster")
 
-# 获取当前已加载文件的目录
+## 获取当前已加载文件的目录
 file_dir <- dirname(parent.frame(2)$ofile)
 print(file_dir)
-# 将工作目录设置为当前已加载文件的目录
+## 将工作目录设置为当前已加载文件的目录
 setwd(file_dir)
 
 seg.df <- read.csv("Data_Segmentation.csv", stringsAsFactors = TRUE)
@@ -395,7 +395,7 @@ head(seg.df)
 
 seg.df.sc <- seg.df
 seg.df.sc[, c(1,3,4)] <- scale(seg.df[, c(1,3,4)])
-# We only need to standardize continuous variables.
+## We only need to standardize continuous variables.
 head(seg.df.sc)
 
 summary(seg.df.sc, digits = 2)

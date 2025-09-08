@@ -10,24 +10,24 @@ tags:
 - "设计模式"
 toc: true
 ---
-# 如何在数据库中存储层次结构
+## 如何在数据库中存储层次结构
 
-## 常见场景
+### 常见场景
 
 1. 公司：公司 - 部门 - 子部门 
 2. 人员：领导 - 员工 
 3. 文件：根目录 - 文件夹 - 文件
 4. 关系：group - child
 
-## 实例
+### 实例
 
 ![](CASE.jpg)
 
-## 转成树型
+### 转成树型
 
 ![](CASE_TREE.jpg)
 
-## Path Enumerations 
+### Path Enumerations 
 
 每条记录存整个tree path经过的node枚举
 
@@ -49,9 +49,9 @@ toc: true
 |14    |file_j|/DIR_A/DIR_C/DIR_E/file_j |
 |15    |file_k|/DIR_A/DIR_C/DIR_E/file_k |
 
-## 各种情况的处理代价
+### 各种情况的处理代价
 
-### 增
+#### 增
 > 代价：-> O(1)  
 > 输入：name, path  
 > 执行：
@@ -65,7 +65,7 @@ insert into table(name, path) values($name, $path);
 |15     |file_k  |/DIR_A/DIR_C/DIR_E/file_k  |
 |16(add)|file_ADD|/DIR_A/DIR_C/DIR_E/file_ADD|
 
-### 删
+#### 删
 ![](DEL.jpg)
 > 代价：-> O(n)  
 > 输入：path  
@@ -74,7 +74,7 @@ insert into table(name, path) values($name, $path);
 delete from table where path like CONCAT($path, '%') ;
 ```
 
-### 改
+#### 改
 ![](UPDATE.jpg)
 > 代价：-> O(n)  
 > 输入：path, other info  
@@ -91,15 +91,15 @@ update table set path = REPLACE(
 where path like CONCAT($old_path, '%')
 ```
 
-### 查
-#### 查自己
+#### 查
+##### 查自己
 > 代价：-> O(1)  
 > 输入：path  
 > 执行：
 ```sql
 select * from table where path = $path
 ```
-#### 查下一级
+##### 查下一级
 ![](SEARCH_NEXT.jpg)
 > 代价：-> O(n)  
 > 输入：id  
@@ -107,7 +107,7 @@ select * from table where path = $path
 ```sql
 select * from table where path regexp CONCAT('^', $path, '/.+', '((?!/).)')
 ```
-#### 查所有子集
+##### 查所有子集
 ![](SEARCH_ALL.jpg)
 > 代价：-> O(n)  
 > 输入：path  
@@ -115,7 +115,7 @@ select * from table where path regexp CONCAT('^', $path, '/.+', '((?!/).)')
 ```sql
 select * from table where path like CONCAT($path, '/%')
 ```
-### 移动
+#### 移动
 ![](MOVE.jpg)
 > 代价：-> O(n)  
 > 输入：path, new_path  
@@ -149,7 +149,7 @@ list
 });
 ``` -->
 
-## 总结
+### 总结
 **可以和邻接表同时使用**  
 **优点** : 增加、查询、修改方便   
 **缺点** : 需要大量用到正则、模糊匹配；需要控制层级深度(致命)   
