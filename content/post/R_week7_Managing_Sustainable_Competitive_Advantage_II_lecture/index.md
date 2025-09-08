@@ -93,5 +93,5 @@ side of the rule.
 • 提升度：置信度与 {Y} 基线发生概率的比值。
 ```
 
-{% asset_image R_week7_schemas.png %}
+![](R_week7_schemas.png)
 

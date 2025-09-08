@@ -39,7 +39,7 @@ Visualizing the data
 # scatter plot
 plot(spending.data$radio, spending.data$sales)
 ```
-{% asset_image R_week8_code_1.png %}
+![](R_week8_code_1.png)
 
 ```
 > # Correlation between radio advertising and sales
@@ -155,7 +155,7 @@ F-statistic: 859.6 on 2 and 197 DF,  p-value: < 2.2e-16
 plot(spending.data$tv, spending.data$sales)
 ```
 
-{% asset_image R_week8_code_2.png %}
+![](R_week8_code_2.png)
 
 ```
 > summary(spending.data$sales)
@@ -411,4 +411,4 @@ F-statistic: 385.6 on 3 and 156 DF,  p-value: < 2.2e-16
 > legend("topleft", legend=c("Actual sales", "Predicted sales"), col=c("blue", "red"), lty = 1:2, cex=0.6)
 ```
 
-{% asset_image R_week8_code_3.png %}
+![](R_week8_code_3.png)

@@ -117,7 +117,7 @@ Male       4   1
 > plot(p1.table)
 ```
 
-{% asset_image plot1.png %}
+![](plot1.png)
 
 > 注⚠️：plot()函数    
 
@@ -651,7 +651,7 @@ apply(store.df[2:9], MARGIN = c(1,2), FUN = mean)
 hist(store.df$p1sales)
 ```
 
-{% asset_image hist1.png %}
+![](hist1.png)
 
 ```
 # 添加标题、x轴y轴说明
@@ -661,7 +661,7 @@ hist(store.df$p1sales,
      ylab = "Count")
 ```
 
-{% asset_image hist2.png %}
+![](hist2.png)
 
 ```
 hist(store.df$p1sales,
@@ -672,7 +672,7 @@ hist(store.df$p1sales,
 )
 ```
 
-{% asset_image hist3.png %}
+![](hist3.png)
 
 ```
 hist(store.df$p1sales,
@@ -685,7 +685,7 @@ hist(store.df$p1sales,
 )
 ```
 
-{% asset_image hist4.png %}
+![](hist4.png)
 
 > freq 
 
@@ -745,7 +745,7 @@ $$
 axis(side = 1, at=seq(60, 300, by=20)) # add "60", "80", ...
 ```
 
-{% asset_image hist5.png %}
+![](hist5.png)
 
 > lines()
 
@@ -764,7 +764,7 @@ lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing
 
 - `lwd=2`：这个参数指定了绘制的折线的线宽。`lwd=2` 表示线宽为 2 像素。
 
-{% asset_image hist6.png %}
+![](hist6.png)
 
 > type
 
@@ -780,7 +780,7 @@ type 参数用于指定绘图的类型，除了 "l"（折线图）之外，常�
 lines(density(store.df$p1sales, bw=10), # "bw=..." adjusts the smoothing
       type="o", col = "darkred", lwd=2) # lwd=line width
 ```
-{% asset_image hist7.png %}
+![](hist7.png)
 
 # 二、week1 code
 ```

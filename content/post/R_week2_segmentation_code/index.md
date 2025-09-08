@@ -107,7 +107,7 @@ toc: true
 > plot(seg.hc)
 ```
 
-{% asset_image R_week2_cluster_plot.png  %}
+![](R_week2_cluster_plot.png)
 
 > hclust(d, method = "complete")
 
@@ -126,7 +126,7 @@ hclust() 函数返回一个树形结构对象（dendrogram），可以使用 plo
 > plot(cut(as.dendrogram(seg.hc), h = 4)$lower[[1]])
 ```
 
-{% asset_image R_week2_cluster_plot_2.png  %}
+![](R_week2_cluster_plot_2.png)
 
 ```
 > seg.df[c(156, 152),] #similar
@@ -159,7 +159,7 @@ hclust() 函数返回一个树形结构对象（dendrogram），可以使用 plo
 > rect.hclust(seg.hc, k=4, border = "red")
 ```
 
-{% asset_image R_week2_getting_group_plot.png %}
+![](R_week2_getting_group_plot.png)
 
 ```
 > seg.hc.segment <- cutree(seg.hc, k=4) #membership vector for 4 groups 
@@ -183,7 +183,7 @@ clusplot(seg.df, seg.hc.segment,
 )
 ```
 
-{% asset_image R_week2_describing_clusters_plot.png %}
+![](R_week2_describing_clusters_plot.png)
 
 ```
 > aggregate(seg.df, list(seg.hc.segment), mean)
@@ -198,7 +198,7 @@ clusplot(seg.df, seg.hc.segment,
 boxplot(seg.df$income ~ seg.hc.segment, ylab = "Income", xlab = "Cluster")
 ```
 
-{% asset_image R_week2_describing_clusters_plot_2.png %}
+![](R_week2_describing_clusters_plot_2.png)
 
 > boxplot()
 
@@ -247,7 +247,7 @@ boxplot(seg.df$income ~ seg.hc.segment, ylab = "Income", xlab = "Cluster")
 boxplot(seg.df$income ~ seg.k$cluster, ylab = "Income", xlab = "Cluster")
 ```
 
-{% asset_image R_week2_means_describing_clusters_plot.png %} 
+![](R_week2_means_describing_clusters_plot.png) 
 
 ```
 clusplot(seg.df, seg.k$cluster,
@@ -259,7 +259,7 @@ clusplot(seg.df, seg.k$cluster,
 )
 ```
 
-{% asset_image R_week2_means_describing_clusters_plot_2.png %} 
+![](R_week2_means_describing_clusters_plot_2.png) 
 
 这可能暗示了一种商业策略。在当前情况下，例如，我们看到第二组在一定程度上有所区别，并且拥有最高的平均收入。这可能使其成为潜在宣传活动的良好目标。还有许多其他策略可供选择；关键点在于分析提供了值得考虑的有趣选项。  
 
@@ -351,7 +351,7 @@ seg.mc4 31 3557.425
 +          labels = 4, lines = 0, main = "Model-based cluster plot")
 ```
 
-{% asset_image R_week2_model_based_describing_clusters_plot.png %}
+![](R_week2_model_based_describing_clusters_plot.png)
 
 # Week2 Code
 

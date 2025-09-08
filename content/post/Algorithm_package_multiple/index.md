@@ -16,7 +16,7 @@ toc: true
 
 > 对比一下完全背包，其实只是多了一个限制条件，完全背包问题中，物品可以选择任意多件，只要你装得下，装多少件都行。但多重背包就不一样了，每种物品都有指定的数量限制，所以不是你想装，就能一直装的。举个栗子，有A、B、C三种物品，相应的数量、价格和占用空间如下图：
 
-{% asset_img package_multi_init.png package_multi_init %}
+![](package_multi_init.png)
 
 ## 2. 解决
 
@@ -125,7 +125,7 @@ public int solution(int w[], int v[], int c) {
 
 > 这里有一个较大的不同点，在第二层循环中，需要分两种情况考虑，如果 M[m] * V[m] >= T ，那么第m个物品就可以当做完全背包问题来考虑，而如果 M[m] * V[m] < T，则每次选择时，需要从 newResults[n-V[m]*k] + P[m] * k（0 <= k <= M[m]）中找到最大值。
 
-{% asset_img package_multi_space.png package_multi_space %}
+![](package_multi_space.png)
 
 > 多重背包问题同样也可以转化成01背包问题来求解，因为第i件物品最多选 M[i] 件，于是可以把第i种物品转化为M[i]件体积和价值相同的物品，然后再来求解这个01背包问题。
 

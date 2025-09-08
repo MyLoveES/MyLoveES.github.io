@@ -104,7 +104,7 @@ rebuy    0.306658801  0.20870036 -0.397180225 -0.2371607  0.180702720  0.4673810
 ```
 corrplot(cor(brand.sc[,1:9]))
 ```
-{% asset_image R_week3_code_corrplot.png %}
+![](R_week3_code_corrplot.png)
 
 <div style="background-color:#f0f0f0; padding:10px;">
 
@@ -158,7 +158,7 @@ princomp() 函数返回一个主成分分析结果的对象，该对象包含了
 corrplot(cor(brand.sc[,1:9]), order = "hclust")
 ```
 
-{% asset_image R_week3_code_corrplot_with_order.png %}
+![](R_week3_code_corrplot_with_order.png)
 
 The result shows that some of the ratings are highly related to each other so that they could be represented by common factors.
 
@@ -248,7 +248,7 @@ princomp() 函数返回一个主成分分析结果的对象，该对象包含了
 plot(brand.pc,type="l") # scree plot
 ```
 
-{% asset_image R_week3_PCA %}
+![](R_week3_PCA)
 
 发生在图线出现拐点的地方，在上图中，拐点出现在第三个组件处。这表明前两个组件解释了观察到的品牌评分中大部分的变异。
 
@@ -297,7 +297,7 @@ biplot()是关于前两个PCA成分的数据点的二维图。它展示了评分
 biplot(brand.pc, main = "Brand positioning")
 ```
 
-{% asset_image R_week3_biplot.png %}
+![](R_week3_biplot.png)
 
 The result shows the adjective map in four regions:  
 • category leadership: “serious”, “leader”, and “perform”  
@@ -474,7 +474,7 @@ eigen()函数返回一个列表，其中包含了两个元素：
 > text(brand.fl,labels=names(brand.mean),cex=.7)
 ```
 
-{% asset_image R_week3_factor_loading.png %}
+![](R_week3_factor_loading.png)
 
 ## 3.3 Factor scores
 
@@ -492,7 +492,7 @@ brand.fs <- brand.fa$scores
 > text(brand.fl,labels=rownames(brand.mean),cex=.7)
 ```
 
-{% asset_image R_week3_factor_scores.png %}
+![](R_week3_factor_scores.png)
 
 # Recap
 

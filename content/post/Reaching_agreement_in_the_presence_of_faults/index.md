@@ -26,14 +26,14 @@ Reaching Agreement in the Presence of Faults 论文作者提出一种方法来�
   
 举个例子： 
 
-{% asset_img ReachAggrement-finger1.png finger1 %}
+![finger1](ReachAggrement-finger1.png)
   
 ## 交互一致性  
   
 虽然我们不需要最终知道哪些节点是有问题的，与错误节点对应的向量元素也可以是任意的;但是正确节点对于错误节点的向量元素必须是一致的。
    
 比如下面的这种情况是不被接受的：
-{% asset_img ReachAggrement-finger2.png finger2 %}
+![finger2](ReachAggrement-finger2.png)
   
 正确节点对所有节点(包括有故障的节点)持有的值达成共识，最终得到（交互式）一致性向量。这样，每个节点就能够通过对该向量的计算，继续得到业务上的所需要的值。  
 
@@ -48,25 +48,25 @@ Reaching Agreement in the Presence of Faults 论文作者提出一种方法来�
 在信息交换过程中，错误节点可能会发出错误的值，或者不发出任何值，来干扰其他正常节点的计算。对于一个正常节点，如果没有收到节点N的消息，会将其置为默认值（假设为NULL）。  
     
 STEP1:  
-{% asset_img ReachAggrement-finger3.png finger3 %}
+![finger3](ReachAggrement-finger3.png)
 STEP2:  
-{% asset_img ReachAggrement-finger4.png finger4 %}
+![finger4](ReachAggrement-finger4.png)
   
 在两轮信息交换完成后，每个节点都会持有“一组”向量值元素。节点可以选取“多数”作为认可的元素值，形成最终的向量。
-{% asset_img ReachAggrement-finger5.png finger5 %}
+![finger5](ReachAggrement-finger5.png)
 
 # 多节点错误  
   
 仅仅两轮信息交换不足以达成共识：  
   
 STEP1:  
-{% asset_img ReachAggrement-finger6.png finger6 %}
+![finger6](ReachAggrement-finger6.png)
   
 STEP2:  
-{% asset_img ReachAggrement-finger7.png finger7 %}
+![finger7](ReachAggrement-finger7.png)
 
 Finally:  
-{% asset_img ReachAggrement-finger8.png finger8 %}
+![finger8](ReachAggrement-finger8.png)
    
   
 继续下一轮交换信息........
@@ -91,15 +91,15 @@ m+1 轮后：
 如果在这向量n-1个元素里有至少(n+m)/2个元素值相同，p记录下该值，否则记录NIL值。  
   
 step1：（目的是确定源节点q正确与否）一定能够找到一个全部是正常节点的集合Q(size <= m)，使得正常的源节点q的值，经过Q处理后，依然不变。
-{% asset_img ReachAggrement-finger9.png finger9 %}
+![finger9](ReachAggrement-finger9.png)
   
 step2：（目的是对错误节点的值达成共识）如果源节点q没能满足step1，说明q在乱发值，q是一个问题节点。  
   
 q向d发送X：
-{% asset_img ReachAggrement-finger10.png finger10 %}  
+![finger10](ReachAggrement-finger10.png)  
   
 q向e发送Y：
-{% asset_img ReachAggrement-finger11.png finger11 %}
+![finger11](ReachAggrement-finger11.png)
   
 所以q的值是多少不重要了，重要的是其他节点要对q的值达成共识。做法，把问题节点q踢出去，询问其他节点，在他们眼里，q是多少。如果某个值Vq'超过半数认可，那么就以Vq'作为q的值，否则，记默认值NIL。即：
 
@@ -115,22 +115,22 @@ p 问q'（中间也经过了step1的处理），你眼里q是多少？如果获�
   
 ### step1: 每个节点把自己的值发送给其他节点  
   
-{% asset_img ReachAggrement-finger12.png finger12 %}
+![finger12](ReachAggrement-finger12.png)
   
 ### step2: 每个节点分享上一轮接收到的值
 ### step3: 每个节点再次分享上一轮接收到的值
   
-{% asset_img ReachAggrement-finger13.png finger13 %}
+![finger13](ReachAggrement-finger13.png)
   
 - 对于一个正常节点，经过子集Q，抵达A的值不会变
   
-{% asset_img ReachAggrement-finger14.png finger14 %}
+![finger14](ReachAggrement-finger14.png)
   
 - 对于一个非正常节点，经过子集Q，抵达A的值可能会变。此时需要踢出错误节点，来达成值的一致
   
-{% asset_img ReachAggrement-finger15.png finger15 %}
+![finger15](ReachAggrement-finger15.png)
 
-{% asset_img ReachAggrement-finger16.png finger16 %}
+![finger16](ReachAggrement-finger16.png)
 
 ---  
 ---  
@@ -138,15 +138,15 @@ p 问q'（中间也经过了step1的处理），你眼里q是多少？如果获�
 
 拜占庭国王放下手中的 Reaching_agreement_in_the_presence_of_faults.pdf，陷入沉思。
   
-{% asset_img ReachAggrement-finger17.png finger17 %}
+![finger17](ReachAggrement-finger17.png)
   
 最近他的军队正在攻打敌方同样强大的城池，需要将领们协同一致才可制胜。而他也知道，将军们中间有叛徒，正因此进攻才耽搁许久。忽然他眉头一皱，计上心来！
 
-{% asset_img ReachAggrement-finger18.png finger18 %} 
+![finger18](ReachAggrement-finger18.png) 
   
 国王究竟想到了什么办法呢？请看下回：
   
-{% asset_img ReachAggrement-finger19.png finger19 %}
+![finger19](ReachAggrement-finger19.png)
 
 ---  
 ---  

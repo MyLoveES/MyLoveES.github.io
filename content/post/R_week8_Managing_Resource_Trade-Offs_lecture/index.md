@@ -23,7 +23,7 @@ toc: true
 
 ## 0.1 Framework for Managing Resource Trade-Offs
 
-{% asset_image R_week8_lecture_1.png %}
+![](R_week8_lecture_1.png)
 
 ## 0.2 Attribution Approach
 
@@ -50,7 +50,7 @@ toc: true
 
 ## 1.1 Why Measure Returns on Marketing Investment?
 
-{% asset_image R_week8_lecture_2.png %}
+![](R_week8_lecture_2.png)
 
 ## 1.2 What are market response models? How it Works?
 
@@ -61,37 +61,37 @@ toc: true
 
 ## 1.3 How to Measure Return on Marketing Investment
 
-{% asset_image R_week8_lecture_3.png %}
+![](R_week8_lecture_3.png)
 
 ## 1.4 The Basics: Simple linear regression
 
 ### 1.4.1 Example1: Radio Ads for Sales
 
-{% asset_image R_week8_lecture_7.png %}
+![](R_week8_lecture_7.png)
 
 Sales = a+ b1 Radio advertising 
 
-{% asset_image R_week8_lecture_4.png %}
+![](R_week8_lecture_4.png)
 
 Does radio advertising affects sales for an electronics brand?
 
-{% asset_image R_week8_lecture_5.png %}
+![](R_week8_lecture_5.png)
 
 Predict sales
 
-{% asset_image R_week8_lecture_6.png %}
+![](R_week8_lecture_6.png)
 
 ### 1.4.2 Radio and TV ads for sales
 
-{% asset_image R_week8_lecture_8.png %}
+![](R_week8_lecture_8.png)
 
 Sales =a+ b1 Radio advertising + b2 TV advertising
 
-{% asset_image R_week8_lecture_9.png %}
+![](R_week8_lecture_9.png)
 
-{% asset_image R_week8_lecture_10.png %}
+![](R_week8_lecture_10.png)
 
-{% asset_image R_week8_lecture_11.png %}
+![](R_week8_lecture_11.png)
 
 ## 1.5 Allocating Marketing Budgets
 
@@ -99,22 +99,22 @@ Sales =a+ b1 Radio advertising + b2 TV advertising
   - 预测变量变化1%，响应变量变化的百分比  
   - 例如：广告支出变化1%，销售变化的百分比  
 
-{% asset_image R_week8_lecture_12.png %}
+![](R_week8_lecture_12.png)
 
 ## 1.6 Modelling log-log Returns on Investment
 
-{% asset_image R_week8_lecture_13.png %}
+![](R_week8_lecture_13.png)
 
-{% asset_image R_week8_lecture_14.png %}
+![](R_week8_lecture_14.png)
 
-{% asset_image R_week8_lecture_15.png %}
+![](R_week8_lecture_15.png)
 
 ## 1.7 Modelling Media Synergy
 
 - 组合使用营销组合工具可以产生协同效应。   
 - 当多种媒体的联合影响超过它们各自部分的总和时，就会产生协同效应。  
 
-{% asset_image R_week8_lecture_16.png %}
+![](R_week8_lecture_16.png)
 
 ## 1.8 Modelling carryover effects
 
@@ -131,15 +131,15 @@ Sales =a+ b1 Radio advertising + b2 TV advertising
 > How to calculate Adstock levels?   
 Adstockt= Advertisingt+ λAdstockt-1
 
-{% asset_image R_week8_lecture_17.png %}
+![](R_week8_lecture_17.png)
 
 > Do it in R
 
-{% asset_image R_week8_lecture_18.png %}
+![](R_week8_lecture_18.png)
 
 ## 1.9 Building and Evaluating Market Response Model
 
-{% asset_image R_week8_lecture_19.png %}
+![](R_week8_lecture_19.png)
 
 ## 1.10 Takeaways
 
@@ -208,13 +208,13 @@ Adstockt= Advertisingt+ λAdstockt-1
 
 DFG决定进行一项受控的营销实验。将处理组和对照组匹配在已知属性上（例如人口统计学特征）。
 
-{% asset_image R_week9_lecture_1.png %}
+![](R_week9_lecture_1.png)
 
 ### 2.3.2 Marketing Experiment: “before-and-after”
 
 DFG决定采用控制的营销实验，采用前后对照的设计。
 
-{% asset_image R_week9_lecture_2.png %}
+![](R_week9_lecture_2.png)
 
 ### 2.3.3 Case
 
@@ -223,11 +223,11 @@ DFG决定采用控制的营销实验，采用前后对照的设计。
   - 比较各组以确定均值差异是否显著
   - T检验/方差分析/回归
 
-{% asset_image R_week9_lecture_3.png %}
+![](R_week9_lecture_3.png)
 
 ### 2.3.4 68-95-99.7 rule
 
-{% asset_image R_week9_lecture_4.png %}
+![](R_week9_lecture_4.png)
 
 ### 2.3.5 GOGOGO
 
@@ -253,7 +253,7 @@ DFG决定采用控制的营销实验，采用前后对照的设计。
 
 ## 2.5 Multivariate testing
 
-{% asset_image R_week9_lecture_5.png %}
+![](R_week9_lecture_5.png)
 
 ## 2.6 Natural Experiments: when to use
 
@@ -265,7 +265,7 @@ DFG决定采用控制的营销实验，采用前后对照的设计。
 
 ### 2.6.1 Natural Experiments: Difference-in-Difference
 
-{% asset_image R_week9_lecture_6.png %}
+![](R_week9_lecture_6.png)
 
 
 - 差异中的差异（DiD）试图通过研究自然实验中处理组与对照组之间的处理对结果变量的差异效应，来模拟实验研究设计。

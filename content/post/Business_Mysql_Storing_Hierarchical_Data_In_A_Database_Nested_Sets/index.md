@@ -21,11 +21,11 @@ toc: true
 
 ## 实例
 
-{% asset_img CASE.png CASE %}
+![](CASE.png)
 
 ## 转成树型
 
-{% asset_img CASE_TREE.png CASE_TREE %}
+![](CASE_TREE.png)
 
 ## 回头看
 
@@ -47,9 +47,9 @@ Closure_Table: 空间消耗大，层级删改 -> ∞
 根据树的深度遍历对节点编号，记录首、末次访问到该节点的数字。通过比较数字或的层级结构关系。  
 <!-- 进行更新操作很复杂，但是可以通过不使用整数而是用有理数来改进更新速度。 -->
 
-{% asset_img Nested_Sets_1.png Nested_Sets_1 %}
+![](Nested_Sets_1.png)
 
-{% asset_img Nested_Sets_2.png Nested_Sets_2 %}
+![](Nested_Sets_2.png)
 
 |id    |name  |left     |right     |
 |------|------|---------|----------|
@@ -72,7 +72,7 @@ Closure_Table: 空间消耗大，层级删改 -> ∞
 ## 各种情况的处理代价
 
 ### 增
-{% asset_img ADD.jpg ADD %}
+![](ADD.jpg)
 > 代价：-> O(n)，更新会影响到其他子树  
 > 输入：name. parent_id
 > 执行：
@@ -86,7 +86,7 @@ update table set right = right + 2 where right >= $parent.right;
 ```
 
 ### 删
-{% asset_img DEL.jpg DEL %}
+![](DEL.jpg)
 > 代价：-> O(n)，先删除节点以及子树，并对其他子树进行修改  
 > 输入：id  
 > 执行：  
@@ -117,7 +117,7 @@ update table set info where id = $id;
 select * from table where id = $id
 ```
 #### 查下一级
-{% asset_img SEARCH_NEXT.jpg SEARCH_NEXT %}
+![](SEARCH_NEXT.jpg)
 > 代价：-> O(n)  
 > 输入：id    
 > 执行：
@@ -132,7 +132,7 @@ having max(parent.left) = $parent.left  -- Subset for those with the given Paren
 这类查询可以通过增加一列来简化。例如，增加depth列记录当前节点深度，或者parent_id列记录父节点（和Adjacency List混用）,但增加了维护成本
 ```
 #### 查所有子集
-{% asset_img SEARCH_ALL.jpg SEARCH_ALL %}
+![](SEARCH_ALL.jpg)
 > 代价：-> O(n)  
 > 输入：path  
 > 执行：
@@ -144,8 +144,8 @@ and right < $parent.right
 order by left asc;
 ```
 ### 移动
-{% asset_img MOVE1.jpg MOVE1 %}
-{% asset_img MOVE2.jpg MOVE2 %}
+![](MOVE1.jpg)
+![](MOVE2.jpg)
 > 代价：-> O(n)  
 > 输入：id, new_parent_id
 > 执行：

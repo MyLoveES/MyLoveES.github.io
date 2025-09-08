@@ -202,11 +202,11 @@ $$
     - 消费者购买次数
     - 总购买金额
 
-{% asset_image week4_lec_1.png %}
+![](week4_lec_1.png)
 
 ## 3.2 logistic output
 
-{% asset_image week4_lec_2.png %}
+![](week4_lec_2.png)
 
 <div style="background-color:#f0f0f0; padding:10px;">
 
@@ -217,7 +217,7 @@ $$
 
 </div>
 
-{% asset_image week4_lec_3.png %}
+![](week4_lec_3.png)
 
 <div style="background-color:#f0f0f0; padding:10px;">
 
@@ -251,15 +251,15 @@ $$ p_{\text{new}} = \frac{\exp(V_{\text{new}})}{\exp(V_{\text{new}}) + 1} $$
 $$ \text{Lift}_{\text{new}} = \frac{\exp(V_{\text{new}})}{\exp(V_{\text{base}}) + 1} - p_{\text{base}} $$
 其中，$ p_{\text{base}} $ 是基准购买概率。
 
-{% asset_image week4_lec_4.png %}
+![](week4_lec_4.png)
 
 ## 3.4 Classification
 
-{% asset_image week4_lec_5.png %}
+![](week4_lec_5.png)
 
 ## 3.5 Classification (Hit Rate)
 
-{% asset_image week4_lec_6.png %}
+![](week4_lec_6.png)
 
 - 准确率：命中率=(51+43)/100=94%
 - 灵敏度：真正率=43/(43+2)=96%
@@ -289,7 +289,7 @@ $$ \text{Lift}_{\text{new}} = \frac{\exp(V_{\text{new}})}{\exp(V_{\text{base}}) 
 
 ROC曲线是衡量二分类模型性能的重要工具，AUC值是ROC曲线下的面积，用于量化模型对正例和负例的区分能力。通常情况下，AUC值越高，模型性能越好。  
 
-{% asset_image week4_lec_7.png %}
+![](week4_lec_7.png)
 
 # 5. Dynamic Segmentation
 

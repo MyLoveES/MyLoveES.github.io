@@ -162,11 +162,11 @@ histogram(~ like | condition, data = ad.df)
 你会注意到在这个公式中，波浪线（~）前面没有响应变量，只有它后面的解释变量（condition）。histogram()默认情况下，假设我们想要绘制每个喜欢程度水平上的人群比例。我们在条件上进行了绘图，告诉histogram为每个段生成一个单独的直方图。    
 histogram()的默认方式是在每个组内绘制比例，使得值相对于组的大小。如果我们想要实际计数，可以包含参数type = "count"。   
 
-{% asset_image R_week9_code_2.png %}
+![](R_week9_code_2.png)
 
 我们可以通过使用“+”在多个因素上添加条件。例如，每个段内的订阅者比例如何根据住房所有权来计算？
 
-{% asset_image R_week9_code_3.png %}
+![](R_week9_code_3.png)
 
 结果告诉我们，根据广告条件在段内的喜欢程度差异很小。这意味着两个广告版本在喜欢程度上产生的差异很小。
 
@@ -180,7 +180,7 @@ histogram()的默认方式是在每个组内绘制比例，使得值相对于组
 > barchart(seconds_spent ~ condition, data = ad.mean, col = "grey")
 ```
 
-{% asset_image R_week9_code_4.png %}
+![](R_week9_code_4.png)
 
 我们如何进一步按段拆分数据？首先，我们必须对数据进行聚合，以在公式中包括两个因素。然后，我们通过添加参数groups=factor，告诉barchart()使用段作为分组变量。
 
@@ -190,11 +190,11 @@ histogram()的默认方式是在每个组内绘制比例，使得值相对于组
 > barchart(seconds_spent ~ condition, data = ad.seconds.agg ,groups = segment, auto.key=TRUE)
 ```
 
-{% asset_image R_week9_code_5.png %}
+![](R_week9_code_5.png)
 
 用于比较不同组的连续数据值（如不同组的seconds_spent）的更具信息性的图表是箱线图。箱线图比柱状图更好，因为它显示了更多关于值分布的信息。
 
-{% asset_image R_week9_code_6.png %}
+![](R_week9_code_6.png)
 
 ### 2.2.1 bwplot() *
 
@@ -205,14 +205,14 @@ histogram()的默认方式是在每个组内绘制比例，使得值相对于组
 bwplot(condition ~ seconds_spent, data = ad.df, horizontal = TRUE, xlab = "Total seconds spent")
 ```
 
-{% asset_image R_week9_code_7.png %}
+![](R_week9_code_7.png)
 
 我们可以将处理条件作为一个条件变量：
 ```
 bwplot(condition ~ seconds_spent | segment, data = ad.df, horizontal = TRUE, xlab = "seconds_spent")
 ```
 
-{% asset_image R_week9_code_8.png %}
+![](R_week9_code_8.png)
 
 
 对于按段和广告条件分组的总浏览时长的条件化图表显示，旅行者细分中处于处理组的人的总浏览时长分布比处于对照组的人的分布要宽得多。

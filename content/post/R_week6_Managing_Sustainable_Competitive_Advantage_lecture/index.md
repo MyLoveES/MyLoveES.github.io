@@ -61,7 +61,7 @@ toc: true
 - 产品可以被看作是属性水平或特征的捆绑。
 - 产品特征为消费者提供价值
 
-{% asset_image week6_lec_1.png %} 
+![](week6_lec_1.png) 
 
 - 最佳设计涉及选择产品的属性水平，以最大化目标
 - 典型目标
@@ -131,7 +131,7 @@ V_j = β_{iPad} \times iPad_j + β_{Gal} \times Gal_j + β_{Kind} \times Kind_j 
 + β_{price} \times Price_j
 $$
 
-{% asset_image week6_lec_2.png %}
+![](week6_lec_2.png)
 
 在使用 MNL（Multinomial Logit）模型进行参数估计时，通常会获得一些统计量来评估模型参数的显著性。在统计软件中，例如 R 或 Python 中，这些统计量通常包括以下几个：
 
@@ -148,11 +148,11 @@ $$
 平板电脑共同分析效用（β参数估计）  
 - 参考水平用灰色标记
 
-{% asset_image week6_lec_3.png %}
+![](week6_lec_3.png)
 
 在选择任务示例中，平板电脑1和2的效用
 
-{% asset_image week6_lec_4.png %}
+![](week6_lec_4.png)
 
 - Choice Probabilities
 
@@ -167,16 +167,16 @@ $\sigma_i p_i = 1$ or $p_1 + p_2 + p_3 = 1$
 - Predicted Market Share
 假设市场上有这三款平板电脑：
 
-{% asset_image week6_lec_5.png %}
+![](week6_lec_5.png)
 
 - Hit Rate: Choice Prediction Accuracy
 
-{% asset_image week6_lec_5.png %}
+![](week6_lec_5.png)
 
 - Conjoint Simulator
 
 2GB RAM 升级对 Galaxy 市场份额的影响: 
-{% asset_image week6_lec_7.png %}
+![](week6_lec_7.png)
 
 - What is the Brand Value of iPad Relative to Galaxy?
 相对于 Galaxy，iPad 的品牌价值是多少？

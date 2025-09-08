@@ -20,7 +20,7 @@ toc: true
 
 感知映射，可视化现实消费者观点
 
-{% asset_image R_week3_perceptual_mapping.png %}
+![](R_week3_perceptual_mapping.png)
 
 ## Factor Analysis
 
@@ -53,5 +53,5 @@ $$
 1. 分析品牌位置：观察品牌在感知图上的相对位置，了解它们在消费者心目中的优势和劣势。
 2. 制定策略：基于感知图的结果，制定品牌定位策略，以改善品牌形象或区分竞争对手。
 
-{% asset_image R_week3_jobs.png %}
+![](R_week3_jobs.png)
 

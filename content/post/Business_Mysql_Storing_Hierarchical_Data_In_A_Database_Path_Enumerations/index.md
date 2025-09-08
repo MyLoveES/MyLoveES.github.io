@@ -21,11 +21,11 @@ toc: true
 
 ## 实例
 
-{% asset_img CASE.png CASE %}
+![](CASE.jpg)
 
 ## 转成树型
 
-{% asset_img CASE_TREE.png CASE_TREE %}
+![](CASE_TREE.jpg)
 
 ## Path Enumerations 
 
@@ -66,7 +66,7 @@ insert into table(name, path) values($name, $path);
 |16(add)|file_ADD|/DIR_A/DIR_C/DIR_E/file_ADD|
 
 ### 删
-{% asset_img DEL.jpg DEL %}
+![](DEL.jpg)
 > 代价：-> O(n)  
 > 输入：path  
 > 执行：  
@@ -75,7 +75,7 @@ delete from table where path like CONCAT($path, '%') ;
 ```
 
 ### 改
-{% asset_img UPDATE.jpg UPDATE %}
+![](UPDATE.jpg)
 > 代价：-> O(n)  
 > 输入：path, other info  
 > 执行：  
@@ -100,7 +100,7 @@ where path like CONCAT($old_path, '%')
 select * from table where path = $path
 ```
 #### 查下一级
-{% asset_img SEARCH_NEXT.jpg SEARCH_NEXT %}
+![](SEARCH_NEXT.jpg)
 > 代价：-> O(n)  
 > 输入：id  
 > 执行：
@@ -108,7 +108,7 @@ select * from table where path = $path
 select * from table where path regexp CONCAT('^', $path, '/.+', '((?!/).)')
 ```
 #### 查所有子集
-{% asset_img SEARCH_ALL.jpg SEARCH_ALL %}
+![](SEARCH_ALL.jpg)
 > 代价：-> O(n)  
 > 输入：path  
 > 执行：
@@ -116,7 +116,7 @@ select * from table where path regexp CONCAT('^', $path, '/.+', '((?!/).)')
 select * from table where path like CONCAT($path, '/%')
 ```
 ### 移动
-{% asset_img MOVE.jpg MOVE %}
+![](MOVE.jpg)
 > 代价：-> O(n)  
 > 输入：path, new_path  
 > 执行：

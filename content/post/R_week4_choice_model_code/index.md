@@ -1,8 +1,12 @@
 ---
 title: R[week4] Choice model code
 date: 2024-03-25
-tags: [R-Language]
-categories: R-Language
+tags:
+- "R语言"
+- "数据分析"
+- "选择模型"
+categories:
+- "教程"
 math: true
 toc: true
 ---
@@ -421,7 +425,7 @@ Setting direction: controls < cases
 roc() 函数是 pROC 包中的一个函数，用于计算接收者操作特征（Receiver Operating Characteristic，ROC）曲线以及计算曲线下面积（Area Under the Curve，AUC）。ROC 曲线是一种用于评估二元分类器性能的图形工具，它显示了在不同分类阈值下真正例率（True Positive Rate，TPR，又称为灵敏度）与假正例率（False Positive Rate，FPR）之间的关系。
 </div>
 
-{% asset_image week4_plot.png %}
+![](week4_plot.png)
 
 Finally, we predict new probabilities under a hypothetical scenario that everyone’s Monetary variable went up by one unit.  
 

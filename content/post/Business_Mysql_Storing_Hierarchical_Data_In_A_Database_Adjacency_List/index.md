@@ -21,10 +21,10 @@ toc: true
 
 ## 实例
 
-{% asset_img CASE.png CASE %}
+![](CASE.png)
 
 ## 转成树型
-{% asset_img CASE_TREE.png CASE_TREE %}
+![](CASE_TREE.png)
 
 ## Adjacency List 邻接表
 
@@ -57,7 +57,7 @@ O(n)：有限的操作次数，无限的影响范围
 ```
 
 ### 增
-{% asset_img ADD.jpg ADD %}
+![](ADD.jpg)
 
 > 代价：-> O(1)  
 > 输入：name, parent_id  
@@ -73,7 +73,7 @@ insert into table(name, parent_id) values($name, $parent_id);
 |16(add)|file_ADD|1        |
 
 ### 删
-{% asset_img DEL.jpg DEL %}
+![](DEL.jpg)
 
 **需要递归删除**
 > 代价：-> ∞  
@@ -105,7 +105,7 @@ update table set info where id = $id
 select * from table where id = $id
 ```
 #### 查下一级 
-{% asset_img SEARCH_NEXT.jpg SEARCH_NEXT %}
+![](SEARCH_NEXT.jpg)
 > 代价：-> O(n)  
 > 输入：id  
 > 执行：
@@ -113,7 +113,7 @@ select * from table where id = $id
 select * from table where parent_id = $id
 ```
 #### 查所有子集
-{% asset_img SEARCH_ALL.jpg SEARCH_ALL %}
+![](SEARCH_ALL.jpg)
 > 代价：-> ∞  
 > 输入：id  
 > 执行：
@@ -126,7 +126,7 @@ while (sub_ids is not empty) {
 }
 ```
 ### 移动
-{% asset_img MOVE.jpg MOVE %}
+![](MOVE.jpg)
 > 代价：-> O(1)  
 > 输入：id, new_parent_id  
 > 执行：

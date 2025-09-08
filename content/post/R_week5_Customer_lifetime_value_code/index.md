@@ -178,7 +178,7 @@ ggplot(CLV.df, aes(x = t, y = active)) +
   geom_line() + ylab("Customer") +
   xlab("Period") + ggtitle("Active Customer Evolution")
 ```
-{% asset_image week5_code_1.png %}
+![](week5_code_1.png)
 
 > Retention Ratio Evolution
 ```
@@ -186,7 +186,7 @@ ggplot(CLV.df, aes(x = t, y = r)) + geom_line() + ylab("Customer") + xlab("Perio
   ggtitle("Retention Ratio Evolution")
 ```
 
-{% asset_image week5_code_2.png %}
+![](week5_code_2.png)
 
 问题：我们观察到了什么？由于一些变量是恒定的，CLV只取决于客户数量。图表与之前的类似。
 ### 1.5.2 Calculate CLV
@@ -216,7 +216,7 @@ ggplot(CLV.df, aes(x = t, y = CLV)) + geom_line() + ggtitle("CLV evolution") + y
 
 > CLV evolution
 
-{% asset_image week5_code_3.png %}
+![](week5_code_3.png)
 
 问题：我们观察到了什么？由于一些变量是恒定的，CLV只取决于客户数量。图表与之前的类似。
 
@@ -248,7 +248,7 @@ CLV.df$CLV2 <- (CLV.df$p - CLV.df$c) * 0.8 / (1 + CLV.df$i)^(CLV.df$t - 1)
 ggplot(CLV.df, aes(x = t, y = CLV2)) + geom_line() + ylab("CLV2") + xlab("Period") + labs(title = "CLV 2 Evolution")
 ```
 
-{% asset_image week5_code_4.png %}
+![](week5_code_4.png)
 
 最后，我们可以计算CLV值：
 ```

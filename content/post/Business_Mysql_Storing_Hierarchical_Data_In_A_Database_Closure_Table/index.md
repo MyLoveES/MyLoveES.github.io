@@ -21,13 +21,13 @@ toc: true
 
 ## 实例
 
-{% asset_img CASE.png CASE %}
+![](CASE.png)
 
 ## 转成树型
 
-{% asset_img CASE_CUSTOM.png CASE_CUSTOM %}
+![](CASE_CUSTOM.png)
 
-{% asset_img CASE_TREE.png CASE_TREE %}
+![](CASE_TREE.png)
 
 ## Closure Table
 
@@ -64,7 +64,7 @@ toc: true
 ## 各种情况的处理代价
 
 ### 增
-{% asset_img ADD.jpg ADD %}
+![](ADD.jpg)
 
 > 代价：-> O(n)  如果层级非常深，代价 -> ∞  
 > 输入：name, parent_id  
@@ -95,7 +95,7 @@ for (ancestor_id : ids) {
 |16         |13        |1       |
 
 ### 删
-{% asset_img DEL.jpg DEL %}
+![](DEL.jpg)
 > 代价：-> O(n)  
 > 输入：id  
 > 执行：  
@@ -123,7 +123,7 @@ update node set info where id = $id
 select * from node where id = $id
 ```
 #### 查下一级
-{% asset_img SEARCH_NEXT.jpg SEARCH_NEXT %}
+![](SEARCH_NEXT.jpg)
 > 代价：-> O(n)  
 > 输入：id  
 > 执行：
@@ -133,7 +133,7 @@ left join node on node.id = relation.current_id
 where relation.ancestor_id = $id and distance = 1
 ```
 #### 查所有子集
-{% asset_img SEARCH_ALL.jpg SEARCH_ALL %}
+![](SEARCH_ALL.jpg)
 > 代价：-> O(n)  
 > 输入：id  
 > 执行：
@@ -143,7 +143,7 @@ left join node on node.id = relation.current_id
 where relation.ancestor_id = $id
 ```
 ### 移动
-{% asset_img MOVE.jpg MOVE %}
+![](MOVE.jpg)
 > 代价：-> O(n)
 > 输入：id, new_parent_id
 > 执行：

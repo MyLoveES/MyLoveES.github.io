@@ -2,7 +2,7 @@
 title: Vim 配置 
 date: 2022-04-16
 tags: [Linux, Vim]
-categories: Linux
+categories: 技术
 toc: true
 ---
 

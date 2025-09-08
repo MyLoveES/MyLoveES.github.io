@@ -143,7 +143,7 @@ creating S4 object  ... done [0.00s].
 > plot(groc.rules)
 ```
 
-{% asset_image R_week7_code_plot1.png %}
+![](R_week7_code_plot1.png)
 
 
 在该图表中，我们可以看到大多数规则涉及很少发生的项目组合（即支持度低），而置信度相对平稳分布。  
@@ -154,7 +154,7 @@ creating S4 object  ... done [0.00s].
 > plot(groc.rules, engine = "plotly")
 ```
 
-{% asset_image R_week7_code_plot2.png %}
+![](R_week7_code_plot2.png)
 
 在交互模式下，您可以检查规则的区域。为此，请在感兴趣的区域的一个角落单击一次，然后在相反的角落再次单击。您可以使用放大功能放大该区域或使用检查功能列出该区域的规则。完成后，请单击结束。   
 
@@ -195,7 +195,7 @@ creating S4 object  ... done [0.00s].
 
 规则的图形显示可能对寻找更高层次的主题和模式很有用。我们使用 plot(..., method="graph") 来绘制按提升度排名的前 15 条规则的图形显示：
 
-{% asset_image R_week7_code_plot3.png %}
+![](R_week7_code_plot3.png)
 
 
 结果图中项目的位置可能因您的系统而异，但项目集群应该是相似的。每个圆圈代表一条规则，其中来自规则左侧项的入站箭头，指向右侧项的出站箭头。圆圈的大小（面积）表示规则的支持度，而颜色的深浅表示提升度（颜色越深表示提升度越高）。

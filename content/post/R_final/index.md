@@ -72,7 +72,7 @@ hist(seg.df$Sustainability_Score,
      col = "lightblue" # colore the bars
 )
 ```
-{% asset_image final_1.png %}
+![](final_1.png)
 
 ```
 hist(seg.df$Choco_Consumption,
@@ -82,7 +82,7 @@ hist(seg.df$Choco_Consumption,
      col = "lightblue" # colore the bars
 )
 ```
-{% asset_image final_2.png %}
+![](final_2.png)
 
 ```
 > head(seg.df, n = 5)
@@ -171,11 +171,11 @@ hist(seg.df$Choco_Consumption,
 > seg.hc <- hclust(seg.dist, method="complete")
 > plot(seg.hc)
 ```
-{% asset_image final_3.png %}
+![](final_3.png)
 ```
 > rect.hclust(seg.hc, k=4, border = "red")
 ```
-{% asset_image final_4.png %}
+![](final_4.png)
 ```
 > seg.hc.segment <- cutree(seg.hc, k=4) #membership vector for 4 groups 
 > table(seg.hc.segment) #counts
@@ -193,7 +193,7 @@ seg.hc.segment
 +          main = "Hierarchical cluster plot" # figure title
 + )
 ```
-{% asset_image final_5.png %}
+![](final_5.png)
 > Graph split to 4 groups
 ```
 > aggregate(seg.df, list(seg.hc.segment), mean)
@@ -207,17 +207,17 @@ seg.hc.segment
 ```
 > boxplot(seg.df$Salary ~ seg.hc.segment, ylab = "Salary", xlab = "Cluster")
 ```
-{% asset_image final_6.png %}
+![](final_6.png)
 > Well-differentiated: Salary(Group3)
 ```
 > boxplot(seg.df$Education ~ seg.hc.segment, ylab = "Education", xlab = "Cluster")
 ```
-{% asset_image final_7.png %}
+![](final_7.png)
 > Well-differentiated: Education(Group4)
 ```
 > boxplot(seg.df$Choco_Consumption ~ seg.hc.segment, ylab = "Choco_Consumption", xlab = "Cluster")
 ```
-{% asset_image final_8.png %}
+![](final_8.png)
 
 > Differentiated not welled, ignore
 
@@ -339,7 +339,7 @@ sweetener               0.003483658  0.003668166           -0.10692619 -0.040725
 > corrplot(cor(brand.sc[,2:10]), order = "hclust")
 ```
 
-{% asset_image final_9.png %}
+![](final_9.png)
 
 > organic un-related with countsOfIngredients、cocoaButter and salt 
 > salt related with countsOfIngredients and cocoaButter
@@ -472,7 +472,7 @@ Zak's                         -0.829535060 -0.24665605            1.27656714    
 +           #turn off some options
 ```
 
-{% asset_image final_10.png %}
+![](final_10.png)
 
 > Some brands related with salt, such as Letterpress、Qantu、Pacari、Kyya、Naive   
 > Some brands related with organic, such as Amedei, Fossa, Castronovo
@@ -492,7 +492,7 @@ Cumulative Proportion  0.4218449 0.6166246 0.7403822 0.84031927 0.91990650 0.957
 > plot(brand.pc,type="l") # scree plot
 ```
 
-{% asset_image final_11.png %}
+![](final_11.png)
 
 > The elbow occurs at component three. This suggests that the first two components explain most of the variation in the observed brand rating.
 
@@ -578,7 +578,7 @@ Zak's                         2.5174379 -1.426444229 -1.78790183 -1.117084841 -0
 > biplot(brand.pc, main = "Brand positioning")
 ```
 
-{% asset_image final_12.png %}
+![](final_12.png)
 
 > If the brand wants to enhance its differentiation from other brands, brand can focus on balancing the organic and rating aspects. This is more in line with the sustainable development mentioned earlier, and there are fewer brands in this position.
 
@@ -623,7 +623,7 @@ $vectors
 > text(brand.fl,labels=names(brand.mean),cex=.7)
 ```
 
-{% asset_image final_13.png %}
+![](final_13.png)
 
 ```
 > brand.fs <- brand.fa$scores
@@ -631,7 +631,7 @@ $vectors
 > text(brand.fl,labels=rownames(brand.mean),cex=.7)
 ```
 
-{% asset_image final_14.png %}
+![](final_14.png)
 
 # 2. Managing Sustainable Competitive Advantage
 
@@ -1241,7 +1241,7 @@ A store might form several insights on the basis of such information. For instan
 plot(groc.rules)
 ```
 
-{% asset_image final_15.png %}
+![](final_15.png)
 
 In that chart, we see that most rules involve item combinations that infrequently occur (that is, they have low support) while confidence is relatively smoothly distributed.     
 
@@ -1251,7 +1251,7 @@ Simply showing points is not very useful, and a key feature with arulesViz is in
 plot(groc.rules, engine = "plotly", interactive=TRUE)
 ```
 
-{% asset_image final_16.png %}
+![](final_16.png)
 
 One rule tells us that the combination {crisps and nuts, yogurt} occurs in about 1.0 % of baskets (support=0.0105), and when it occurs, it highly likely includes {whole milk} (confidence= 0.595). The combination occurs 3 times more often than we would expect from the individual incidence rates of {crisps and nuts, yogurt} and {whole milk} considered separately (lift=3.26).
     
@@ -1283,7 +1283,7 @@ Support and lift are identical for an item set regardless of the items’ order 
 hand side of the rule). However, confidence reflects direction because it computes the occurrence of the right-hand set conditional on the left-hand side set.    
 A graph display of rules may be useful to seek themes and patterns at a higher level. We chart the top 15 rules byliftwithplot(... ,method=“graph”):    
 
-{% asset_image final_17.png %}
+![](final_17.png)
 
 The positioning of items on the resulting graph may differ for your system, but the item clusters should be similar. Each circle represents a rule, with inbound arrows coming from items on the left-hand side of
 the rule and outbound arrows going to the right-hand side. The size (area) of the circle represents the rule’s support, and shade represents lift (darker indicates higher lift).
@@ -1299,27 +1299,27 @@ spending.data <- read.csv("7_advertising.csv")
 str(spending.data)
 plot(spending.data$radio, spending.data$sales)
 ```
-{% asset_image final_18.png %}
+![](final_18.png)
 ```
 plot(spending.data$magazines, spending.data$sales)
 ```
-{% asset_image final_19.png %}
+![](final_19.png)
 ```
 plot(spending.data$social_media, spending.data$sales)
 ```
-{% asset_image final_20.png %}
+![](final_20.png)
 ```
 plot(spending.data$search_ads, spending.data$sales)
 ```
-{% asset_image final_21.png %}
+![](final_21.png)
 ```
 plot(spending.data$tv, spending.data$sales)
 ```
-{% asset_image final_22.png %}
+![](final_22.png)
 ```
 plot(spending.data$newspaper, spending.data$sales)
 ```
-{% asset_image final_23.png %}
+![](final_23.png)
 
 ### 3.1.2 Selecting Advertising platforms
 #### 3.1.2.1 line
@@ -1732,21 +1732,21 @@ F-statistic: 808.3 on 3 and 196 DF,  p-value: < 2.2e-16
 ```
 > histogram(~ clicked_article | condition, data = ad.df)
 ```
-{% asset_image final_24.png %}
+![](final_24.png)
 ```
 > histogram(~ clicked_like | condition, data = ad.df)
 ```
-{% asset_image final_25.png %}
+![](final_25.png)
 ```
 > histogram(~ clicked_share | condition, data = ad.df)
 ```
-{% asset_image final_26.png %}
+![](final_26.png)
 
 ```
 > ad.mean <- aggregate(time_spent_homepage_sec ~ condition, data = ad.df, mean) 
 > barchart(time_spent_homepage_sec ~ condition, data = ad.mean, col = "grey")
 ```
-{% asset_image final_27.png %}
+![](final_27.png)
 
 ### 3.2.4 Statistical tests
 
