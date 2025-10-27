@@ -76,17 +76,18 @@ Cursor 是一款“AI First”的编辑器，它将 IDE 与 LLM 的能力深度�
 ### C. Command Cli：新一代开发主力
 
 对于许多热爱键盘和终端的开发者来说，命令行界面（CLI）是效率最高的交互方式。新一代的 AI 命令行工具正将 Vibe Coding 的能力带入这个经典场域。
-
-![](PIC3_Command_Cli.png)
-
 #### 1. Gemini
 Google 出品的 Gemini，凭借过硬的底层模型质量与强大的多模态能力，正在非常稳定并极具性价比的 CLI 工具。
+
+![](PIC7_Gemini_Cli.png)
 
 *   **质量**: ★★★★☆ 很不错
 *   **成本**: ★★★★★ 学生免费Pro一年（限定美国IP）；野生key资源比较多；
 
 #### 2. Claude
 Anthropic 的 Claude Cli，算是这种形态的工具的开山鼻祖。借助于 Claude 模型编码的超高质量，目前是解决问题、完成编码的强力助手。
+
+![](PIC3_Command_Cli.png)
 
 *   **质量**: ★★★★★ 很强👍
 *   **成本**: ★☆☆☆☆ Claude Pro Max 100$/month；
@@ -97,7 +98,9 @@ Anthropic 的 Claude Cli，算是这种形态的工具的开山鼻祖。借助�
 #### 3. Codex
 OpenAI 的 Codex，凭借 gpt 模型超高的代码质量，如专业的手术刀一般，精准解决问题。
 
-*   **质量**: ★★★★★ 很强👍
+![](PIC8_Codex_Cli.png)
+
+* **质量**: ★★★★★ 很强👍
 *   **成本**: ★☆☆☆☆ 需要走 GPT API，成本高
 *   **特色**: 代码质量更高（社区评价，代码比Claude更好一些），问题定位更精准；
 
