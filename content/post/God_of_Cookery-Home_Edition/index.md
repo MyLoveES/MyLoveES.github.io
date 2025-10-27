@@ -23,6 +23,14 @@ toc: true
 
 ![](Stir-fried_Zucchini_with_Eggs.jpg)
 
+### 烤鸭
+
+![](Roast_duck.JPG)
+
+### 蒸螃蟹
+
+![](Steamed_Crabs.JPG)
+
 ## 素菜
 
 ### 红烧茄子
@@ -35,6 +43,10 @@ toc: true
 
 ![](Winter_Melon_and_Pork_Rib_Soup.jpg)
 
+### 鸭架白菜豆腐汤
+
+![](Duck_Frame_Tofu_and_Chinese_Cabbage_Soup.JPG)
+
 ## 凉菜
 
 ### 凉拌苦菊
@@ -43,7 +55,9 @@ toc: true
 
 ## 主食
 
-暂无内容
+### 蛋炒饭
+
+![](Egg_Fried_Rice.JPG)
 
 ## 外卖
 
