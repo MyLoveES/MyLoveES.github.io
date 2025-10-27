@@ -7,6 +7,7 @@ categories:
 tags:
   - vibecoding
 toc: true
+image: Vibe_Coding_header.png
 ---
 ## I. 重新定义编程：什么是 Vibe Coding
 
