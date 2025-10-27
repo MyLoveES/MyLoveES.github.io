@@ -7,6 +7,7 @@ categories:
 tags:
   - vibecoding
 toc: true
+image: Vibe_Coding_header.png
 ---
 ## I. Design：在编码前赢得胜利
 
