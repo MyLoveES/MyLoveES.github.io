@@ -2,11 +2,11 @@
 title: Soul Booster - Regain Lost Courage
 date: 2025-11-11
 categories:
-- "生活"
+  - 生活
 tags:
-- "心理"
+  - 心理
 toc: true
-image: Soul_Booster.png
+image: ame.png
 ---
 
 最近几天，文乐、繁辰和凡姐问了我一些蛮有意思的问题，所以这篇文章，就让我
