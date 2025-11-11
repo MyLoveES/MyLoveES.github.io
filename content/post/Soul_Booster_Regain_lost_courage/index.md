@@ -135,7 +135,7 @@ Anyway，我还是比较吃这些“恭维”的，这些是我前几年想都�
 
 有趣，有趣。那不如暂且这样继续下去吧。
 
-{{< wine-quote >}}与其感慨路难行，不如马上出发。{{< /wine-quote >}}
+*与其感慨路难行，不如马上出发。*
 
 还有“乐观”这个概念。自从看过《三体》后，每次看到“乐观派”这个词，我都会想到章北海。  
 我常想，一个人如果是乐观的，他真的乐观吗？  
@@ -145,13 +145,13 @@ Anyway，我还是比较吃这些“恭维”的，这些是我前几年想都�
 不过和往年不同的是，今年喷子们销声匿迹了，社区和谐了。  
 纵有不甘和遗憾，但更多的是不服输和对未来的期望。
 
-{{< wine-quote >}}剑心犹在{{< /wine-quote >}}
+*剑心犹在*
 
 （这个翻译真是绝了）
 
 ![](jianxinyouzai.png)
 
-{{< wine-quote >}}振魂石：再次鼓起丧失的勇气。{{< /wine-quote >}}
+*振魂石：再次鼓起丧失的勇气。*
 
 ![](Soul_Booster.png)
 
@@ -173,6 +173,6 @@ Anyway，我还是比较吃这些“恭维”的，这些是我前几年想都�
 
 絮絮叨叨这么多，留给未来的我两句话吧，期待回来看看的你：
 
-* {{< wine-quote >}}What kind of life do you want to live?{{< /wine-quote >}}  
+* *What kind of life do you want to live?*  
 
-* {{< wine-quote >}}Soul Booster – Regain lost courage.{{< /wine-quote >}}
+* *Soul Booster – Regain lost courage.*
