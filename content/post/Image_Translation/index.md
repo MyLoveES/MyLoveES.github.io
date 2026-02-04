@@ -45,7 +45,7 @@ toc: true
 - Patch 配置：根据 OvermindConfig.NEED_SPLIT_MAP 配置匹配
 - 大横向间隔：当前行起点与上一行终点间隔 > 上一行宽度 ×1.5
 
-![patch](3_PARAGRAPH.png)
+![3_PARAGRAPH](3_PARAGRAPH.png)
 
 结果：
 
@@ -60,7 +60,7 @@ toc: true
 - orentation：图片整体方向
 - angle：图片整体角度
 
-![patch](4_AFTER_PARAGRAPH.png)
+![4_AFTER_PARAGRAPH](4_AFTER_PARAGRAPH.png)
 
 #### 1.3 翻译
 
@@ -74,7 +74,7 @@ toc: true
 - orentation：图片整体方向
 - angle：图片整体角度
 
-![patch](5_AFTER_TRANSLATION.png)
+![5_AFTER_TRANSLATION](5_AFTER_TRANSLATION.png)
 
 #### 1.4 渲染
 
@@ -94,7 +94,7 @@ toc: true
     - OpenCV Inpaint
     - 模型
 
-![patch](6_INPAINT.png)
+![6_INPAINT](6_INPAINT.png)
 
 ##### 1.4.2 提取样式
 
@@ -127,7 +127,7 @@ toc: true
     - 对比度阈值: 4.0
     - 对比度不足时拉大前景/背景色差
 
-![patch](7_STYLE.png)
+![7_STYLE](7_STYLE.png)
 
 ##### 1.4.3 绘制文字
 
@@ -155,7 +155,7 @@ toc: true
     - 额外说明一下：目前的对齐，是 region 对齐，每行文本还是左起开始渲染
   - 其他后处理
 
-![patch](8_TEXT_RENDER.png)
+![8_TEXT_RENDER](8_TEXT_RENDER.png)
 
 #### 2. case 对比
 
