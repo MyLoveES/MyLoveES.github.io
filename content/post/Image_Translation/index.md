@@ -171,6 +171,9 @@ toc: true
 |                          原图                           |                 对齐                  |
 | :-----------------------------------------------------: | :-----------------------------------: |
 | ![COMPARE_ORIGIN_image_27](COMPARE_ORIGIN_image_27.png) | ![ALIGN_image_27](ALIGN_image_27.png) |
+| ![COMPARE_ORIGIN_image_32](COMPARE_ORIGIN_image_32.png) | ![ALIGN_image_32](ALIGN_image_32.png) |
+| ![COMPARE_ORIGIN_image_35](COMPARE_ORIGIN_image_35.png) | ![ALIGN_image_35](ALIGN_image_35.png) |
+| ![COMPARE_ORIGIN_image_75](COMPARE_ORIGIN_image_75.png) | ![ALIGN_image_75](ALIGN_image_75.png) |
 
 ### 1. 对齐 & 字号
 
