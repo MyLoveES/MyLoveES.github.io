@@ -370,3 +370,7 @@ else:
 ![JOLLY_TODAY_CASE_3](JOLLY_TODAY_CASE_3.png)
 
 ![JOLLY_TODAY_CASE_4](JOLLY_TODAY_CASE_4.png)
+
+### 5. 文本长度
+
+原文、译文 的文本长度，尽可能保持相同
