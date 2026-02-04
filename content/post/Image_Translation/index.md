@@ -168,6 +168,10 @@ toc: true
 
 ## 二、优化点
 
+|                          原图                           |                 对齐                  |
+| :-----------------------------------------------------: | :-----------------------------------: |
+| ![COMPARE_ORIGIN_image_27](COMPARE_ORIGIN_image_27.png) | ![ALIGN_image_27](ALIGN_image_27.png) |
+
 ### 1. 对齐 & 字号
 
 左 / 中 / 右 对齐，目前是基于 region 的 bounding_box 优化了一版。
@@ -359,7 +363,6 @@ else:
 - 描边
   - 颜色
   - 粗细
-
 
 ![JOLLY_TODAY_CASE_3](JOLLY_TODAY_CASE_3.png)
 
