@@ -159,16 +159,16 @@ toc: true
 
 #### 2. case 对比
 
-|                               原图                               |                                  有道                                   |                                   腾讯                                    |
-| :------------------------------------------------------------: | :-------------------------------------------------------------------: | :---------------------------------------------------------------------: |
-| ![COMPARE_ORIGIN_image_27](COMPARE_ORIGIN_ORIGIN_image_27.png) | ![COMPARE_ORIGIN_YOUDAO_image_27](COMPARE_ORIGIN_YOUDAO_image_27.png) | ![COMPARE_ORIGIN_TENCENT_image_27](COMPARE_ORIGIN_TENCENT_image_27.png) |
-| ![COMPARE_ORIGIN_image_32](COMPARE_ORIGIN_ORIGIN_image_32.png) | ![COMPARE_ORIGIN_YOUDAO_image_32](COMPARE_ORIGIN_YOUDAO_image_32.png) | ![COMPARE_ORIGIN_TENCENT_image_32](COMPARE_ORIGIN_TENCENT_image_32.png) |
-| ![COMPARE_ORIGIN_image_35](COMPARE_ORIGIN_ORIGIN_image_35.png) | ![COMPARE_ORIGIN_YOUDAO_image_35](COMPARE_ORIGIN_YOUDAO_image_35.png) | ![COMPARE_ORIGIN_TENCENT_image_35](COMPARE_ORIGIN_TENCENT_image_35.png) |
-| ![COMPARE_ORIGIN_image_75](COMPARE_ORIGIN_ORIGIN_image_75.png) | ![COMPARE_ORIGIN_YOUDAO_image_75](COMPARE_ORIGIN_YOUDAO_image_75.png) | ![COMPARE_ORIGIN_TENCENT_image_75](COMPARE_ORIGIN_TENCENT_image_75.png) |
+|                          原图                           |                          有道                           |                           腾讯                            |
+| :-----------------------------------------------------: | :-----------------------------------------------------: | :-------------------------------------------------------: |
+| ![COMPARE_ORIGIN_image_27](COMPARE_ORIGIN_image_27.png) | ![COMPARE_YOUDAO_image_27](COMPARE_YOUDAO_image_27.png) | ![COMPARE_TENCENT_image_27](COMPARE_TENCENT_image_27.png) |
+| ![COMPARE_ORIGIN_image_32](COMPARE_ORIGIN_image_32.png) | ![COMPARE_YOUDAO_image_32](COMPARE_YOUDAO_image_32.png) | ![COMPARE_TENCENT_image_32](COMPARE_TENCENT_image_32.png) |
+| ![COMPARE_ORIGIN_image_35](COMPARE_ORIGIN_image_35.png) | ![COMPARE_YOUDAO_image_35](COMPARE_YOUDAO_image_35.png) | ![COMPARE_TENCENT_image_35](COMPARE_TENCENT_image_35.png) |
+| ![COMPARE_ORIGIN_image_75](COMPARE_ORIGIN_image_75.png) | ![COMPARE_YOUDAO_image_75](COMPARE_YOUDAO_image_75.png) | ![COMPARE_TENCENT_image_75](COMPARE_TENCENT_image_75.png) |
 
 ## 二、优化点
 
-### 1. 对齐
+### 1. 对齐 & 字号
 
 左 / 中 / 右 对齐，目前是基于 region 的 bounding_box 优化了一版。
 
@@ -309,19 +309,58 @@ else:
 
 #### 有优化，有劣化
 
-|                               原图                               |                                  有道                                   |                                   腾讯                                    |
-| :------------------------------------------------------------: | :-------------------------------------------------------------------: | :---------------------------------------------------------------------: |
-| ![COMPARE_ORIGIN_image_27](COMPARE_ORIGIN_ORIGIN_image_27.png) | ![COMPARE_ORIGIN_YOUDAO_image_27](COMPARE_ORIGIN_YOUDAO_image_27.png) | ![COMPARE_ORIGIN_TENCENT_image_27](COMPARE_ORIGIN_TENCENT_image_27.png) |
-| ![COMPARE_ORIGIN_image_32](COMPARE_ORIGIN_ORIGIN_image_32.png) | ![COMPARE_ORIGIN_YOUDAO_image_32](COMPARE_ORIGIN_YOUDAO_image_32.png) | ![COMPARE_ORIGIN_TENCENT_image_32](COMPARE_ORIGIN_TENCENT_image_32.png) |
-| ![COMPARE_ORIGIN_image_35](COMPARE_ORIGIN_ORIGIN_image_35.png) | ![COMPARE_ORIGIN_YOUDAO_image_35](COMPARE_ORIGIN_YOUDAO_image_35.png) | ![COMPARE_ORIGIN_TENCENT_image_35](COMPARE_ORIGIN_TENCENT_image_35.png) |
-| ![COMPARE_ORIGIN_image_75](COMPARE_ORIGIN_ORIGIN_image_75.png) | ![COMPARE_ORIGIN_YOUDAO_image_75](COMPARE_ORIGIN_YOUDAO_image_75.png) | ![COMPARE_ORIGIN_TENCENT_image_75](COMPARE_ORIGIN_TENCENT_image_75.png) |
+|                          原图                           |                 对齐                  |                        有道线上                         |                                 更新后                                  |
+| :-----------------------------------------------------: | :-----------------------------------: | :-----------------------------------------------------: | :---------------------------------------------------------------------: |
+| ![COMPARE_ORIGIN_image_27](COMPARE_ORIGIN_image_27.png) | ![ALIGN_image_27](ALIGN_image_27.png) | ![COMPARE_YOUDAO_image_27](COMPARE_YOUDAO_image_27.png) | ![COMPARE_YOUDAO_UPDATED_image_27](COMPARE_YOUDAO_UPDATED_image_27.png) |
+| ![COMPARE_ORIGIN_image_32](COMPARE_ORIGIN_image_32.png) | ![ALIGN_image_32](ALIGN_image_32.png) | ![COMPARE_YOUDAO_image_32](COMPARE_YOUDAO_image_32.png) | ![COMPARE_YOUDAO_UPDATED_image_32](COMPARE_YOUDAO_UPDATED_image_32.png) |
+| ![COMPARE_ORIGIN_image_35](COMPARE_ORIGIN_image_35.png) | ![ALIGN_image_35](ALIGN_image_35.png) | ![COMPARE_YOUDAO_image_35](COMPARE_YOUDAO_image_35.png) | ![COMPARE_YOUDAO_UPDATED_image_35](COMPARE_YOUDAO_UPDATED_image_35.png) |
+| ![COMPARE_ORIGIN_image_75](COMPARE_ORIGIN_image_75.png) | ![ALIGN_image_75](ALIGN_image_75.png) | ![COMPARE_YOUDAO_image_75](COMPARE_YOUDAO_image_75.png) | ![COMPARE_YOUDAO_UPDATED_image_75](COMPARE_YOUDAO_UPDATED_image_75.png) |
+| ![COMPARE_ORIGIN_image_50](COMPARE_ORIGIN_image_50.png) | ![ALIGN_image_50](ALIGN_image_50.png) | ![COMPARE_YOUDAO_image_50](COMPARE_YOUDAO_image_50.png) | ![COMPARE_YOUDAO_UPDATED_image_50](COMPARE_YOUDAO_UPDATED_image_50.png) |
+| ![COMPARE_ORIGIN_image_78](COMPARE_ORIGIN_image_78.png) | ![ALIGN_image_78](ALIGN_image_78.png) | ![COMPARE_YOUDAO_image_78](COMPARE_YOUDAO_image_78.png) | ![COMPARE_YOUDAO_UPDATED_image_78](COMPARE_YOUDAO_UPDATED_image_78.png) |
+| ![COMPARE_ORIGIN_image_89](COMPARE_ORIGIN_image_89.png) | ![ALIGN_image_89](ALIGN_image_89.png) | ![COMPARE_YOUDAO_image_89](COMPARE_YOUDAO_image_89.png) | ![COMPARE_YOUDAO_UPDATED_image_89](COMPARE_YOUDAO_UPDATED_image_89.png) |
+
+## 未来优化
+
+### 1. 对齐
+
+- 现状：基于 bounding_box
+- 期望：基于视觉 / VLM
+
+|                          原图                           |                 对齐                  |
+| :-----------------------------------------------------: | :-----------------------------------: |
+| ![COMPARE_ORIGIN_image_75](COMPARE_ORIGIN_image_75.png) | ![ALIGN_image_75](ALIGN_image_75.png) |
+| ![COMPARE_ORIGIN_image_50](COMPARE_ORIGIN_image_50.png) | ![ALIGN_image_50](ALIGN_image_50.png) |
 
 ### 2. 方向 & 角度
 
-### 3. 边界
+- 现状：整图 级别
+- 期望：region 级别
+
+![JOLLY_TODAY_CASE_1](JOLLY_TODAY_CASE_1.png)
+
+### 3. 检测 & 边界
+
+- 现状：不判定文本扩散边界
+- 期望：限定文本扩散边界
+
+![COMPARE_ORIGIN_image_48](COMPARE_ORIGIN_image_48.png)
+
+![COMPARE_ORIGIN_image_89](COMPARE_ORIGIN_image_89.png)
+
+![JOLLY_TODAY_CASE_2](JOLLY_TODAY_CASE_2.png)
 
 ### 4. 样式
 
-#### 4.1 描边
+需要更精准的判断，更丰富的信息
 
-#### 4.2 字体
+- 颜色
+- 字体
+- 字号
+- 描边
+  - 颜色
+  - 粗细
+
+
+![JOLLY_TODAY_CASE_3](JOLLY_TODAY_CASE_3.png)
+
+![JOLLY_TODAY_CASE_4](JOLLY_TODAY_CASE_4.png)
