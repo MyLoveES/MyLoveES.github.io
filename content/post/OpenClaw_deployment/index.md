@@ -11,12 +11,6 @@ image: OpenClaw_header.png
 ---
 ## 1. 环境
 
-> nvm: https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script
-
-```
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
-```
-
 > pnpm: https://pnpm.io/zh/installation
 
 ```
@@ -26,7 +20,9 @@ curl -fsSL https://get.pnpm.io/install.sh | sh -
 > node / npm
 
 ```
-nvm install --lts
+curl -fsSL https://rpm.nodesource.com/setup_24.x | bash -
+
+dnf install -y nodejs
 ```
 
 > cmake
@@ -35,18 +31,21 @@ nvm install --lts
 ```
 dnf groupinstall "Development Tools" -y
 dnf install cmake -y
-dnf install git python3 make gcc gcc-c++ -y
+dnf install git python3 make gcc gcc-c++ chromium -y
 ```
 - Ubuntu 24.04
 ```
-apt update && apt install -y build-essential cmake git python3 curl wget
+apt update && apt install -y build-essential cmake git python3 curl wget python-is-python3 chromium-browser
 ```
 
 ## 2. 安装
 
+> 可选：更改到国内源
 ```
 npm config set registry https://mirrors.cloud.tencent.com/npm/
+```
 
+```
 npm install -g openclaw@latest
 ```
 
@@ -153,237 +152,20 @@ openclaw gateway restart
   },
 ```
 
-### 4.2 
+### 4.2 安装插件
+
+#### 4.2.1 飞书
+
+> [OpenClaw飞书官方插件使用指南（公开版）](https://bytedance.larkoffice.com/docx/MFK7dDFLFoVlOGxWCv5cTXKmnMh)
 
 ## 附录
 
 ### A. 飞书
 
 > [飞书开放平台](https://open.feishu.cn/)
+> [OpenClaw飞书官方插件使用指南（公开版）](https://bytedance.larkoffice.com/docx/MFK7dDFLFoVlOGxWCv5cTXKmnMh)
 
-![](IMAGE_FEISHU_1.png)
-
-![](IMAGE_FEISHU_2.png)
-
-![](IMAGE_FEISHU_3.png)
-
-![](IMAGE_FEISHU_4.png)
-
-![](IMAGE_FEISHU_5.png)
-
-添加这些权限：
-```
-{
-  "scopes": {
-    "tenant": [
-      "aily:file:read",
-      "aily:file:write",
-      "application:application.app_message_stats.overview:readonly",
-      "application:application:self_manage",
-      "application:bot.menu:write",
-      "base:app:copy",
-      "base:app:create",
-      "base:app:read",
-      "base:app:update",
-      "base:collaborator:create",
-      "base:collaborator:delete",
-      "base:collaborator:read",
-      "base:dashboard:copy",
-      "base:dashboard:read",
-      "base:field:create",
-      "base:field:delete",
-      "base:field:read",
-      "base:field:update",
-      "base:form:read",
-      "base:form:update",
-      "base:record:create",
-      "base:record:delete",
-      "base:record:read",
-      "base:record:retrieve",
-      "base:record:update",
-      "base:role:create",
-      "base:role:delete",
-      "base:role:read",
-      "base:role:update",
-      "base:table:create",
-      "base:table:delete",
-      "base:table:read",
-      "base:table:update",
-      "base:view:read",
-      "base:view:write_only",
-      "base:workflow:read",
-      "base:workflow:write",
-      "bitable:app",
-      "bitable:app:readonly",
-      "calendar:room:readonly",
-      "cardkit:card:write",
-      "contact:contact.base:readonly",
-      "contact:user.assign_info:read",
-      "contact:user.base:readonly",
-      "contact:user.department:readonly",
-      "contact:user.dotted_line_leader_info.read",
-      "contact:user.email:readonly",
-      "contact:user.employee:readonly",
-      "contact:user.employee_id:readonly",
-      "contact:user.employee_number:read",
-      "contact:user.gender:readonly",
-      "contact:user.id:readonly",
-      "contact:user.job_family:readonly",
-      "contact:user.job_level:readonly",
-      "contact:user.phone:readonly",
-      "contact:user.subscription_ids:write",
-      "contact:user.user_geo",
-      "corehr:file:download",
-      "docs:doc",
-      "docs:doc:readonly",
-      "docs:document.comment:create",
-      "docs:document.comment:read",
-      "docs:document.comment:update",
-      "docs:document.comment:write_only",
-      "docs:document.content:read",
-      "docs:document.media:download",
-      "docs:document.media:upload",
-      "docs:document.subscription",
-      "docs:document.subscription:read",
-      "docs:document:copy",
-      "docs:document:export",
-      "docs:document:import",
-      "event:ip_list",
-      "im:app_feed_card:write",
-      "im:biz_entity_tag_relation:read",
-      "im:biz_entity_tag_relation:write",
-      "im:chat",
-      "im:chat.access_event.bot_p2p_chat:read",
-      "im:chat.announcement:read",
-      "im:chat.announcement:write_only",
-      "im:chat.chat_pins:read",
-      "im:chat.chat_pins:write_only",
-      "im:chat.collab_plugins:read",
-      "im:chat.collab_plugins:write_only",
-      "im:chat.managers:write_only",
-      "im:chat.members:bot_access",
-      "im:chat.members:read",
-      "im:chat.members:write_only",
-      "im:chat.menu_tree:read",
-      "im:chat.menu_tree:write_only",
-      "im:chat.moderation:read",
-      "im:chat.tabs:read",
-      "im:chat.tabs:write_only",
-      "im:chat.top_notice:write_only",
-      "im:chat.widgets:read",
-      "im:chat.widgets:write_only",
-      "im:chat:create",
-      "im:chat:delete",
-      "im:chat:moderation:write_only",
-      "im:chat:operate_as_owner",
-      "im:chat:read",
-      "im:chat:readonly",
-      "im:chat:update",
-      "im:datasync.feed_card.time_sensitive:write",
-      "im:message",
-      "im:message.group_at_msg:readonly",
-      "im:message.group_msg",
-      "im:message.p2p_msg:readonly",
-      "im:message.pins:read",
-      "im:message.pins:write_only",
-      "im:message.reactions:read",
-      "im:message.reactions:write_only",
-      "im:message.urgent",
-      "im:message.urgent.status:write",
-      "im:message.urgent:phone",
-      "im:message.urgent:sms",
-      "im:message:readonly",
-      "im:message:recall",
-      "im:message:send_as_bot",
-      "im:message:send_multi_depts",
-      "im:message:send_multi_users",
-      "im:message:send_sys_msg",
-      "im:message:update",
-      "im:resource",
-      "im:tag:read",
-      "im:tag:write",
-      "im:url_preview.update",
-      "im:user_agent:read",
-      "vc:meeting.all_meeting:readonly",
-      "vc:meeting:readonly"
-    ],
-    "user": [
-      "aily:file:read",
-      "aily:file:write",
-      "base:app:copy",
-      "base:app:create",
-      "base:app:read",
-      "base:app:update",
-      "bitable:app",
-      "bitable:app:readonly",
-      "contact:user.assign_info:read",
-      "contact:user.base:readonly",
-      "contact:user.department:readonly",
-      "contact:user.department_path:readonly",
-      "contact:user.dotted_line_leader_info.read",
-      "contact:user.email:readonly",
-      "contact:user.employee:readonly",
-      "contact:user.employee_id:readonly",
-      "contact:user.employee_number:read",
-      "contact:user.gender:readonly",
-      "contact:user.id:readonly",
-      "contact:user.job_family:readonly",
-      "contact:user.job_level:readonly",
-      "contact:user.phone:readonly",
-      "contact:user.subscription_ids:write",
-      "contact:user.user_geo",
-      "contact:user:search",
-      "docs:doc",
-      "docs:doc:readonly",
-      "docs:document.comment:create",
-      "docs:document.comment:read",
-      "docs:document.comment:update",
-      "docs:document.comment:write_only",
-      "docs:document.content:read",
-      "docs:document.media:download",
-      "docs:document.media:upload",
-      "docs:document.subscription",
-      "docs:document.subscription:read",
-      "docs:document:copy",
-      "docs:document:export",
-      "docs:document:import",
-      "im:chat",
-      "im:chat.access_event.bot_p2p_chat:read",
-      "im:chat.announcement:read",
-      "im:chat.announcement:write_only",
-      "im:chat.chat_pins:read",
-      "im:chat.chat_pins:write_only",
-      "im:chat.collab_plugins:read",
-      "im:chat.collab_plugins:write_only",
-      "im:chat.managers:write_only",
-      "im:chat.members:read",
-      "im:chat.members:write_only",
-      "im:chat.moderation:read",
-      "im:chat.tabs:read",
-      "im:chat.tabs:write_only",
-      "im:chat.top_notice:write_only",
-      "im:chat:delete",
-      "im:chat:moderation:write_only",
-      "im:chat:read",
-      "im:chat:readonly",
-      "im:chat:update",
-      "im:message",
-      "im:message.pins:read",
-      "im:message.pins:write_only",
-      "im:message.reactions:read",
-      "im:message.reactions:write_only",
-      "im:message.urgent.status:write",
-      "im:message:readonly",
-      "im:message:recall",
-      "im:message:update"
-    ]
-  }
-}
-```
-
-![](IMAGE_FEISHU_6.png)
-
-![](IMAGE_FEISHU_7.png)
+配置完成后，使用机器人
 
 ![](IMAGE_FEISHU_8.png)
 
@@ -392,3 +174,276 @@ openclaw gateway restart
 ![](IMAGE_FEISHU_10.png)
 
 ![](IMAGE_FEISHU_11.png)
+
+### B. 配置 JSON 示例
+
+> 备注一下，OpenClaw 的 service 配置文件在用户目录下
+> ~/.config/systemd/user/openclaw-gateway.service
+
+```
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.7",
+    "lastTouchedAt": "2026-03-09T08:07:56.511Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-09T04:37:35.941Z",
+    "lastRunVersion": "2026.3.7",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "x-provider": {
+        "baseUrl": "",
+        "apiKey": "",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "gpt-5.4",
+            "name": "gpt-5.4 (Custom Provider)",
+            "reasoning": false,
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "x-provider/gpt-5.4"
+      },
+      "models": {
+        "x-provider/gpt-5.4": {}
+      },
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "akko",
+        "name": "akko",
+        "workspace": "/root/.openclaw/workspace/akko",
+        "agentDir": "/root/.openclaw/agents/akko/agent",
+        "model": "gyz-weasley-cn/gpt-5.4"
+      },
+      {
+        "id": "rick",
+        "name": "rick",
+        "workspace": "/root/.openclaw/workspace/rick",
+        "agentDir": "/root/.openclaw/agents/rick/agent",
+        "model": "gyz-weasley-cn/gpt-5.4"
+      },
+      {
+        "id": "morty",
+        "name": "morty",
+        "workspace": "/root/.openclaw/workspace/morty",
+        "agentDir": "/root/.openclaw/agents/morty/agent",
+        "identity": {
+          "name": "Morty",
+          "emoji": "🧠"
+        }
+      },
+      {
+        "id": "fengmishu",
+        "name": "fengmishu",
+        "workspace": "/root/.openclaw/workspace/fengmishu",
+        "agentDir": "/root/.openclaw/agents/fengmishu/agent"
+      }
+    ]
+  },
+  "tools": {
+    "profile": "full",
+    "web": {
+      "search": {
+        "enabled": true
+      },
+      "fetch": {
+        "enabled": true
+      }
+    }
+  },
+  "bindings": [
+    {
+      "agentId": "akko",
+      "match": {
+        "channel": "feishu",
+        "accountId": "akko"
+      }
+    },
+    {
+      "agentId": "rick",
+      "match": {
+        "channel": "feishu",
+        "accountId": "rick"
+      }
+    },
+    {
+      "agentId": "morty",
+      "match": {
+        "channel": "feishu",
+        "accountId": "morty"
+      }
+    },
+    {
+      "agentId": "fengmishu",
+      "match": {
+        "channel": "feishu",
+        "accountId": "fengmishu"
+      }
+    }
+  ],
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "boot-md": {
+          "enabled": true
+        },
+        "bootstrap-extra-files": {
+          "enabled": true
+        },
+        "command-logger": {
+          "enabled": true
+        },
+        "session-memory": {
+          "enabled": true
+        }
+      }
+    }
+  },
+  "channels": {
+    "feishu": {
+      "connectionMode": "websocket",
+      "accounts": {
+        "akko": {
+          "appId": "",
+          "appSecret": "",
+          "domain": "feishu",
+          "enabled": true
+        },
+        "rick": {
+          "appId": "",
+          "appSecret": "",
+          "domain": "feishu",
+          "enabled": true
+        },
+        "morty": {
+          "appId": "",
+          "appSecret": "",
+          "domain": "feishu",
+          "enabled": true
+        },
+	"fengmishu": {
+          "appId": "",
+          "appSecret": "",
+          "domain": "feishu",
+          "enabled": true
+        },
+        "default": {
+          "groupPolicy": "open"
+        }
+      },
+      "streaming": true,
+      "footer": {
+        "elapsed": true,
+        "status": true
+      },
+      "threadSession": true,
+      "appId": "",
+      "appSecret": "",
+      "dmPolicy": "pairing",
+      "groupPolicy": "open"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "controlUi": {
+      "allowedOrigins": [
+        "xxx"
+      ]
+    },
+    "auth": {
+      "mode": "token",
+      "token": ""
+    },
+    "trustedProxies": [
+      "127.0.0.1"
+    ],
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    }
+  },
+  "plugins": {
+    "allow": [
+      "feishu-openclaw-plugin"
+    ],
+    "entries": {
+      "feishu": {
+        "enabled": false
+      },
+      "feishu-openclaw-plugin": {
+        "enabled": true
+      }
+    },
+    "installs": {
+      "feishu-openclaw-plugin": {
+        "source": "npm",
+        "spec": "@larksuiteoapi/feishu-openclaw-plugin",
+        "installPath": "/root/.openclaw/extensions/feishu-openclaw-plugin",
+        "version": "2026.3.8",
+        "resolvedName": "@larksuiteoapi/feishu-openclaw-plugin",
+        "resolvedVersion": "2026.3.8",
+        "resolvedSpec": "@larksuiteoapi/feishu-openclaw-plugin@2026.3.8",
+        "integrity": "sha512-77PzCEESdPgqL9jgoV8I3difKOuC/iRiECYLUT+2rLRD1Oy+CHtTXuYwHwztHvbY2sWitev/5rN/TseDHo2FVg==",
+        "shasum": "d4acc5a0433aaf77b0d87a028fa627b38efdb4cd",
+        "resolvedAt": "2026-03-09T07:50:49.261Z",
+        "installedAt": "2026-03-09T07:51:02.415Z"
+      }
+    }
+  }
+}
+```
