@@ -9,10 +9,78 @@ tags:
 toc: true
 image: Vibe_Coding_header.png
 ---
-## 1. What
+# 一、安装 Plugins / MCP
 
-## 2. How
+- superpowers
 
+```
+claude plugin install superpowers@claude-plugins-official
+```
+
+- context7
+
+```
+npx ctx7 setup --claude --api-key YOUR_API_KEY
+```
+
+- frontend-design
+
+```
+claude plugin install frontend-design@claude-plugins-official
+```
+
+- ui-ux-pro-max-skill
+
+```
+claude plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+claude plugin install ui-ux-pro-max@ui-ux-pro-max-skill
+```
+
+- figma
+
+```
+claude plugin install figma@claude-plugins-official
+
+claude mcp add --scope user --transport http figma https://mcp.figma.com/mcp
+```
+
+- stitch
+```
+# 添加 MCP
+claude mcp add stitch --transport http https://stitch.googleapis.com/mcp --header "X-Goog-Api-Key: api-key" -s user
+
+# 或者 安装 skills
+npx skills add google-labs-code/stitch-skills --list
+
+npx skills add google-labs-code/stitch-skills --skill react:components --global
+```
+
+# 二、Start a new idea!
+
+1. 头脑风暴
+
+```
+使用 superpowers brainstorming skill。
+
+我的想法：xxxx
+```
+
+在这个过程中，会对你的想法进行细化和澄清，并且会在网页中展示示例样式。
+
+![Harness_02](Harness_02.png)
+![Harness_01](Harness_01.png)
+
+2. 编写计划
+
+```
+使用 superpowers writing-plans skill。基于 @spec.doc 编写执行计划
+```
+
+3. 执行计划
+
+```
+使用 superpowers executing-plans skill。执行计划。
+```
 ## Reference
 
 - Documents
@@ -27,6 +95,8 @@ image: Vibe_Coding_header.png
 	- [baoyu-skills: agents skills](https://github.com/JimLiu/baoyu-skills)
 	- [opensec: Spec-driven development (SDD) for AI coding assistants](https://github.com/Fission-AI/OpenSpec)
 	- [gstack: a developer's claude code setup](https://github.com/garrytan/gstack)
+	- [gsd: spec-driven development system](https://github.com/gsd-build/get-shit-done)
+	- [everything-claude-code: agent harness performance optimization system](https://github.com/affaan-m/everything-claude-code)
 - Agent teams plugins （非官方）
 	- [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode)
 	- [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex)
