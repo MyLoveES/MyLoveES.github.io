@@ -8,7 +8,7 @@ tags:
   - ai
   - ascend
 toc: true
-image: Vibe_Coding_header.png
+image: qwen3-asr-ascend.png
 ---
 ## 一、QWEN3-ASR
 
