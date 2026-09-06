@@ -6,7 +6,7 @@ categories:
 tags:
   - 故事
 toc: true
-image: 1457.JPG
+image: IMG_7367.png
 ---
 
 Hey, 璇子姐：
