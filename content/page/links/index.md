@@ -1,5 +1,6 @@
 ---
 title: "Links"
+layout: "links"
 comments: false
 links:
   - title: 喻灵的博客

@@ -1,3 +1,79 @@
+/* Links page: standalone layout, one card per friend link */
+.links-container {
+    .links-page-title {
+        font-family: var(--article-font-family);
+        font-weight: 600;
+        font-size: 2.2rem;
+        margin: 0 0 var(--section-separation);
+        color: var(--card-text-color-main);
+
+        @include respond(xl) {
+            font-size: 2.4rem;
+        }
+    }
+
+    .links-intro {
+        margin: calc(var(--section-separation) * -0.5) 0 var(--section-separation);
+        color: var(--body-text-color);
+        font-size: 1.5rem;
+    }
+
+    .links-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .link-card {
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        background-color: var(--card-background);
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-l2);
+        }
+
+        > a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: var(--small-card-padding);
+        }
+
+        .link-card-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .link-card-title {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--card-text-color-main);
+        }
+
+        .link-card-desc {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--card-text-color-secondary);
+        }
+
+        .link-card-image img {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--tag-border-radius);
+            object-fit: cover;
+            display: block;
+        }
+    }
+}
+
 /* Friend-link exchange card shown under the links list */
 .link-info {
     margin-top: var(--section-separation);
