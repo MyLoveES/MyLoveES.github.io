@@ -36,6 +36,12 @@
         (slice "intro" .intro)
         (slice "link" .link)
         (slice "image" .image) -}}
+    {{/* Widest key decides the column where every value starts. */}}
+    {{- $keyWidth := 0 -}}
+    {{- range $pairs -}}
+        {{- $len := len (index . 0) -}}
+        {{- if gt $len $keyWidth }}{{ $keyWidth = $len }}{{ end -}}
+    {{- end -}}
     <section class="link-info">
         <h2 class="link-info-title">{{ default "我的友链信息" .heading }}</h2>
         <p class="link-info-desc">{{ default "如果你也想和这里交换友链，欢迎复制下面的信息。" .note }}</p>
@@ -52,7 +58,9 @@
             </div>
             <pre id="link-info-yaml" class="link-info-code"><code>{{- range $i, $p := $pairs -}}
 {{- if $i }}{{ "\n" }}{{ end -}}
-<span class="link-info-key">{{ index $p 0 }}:</span> <span class="link-info-value">{{ printf "%q" (index $p 1) }}</span>
+{{- $key := index $p 0 -}}
+{{- $pad := strings.Repeat (add 1 (sub $keyWidth (len $key))) " " -}}
+<span class="link-info-key">{{ $key }}:</span>{{ $pad }}<span class="link-info-value">{{ printf "%q" (index $p 1) }}</span>
 {{- end -}}</code></pre>
         </div>
     </section>
