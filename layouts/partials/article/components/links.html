@@ -1,0 +1,109 @@
+<div class="article-list--compact links">
+    {{ range $i, $link := .Params.links }}
+        <article>
+            <a href="{{ $link.website }}" target="_blank" rel="noopener">
+                <div class="article-details">
+                    <h2 class="article-title">
+                        {{- $link.title -}}
+                    </h2>
+                    <footer class="article-time">
+                        {{ with $link.description }}
+                            {{ . }}
+                        {{ else }}
+                            {{ $link.website }}
+                        {{ end }}
+                    </footer>
+                </div>
+        
+                {{ with $link.image }}
+                    {{ $permalink := . }}
+                    {{ with ($.Resources.GetMatch (printf "%s" (. | safeURL))) }}
+                        {{ $permalink = .RelPermalink }}
+                    {{ end }}
+                    <div class="article-image">
+                        <img src="{{ $permalink }}" loading="lazy"{{ with $link.alt }} alt="{{ . }}"{{ end }}>
+                    </div>
+                {{ end }}
+            </a>
+        </article>
+    {{ end }}
+</div>
+
+{{ with .Params.selfLink }}
+    {{/* Render the fields in exchange order, not map order. */}}
+    {{- $pairs := slice
+        (slice "title" .title)
+        (slice "intro" .intro)
+        (slice "link" .link)
+        (slice "image" .image) -}}
+    <section class="link-info">
+        <h2 class="link-info-title">{{ default "我的友链信息" .heading }}</h2>
+        <p class="link-info-desc">{{ default "如果你也想和这里交换友链，欢迎复制下面的信息。" .note }}</p>
+
+        <div class="link-info-card">
+            <div class="link-info-header">
+                <span class="link-info-label">{{ default "本站信息 · YAML" .label }}</span>
+                <button type="button" class="link-info-copy" data-copy-target="link-info-yaml"
+                    data-label-idle="复制友链信息" data-label-done="已复制">
+                    {{ partial "helper/icon" "copy" }}
+                    {{ partial "helper/icon" "check" }}
+                    <span class="link-info-copy-label">复制友链信息</span>
+                </button>
+            </div>
+            <pre id="link-info-yaml" class="link-info-code"><code>{{- range $i, $p := $pairs -}}
+{{- if $i }}{{ "\n" }}{{ end -}}
+<span class="link-info-key">{{ index $p 0 }}:</span> <span class="link-info-value">{{ printf "%q" (index $p 1) }}</span>
+{{- end -}}</code></pre>
+        </div>
+    </section>
+
+    <script>
+        (function () {
+            var button = document.querySelector(".link-info-copy");
+            if (!button) return;
+
+            var source = document.getElementById(button.dataset.copyTarget);
+            var label = button.querySelector(".link-info-copy-label");
+            if (!source || !label) return;
+
+            function fallbackCopy(text) {
+                var area = document.createElement("textarea");
+                area.value = text;
+                area.setAttribute("readonly", "");
+                area.style.position = "fixed";
+                area.style.opacity = "0";
+                document.body.appendChild(area);
+                area.select();
+                try {
+                    return document.execCommand("copy");
+                } catch (err) {
+                    return false;
+                } finally {
+                    document.body.removeChild(area);
+                }
+            }
+
+            var resetTimer;
+            function markCopied() {
+                button.classList.add("copied");
+                label.textContent = button.dataset.labelDone;
+                clearTimeout(resetTimer);
+                resetTimer = setTimeout(function () {
+                    button.classList.remove("copied");
+                    label.textContent = button.dataset.labelIdle;
+                }, 2000);
+            }
+
+            button.addEventListener("click", function () {
+                var text = source.textContent;
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(markCopied, function () {
+                        if (fallbackCopy(text)) markCopied();
+                    });
+                } else if (fallbackCopy(text)) {
+                    markCopied();
+                }
+            });
+        })();
+    </script>
+{{ end }}

@@ -1,0 +1,109 @@
+/* Friend-link exchange card shown under the links list */
+.link-info {
+    margin-top: var(--section-separation);
+
+    .link-info-title {
+        margin: 0;
+        font-size: 1.8rem;
+        color: var(--card-text-color-main);
+    }
+
+    .link-info-desc {
+        margin: 8px 0 15px;
+        font-size: 1.4rem;
+        color: var(--card-text-color-secondary);
+    }
+
+    .link-info-card {
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        background-color: var(--card-background);
+        overflow: hidden;
+    }
+
+    .link-info-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        padding: 15px 20px;
+        border-bottom: 1.5px solid var(--card-separator-color);
+    }
+
+    .link-info-label {
+        font-size: 1.4rem;
+        color: var(--card-text-color-secondary);
+    }
+
+    .link-info-copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        border: 1.5px solid var(--card-separator-color);
+        border-radius: var(--tag-border-radius);
+        background: transparent;
+        color: var(--card-text-color-secondary);
+        font-family: inherit;
+        font-size: 1.3rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+
+        svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .icon-tabler-check {
+            display: none;
+        }
+
+        &:hover {
+            color: var(--card-text-color-main);
+            border-color: var(--card-text-color-tertiary);
+            background-color: var(--card-background-selected);
+        }
+
+        &.copied {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background-color: transparent;
+
+            .icon-tabler-copy {
+                display: none;
+            }
+
+            .icon-tabler-check {
+                display: inline-block;
+            }
+        }
+    }
+
+    .link-info-code {
+        margin: 0;
+        padding: var(--small-card-padding);
+        overflow-x: auto;
+        background-color: transparent;
+        color: var(--card-text-color-main);
+        font-family: var(--code-font-family);
+        font-size: 1.4rem;
+        line-height: 1.9;
+
+        code {
+            padding: 0;
+            border: none;
+            background: none;
+            color: inherit;
+            font-family: inherit;
+        }
+
+        .link-info-key {
+            color: var(--card-text-color-secondary);
+        }
+
+        .link-info-value {
+            color: var(--card-text-color-main);
+        }
+    }
+}

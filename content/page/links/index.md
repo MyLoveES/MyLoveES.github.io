@@ -10,4 +10,12 @@ links:
     description: 一个用于记录技术、生活和思考的个人博客。
     website: https://blog.jdk22.com/
     image: https://blog.jdk22.com/icons/favicon.svg
+selfLink:
+  heading: 我的友链信息
+  note: 如果你也想和这里交换友链，欢迎复制下面的信息。
+  label: 本站信息 · YAML
+  title: Disco
+  intro: Dance Dance Dance
+  link: https://mylovees.github.io/
+  image: https://mylovees.github.io/favicon.png
 ---
